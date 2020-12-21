@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+    <title>{{ config('app.name', 'Industry2u') .  __('- Reset Your Password') }}</title>
+@endsection
+
 @section('content')
     <!-- START LOGIN SECTION -->
     <div class="login_register_wrap section">
@@ -10,6 +15,11 @@
                             <div class="heading_s1">
                                 <h3>{{ __('Reset Password') }}</h3>
                             </div>
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
                             <form method="POST" action="{{ route('password.request') }}">
                                 @csrf
                                 <div class="form-group">
@@ -22,11 +32,6 @@
                                     <button type="submit" class="btn btn-fill-out btn-block">{{ __('Send Password Reset Link') }}</button>
                                 </div>
 
-                                @if (session('status'))
-                                    <div class="text-success">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
                             </form>
                         </div>
                     </div>

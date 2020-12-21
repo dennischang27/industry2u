@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ config('app.name', 'Industry2u') .  __('- Verify Your Email Addres') }}</title>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

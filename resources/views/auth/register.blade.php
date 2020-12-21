@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ config('app.name', 'Industry2u') .  __('- Register') }}</title>
+@endsection
 @section('content')
 <!-- START REGISTER SECTION -->
 <div class="login_register_wrap section">
