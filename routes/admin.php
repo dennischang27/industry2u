@@ -14,8 +14,11 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
     Auth::routes([
         'register' => false
     ]);
-
+    Route::get('/', function () {
+        return view('admin.home');
+    });
     Route::group(['middleware' => ['auth:admin']], function() {
+
         Route::resource('roles','RoleController');
         Route::resource('users','UserController');
         Route::resource('products','ProductController');

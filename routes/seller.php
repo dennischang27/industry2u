@@ -13,9 +13,7 @@
 
 Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"], function() {
     Auth::routes();
-    Route::get('/', function () {
-        return view('seller.home');
-    });
+
     Route::group(['middleware' => ['auth']], function() {
         Route::get('/', function () {
             return view('seller.home');
