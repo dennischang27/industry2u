@@ -62,12 +62,6 @@
                                         Products
                                     </a>
                                 </li>
-
-                                <li class="  ">
-                                    <a class=" nav-link nav_item " href="#">
-                                        Contact us
-                                    </a>
-                                </li>
                             </ul>
                         </div>
 
