@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-4">
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{asset('images/industry2u_white_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
+                            <img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
                         </a>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-6 col-8">
@@ -67,14 +67,6 @@
 
                             <ul class="navbar-nav attr-nav align-items-center">
                                 <li><a href="#" class="nav-link "><span>Wanted List</span></a></li>
-
-                                @if (!auth('web')->check())
-                                    <li><a href="{{ route('login') }}" class="nav-link"><span>Login</span></a></li>
-                                    <li><a href="register" class="nav-link"><span>Register</span></a></li>
-                                @else
-                                    <li  class="dropdown cart_dropdown" ><a href="profile" class="nav-link"><i class="ti-user"></i><span>{{ auth('web')->user()->name }}</span></a></li>
-
-                                @endif
                             </ul>
 
                     </nav>

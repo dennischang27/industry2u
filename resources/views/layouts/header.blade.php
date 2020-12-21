@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{ asset('assets/themes/css/style.css') }}">
     <style>
         :root {
-            --color-1st: #9dcdea;
+            --color-1st: #32a1e5;
             --color-2nd: #1D2224;
             --primary-font: Poppins, sans-serif;
         }
