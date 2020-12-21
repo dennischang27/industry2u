@@ -9,7 +9,7 @@
                 <div class="login_wrap">
                     <div class="padding_eight_all bg-white">
                         <div class="heading_s1">
-                            <h3>{{ __('Login') }}</h3>
+                            <h3>{{ __('Register') }}</h3>
                         </div>
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
