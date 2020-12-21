@@ -24,7 +24,7 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('countries');
             $table->string('reg_no', 150);
-            $table->string('web_site', 150);
+            $table->string('web_site', 150)->nullable();
             $table->string('phone', 150);
             $table->string('sst_no', 150)->nullable();
             $table->string('logo', 150);

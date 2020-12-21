@@ -15,7 +15,7 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
         'register' => false
     ]);
 
-    Route::group(['middleware' => ['auth']], function() {
+    Route::group(['middleware' => ['auth:admin']], function() {
         Route::resource('roles','RoleController');
         Route::resource('users','UserController');
         Route::resource('products','ProductController');
