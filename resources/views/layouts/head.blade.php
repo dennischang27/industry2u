@@ -31,7 +31,7 @@
         <div class="container">
             <div class="nav_block">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="logo_dark" src="{{asset('storage/images/industry2u_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
+                    <img class="logo_dark" src="{{asset('images/industry2u_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
                 </a>
 
             </div>
@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-4">
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{asset('storage/images/industry2u_white_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
+                            <img src="{{asset('images/industry2u_white_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
                         </a>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-6 col-8">
