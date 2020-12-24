@@ -30,6 +30,7 @@
 
     <script src="{{ asset('assets/srtdash/js/vendor/modernizr-2.8.3.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/seller.css') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body>
 <!--[if lt IE 8]>
