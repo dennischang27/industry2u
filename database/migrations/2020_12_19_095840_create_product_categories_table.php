@@ -17,9 +17,11 @@ class CreateProductCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 150);
             $table->string('slug', 150);
-            $table->string('descriptions', 150);
+            $table->string('description', 150);
             $table->string('image', 150);
             $table->string('status', 150)->default('published');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->bigInteger('clicks')->default(0);
             $table->boolean('is_featured')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamps();

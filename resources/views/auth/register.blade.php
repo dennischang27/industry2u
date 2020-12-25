@@ -17,21 +17,30 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="form-group">
-                                <input class="form-control" name="name" id="txt-name" type="text" value="{{ old('name') }}" placeholder="{{ __('Your Name') }}">
-                                @if ($errors->has('name'))
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                <select class="form-control" id="title" name="title">
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                    <option value="Prof.">Prof.</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="first_name" id="txt-first-name" type="text" value="{{ old('first_name') }}" placeholder="{{ __('Your first Name') }}">
+                                @if ($errors->has('first_name'))
+                                    <span class="text-danger">{{ $errors->first('first_name') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="last_name" id="txt-last-name" type="text" value="{{ old('last_name') }}" placeholder="{{ __('Your Last Name') }}">
+                                @if ($errors->has('last_name'))
+                                    <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <input class="form-control" name="email" id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Your Email') }}">
                                 @if ($errors->has('email'))
                                     <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" name="username" id="txt-email" type="email" value="{{ old('username') }}" placeholder="{{ __('Your Username') }}">
-                                @if ($errors->has('username'))
-                                    <span class="text-danger">{{ $errors->first('username') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
@@ -46,12 +55,16 @@
                                     <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                                 @endif
                             </div>
-                            <div class="login_footer form-group">
+                            <div class="login_footer form-group  {{ $errors->has('terms') ? ' has-error' : '' }}">
                                 <div class="chek-form">
                                     <div class="custome-checkbox">
-                                        <input class="form-check-input" type="checkbox" name="agree_terms_policy" id="terms-policy" value="1">
+                                        <input class="form-check-input" type="checkbox" name="terms" id="terms-policy" value="1">
                                         <label class="form-check-label" for="terms-policy"><span>{{ __('I agree to terms & Policy.') }}</span></label>
+
                                     </div>
+                                    @if ($errors->has('terms'))
+                                        <span class="text-danger">{{ $errors->first('terms') }}</span>
+                                    @endif
                                 </div>
                             </div>
 

@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/sb-admin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body id="page-top">
 <!--[if lt IE 8]>

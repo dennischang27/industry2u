@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{ asset('assets/themes/plugins/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/style.css') }}">
+
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <style>
         :root {
             --color-1st: #32a1e5;
