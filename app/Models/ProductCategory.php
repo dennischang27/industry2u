@@ -11,7 +11,7 @@ class ProductCategory extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name','description', 'slug', 'parent_id', 'image', 'status', 'is_featured', 'is_active'
+        'name', 'slug', 'parent_id', 'image', 'is_featured', 'is_active', 'position', 'clicks'
     ];
 
     protected $dates = [

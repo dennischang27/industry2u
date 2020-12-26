@@ -25,25 +25,23 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Details</th>
+                            <th>Slug</th>
                             <th width="280px">Action</th>
                         </tr>
                         @foreach ($productcategories as $productcategory)
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $category->name }}</td>
-                                <td>{{ $category->detail }}</td>
+                                <td>{{ $productcategory->name }}</td>
+                                <td>{{ $productcategory->slug }}</td>
                                 <td>
-                                    <form action="{{ route('admin.productcategories.destroy',$category->id) }}" method="POST">
-                                        <a class="btn btn-info" href="{{ route('admin.productcategories.show',$category->id) }}">Show</a>
-                                        @can('category-edit')
-                                            <a class="btn btn-primary" href="{{ route('admin.productcategories.edit',$category->id) }}">Edit</a>
-                                        @endcan
+                                    <form action="{{ route('admin.productcategories.destroy',$productcategory->id) }}" method="POST">
+                                        <a class="btn btn-info" href="{{ route('admin.productcategories.show',$productcategory->id) }}">Show</a>
+
+                                            <a class="btn btn-primary" href="{{ route('admin.productcategories.edit',$productcategory->id) }}">Edit</a>
+
                                         @csrf
                                         @method('DELETE')
-                                        @can('admin.category-delete')
                                             <button type="submit" class="btn btn-danger">Delete</button>
-                                        @endcan
                                     </form>
                                 </td>
                             </tr>

@@ -31,7 +31,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Detail:</strong>
+                    <strong>Slug:</strong>
                     <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
                 </div>
             </div>

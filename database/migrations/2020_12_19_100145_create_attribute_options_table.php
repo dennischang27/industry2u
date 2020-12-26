@@ -18,7 +18,7 @@ class CreateAttributeOptionsTable extends Migration
             $table->string('name', 150);
             $table->string('slug', 150);
             $table->double('value');
-            $table->integer('position')->default(1);
+            $table->integer('position')->default(0);
             $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('attribute_id')->nullable();
             $table->foreign('attribute_id')->references('id')->on('attributes');

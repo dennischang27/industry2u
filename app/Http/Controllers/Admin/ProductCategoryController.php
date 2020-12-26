@@ -48,7 +48,6 @@ class ProductCategoryController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'descriptions' => 'required',
             'slug' => 'required'
         ]);
         ProductCategory::create($request->all());
@@ -63,7 +62,7 @@ class ProductCategoryController extends Controller
      */
     public function show(ProductCategory $productcategory)
     {
-        return view('admin.productcategories.show',compact('product'));
+        return view('admin.productcategories.show',compact('productcategory'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -73,7 +72,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productcategory)
     {
-        return view('admin.productcategories.edit',compact('product'));
+        return view('admin.productcategories.edit',compact('productcategory'));
     }
     /**
      * Update the specified resource in storage.

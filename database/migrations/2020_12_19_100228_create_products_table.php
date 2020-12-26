@@ -21,10 +21,10 @@ class CreateProductsTable extends Migration
             $table->string('slug', 150);
             $table->string('image', 150)->nullable();
             $table->double('value');
-            $table->integer('position')->default(1);
+            $table->integer('position')->default(0);
             $table->boolean('is_featured')->default(0);
             $table->boolean('is_active')->default(1);
-            $table->string('status', 150)->default('published');
+            //$table->string('status', 150)->default('published');
             $table->bigInteger('views');
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies');
