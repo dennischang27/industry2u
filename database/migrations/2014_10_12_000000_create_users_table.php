@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
             $table->boolean('manage_company_admin')->default(0);
             $table->boolean('is_super_user')->default(0);
             $table->boolean('manage_supers')->default(0);
+            $table->boolean('is_buyer')->default(0);
+            $table->boolean('is_seller')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
