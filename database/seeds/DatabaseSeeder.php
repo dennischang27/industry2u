@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BankTableSeeder::class);
         $this->call(IndustriesTableSeeder::class);
         $this->call(BrandTableSeeder::class);
+        $this->call(CompantBudgetRangeSeeder::class);
         $this->call(DocTypeTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
         $this->call(PhoneCountriesTableSeeder::class);
