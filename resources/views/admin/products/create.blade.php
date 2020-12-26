@@ -6,7 +6,7 @@
                 <h2>Add New Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.products.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('admin.products.store') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">

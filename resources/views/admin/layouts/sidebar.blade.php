@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -22,44 +22,43 @@
 
     <!-- Nav Item - Categories Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecategories"
+        <a class="nav-link {{  request()->routeIs('admin.productcategories.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsecategories"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-list-alt"></i>
             <span>Categories</span>
         </a>
-        <div id="collapsecategories" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapsecategories" class="collapse {{  request()->routeIs('admin.productcategories.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="categories/">View</a>
-                <a class="collapse-item" href="categories/add">Add New</a>
+                <a class="collapse-item {{  request()->routeIs('admin.productcategories.index') ? 'active' : '' }}" href="{{ route('admin.productcategories.index') }}">View</a>
+                <a class="collapse-item {{  request()->routeIs('admin.productcategories.create') ? 'active' : '' }}" href="{{ route('admin.productcategories.create') }}">Add New</a>
             </div>
         </div>
     </li>
     <!-- Nav Item - Bands Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebrands"
+        <a class="nav-link {{  request()->routeIs('admin.brands.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsebrands"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-ticket-alt"></i>
             <span>Brands</span>
         </a>
-        <div id="collapsebrands" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapsebrands" class="collapse {{  request()->routeIs('admin.brands.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="brands/">View</a>
-                <a class="collapse-item" href="brands/add">Add New</a>
+                <a class="collapse-item {{  request()->routeIs('admin.brands.index') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">View</a>
+                <a class="collapse-item {{  request()->routeIs('admin.brands.create') ? 'active' : '' }}" href="{{ route('admin.brands.create') }}">Add New</a>
             </div>
         </div>
     </li>
     <!-- Nav Item - Products Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseproducts"
+        <a class="nav-link {{  request()->routeIs('admin.products.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseproducts"
            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-shopping-bag"></i>
             <span>Products</span>
         </a>
-        <div id="collapseproducts" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseproducts" class="collapse {{  request()->routeIs('admin.products.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="brands/">View</a>
-                <a class="collapse-item" href="brands/add">Add New</a>
-            </div>
+                <a class="collapse-item {{  request()->routeIs('admin.products.index') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">View</a>
+                  </div>
         </div>
     </li>
 

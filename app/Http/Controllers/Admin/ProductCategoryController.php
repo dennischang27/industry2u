@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,12 +21,12 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
-        return view('admin.products.index',compact('products'))
+        $productcategories = ProductCategory::latest()->paginate(5);
+        return view('admin.productcategories.index',compact('productcategories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
     /**
@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        return view('admin.productcategories.create');
     }
     /**
      * Store a newly created resource in storage.
@@ -48,11 +48,12 @@ class ProductController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'descriptions' => 'required',
+            'slug' => 'required'
         ]);
-        Product::create($request->all());
-        return redirect()->route('admin.products.index')
-            ->with('success','Product created successfully.');
+        ProductCategory::create($request->all());
+        return redirect()->route('admin.productcategories.index')
+            ->with('success','Product category created successfully.');
     }
     /**
      * Display the specified resource.
@@ -60,19 +61,19 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(ProductCategory $productcategory)
     {
-        return view('admin.products.show',compact('product'));
+        return view('admin.productcategories.show',compact('product'));
     }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\ProductCategory  $productcategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(ProductCategory $productcategory)
     {
-        return view('admin.products.edit',compact('product'));
+        return view('admin.productcategories.edit',compact('product'));
     }
     /**
      * Update the specified resource in storage.
@@ -81,26 +82,26 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, ProductCategory $productcategory)
     {
         request()->validate([
             'name' => 'required',
             'detail' => 'required',
         ]);
-        $product->update($request->all());
-        return redirect()->route('admin.products.index')
-            ->with('success','Product updated successfully');
+        $productcategory->update($request->all());
+        return redirect()->route('admin.productcategories.index')
+            ->with('success','Product Category updated successfully');
     }
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\ProductCategory  $productcategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(ProductCategory $productcategory)
     {
-        $product->delete();
-        return redirect()->route('admin.products.index')
-            ->with('success','Product deleted successfully');
+        $productcategory->delete();
+        return redirect()->route('admin.productcategories.index')
+            ->with('success','Product Category deleted successfully');
     }
 }
