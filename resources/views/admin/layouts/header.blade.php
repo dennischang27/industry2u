@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/sb-admin2/css/sb-admin-2.css') }}" rel="stylesheet">
 
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('assets/sb-admin2/css/custom.css') }}" rel="stylesheet">
+
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body id="page-top">
@@ -35,7 +38,6 @@
 @yield('body')
 <!-- offset area end -->
 
-@yield('script')
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('assets/sb-admin2/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/sb-admin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -45,7 +47,7 @@
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('assets/sb-admin2/js/sb-admin-2.min.js') }}"></script>
 
-
+@yield('script')
 
 </body>
 

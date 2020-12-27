@@ -23,7 +23,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.productcategories.store') }}" method="POST">
+            <form action="{{ route('admin.productcategories.store') }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -34,10 +34,12 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <strong>Slug:</strong>
-                            <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
+                            <strong>Image:</strong>
+                            <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12">
+                            <small class="txt-desc">(Please Choose Category Image)</small>
                         </div>
                     </div>
+                    <input type="hidden" name="slug" id="slug" class="form-control" placeholder="slug" value="{{ old('slug') }}">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
@@ -45,4 +47,18 @@
             </form>
         </div>
     </div>
+@endsection
+
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#name").keyup(function(){
+                var Text = $(this).val();
+                Text = Text.toLowerCase();
+                Text = Text.replace('/\s/g','-');
+                $("#slug").val(Text);
+            });
+        });
+    </script>
 @endsection

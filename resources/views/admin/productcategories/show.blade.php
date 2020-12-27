@@ -21,13 +21,15 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Details:</strong>
-                        {{ $productcategory->slug }}
+                        <strong>Image:</strong>
+                        @if($image = @file_get_contents(asset('storage/categories/'.$productcategory->image)))
+                            <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
+                        @else
+                            <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection

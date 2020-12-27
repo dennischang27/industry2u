@@ -2,7 +2,7 @@
 
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Product Brands</h1>
+    <h1 class="h3 mb-2 text-gray-800">Brands</h1>
 @endsection
 
 @section('content')
@@ -33,21 +33,51 @@
                             <td>{{ $brand->name }}</td>
                             <td>{{ $brand->description }}</td>
                             <td>
-                                <img src="{{ asset('images/no-image.png') }}" width="100" height="100">
+                                @if($image = @file_get_contents(asset('storage/brands/'.$brand->logo)))
+                                    <img src="{{ asset('storage/brands/'.$brand->logo) }}" width="60" height="60">
+                                @else
+                                    <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">
+                                @endif
                             </td>
                             <td>
-                                <form action="{{ route('admin.brands.destroy',$brand->id) }}" method="POST">
-                                    <a class="btn btn-info" href="{{ route('admin.brands.show',$brand->id) }}">Show</a>
-                                        <a class="btn btn-primary" href="{{ route('admin.brands.edit',$brand->id) }}">Edit</a>
-                                    @csrf
-                                    @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                <a class="btn btn-info" href="{{ route('admin.brands.show',$brand->id) }}">Show</a>
+                                    <a class="btn btn-primary" href="{{ route('admin.brands.edit',$brand->id) }}">Edit</a>
+                                @csrf
+                                @method('DELETE')
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{ $brand->id }}deletebrand">Delete</button>
+                                <div id="{{ $brand->id }}deletebrand" class="delete-modal modal fade" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div class="delete-icon"></div>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <h4 class="modal-heading">Are You Sure ?</h4>
+                                                <p>Do you really want to delete this brand? This process cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form method="post" action="{{route('admin.brands.destroy',$brand->id)}}" class="pull-right">
+                                                    {{csrf_field()}}
+                                                    {{method_field("DELETE")}}
+
+                                                    <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
                 </table>
-            </div>
+                @foreach ($brands as $brand)
+
+
+                @endforeach
             {!! $brands->links() !!}
         </div>
 @endsection
+

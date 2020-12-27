@@ -13,13 +13,13 @@ class BrandTableSeeder extends Seeder
     public function run()
     {
         $datas = [
-            [ 'name' => "TECO", 'slug'=>"teco", 'description'=>"Teco", 'logo'=>"teco.png" ],
-            [ 'name' => "ABB", 'slug'=>"abb", 'description'=>"ABB", 'logo'=>"abb.png"],
-            [ 'name' => "CMP", 'slug'=>"cmp", 'description'=>"CMP", 'logo'=>"cmp.png"],
-            [ 'name' => "MEIDEN", 'slug'=>"meiden", 'description'=>"meiden", 'logo'=>"meiden.png"],
-            [ 'name' => "OLI", 'slug'=>"oli", 'description'=>"oli", 'logo'=>"oli.png"],
-            [ 'name' => "BROVINI", 'slug'=>"brovini", 'description'=>"brovini", 'logo'=>"brovini.png"],
-            [ 'name' => "SUMITOMO", 'slug'=>"sumitomo", 'description'=>"sumitomo", 'logo'=>"sumitomo.png"],
+            [ 'name' => "TECO", 'slug'=>"teco", 'description'=>"Teco", 'logo'=>"teco_brand.jpg" ],
+            [ 'name' => "ABB", 'slug'=>"abb", 'description'=>"ABB", 'logo'=>"abb_brand.jpg"],
+            [ 'name' => "CMP", 'slug'=>"cmp", 'description'=>"CMP", 'logo'=>"cmp_brand.jpg"],
+            [ 'name' => "MEIDEN", 'slug'=>"meiden", 'description'=>"meiden", 'logo'=>"maiden_brand.jpg"],
+            [ 'name' => "OLI", 'slug'=>"oli", 'description'=>"oli", 'logo'=>"oli_brand.jpg"],
+            [ 'name' => "BROVINI", 'slug'=>"brovini", 'description'=>"brovini", 'logo'=>"brovini.jpg"],
+            [ 'name' => "SUMITOMO", 'slug'=>"sumitomo", 'description'=>"sumitomo", 'logo'=>"sumimoto_brand.jpg"],
         ];
 
         foreach($datas as $data) {

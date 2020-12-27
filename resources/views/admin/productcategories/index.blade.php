@@ -26,14 +26,20 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Slug</th>
+                            <th>Image</th>
                             <th width="280px">Action</th>
                         </tr>
                         @foreach ($productcategories as $productcategory)
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $productcategory->name }}</td>
-                                <td>{{ $productcategory->slug }}</td>
+                                <td>
+                                    @if($image = @file_get_contents(asset('storage/categories/'.$productcategory->image)))
+                                        <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
+                                    @else
+                                        <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">
+                                    @endif
+                                </td>
                                 <td>
                                     <form action="{{ route('admin.productcategories.destroy',$productcategory->id) }}" method="POST">
                                         <a class="btn btn-info" href="{{ route('admin.productcategories.show',$productcategory->id) }}">Show</a>

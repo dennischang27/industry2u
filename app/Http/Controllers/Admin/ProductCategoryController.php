@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Image;
 
 class ProductCategoryController extends Controller
 {
@@ -25,7 +26,7 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $productcategories = ProductCategory::latest()->paginate(5);
+        $productcategories = ProductCategory::latest()->orderBy('name')->withTrashed()->paginate(5);
         return view('admin.productcategories.index',compact('productcategories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -50,7 +51,22 @@ class ProductCategoryController extends Controller
             'name' => 'required',
             'slug' => 'required'
         ]);
-        ProductCategory::create($request->all());
+        $input = $request->all();
+        if ($file = $request->file('image'))
+        {
+
+            $img = Image::make($file->path());
+            $destinationPath = storage_path("app/public/categories/");
+            $image = time().rand(1,100).$file->getClientOriginalName();
+            $img->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save($destinationPath . $image);
+
+            $input['image'] = $image;
+        }
+        ProductCategory::create($input);
         return redirect()->route('admin.productcategories.index')
             ->with('success','Product category created successfully.');
     }
@@ -85,9 +101,24 @@ class ProductCategoryController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'slug' => 'required',
         ]);
-        $productcategory->update($request->all());
+        $input = $request->all();
+        if ($file = $request->file('image'))
+        {
+
+            $img = Image::make($file->path());
+            $destinationPath = storage_path("app/public/categories/");
+            $image = time().rand(1,100).$file->getClientOriginalName();
+            $img->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save($destinationPath . $image);
+
+            $input['image'] = $image;
+        }
+        $productcategory->update($input);
         return redirect()->route('admin.productcategories.index')
             ->with('success','Product Category updated successfully');
     }

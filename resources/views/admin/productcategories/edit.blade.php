@@ -24,7 +24,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.productcategories.update',$productcategory->id) }}" method="POST">
+            <form action="{{ route('admin.productcategories.update',$productcategory->id) }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -36,10 +36,20 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <strong>Slug:</strong>
-                            <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ $productcategory->slug }}</textarea>
+                            <strong>Image:</strong>
+                            <div>
+                                @if($image = @file_get_contents(asset('storage/categories/'.$productcategory->image)))
+                                    <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="100" height="100">
+                                @else
+                                    <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
+                                @endif
+                            </div>
+                            <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12">
+                            <small class="txt-desc">(Please Choose Brand Image To Replace)</small>
                         </div>
                     </div>
+                    <input type="hidden" name="slug" id="slug" class="form-control" placeholder="slug" value="{{ $productcategory->slug }}">
+
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
@@ -47,4 +57,17 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#name").keyup(function(){
+                var Text = $(this).val();
+                Text = Text.toLowerCase();
+                Text = Text.replace('/\s/g','-');
+                $("#slug").val(Text);
+            });
+        });
+    </script>
 @endsection

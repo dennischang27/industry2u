@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Brand;
 use Illuminate\Http\Request;
-
+use Image;
 class BrandController extends Controller
 {
     /**
@@ -46,11 +46,28 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+
+
         request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'name' => 'required|unique:brands,name',
+            'slug' => 'required',
         ]);
-        Brand::create($request->all());
+        $input = $request->all();
+        if ($file = $request->file('logo'))
+        {
+
+                $img = Image::make($file->path());
+                $destinationPath = storage_path("app/public/brands/");
+                $image = time().rand(1,100).$file->getClientOriginalName();
+                $img->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $img->save($destinationPath . $image);
+
+                $input['logo'] = $image;
+        }
+        Brand::create($input);
         return redirect()->route('admin.brands.index')
             ->with('success','Brand created successfully.');
     }
@@ -83,11 +100,28 @@ class BrandController extends Controller
      */
     public function update(Request $request, Brand $brand)
     {
+        $id = $brand->id;
         request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'name' => 'required|unique:brands,name,'.$id,
+            'slug' => 'required',
         ]);
-        $brand->update($request->all());
+
+        $input = $request->all();
+        if ($file = $request->file('logo'))
+        {
+
+            $img = Image::make($file->path());
+            $destinationPath = storage_path("app/public/brands/");
+            $image = time().rand(1,100).$file->getClientOriginalName();
+            $img->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            $img->save($destinationPath . $image);
+
+            $input['logo'] = $image;
+        }
+        $brand->update($input);
         return redirect()->route('admin.brands.index')
             ->with('success','Brand updated successfully');
     }
