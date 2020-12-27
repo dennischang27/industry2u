@@ -21,9 +21,9 @@
                         <ul class="header_list">
                             @if (!auth('web')->check())
                             <li><a href="{{ route('login') }}"><i class="ti-user"></i><span>Login</span></a></li>
-                            <li><a href="register"><span>Register</span></a></li>
+                            <li><a href="{{ route('register') }}"><span>Register</span></a></li>
                             @else
-                                <li><a href="profile"><i class="ti-user"></i><span>{{ auth('web')->user()->first_name }}</span></a></li>
+                                <li><a href="{{ route('user.overview') }}"><i class="ti-user"></i><span>{{ auth('web')->user()->first_name }}</span></a></li>
                                 <li><a href="{{ route('logout') }}"  onclick="event.preventDefault();
 											 document.getElementById('logout-form').submit();"><i class="ti-lock"></i><span>{{ __('Logout') }}</span></a></li>
                             @endif

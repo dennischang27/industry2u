@@ -60,7 +60,7 @@
 @include('layouts.head')
 
 <div id="app">
-@yield('content')
+@yield('body')
 </div>
 <!-- offset area end -->
 
