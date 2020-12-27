@@ -148,6 +148,7 @@
 }
 .logo a {
     display: inline-block;
+    color: #000000;
 }
 
 .metismenu >li >a {
@@ -2832,5 +2833,10 @@ table.dataTable thead td {
     font-size: 16px;
     color: #555;
 }
-
+.breadcrumbs-area{
+    padding: 7px 38px;
+}
+.breadcrumbs-right li a, .breadcrumbs-right li span {
+    font-size: 12px;
+}
 /*-------------------- END Offset Sidebar ------------------- */

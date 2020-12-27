@@ -8,7 +8,7 @@
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <div class="pull-right">
+            <div class="float-right">
                 <a class="btn btn-success" href="{{ route('admin.brands.create') }}"> Create New Brand</a>
             </div>
         </div>
@@ -23,7 +23,7 @@
                     <tr>
                         <th>No</th>
                         <th>Name</th>
-                        <th>Descriptions</th>
+                        <th>Description</th>
                         <th>Logo</th>
                         <th width="280px">Action</th>
                     </tr>
@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ ++$i }}</td>
                             <td>{{ $brand->name }}</td>
-                            <td>{{ $brand->descriptions }}</td>
+                            <td>{{ $brand->description }}</td>
                             <td>
                                 <img src="{{ asset('images/no-image.png') }}" width="100" height="100">
                             </td>

@@ -17,7 +17,7 @@ class CreateBrandsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 150);
             $table->string('slug', 150);
-            $table->string('descriptions', 150);
+            $table->string('description', 150);
             $table->string('logo', 150);
             $table->string('status', 150)->default('published');
             $table->boolean('is_featured')->default(0);

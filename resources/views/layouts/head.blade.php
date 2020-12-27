@@ -7,6 +7,13 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
+                    @if (auth('web')->check())
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                            <ul class="contact_detail text-center text-lg-left">
+                                <li><a href="{{ route('upgradetoseller') }}"><span>Upgrade to Supplier</span></a></li>
+                            </ul>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-md-6">

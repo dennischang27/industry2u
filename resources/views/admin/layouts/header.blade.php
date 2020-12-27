@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('assets/sb-admin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/sb-admin2/css/sb-admin-2.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 </head>
@@ -45,12 +45,7 @@
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('assets/sb-admin2/js/sb-admin-2.min.js') }}"></script>
 
-<!-- Page level plugins -->
-<script src="{{ asset('assets/sb-admin2/vendor/chart.js/Chart.min.js') }}"></script>
 
-<!-- Page level custom scripts -->
-<script src="{{ asset('assets/sb-admin2/js/demo/chart-area-demo.js') }}"></script>
-<script src="{{ asset('assets/sb-admin2/js/demo/chart-pie-demo.js') }}"></script>
 
 </body>
 
