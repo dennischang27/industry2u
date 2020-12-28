@@ -11,12 +11,14 @@
 |
 */
 
-
-
 Auth::routes();
 Route::get('/', function () {
     return view('home');
 })->name('home');
+Route::get('privacy', 'HomeController@privacy')->name('privacy');
+Route::get('terms', 'HomeController@terms')->name('terms');
+Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
+
 Route::group(['middleware' => ['auth']], function() {
 
     Route::group(["prefix" => "user",'as' => 'user', 'namespace' => "User"], function() {

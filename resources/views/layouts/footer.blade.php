@@ -16,10 +16,10 @@
                                 <a class="footer-link" href="">Feedback</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">Privacy Policy</a>
+                                <a class="footer-link" href="{{ route("privacy") }}">Privacy Policy</a>
                             </li>
                             <li>
-                                <a class="footer-link" href="">Term Of Use</a>
+                                <a class="footer-link" href="{{ route("terms") }}">Term Of Use</a>
                             </li>
                         </ul>
                     </div>
