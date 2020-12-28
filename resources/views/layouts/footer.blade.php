@@ -40,10 +40,10 @@
                                 <i class="ti-email"></i>
                                 <a href="info@industry2u.asia">info@industry2u.asia</a>
                             </li>
-                            <li>
+                            <!--li>
                                 <i class="ti-mobile"></i>
                                 <p>012-3456789</p>
-                            </li>
+                            </li-->
                         </ul>
                     </div>
                 </div>
