@@ -1,7 +1,7 @@
 <div class="dashboard_menu">
     <ul class="nav nav-tabs flex-column" role="tablist">
         <li class="nav-item">
-            <a class="nav-link {{  request()->routeIs('user.overview') ? 'active' : '' }}" href="{{ route("user.overview") }}"><i class="ti-layout-grid2"></i>Overview</a>
+            <a class="nav-link {{  request()->routeIs('user.account') ? 'active' : '' }}" href="{{ route("user.account") }}"><i class="ti-layout-grid2"></i>Account</a>
         </li>
         @if (!auth('web')->user()->is_buyer)
         <!--li class="nav-item">
@@ -13,7 +13,7 @@
         </li-->
         @endif
         <li class="nav-item">
-            <a class="nav-link  {{  request()->routeIs('user.profile') ? 'active' : '' }}" href="{{ route("user.profile") }}"><i class="ti-id-badge"></i>Account details</a>
+            <a class="nav-link  {{  request()->routeIs('user.profile') ? 'active' : '' }}" href="{{ route("user.profile") }}"><i class="ti-id-badge"></i>Edit Profile</a>
         </li>
         <li class="nav-item">
             <a class="nav-link  {{  request()->routeIs('user.changepassword') ? 'active' : '' }}" href="{{ route("user.changepassword") }}"><i class="ti-id-badge"></i>Change password</a>

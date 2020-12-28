@@ -18,11 +18,11 @@ class UserController extends Controller
 {
 	const URL = "";
 
-	public function dashboard()
+	public function account()
 	{
 		$user = parent::getUser();
 
-		return view('user.overview', ['user' => $user]);
+		return view('user.account', ['user' => $user]);
 	}
 
 	public function profile() {

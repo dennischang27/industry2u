@@ -7,7 +7,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="page-title">
-                    <h1>Overview</h1>
+                    <h1>Account</h1>
                 </div>
             </div>
             <div class="col-md-6">
@@ -19,7 +19,7 @@
                             <meta itemprop="name" content="Home">
                         </a>
                     </li>
-                    <li class="breadcrumb-item active">Overview</li>
+                    <li class="breadcrumb-item active">Account</li>
                 </ol>
 
             </div>
