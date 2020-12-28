@@ -1,49 +1,94 @@
-@extends('admin.layouts.app')
+<!doctype html>
 
-@section('content')
-    <!-- START LOGIN SECTION -->
-    <div class="login_register_wrap section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-md-10">
-                    <div class="login_wrap">
-                        <div class="padding_eight_all bg-white">
-                            <div class="heading_s1">
-                                <h3>{{ __('Login') }}</h3>
-                            </div>
-                            <form method="POST" action="{{ route('login') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <input class="form-control" name="email" id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Your Email') }}">
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" name="password" id="txt-password" placeholder="{{ __('Password') }}">
-                                    @if ($errors->has('password'))
-                                        <span class="text-danger">{{ $errors->first('password') }}</span>
-                                    @endif
-                                </div>
-                                <div class="login_footer form-group">
-                                    <div class="chek-form">
-                                        <div class="custome-checkbox">
-                                            <input class="form-check-input" type="checkbox" name="remember" id="remember-me" value="1">
-                                            <label class="form-check-label" for="remember-me"><span>{{ __('Remember me') }}</span></label>
-                                        </div>
-                                    </div>
-                                    <a href="{{ route('password.request') }}">{{ __('Forgot password?') }}</a>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-fill-out btn-block">{{ __('Log in') }}</button>
-                                </div>
-                            </form>
-                            <div class="form-note text-center">{{ __("Don't Have an Account?") }} <a href="{{ route('register') }}">{{ __('Sign up now') }}</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ config('app.name', 'Industry2u') }} | {{ __('Admin') }} - {{ __('Login') }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
+    <!-- Fontawesome icons -->
+    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <!-- Theme Header Color -->
+    <meta name="theme-color" content="#157ED2">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        .authenticate-bg {
+            background: url('{{ asset('images/authentication-bg.svg') }}');
+            background-position-x: 0%;
+            background-position-y: 0%;
+            background-size: auto;
+            background-size: contain;
+            background-position: center;
+            min-height: 100vh;
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/floating-labels.min.css') }}" rel="stylesheet">
+</head>
+<body class="authenticate-bg">
+<form class="form-signin" action="{{ route('admin.login') }}" method="post">
+    @csrf
+    <div class="text-center mb-4">
+        @if($image = @file_get_contents('images/icons/icon96x96.png'))
+            <img class="mb-4" src="{{url('images/icons/icon96x96.png')}}" alt="Icon" />
+        @endif
+        <h1 class="h3 mb-3 font-weight-normal">{{ __('Admin Login') }}</h1>
     </div>
-    <!-- END LOGIN SECTION -->
-@endsection
+
+    <div class="form-label-group">
+        <input type="email" value="{{ old('email') }}" id="inputEmail"
+               class="@error('email') is-invalid @enderror form-control" placeholder="Email address" required autofocus
+               name="email">
+        <label for="inputEmail">{{ __('Email') }}</label>
+        @error('email')
+        <span class="invalid-feedback text-danger" role="alert">
+        <strong>{{ $message }}</strong>
+      </span>
+        @enderror
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
+        <label for="inputPassword">{{ __('Password') }}</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input name="remember" {{ old('remember') ? 'checked' : '' }} type="checkbox">
+            {{ __('Remember me') }}
+        </label>
+    </div>
+    <button type="submit" class="signin btn btn-lg btn-primary btn-block" type="submit">{{ __('Signin') }}</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; {{ date('Y')." | All rights reserved | ".config('app.name') }}
+    </p>
+</form>
+</body>
+<!-- jQuery 3.5.4 -->
+<script src="{{asset('assets/sb-admin2/js/jquery.min.js')}}"></script>
+<!-- Bootstrap JS -->
+<script src="{{asset('assets/bootstrap/js/bootstrap.bundle.min.js')}}"></script> <!-- bootstrap  js -->
+<script>
+    $("form").on('submit', function () {
+
+        $('.signin').html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> {{ __('Signin') }}');
+
+    });
+</script>
+</html>

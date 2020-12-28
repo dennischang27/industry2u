@@ -42,7 +42,7 @@
                                 <h3>Change Password</h3>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="{{ route("user.postchangepassword") }}" accept-charset="UTF-8">
+                                <form method="POST" action="{{ route("user.postchangepassword", $user) }}" accept-charset="UTF-8">
                                     @csrf
                                     @if ($message = Session::get('success'))
                                         <div class="alert alert-success">

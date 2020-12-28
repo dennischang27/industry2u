@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
+use Request;
 use Exception;
 use Illuminate\Support\Facades\Response;
 use stdClass;
@@ -28,21 +28,36 @@ class UserController extends Controller
 	public function profile() {
 		$user = parent::getUser();
 
-		return view('user.profile', ['user' => $user]);
+		return view('user.profile',compact('user'));
 	}
-    public function updateprofile(Request $request, Response $response) {
 
-        $user =  parent::getUser();
+    private function validateProfile($data) {
+        $rules = [
+            'last_name' => ['required', 'string'],
+            'first_name' => ['required', 'string']
+        ];
 
+        $validator = Validator::make($data, $rules);
 
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+        return $validator;
+    }
+    public function updateprofile(User $user) {
 
+	    $this->validate(request(), [
+            'last_name' => 'required',
+            'first_name' => 'required',
         ]);
-        User::find(auth()->user()->id)->update($request);
-        return redirect()->route('user.profile')
-            ->with('User profile has been updated.');
+
+
+        $user->last_name = request('last_name');
+        $user->first_name = request('first_name');
+        $user->phone = request('phone');
+
+        $user->save();
+
+            return redirect()->route('user.profile')
+                ->with('success','User profile has been updated.');
+
     }
     public function changepassword() {
         $user = parent::getUser();
@@ -50,20 +65,20 @@ class UserController extends Controller
         return view('user.change-password', ['user' => $user]);
     }
 
-    public function postchangepassword(Request $request, Response $response) {
-
-        $user =  parent::getUser();
+    public function postchangepassword(User $user) {
 
 
-        $request->validate([
+
+        $this->validate(request(), [
             'old_password' => ['required', new MatchOldPassword],
             'password' => ['required'],
             'confirm_password' => ['same:password'],
 
         ]);
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password)]);
+        $user->password =  Hash::make(request('password'));
+
         return redirect()->route('user.changepassword')
-            ->with('User password has been updated.');
+            ->with('success','User password has been updated.');
     }
 
 

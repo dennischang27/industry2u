@@ -43,7 +43,7 @@
                                 <h3>Account information</h3>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="{{ route("user.updateprofile") }}" accept-charset="UTF-8">
+                                <form method="POST" action="{{ route("user.updateprofile", $user) }}" accept-charset="UTF-8">
                                     @csrf
                                     @if ($message = Session::get('success'))
                                         <div class="alert alert-success">
@@ -51,19 +51,17 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
-                                        <label for="first_name">Full Name:</label>
+                                        <label for="first_name">First Name:</label>
                                         <input id="first_name" type="text" class="form-control" name="first_name" value="{{ $user->first_name }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="last_name">Full Name:</label>
+                                        <label for="last_name">Last Name:</label>
                                         <input id="last_name" type="text" class="form-control" name="last_name" value="{{ $user->last_name }}">
                                     </div>
                                     <div class="form-group ">
                                         <label for="email">Email:</label>
                                         <input id="email" type="text" class="form-control" disabled="disabled" value="{{ $user->email }}" name="email">
                                     </div>
-
-
                                     <div class="form-group ">
                                         <label for="phone">Phone</label>
                                         <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="{{ $user->phone }}">
