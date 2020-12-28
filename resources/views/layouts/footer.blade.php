@@ -12,9 +12,9 @@
                     <div class="widget">
                         <h6 class="widget_title">Our info</h6>
                         <ul class="contact_info contact_info_light">
-                            <li>
+                            <!--li>
                                 <a class="footer-link" href="">Feedback</a>
-                            </li>
+                            </li-->
                             <li>
                                 <a class="footer-link" href="{{ route("privacy") }}">Privacy Policy</a>
                             </li>
