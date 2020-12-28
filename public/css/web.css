@@ -1,0 +1,13 @@
+.header_list>li .dropdown-item:hover {
+    color: #32a1e5;
+}
+.contact_detail>li a:hover {
+    color: #ffffff;
+}
+.dropdown-menu.animated {
+    /* Speed up animations */
+    -webkit-animation-duration: 0.65s;
+    animation-duration: 0.65s;
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+}

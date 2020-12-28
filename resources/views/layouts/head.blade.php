@@ -8,11 +8,19 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     @if (auth('web')->check())
+                        @if (!auth('web')->user()->is_seller )
                         <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                             <ul class="contact_detail text-center text-lg-left">
-                                <li><a href="{{ route('upgradetoseller') }}"><span>Upgrade to Supplier</span></a></li>
+                                <li><a href="{{ route('upgradetoseller') }}" class="btn btn-xs btn-primary"><span>Become Supplier</span></a></li>
                             </ul>
                         </div>
+                        @else
+                            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                                <ul class="contact_detail text-center text-lg-left">
+                                    <li><a href="{{ route('seller.dashboard') }}" target="_blank" class="btn btn-xs btn-primary"><span>Supplier Centre</span></a></li>
+                                </ul>
+                            </div>
+                        @endif
                     @endif
                 </div>
 
@@ -23,7 +31,28 @@
                             <li><a href="{{ route('login') }}"><i class="ti-user"></i><span>Login</span></a></li>
                             <li><a href="{{ route('register') }}"><span>Register</span></a></li>
                             @else
-                                <li><a href="{{ route('user.overview') }}"><i class="ti-user"></i><span>{{ auth('web')->user()->first_name }}</span></a></li>
+
+
+                                <!-- Nav Item - User Information -->
+                                    <li class="nav-item dropdown no-arrow">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="mr-2 d-none d-lg-inline small">{{ auth('web')->user()->first_name }}</span>
+                                        </a>
+                                        <!-- Dropdown - User Information -->
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                             aria-labelledby="userDropdown">
+                                            @if (!auth('web')->user()->is_buyer )
+                                                <a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>
+                                            @else
+                                                <a class="dropdown-item"  href="{{ route('company') }}"><span>Company Profile</span></a>
+                                            @endif
+                                             <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{{ route("user.account") }}"><span>Account</span></a>
+                                            <a class="dropdown-item" href="{{ route("user.profile") }}"><span>Edit Profile</span></a>
+                                        </div>
+                                    </li>
+                                <!--li><a href="{{ route('user.account') }}"><i class="ti-user"></i><span>{{ auth('web')->user()->first_name }}</span></a></li-->
                                 <li><a href="{{ route('logout') }}"  onclick="event.preventDefault();
 											 document.getElementById('logout-form').submit();"><i class="ti-lock"></i><span>{{ __('Logout') }}</span></a></li>
                             @endif
@@ -40,8 +69,19 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img class="logo_dark" src="{{asset('images/industry2u_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
                 </a>
-
+                <div class="contact_phone order-md-last d-block d-sm-none">
+                    <ul class="header_list">
+                        @if (!auth('web')->check())
+                            <li><a href="{{ route('login') }}"><i class="ti-user"></i></a></li>
+                        @else
+                            <li><a href="{{ route('user.account') }}"><i class="ti-user"></i><span>{{ auth('web')->user()->first_name }}</span></a></li>
+                            <li><a href="{{ route('logout') }}"  onclick="event.preventDefault();
+											 document.getElementById('logout-form').submit();"><i class="ti-lock"></i><span>{{ __('Logout') }}</span></a></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
+
         </div>
     </div>
     <div class="bottom_header light_skin main_menu_uppercase bg_dark">

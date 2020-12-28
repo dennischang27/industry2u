@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/themes/plugins/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/web.css') }}">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <style>
