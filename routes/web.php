@@ -12,9 +12,8 @@
 */
 
 Auth::routes();
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('privacy', 'HomeController@privacy')->name('privacy');
 Route::get('terms', 'HomeController@terms')->name('terms');
 Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
@@ -32,7 +31,8 @@ Route::group(['middleware' => ['auth']], function() {
     });
 
     Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
+    Route::get('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
     Route::get('upgrade-to-seller', 'MainController@applyforseller')->name('upgradetoseller');
-    Route::post('apply/for/seller/proccess', 'MainController@company_seller')->name('apply.seller.company');
+    Route::post('upgrade-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company');
 
 });

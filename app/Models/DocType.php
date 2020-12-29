@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class DocType extends Model
 {
     protected $fillable = [
-        'name', 'is_active'
+        'name', 'input_name', 'type', 'position', 'is_active'
     ];
 }

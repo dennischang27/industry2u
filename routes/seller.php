@@ -14,9 +14,10 @@
 Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"], function() {
     Auth::routes();
 
-    Route::group(['middleware' => ['auth']], function() {
-        Route::get('/', function () {
-            return view('seller.home');
+        Route::group(['middleware' => ['CheckSeller']], function() {
+            Route::get('/', 'sellerController@account')->name('dashboard');
+            Route::resource('products','ProductController');
+            Route::get('company', 'CompanyController@index')->name('company.profile');
+            Route::get('account', 'sellerController@account')->name('account');
         });
-    });
 });

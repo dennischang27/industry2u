@@ -51,10 +51,6 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
-    protected function loggedOut(Request $request)
-    {
-        return redirect()->route('seller.login');
-    }
 
 
 }

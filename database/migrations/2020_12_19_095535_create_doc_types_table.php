@@ -16,6 +16,9 @@ class CreateDocTypesTable extends Migration
         Schema::create('doc_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 150);
+            $table->string('input_name', 100);
+            $table->integer('position')->default(1);;
+            $table->string('type', 100);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -14,7 +14,7 @@
         </div>
         <!-- profile info & task notification -->
         <div class="col-md-6 col-sm-6 clearfix pull-right">
-            <ul class="notification-area pull-right">
+            <!--ul class="notification-area pull-right">
                 <li id="full-view"><i class="ti-fullscreen"></i></li>
                 <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
                 <li class="dropdown">
@@ -29,14 +29,23 @@
                     </div>
                 </li>
 
-            </ul>
+            </ul-->
             <div class="user-profile pull-right">
-                <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ auth('web')->user()->name }}<i class="fa fa-angle-down"></i></h4>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Settings</a>
-                    <a class="dropdown-item" href="{{ route('seller.logout') }}" onclick="event.preventDefault();
+                @if (!auth('web')->check())
+                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Jia Song<i class="fa fa-angle-down"></i></h4>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="" onclick="event.preventDefault();
 											 document.getElementById('logout-form').submit();">Log Out</a>
-                </div>
+                    </div>
+                @else
+                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ auth('web')->user()->first_name }}<i class="fa fa-angle-down"></i></h4>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('seller.logout') }}" onclick="event.preventDefault();
+											 document.getElementById('logout-form').submit();">Log Out</a>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>

@@ -18,9 +18,7 @@ class Authenticate extends Middleware
             return abort(401, Lang::get('auth.unauthorized'));
         } else if ($request->is('admin') || $request->is('admin/*')) {
             return route('admin.login');
-        } else if ($request->is('seller') || $request->is('seller/*')) {
-            return route('seller.login');
-        }else {
+        } else {
             return route('login');
         }
     }

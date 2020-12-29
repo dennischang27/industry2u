@@ -26,16 +26,22 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('industry_id')->nullable();
             $table->foreign('company_budget_range_id')->references('id')->on('company_budget_ranges');
             $table->unsignedBigInteger('company_budget_range_id')->nullable();
-            $table->string('reg_no', 150);
+            $table->string('reg_no', 150)->nullable();
             $table->string('web_site', 150)->nullable();
             $table->string('phone', 150);
+            $table->boolean('is_sst')->default(0);
             $table->string('sst_no', 150)->nullable();
             $table->string('logo', 150);
             $table->unsignedBigInteger('bank_id')->nullable();
             $table->foreign('bank_id')->references('id')->on('banks');
             $table->string('bank_account', 150);
-            $table->string('status', 150);
+            $table->boolean('is_seller')->default(1);
+            $table->boolean('is_buyer')->default(1);
+            $table->boolean('is_approved')->default(0);
             $table->boolean('is_active')->default(1);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
             $table->softDeletes();
         });
