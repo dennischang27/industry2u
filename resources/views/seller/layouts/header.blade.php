@@ -56,5 +56,8 @@
 <!-- others plugins -->
 <script src="{{ asset('assets/srtdash/js/plugins.js') }}"></script>
 <script src="{{ asset('assets/srtdash/js/scripts.js') }}"></script>
+
+@yield('script')
+
 </body>
 </html>

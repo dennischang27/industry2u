@@ -82,5 +82,7 @@
 <script src="{{ asset('assets/themes/plugins/ecommerce/js/change-product-swatches.js') }}"></script>
 <script src="{{ asset('assets/themes/js/app.js?v=1.0.13') }}"></script>
 
+@yield('script')
+
 </body>
 </html>

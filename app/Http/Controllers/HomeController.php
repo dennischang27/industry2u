@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $brands = Brand::latest()->paginate(6);
+        return view('home', compact('brands'));
     }
     public function privacy()
     {
