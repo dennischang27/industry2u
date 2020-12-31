@@ -80,7 +80,7 @@
                         @foreach ($brands as $brand)
                             @if($image = @file_get_contents(asset('storage/brands/'.$brand->logo)))
                                 <div class="col col-6 col-sm-4 col-md-4 col-lg-2">
-                                    <div style="width: 194px; margin-right: 30px;">
+                                    <div style="width: 160px; margin-right: 30px;">
                                         <img  src="{{ asset('storage/brands/'.$brand->logo) }}">
                                     </div>
                                 </div>
