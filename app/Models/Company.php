@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     protected $fillable = [
-        'name', 'street', 'postal_code', 'city', 'state_id', 'country_id'
-        , 'sst_no', 'reg_no','web_site','sst_no','logo', 'bank_id','bank_account',
-        'status','is_active', 'user_id'
+        'name', 'street', 'postal_code', 'city', 'state_id', 'country_id', 'industry_id',
+        'company_budget_range_id', 'phone', 'reg_no','web_site','sst_no','logo', 'bank_id','bank_account',
+        'status','is_active', 'user_id', 'is_approved'
     ];
 
     public function bank() {
@@ -25,6 +25,9 @@ class Company extends Model
         return $this->belongsTo(CountryState::class);
     }
     public function companybudgetrange() {
-        return $this->belongsTo(CompanyBudgetRange::class);
+        return $this->belongsTo(CompanyBudgetRange::class, 'company_budget_range_id');
+    }
+    public function companyDocs() {
+        return $this->hasMany(CompanyDoc::class);
     }
 }

@@ -9,11 +9,19 @@
                 <div class="col-md-6">
                     @if (auth('web')->check())
                         @if (!auth('web')->user()->is_seller )
-                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                            <ul class="contact_detail text-center text-lg-left">
-                                <li><a href="{{ route('upgradetoseller') }}" class="btn btn-xs btn-primary"><span>Become Supplier</span></a></li>
-                            </ul>
-                        </div>
+                            @if (!auth('web')->user()->is_buyer )
+                            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                                <ul class="contact_detail text-center text-lg-left">
+                                    <li><a href="{{ route('apply.seller.company') }}" class="btn btn-xs btn-primary"><span>Become Supplier</span></a></li>
+                                </ul>
+                            </div>
+                            @else
+                                <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                                    <ul class="contact_detail text-center text-lg-left">
+                                        <li><a href="{{ route('upgrade.seller.company') }}" class="btn btn-xs btn-primary"><span>Become Supplier</span></a></li>
+                                    </ul>
+                                </div>
+                            @endif
                         @else
                             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                                 <ul class="contact_detail text-center text-lg-left">
@@ -45,7 +53,7 @@
                                             @if (!auth('web')->user()->is_buyer )
                                                 <a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>
                                             @else
-                                                <a class="dropdown-item"  href="{{ route('company') }}"><span>Company Profile</span></a>
+                                                <a class="dropdown-item"  href="{{ route('user.company') }}"><span>Company Profile</span></a>
                                             @endif
                                              <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="{{ route("user.account") }}"><span>Account</span></a>

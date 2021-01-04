@@ -38,6 +38,8 @@
             --primary-font: Poppins, sans-serif;
         }
     </style>
+
+    @yield('styles')
     <!-- modernizr css -->
 
     <script src="{{ asset('assets/themes/js/jquery-3.5.1.min.js') }}"></script>

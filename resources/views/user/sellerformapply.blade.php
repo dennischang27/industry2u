@@ -252,7 +252,7 @@
               <br>
               <h2 class="text-center text-light">Apply For Seller Account</h2>
               <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
-                    action="{{route('apply.seller.company')}}">
+                    action="{{route('apply.seller.company.post')}}">
                   @csrf
                   <!-- progressbar -->
                       <div class="col-md-12 text-center">
@@ -404,36 +404,20 @@
                               <br>
                               <h3 class="fs-title">SSM Documents</h3>
                               <div class="form-row">
-                                  <div class="form-group col-md-4">
-                                      <label>{{ __('SSM Form 9') }}:</label>
-                                      <br>
-                                      <input type="file" name="sst_form9" class="form-control @error('sst_form9') is-invalid @enderror">
-                                      @error('sst_form9')
-                                          <span class="invalid-feedback text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
-                                  </div>
-                                  <div class="form-group col-md-4">
-                                      <label>{{ __('SSM Form 24') }}:</label>
-                                      <br>
-                                      <input type="file" name="sst_form24" class="form-control @error('sst_form24') is-invalid @enderror">
-                                      @error('sst_form24')
-                                      <span class="invalid-feedback text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                  </span>
-                                      @enderror
-                                  </div>
-                                  <div class="form-group col-md-4">
-                                      <label>{{ __('SSM Form 49') }}:</label>
-                                      <br>
-                                      <input type="file" name="sst_form49" class="form-control @error('sst_form49') is-invalid @enderror">
-                                      @error('sst_form49')
-                                            <span class="invalid-feedback text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
-                                  </div>
+                                  @foreach($doc_types as $doc_type)
+                                      <div class="col-md-4">
+                                          <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
+
+                                          <input id="file_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                                 class="form-control @error('file.' .$doc_type->id) is-invalid @enderror"
+                                                 value="{{ old('file') ? old('file')[$doc_type->id] : null }}" name="file[{{ $doc_type->id }}]" autofocus />
+                                          @error('file.' . $doc_type->id)
+                                          <span class="invalid-feedback" role="alert">
+												<strong>{{ $message }}</strong>
+											</span>
+                                          @enderror
+                                      </div>
+                                  @endforeach
                               </div>
                               <hr>
                               <h2 class="fs-title">Payment Information</h2>
@@ -467,15 +451,20 @@
                                   <input pattern="[0-9]+" title="Invalid SST number" type="text" name="sst_no"
                                          value="{{old('sst_no')}}" placeholder="{{ __('Please enter SST number') }}">
                               </div>
-                              <div class="form-group ">
-                                  <label>{{ __('SST Document') }}:</label>
-                                  <br>
-                                  <input type="file" name="sst_doc" class="form-control @error('sst_doc') is-invalid @enderror">
-                                  @error('sst_doc')
-                                  <span class="invalid-feedback text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                  </span>
-                                  @enderror
+                              <div class="form-row">
+                                  @foreach($doc_type_sst as $doc_type)
+                                      <div class="col-md-4">
+                                          <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
+                                          <input id="sstfile_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                                 class="form-control @error('sstfile.' .$doc_type->id) is-invalid @enderror"
+                                                 value="{{ old('sstfile') ? old('sstfile')[$doc_type->id] : null }}" name="sstfile[{{ $doc_type->id }}]" autofocus />
+                                          @error('sstfile.' . $doc_type->id)
+                                            <span class="invalid-feedback" role="alert">
+												<strong>{{ $message }}</strong>
+										    </span>
+                                          @enderror
+                                      </div>
+                                  @endforeach
                               </div>
                              <hr>
                           <input type="button" name="previous" class="previous action-button-previous" value="Previous" />

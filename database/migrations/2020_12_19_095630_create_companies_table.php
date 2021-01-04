@@ -34,7 +34,7 @@ class CreateCompaniesTable extends Migration
             $table->string('logo', 150);
             $table->unsignedBigInteger('bank_id')->nullable();
             $table->foreign('bank_id')->references('id')->on('banks');
-            $table->string('bank_account', 150);
+            $table->string('bank_account', 150)->nullable();
             $table->boolean('is_seller')->default(1);
             $table->boolean('is_buyer')->default(1);
             $table->boolean('is_approved')->default(0);

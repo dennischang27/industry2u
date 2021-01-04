@@ -159,7 +159,7 @@
             color: white;
             text-transform: uppercase;
             font-size: 9px;
-            width: 33%;
+            width: 50%;
             float: left;
             position: relative;
             letter-spacing: 1px;
@@ -250,21 +250,20 @@
     <div class="row">
         <div class="col-md-12">
             <br>
-            <h2 class="text-center text-light">Apply For Seller Account</h2>
+            <h2 class="text-center text-light">Add Company Information</h2>
             <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
-                  action="{{route('apply.seller.company')}}">
+                  action="{{route('addcompanypost')}}">
             @csrf
             <!-- progressbar -->
                 <div class="col-md-12 text-center">
                     <ul id="progressbar">
                         <li class="active">{{ __('Agreement') }}</li>
-                        <li>{{ __('Company Information') }}</li>
-                        <li>{{ __('Business information & confirm') }}</li>
+                        <li>{{ __('Company information & confirm') }}</li>
                     </ul>
                 </div>
                 <!-- fieldsets -->
                 <fieldset>
-                    <h2 class="fs-title">Seller Agreement</h2>
+                    <h2 class="fs-title">User Agreement</h2>
                     <h3 class="fs-subtitle">Read the agreement carefully and proceed further !</h3>
                     <hr>
 
@@ -307,20 +306,40 @@
                                   <strong>{{ $message }}</strong>
                                 </span>
                     @enderror
-                    <label class="float-left">{{ __('Business Type') }}: <small class="text-danger">*</small></label>
-                    <select title="Please select business type" required name="industry_id"
-                            class="@error('industry_id') is-invalid @enderror form-control select2" id="industry_id">
-                        <option value="">Please select business type</option>
-                        @foreach($industry as $s)
-                            <option value="{{$s->id}}" /> {{$s->name}} </option>
-                        @endforeach
-                    </select>
-                    <div class="errorTxt"></div>
-                    @error('industry_id')
-                    <span class="invalid-feedback text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                              </span>
-                    @enderror
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="float-left">{{ __('Business Type') }}: <small class="text-danger">*</small></label>
+                            <select title="Please select business type" required name="industry_id"
+                                    class="@error('industry_id') is-invalid @enderror form-control select2" id="industry_id">
+                                <option value="">Please select business type</option>
+                                @foreach($industry as $s)
+                                    <option value="{{$s->id}}" /> {{$s->name}} </option>
+                                @endforeach
+                            </select>
+                            <div class="errorTxt"></div>
+                            @error('industry_id')
+                            <span class="invalid-feedback text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                      </span>
+                            @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label class="float-left">{{ __('Monthly Budget Range') }}: <small class="text-danger">*</small></label>
+                            <select title="lease Monthly Budget Range" required name="company_budget_range_id"
+                                    class="@error('company_budget_range_id') is-invalid @enderror form-control select2" id="company_budget_range_id">
+                                <option value="">Please Monthly Budget Range</option>
+                                @foreach($companybudgetrange as $s)
+                                    <option value="{{$s->id}}" /> {{$s->name}} </option>
+                                @endforeach
+                            </select>
+                            <div class="errorTxt"></div>
+                            @error('company_budget_range_id')
+                            <span class="invalid-feedback text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                      </span>
+                            @enderror
+                            </div>
+                    </div>
                     <label class="float-left">{{ __('Contact Number') }} <small class="text-danger">*</small></label>
                     <input class="@error('phone') is-invalid @enderror" required number name="phone" pattern="[0-9]+" type="text"
                            value="{{old('phone')}}" placeholder="Please Enter Contact Number."
@@ -386,97 +405,33 @@
                     <div class="form-group">
                         <label>{{ __('Company logo') }}:</label>
                         <br>
-                        <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror">
+                        <input type="file" name="logo" accept="jpg, jpeg, png"  class="form-control @error('logo') is-invalid @enderror">
                         @error('logo')
                         <span class="invalid-feedback text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
                               </span>
                         @enderror
                     </div>
-                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                    <input type="button" name="next" class="next action-button" value="Next" />
-                </fieldset>
-                <fieldset>
-                    <h2 class="fs-title">Business Information</h2>
-                    <h3 class="fs-subtitle">Pleese fill up business information for your company.</h3>
-                    <hr>
-
                     <br>
                     <h3 class="fs-title">SSM Documents</h3>
                     <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label>{{ __('SSM Form 9') }}:</label>
-                            <br>
-                            <input type="file" name="sst_form9" class="form-control @error('sst_form9') is-invalid @enderror">
-                            @error('sst_form9')
-                            <span class="invalid-feedback text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                          </span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>{{ __('SSM Form 24') }}:</label>
-                            <br>
-                            <input type="file" name="sst_form24" class="form-control @error('sst_form24') is-invalid @enderror">
-                            @error('sst_form24')
-                            <span class="invalid-feedback text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                  </span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>{{ __('SSM Form 49') }}:</label>
-                            <br>
-                            <input type="file" name="sst_form49" class="form-control @error('sst_form49') is-invalid @enderror">
-                            @error('sst_form49')
-                            <span class="invalid-feedback text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                          </span>
-                            @enderror
-                        </div>
+                        @foreach($doc_types as $doc_type)
+                            <div class="col-md-4">
+                                <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
+
+                                <input id="file_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                       class="form-control @error('file.' .$doc_type->id) is-invalid @enderror"
+                                       value="{{ old('file') ? old('file')[$doc_type->id] : null }}" name="file[{{ $doc_type->id }}]" autofocus />
+                                @error('file.' . $doc_type->id)
+                                <span class="invalid-feedback" role="alert">
+												<strong>{{ $message }}</strong>
+											</span>
+                                @enderror
+                            </div>
+                        @endforeach
+
                     </div>
-                    <hr>
-                    <h2 class="fs-title">Payment Information</h2>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="float-left">{{ __('Bank Name') }}: <small class="text-danger">*</small></label>
-                            <select title="Please select Bank Name" required name="bank_id"
-                                    class="@error('bank_id') is-invalid @enderror form-control select2" id="bank_id">
-                                <option value="">Please select Bank Name</option>
-                                @foreach($bank as $s)
-                                    <option value="{{$s->id}}" /> {{$s->name}} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="float-left">{{ __('Bank Account Number') }}: <small class="text-danger">*</small></label>
-                            <input class="@error('bank_account') is-invalid @enderror" title="Invalid bank account no." required number name="bank_account"
-                                   type="text" value="{{old('bank_account')}}" placeholder="{{ __('Please enter bank account number') }}">
-                            <div class="errorTxt"></div>
-                            @error('bank_account')
-                            <span class="invalid-feedback text-danger" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                        </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <hr>
-                    <h2 class="fs-title">SST INFORMATION</h2>
-                    <div class="form-group">
-                        <label>{{ __('SST Number') }}</label>
-                        <input pattern="[0-9]+" title="Invalid SST number" type="text" name="sst_no"
-                               value="{{old('sst_no')}}" placeholder="{{ __('Please enter SST number') }}">
-                    </div>
-                    <div class="form-group ">
-                        <label>{{ __('SST Document') }}:</label>
-                        <br>
-                        <input type="file" name="sst_doc" class="form-control @error('sst_doc') is-invalid @enderror">
-                        @error('sst_doc')
-                        <span class="invalid-feedback text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                  </span>
-                        @enderror
-                    </div>
+
                     <hr>
                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     <input type="submit" name="submit" class="submit action-button" value="Submit" />

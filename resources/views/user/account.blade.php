@@ -42,10 +42,39 @@
                                 <h3>Account information</h3>
                             </div>
                             <div class="card-body">
-                                <div class="form-group"><i class="fa fa-user"></i> First Name: <strong>{{auth('web')->user()->first_name }}</strong></div>
-                                <div class="form-group"><i class="fa fa-calendar"></i> Last Name: <strong>{{auth('web')->user()->last_name }}</strong></div>
-                                <div class="form-group"><i class="fa fa-envelope"></i> Email: <strong>{{auth('web')->user()->email }}</strong></div>
-                                <div class="form-group"><i class="fa fa-phone"></i> Phone: <strong>{{auth('web')->user()->phone }}</strong></div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>First Name:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>{{auth('web')->user()->first_name }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Last Name:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>{{auth('web')->user()->last_name }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Email:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>{{auth('web')->user()->email }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Phone:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>{{auth('web')->user()->phone }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
