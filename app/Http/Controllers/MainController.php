@@ -112,9 +112,9 @@ class MainController extends Controller
 
     public function applyforseller()
     {
-//        If(Auth::user()->is_seller){
-//            return redirect()->route('seller.company.profile');
-//        };
+        If(Auth::user()->is_seller){
+            return redirect()->route('seller.company.profile');
+        };
         $country = Country::all();
         $state = CountryState::all();
         $currency = Currency::all();
@@ -187,9 +187,9 @@ class MainController extends Controller
 
     public function upgradetoseller()
     {
-//        If(Auth::user()->is_seller){
-//            return redirect()->route('seller.company.profile');
-//        };
+        If(Auth::user()->is_seller){
+            return redirect()->route('seller.company.profile');
+        };
         $country = Country::all();
         $state = CountryState::all();
         $currency = Currency::all();
