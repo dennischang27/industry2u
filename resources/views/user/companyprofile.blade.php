@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('styles')
+@section('style')
     <style>
         .profile-img{
             text-align: center;

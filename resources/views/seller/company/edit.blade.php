@@ -1,6 +1,6 @@
 @extends('seller.layouts.app')
 
-@section('styles')
+@section('style')
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <style>
         .profile-img{

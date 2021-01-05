@@ -1,31 +1,10 @@
 @extends('seller.layouts.app')
-@section('pagetitle')
-    <!-- page title area start -->
-    <!--div class="page-title-area">
-        <div class="row align-items-center">
-            <div class="col-sm-6 clearfix">
-                <div class="breadcrumbs-area clearfix">
-                    <h4 class="page-title pull-left">Products</h4>
-                </div>
-            </div>
-            <div class="col-sm-6 clearfix">
-                <div class="breadcrumbs-area breadcrumbs-right pull-right">
-                    <ul class="breadcrumbs pull-left">
-                        <li><a href="{{ route('seller.dashboard') }}">Home</a></li>
-                        <li><span>Products</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div-->
-    <!-- page title area end -->
-
+@section('breadcrumbs')
     <!-- page title area start -->
     <div class="page-title-area">
         <div class="row align-items-center">
             <div class="col-sm-12">
                 <div class="breadcrumbs-area clearfix">
-                    <h4 class="page-title pull-left">Products</h4>
                     <ul class="breadcrumbs pull-left">
                         <li><a href="{{ route('seller.dashboard') }}">Home</a></li>
                         <li><span>Products</span></li>
@@ -43,6 +22,7 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
+                <h4 class="header-title">Products</h4>
                 <div class="single-table">
                     <div class="table-responsive">
                         <table class="table table-hover progress-table text-center">
