@@ -40,24 +40,7 @@
                                       placeholder="Description">{{ old('description') }}</textarea>
                         </div>
                     </div>
-                    <div data-v-d3b0f5e4="" class="col-sm-2" aspect="1">
-                        <div class="shopee-upload-wrapper shopee-upload-dragger">
-                            <input type="file" name="file"  accept="image/*"
-                                   multiple="multiple" aspect="1"
-                                     class="shopee-upload__input">
-                            <div data-v-63e0ed9c="" class="shopee-image-manager__upload__content">
-                                <i data-v-63e0ed9c=""   class="shopee-icon">
-                                    <svg viewBox="0 0 31 31" xmlns="http://www.w3.org/2000/svg">
-                                        <g fill-rule="nonzero">
-                                            <path
-                                                d="M15 15V7.5a.5.5 0 1 1 1 0V15h7.5a.5.5 0 1 1 0 1H16v7.5a.5.5 0 1 1-1 0V16H7.5a.5.5 0 1 1 0-1H15z"></path>
-                                            <path
-                                                d="M15.5 31C6.94 31 0 24.06 0 15.5 0 6.94 6.94 0 15.5 0 24.06 0 31 6.94 31 15.5 31 24.06 24.06 31 15.5 31zm0-1C23.508 30 30 23.508 30 15.5S23.508 1 15.5 1 1 7.492 1 15.5 7.492 30 15.5 30z"></path>
-                                        </g>
-                                    </svg>
-                                </i></div>
-                        </div>
-                    </div>
+                    
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Logo:</strong>
