@@ -65,7 +65,7 @@ class MainController extends Controller
         $input = $request->all();
         $input["user_id"] = $user->id;
         $company = Company::create($input);
-        if ($file = $request->file('logo')||$file = $request->file('file')){
+        if ($request->file('logo')||$request->file('file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
@@ -87,10 +87,9 @@ class MainController extends Controller
             $company->save();
 
         }
-        $docFiles =  $request->file('file');
 
 
-        if($docFiles) {
+        if($docFiles =  $request->file('file')) {
             foreach($docFiles as $key => $doc) {
                 if($doc) {
                     $doc_type = DocType::find($key);
@@ -113,9 +112,9 @@ class MainController extends Controller
 
     public function applyforseller()
     {
-        If(Auth::user()->is_seller){
-            return redirect()->route('seller.company.profile');
-        };
+//        If(Auth::user()->is_seller){
+//            return redirect()->route('seller.company.profile');
+//        };
         $country = Country::all();
         $state = CountryState::all();
         $currency = Currency::all();
@@ -139,7 +138,7 @@ class MainController extends Controller
         $input["user_id"] = $user->id;
         $company = Company::create($input);
 
-        if ($file = $request->file('logo')||$file = $request->file('file')){
+        if ($request->file('logo')||$request->file('file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
@@ -161,10 +160,9 @@ class MainController extends Controller
             $company->save();
 
         }
-        $docFiles =  $request->file('file');
 
 
-        if($docFiles) {
+        if($docFiles = $request->file('file')) {
             foreach($docFiles as $key => $doc) {
                 if($doc) {
                     $doc_type = DocType::find($key);
@@ -189,9 +187,9 @@ class MainController extends Controller
 
     public function upgradetoseller()
     {
-        If(Auth::user()->is_seller){
-            return redirect()->route('seller.company.profile');
-        };
+//        If(Auth::user()->is_seller){
+//            return redirect()->route('seller.company.profile');
+//        };
         $country = Country::all();
         $state = CountryState::all();
         $currency = Currency::all();
@@ -218,18 +216,9 @@ class MainController extends Controller
     {
 
         $user = Auth::user();
-
-
         $input = $request->all();
 
-
-        if ($request->file('logo')){
-            $logo = $request->file('logo');
-        }
-        if ($request->file('sstfile')){
-            $sstdocFiles = $request->file('sstfile');
-        }
-        if ($request->file('logo')||$request->file('file')||$request->file('sst_file')){
+        if ($request->file('logo')||$request->file('sst_file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
@@ -257,7 +246,7 @@ class MainController extends Controller
 
 
 
-        if($request->file('sstfile')) {
+        if($sstdocFiles = $request->file('sstfile')) {
             foreach($sstdocFiles as $key => $doc) {
                 if($doc) {
                     $doc_type = DocType::find($key);

@@ -18,6 +18,8 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::get('/', 'sellerController@account')->name('dashboard');
             Route::resource('products','ProductController');
             Route::get('company', 'CompanyController@index')->name('company.profile');
+            Route::get('company/edit', 'CompanyController@edit')->name('company.profile.edit');
+            Route::post('company/{company}/update', 'CompanyController@update')->name('company.profile.update');
             Route::get('account', 'sellerController@account')->name('account');
         });
 });

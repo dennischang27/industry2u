@@ -101,18 +101,9 @@ class UserController extends Controller
 
         $input = $request->all();
 
-        if ($request->file('logo')){
-            $logo = $request->file('logo');
-        }
-        if ($request->file('file')){
-            $docFiles = $request->file('file');
-        }
-
-
-
 
         $company->update($input);
-        if ($request->file('logo')||$request->file('file')){
+        if (file('logo')||file('file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
@@ -135,10 +126,9 @@ class UserController extends Controller
             $company->save();
 
         }
-        $docFiles =  $request->file('file');
 
 
-        if($docFiles) {
+        if( $docFiles = $request->file('file')) {
             foreach($docFiles as $key => $doc) {
                 if($doc) {
                     $doc_type = DocType::find($key);
@@ -163,8 +153,7 @@ class UserController extends Controller
             }
         }
 
-        $sstdocFiles =  $request->file('sstfile');
-        if($sstdocFiles) {
+        if($sstdocFiles =  $request->file('sstfile')) {
             foreach($sstdocFiles as $key => $doc) {
                 if($doc) {
                     $doc_type = DocType::find($key);

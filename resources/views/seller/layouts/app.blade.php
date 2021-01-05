@@ -12,7 +12,7 @@
         <!-- main content area start -->
         <div class="main-content">
             @include('seller.layouts.head')
-            @yield('pagetitle')
+            @yield('breadcrumbs')
             <div class="main-content-inner">
                 <div class="row">
                     @yield('content')
