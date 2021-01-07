@@ -15,7 +15,7 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
     Auth::routes();
 
         Route::group(['middleware' => ['CheckSeller']], function() {
-            Route::get('/', 'sellerController@index')->name('dashboard');
+            Route::get('/', 'SellerController@index')->name('dashboard');
             Route::resource('products','ProductController');
             Route::get('company', 'CompanyController@index')->name('company.profile');
             Route::get('company/edit', 'CompanyController@edit')->name('company.profile.edit');
