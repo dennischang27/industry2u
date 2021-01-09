@@ -15,10 +15,10 @@ class CreateProductAttachmentsTable extends Migration
     {
         Schema::create('product_attachments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 150);
-            $table->string('file_path', 150);
-            $table->string('page_from', 150);
-            $table->string('page_to', 150);
+            $table->string('name', 150)->nullable();
+            $table->string('file_path', 150)->nullable();
+            $table->string('page_from', 150)->nullable();
+            $table->string('page_to', 150)->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();

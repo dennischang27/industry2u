@@ -15,17 +15,17 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('descriptions');
+            $table->string('name', 191)->nullable();
+            $table->text('description', 65535)->nullable();
             $table->string('series_no', 150)->nullable();
-            $table->string('slug', 150);
+            $table->string('slug', 150)->nullable();
             $table->string('image', 150)->nullable();
-            $table->double('value');
+            $table->float('price', 10, 0)->nullable();
             $table->integer('position')->default(0);
             $table->boolean('is_featured')->default(0);
             $table->boolean('is_active')->default(1);
             //$table->string('status', 150)->default('published');
-            $table->bigInteger('views');
+            $table->bigInteger('views')->default(0);
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies');
             $table->unsignedBigInteger('brand_id')->nullable();
