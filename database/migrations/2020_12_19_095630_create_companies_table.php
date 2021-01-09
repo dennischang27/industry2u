@@ -31,7 +31,7 @@ class CreateCompaniesTable extends Migration
             $table->string('phone', 150);
             $table->boolean('is_sst')->default(0);
             $table->string('sst_no', 150)->nullable();
-            $table->string('logo', 150);
+            $table->string('logo', 150)->nullable();
             $table->unsignedBigInteger('bank_id')->nullable();
             $table->foreign('bank_id')->references('id')->on('banks');
             $table->string('bank_account', 150)->nullable();
