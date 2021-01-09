@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('series_no', 150)->nullable();
             $table->string('slug', 150)->nullable();
             $table->string('image', 150)->nullable();
-            $table->float('price', 10, 0)->nullable();
+            $table->decimal('price', 10, 2)->nullable();
             $table->integer('position')->default(0);
             $table->boolean('is_featured')->default(0);
             $table->boolean('is_active')->default(1);
