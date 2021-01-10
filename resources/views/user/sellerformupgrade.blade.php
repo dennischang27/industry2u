@@ -448,7 +448,7 @@
                                   @foreach($doc_type_sst as $doc_type)
                                       <div class="col-md-4">
                                           <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
-                                          <input id="sstfile_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                          <input id="sstfile_{{ $doc_type->id }}" accept="image/png, image/jpeg, application/pdf" type="file"
                                                  class="form-control @error('sstfile.' .$doc_type->id) is-invalid @enderror"
                                                  value="{{ old('sstfile') ? old('sstfile')[$doc_type->id] : null }}" name="sstfile[{{ $doc_type->id }}]" autofocus />
                                           @error('sstfile.' . $doc_type->id)

@@ -13,7 +13,27 @@ class Product extends Model
      */
 
     protected $fillable = [
-        'name', 'descriptions','series_no','slug','image', 'value','position','is_featured',
-        'is_active','status', 'views','company_id','brand_id','category_id'
+        'name', 'description','series_no','slug','image', 'value','position','is_featured','price',
+        'is_active','status', 'views','company_id','brand_id','category_id','user_id'
     ];
+
+    public function brand() {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function company() {
+        return $this->belongsTo(AttributeMeasurement::class);
+    }
+    public function productImage() {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function productAttachment() {
+        return $this->hasMany(ProductAttachment::class);
+    }
+
+    public function productAttribute() {
+        return $this->hasMany(ProductAttribute::class);
+    }
+
 }

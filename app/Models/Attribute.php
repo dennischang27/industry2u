@@ -13,7 +13,11 @@ class Attribute extends Model
         'is_active', 'attribute_group_id'
     ];
 
-    public function group() {
+    public function attributegroup() {
         return $this->belongsTo(AttributeGroup::class, 'attribute_group_id');
+    }
+
+    public function attributemeasurement() {
+        return $this->hasMany(AttributeMeasurement::class, 'attribute_id');
     }
 }

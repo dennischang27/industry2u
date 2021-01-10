@@ -220,7 +220,7 @@
                                             <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
                                         @endif
                                         <br>
-                                        <input type="file" name="logo" accept="jpg, jpeg, png"  class="form-control @error('logo') is-invalid @enderror">
+                                        <input type="file" name="logo" accept="image/png, image/jpeg"  class="form-control @error('logo') is-invalid @enderror">
                                         @error('logo')
                                         <span class="invalid-feedback text-danger" role="alert">
                                             <strong>{{ $message }}</strong>

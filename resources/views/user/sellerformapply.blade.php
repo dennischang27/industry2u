@@ -386,7 +386,7 @@
                           <div class="form-group">
                               <label>{{ __('Company logo') }}:</label>
                               <br>
-                              <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror">
+                              <input type="file" name="logo" accept="image/png, image/jpeg" class="form-control @error('logo') is-invalid @enderror">
                               @error('logo')
                               <span class="invalid-feedback text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -408,7 +408,7 @@
                                       <div class="col-md-4">
                                           <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
 
-                                          <input id="file_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                          <input id="file_{{ $doc_type->id }}" accept="image/png, image/jpeg, application/pdf" type="file"
                                                  class="form-control @error('file.' .$doc_type->id) is-invalid @enderror"
                                                  value="{{ old('file') ? old('file')[$doc_type->id] : null }}" name="file[{{ $doc_type->id }}]" autofocus />
                                           @error('file.' . $doc_type->id)
@@ -455,7 +455,7 @@
                                   @foreach($doc_type_sst as $doc_type)
                                       <div class="col-md-4">
                                           <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
-                                          <input id="sstfile_{{ $doc_type->id }}" accept="jpg, jpeg, png, pdf" type="file"
+                                          <input id="sstfile_{{ $doc_type->id }}" accept="image/png, image/jpeg, application/pdf" type="file"
                                                  class="form-control @error('sstfile.' .$doc_type->id) is-invalid @enderror"
                                                  value="{{ old('sstfile') ? old('sstfile')[$doc_type->id] : null }}" name="sstfile[{{ $doc_type->id }}]" autofocus />
                                           @error('sstfile.' . $doc_type->id)
