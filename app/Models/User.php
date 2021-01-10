@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'title','first_name','last_name','username', 'email', 'password','email_verified_at','mobile',
         'referral_code','is_active','is_company_admin','manage_company_admin',
-        'is_super_user','manage_supers','is_buyer','is_seller'
+        'is_super_user','manage_supers','is_buyer','is_seller','company_name','designation'
     ];
 
     /**

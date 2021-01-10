@@ -17,6 +17,18 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="form-group">
+                                <input class="form-control" name="company_name" id="txt-company-name" type="text" value="{{ old('company_name') }}" placeholder="{{ __('Your Company Name') }}">
+                                @if ($errors->has('company_name'))
+                                    <span class="text-danger">{{ $errors->first('company_name') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="designation" id="txt-designation" type="text" value="{{ old('designation') }}" placeholder="{{ __('Your Designation') }}">
+                                @if ($errors->has('designation'))
+                                    <span class="text-danger">{{ $errors->first('designation') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <select class="form-control" id="title" name="title">
                                     <option value="Mr.">Mr.</option>
                                     <option value="Mrs.">Mrs.</option>
@@ -50,7 +62,7 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="password" name="password_confirmation" id="txt-password-confirmation" placeholder="{{ __('Password') }}">
+                                <input class="form-control" type="password" name="password_confirmation" id="txt-password-confirmation" placeholder="{{ __('Retype Password') }}">
                                 @if ($errors->has('password_confirmation'))
                                     <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                                 @endif
