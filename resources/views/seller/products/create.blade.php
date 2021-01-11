@@ -316,7 +316,7 @@
             var x = document.getElementById("SubCatDiv");
             var subcat = $("#sub_category_id");
             subcat.empty();
-            var value = $(this).val();
+            var value = $("#main_category_id").val();
             var list = getSubCategorySelection(value);
             if(Object.keys(list).length === 0) {
                 x.style.display = "none";

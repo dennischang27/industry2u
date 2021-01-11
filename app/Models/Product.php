@@ -36,4 +36,9 @@ class Product extends Model
         return $this->hasMany(ProductAttribute::class);
     }
 
+    public function category() {
+        return $this->belongsTo(ProductCategory::class);
+    }
+
+
 }
