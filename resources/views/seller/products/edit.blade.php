@@ -360,11 +360,9 @@
         $(document).ready(function () {
             $("#name").keyup(function () {
                 var Text = $(this).val();
-                Text = Text.toLowerCase();
-                Text = Text.replace('/\s/g', '-');
+                Text=Text.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
                 $("#slug").val(Text);
             });
-
         });
         $('#main_category_id').on('change', function () {
 

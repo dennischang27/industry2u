@@ -113,7 +113,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image_thumbnail = $product->slug."_image_thumbnail." . $file->getClientOriginalExtension();
+            $image_thumbnail = "image_thumbnail." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -133,7 +133,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image1 = $product->slug."_image1." . $file->getClientOriginalExtension();
+            $image1 = "image1." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -152,7 +152,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image2 = $product->slug."_image2." . $file->getClientOriginalExtension();
+            $image2 = "image2." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -320,7 +320,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image_thumbnail = $product->slug."_image_thumbnail." . $file->getClientOriginalExtension();
+            $image_thumbnail = "image_thumbnail." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -349,7 +349,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image1 = $product->slug."_image1." . $file->getClientOriginalExtension();
+            $image1 = "image1." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -376,7 +376,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image2 = $product->slug."_image2." . $file->getClientOriginalExtension();
+            $image2 = "image2." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
