@@ -22,7 +22,11 @@ class Product extends Model
     }
 
     public function company() {
-        return $this->belongsTo(AttributeMeasurement::class);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
     public function productImage() {
         return $this->hasMany(ProductImage::class);

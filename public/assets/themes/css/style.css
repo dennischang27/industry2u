@@ -2211,7 +2211,7 @@ footer .widget_title {
 .shorting_icon.active {
     background-color: var(--color-1st);
     color: #fff;
-    border-color: #ff324d
+    border-color: #687188
 }
 
 .product_header {
@@ -5325,5 +5325,15 @@ body .product_color_switch span.active:before {
 .header_wrap.nav-fixed .bottom_header .navbar-brand {
     display: block!important;
     line-height: 44px
+}
+
+.bottom_header .product_search_form_nav {
+    display: none;
+}
+.header_wrap.nav-fixed .bottom_header .product_search_form_nav {
+    display: block;
+}
+.header_wrap.nav-fixed .bottom_header .pr_search_icon {
+    display: none;
 }
 

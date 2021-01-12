@@ -88,6 +88,14 @@
                         @endif
                     </ul>
                 </div>
+                <div class="product_search_form float-left">
+                    <form action="{{ route('public.products') }}" method="GET">
+                        <div class="input-group">
+                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
+                            <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -113,17 +121,26 @@
                                     </a>
                                 </li>
                                 <li class="  ">
-                                    <a class=" nav-link nav_item " href="#">
+                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
                                         Products
                                     </a>
                                 </li>
                             </ul>
                         </div>
-
+                        <div class="product_search_form_nav float-left float-sm-right">
+                            <form action="{{ route('public.products') }}" method="GET">
+                                <div class="input-group">
+                                    <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
+                                    <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+                                </div>
+                            </form>
+                        </div>
                             <ul class="navbar-nav attr-nav align-items-center">
                                 <li><a href="#" class="nav-link "><span>Wanted List</span></a></li>
                             </ul>
-
+                        <div class="pr_search_icon">
+                            <a href="javascript:void(0);" class="nav-link pr_search_trigger"><i class="linearicons-magnifier"></i></a>
+                        </div>
                     </nav>
                 </div>
             </div>

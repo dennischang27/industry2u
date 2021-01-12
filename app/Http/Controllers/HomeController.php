@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -42,5 +43,15 @@ class HomeController extends Controller
     {
 
         return view('terms');
+    }
+
+    public function products()
+    {
+        $products = Product::latest()->paginate(12);
+        return view('front.products', compact('products'));
+    }
+    public function productshow(Product $product)
+    {
+        return view('front.product_detail', compact('product'));
     }
 }

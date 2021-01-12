@@ -26,7 +26,7 @@
                         </a>
                         <ul class="collapse">
                             <li class="{{  request()->routeIs('seller.company.profile') ? 'active' : '' }} {{  request()->routeIs('seller.company.profile.*') ? 'active' : '' }}"><a href="{{ route('seller.company.profile') }}">Company Profile</a></li>
-                            <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }}"><a href="{{ route('seller.account') }}">Account</a></li>
+                            <!--li class="{{  request()->routeIs('seller.account') ? 'active' : '' }}"><a href="{{ route('seller.account') }}">Account</a></li-->
                         </ul>
                     </li>
                 </ul>
