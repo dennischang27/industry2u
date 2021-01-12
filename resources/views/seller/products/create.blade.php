@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="code" class="col-sm-3 col-form-label"><strong>Product Series No:</strong><small class="text-danger">*</small></label>
+                                <label for="series_no" class="col-sm-3 col-form-label"><strong>Product Series No:</strong><small class="text-danger">*</small></label>
                                 <div class="col-sm-9">
                                     <input type="text" required class="form-control @error('series_no') is-invalid @enderror"
                                            id="series_no" name="series_no"  placeholder="Enter Product Series No" value="{{old('series_no')}}"
@@ -159,7 +159,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="code" class="col-sm-3 col-form-label"><strong>Price:</strong><small class="text-danger">*</small></label>
+                                <label for="price" class="col-sm-3 col-form-label"><strong>Price:</strong><small class="text-danger">*</small></label>
                                 <div class="col-sm-9">
                                     <input type="number" required class="form-control @error('price') is-invalid @enderror"
                                            id="price" name="price"  step="0.01" data-number-to-fixed="2" placeholder="Enter Product Price" value="{{old('price')}}"

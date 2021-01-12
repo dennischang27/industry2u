@@ -110,7 +110,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image_thumbnail = time() . $file->getClientOriginalName();
+            $image_thumbnail = $product->slug."_image_thumbnail." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -130,7 +130,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image1 = time() . $file->getClientOriginalName();
+            $image1 = $product->slug."_image1." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -149,7 +149,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image2 = time() . $file->getClientOriginalName();
+            $image2 = $product->slug."_image2." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -259,7 +259,7 @@ class ProductController extends Controller
         }
 
 
-        //$product->update($input);
+        $product->update($input);
 
         if(isset($input['attr'])) {
             foreach($input['attr'] as $index => $id) {
@@ -305,7 +305,7 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->file('image_thumbnail')){
+        if ($request->file('image_thumbnail')||$request->file('image1')||$request->file('image2')){
             $optimizePath = storage_path("app/public/products/".$product->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
@@ -317,7 +317,7 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image_thumbnail = time() . $file->getClientOriginalName();
+            $image_thumbnail = $product->slug."_image_thumbnail." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -346,16 +346,16 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image1 = time() . $file->getClientOriginalName();
+            $image1 = $product->slug."_image1." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $optimizeImage->save($optimizePath . $image1, 90);
 
             $logo_path = 'products/' . $product->id.'/'.$image1;
-            $product_image_thumbnail = $product->productImage->where('name', 'image1')->first();
-            if($product_image_thumbnail){
-                $product_image_thumbnail->update([
+            $product_image1 = $product->productImage->where('name', 'image1')->first();
+            if($product_image1){
+                $product_image1->update([
                     'path' =>  $logo_path,
                 ]);
             }
@@ -373,16 +373,16 @@ class ProductController extends Controller
             $optimizeImage = Image::make($file);
 
 
-            $image2 = time() . $file->getClientOriginalName();
+            $image2 = $product->slug."_image2." . $file->getClientOriginalExtension();
             $optimizeImage->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $optimizeImage->save($optimizePath . $image2, 90);
 
             $logo_path = 'products/' . $product->id.'/'.$image2;
-            $product_image_thumbnail = $product->productImage->where('name', 'image2')->first();
-            if($product_image_thumbnail){
-                $product_image_thumbnail->update([
+            $product_image2 = $product->productImage->where('name', 'image2')->first();
+            if($product_image2){
+                $product_image2->update([
                     'path' =>  $logo_path,
                 ]);
             }
@@ -444,7 +444,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        //$product->delete();
         return redirect()->route('seller.products.index')
             ->with('success','Product deleted successfully');
     }

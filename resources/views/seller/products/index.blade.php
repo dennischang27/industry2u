@@ -30,7 +30,7 @@
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Details</th>
+                                    <th scope="col">Series No</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Brand</th>
                                     <th scope="col">Action</th>
@@ -42,7 +42,12 @@
                                 <tr>
                                     <td class="row">{{ ++$i }}</td>
                                     <th scope="row">{{ $product->name }}</td>
-                                    <td>{{ $product->detail }}</td>
+                                    <td>{{ $product->series_no }}</td>
+                                    <td>@if($product->category->parentCategory)
+                                            {{ $product->category->parentCategory->name }} >
+                                        @endif
+                                        {{ $product->category->name }}</td>
+                                    <td>{{ $product->brand->name }}</td>
                                     <td>
                                         <form action="{{ route('seller.products.destroy',$product->id) }}" method="POST">
                                             <a class="btn btn-info" href="{{ route('seller.products.show',$product->id) }}">Show</a>
