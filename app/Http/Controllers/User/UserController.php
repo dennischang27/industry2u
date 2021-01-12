@@ -103,7 +103,7 @@ class UserController extends Controller
 
 
         $company->update($input);
-        if (file('logo')||file('file')){
+        if ($request->file('logo')||$request->file('file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
                 \File::makeDirectory($optimizePath, 493, true);
