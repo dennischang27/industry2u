@@ -6,9 +6,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <div class="page-title">
-                        <h1>Account Details</h1>
-                    </div>
+
                 </div>
                 <div class="col-md-6">
                     <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
@@ -40,7 +38,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3>Account information</h3>
+                                <h3>Account Details</h3>
                             </div>
                             <div class="card-body">
                                 <form method="POST" action="{{ route("user.updateprofile", $user) }}" accept-charset="UTF-8">

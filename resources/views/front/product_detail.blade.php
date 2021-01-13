@@ -10,7 +10,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="page-title">
-                        <h1>{{$product->name}}</h1>
+                        <h3>{{$product->name}}</h3>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -74,15 +74,16 @@
                             <div class="clearfix"></div>
                             <hr />
                             <div class="pr_desc">
-                                <p>By: {{ $product->company->name }}</p>
+                                <p>By: <strong>{{ $product->company->name }}</strong></p>
+                                <p>{{ $product->company->city }}, {{ $product->company->state->name }}</p>
                             </div>
                             <ul class="product-meta">
-                                <li>{{ __('Series No') }}: {{ $product->series_no }}</li>
+                                <li>{{ __('Series No') }}: <strong>{{ $product->series_no }}</strong></li>
                                 <li>{{ __('Category') }}:
                                     @if($product->category->parentCategory)
-                                        {{ $product->category->parentCategory->name }} >
+                                        <strong>{{ $product->category->parentCategory->name }}</strong> >
                                     @endif
-                                    {{ $product->category->name }}
+                                    <strong>{{ $product->category->name }}</strong>
                                 </li>
 
                             </ul>
@@ -112,14 +113,49 @@
                         </ul>
                         <div class="tab-content shop_info_tab">
                             <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                <div id="app">
-                                    {{$product->description}}
+                                <div  class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            {{$product->description}}
+                                        </div>
+                                    </div>
                                 </div>
-
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <hr>
+                                    <h5 class="header-title">Product Attributes</h5>
+                                </div>
+                                <div  class="col-xs-12 col-sm-12 col-md-12">
+                                    @foreach($product->productAttribute as $productAttribute)
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label"><strong>{{ __($productAttribute->attribute->name) }}</strong></label>
+                                            <div class="col-sm-9">
+                                                {{ $productAttribute->value }}
+                                                @if ($productAttribute->attribute_measurement)
+                                                    {{ $productAttribute->attribute_measurement->name }}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="attachment" role="tabpanel" aria-labelledby="attachment-tab">
-                                <div id="app">
-                                    Attachment
+                                <div  class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group row">
+                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
+                                            <div class="col-sm-3">
+                                                <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                                <br>
+                                                <span>Specification</span>
+                                            </div>
+                                        @endif
+                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                            <div class="col-sm-3">
+                                                    <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                                <br>
+                                                <span>Dimension</span>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
