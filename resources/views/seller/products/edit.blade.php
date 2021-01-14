@@ -270,7 +270,7 @@
                                                        class="form-control @error('attr.' .$attribute->id) is-invalid @enderror"
                                                        value="{{ $productAttributes[$attribute->id]->value }}" name="attr[{{ $attribute->id }}]" />
                                                 @else
-                                                    <input id="attr_{{ $attribute->id }}" type="number"
+                                                    <input id="attr_{{ $attribute->id }}" type="{{($attribute->type)? $attribute->type : 'text'}}"
                                                            class="form-control @error('attr.' .$attribute->id) is-invalid @enderror"
                                                            value="{{ old('attr') ? old('attr')[$attribute->id] : null }}" name="attr[{{ $attribute->id }}]" />
                                                 @endif

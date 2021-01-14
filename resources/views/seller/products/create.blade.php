@@ -249,7 +249,7 @@
                                     <div class="col-sm-9">
                                         <div class="row">
                                         <div class="col-sm-6">
-                                            <input id="attr_{{ $attribute->id }}" type="number"
+                                            <input id="attr_{{ $attribute->id }}" type="{{($attribute->type)? $attribute->type : 'text'}}"
                                                    class="form-control @error('attr.' .$attribute->id) is-invalid @enderror"
                                                    value="{{ old('attr') ? old('attr')[$attribute->id] : null }}" name="attr[{{ $attribute->id }}]" />
                                             @error('attr.' . $attribute->id)
