@@ -17,8 +17,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('privacy', 'HomeController@privacy')->name('privacy');
 Route::get('terms', 'HomeController@terms')->name('terms');
 Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
-Route::get('products', 'HomeController@products')->name('public.products');
-Route::get('product/{product}/{slug}', 'HomeController@productshow')->name('public.products.show');
+Route::get('products', 'ProductController@index')->name('public.products');
+Route::get('product/{product}/{slug}', 'ProductController@product_detail')->name('public.products.show');
 Route::group(['middleware' => ['auth']], function() {
 
     Route::group(["prefix" => "user",'as' => 'user', 'namespace' => "User"], function() {

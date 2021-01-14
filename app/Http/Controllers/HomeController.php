@@ -45,13 +45,4 @@ class HomeController extends Controller
         return view('terms');
     }
 
-    public function products()
-    {
-        $products = Product::latest()->paginate(12);
-        return view('front.products', compact('products'));
-    }
-    public function productshow(Product $product)
-    {
-        return view('front.product_detail', compact('product'));
-    }
 }
