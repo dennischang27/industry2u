@@ -74,19 +74,58 @@
                             <div class="clearfix"></div>
                             <hr />
                             <div class="pr_desc">
-                                <p>By: <strong>{{ $product->company->name }}</strong></p>
-                                <p>{{ $product->company->city }}, {{ $product->company->state->name }}</p>
-                            </div>
-                            <ul class="product-meta">
-                                <li>{{ __('Series No') }}: <strong>{{ $product->series_no }}</strong></li>
-                                <li>{{ __('Category') }}:
+                                <p>{{ __('Series No') }}: <strong>{{ $product->series_no }}</strong></p>
+
+                                <p>{{ __('Brand') }}: <strong>{{ $product->brand->name }}</strong></p>
+                                <p>{{ __('Category') }}:
                                     @if($product->category->parentCategory)
                                         <strong>{{ $product->category->parentCategory->name }}</strong> >
                                     @endif
-                                    <strong>{{ $product->category->name }}</strong>
-                                </li>
+                                    <strong>{{ $product->category->name }}</strong></p>
+                                <p>Company: <strong>{{ $product->company->name }}</strong></p>
+                                <p><strong>{{ $product->company->city }}, {{ $product->company->state->name }}</strong></p>
+                            </div>
+                            <div class="cart_extra">
+                                <form class="add-to-cart-form" method="POST" action="{{ route("public.cart.add") }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" id="hidden-product-id" value="{{ $product->id }}">
+                                    <input type="hidden" name="company_id" id="hidden-company-id" value="{{ $product->company_id }}">
 
-                            </ul>
+                                    @if (auth('web')->check())
+
+                                        @if (!auth('web')->user()->is_buyer )
+                                         <div class="cart_btn">
+                                             Please <a href="{{ route("addcompany") }}">submit company information</a> to request.
+                                        </div>
+                                        @else
+                                            <div class="cart-product-quantity">
+                                                <div class="quantity float-left">
+                                                    <input type="button" value="-" class="minus">
+                                                    <input type="text" name="qty" value="1" title="Qty" class="qty" size="4">
+                                                    <input type="button" value="+" class="plus">
+                                                </div> &nbsp;
+                                                <div class="float-right number-items-available" style="display: none; line-height: 45px;"></div>
+                                            </div>
+                                            <br>
+                                            <div class="cart_btn">
+                                                <button class="btn btn-fill-out btn-addtocart" type="submit"><i class="icon-basket-loaded"></i> Add to wanted list</button>
+                                            </div>
+                                            <br>
+                                            <div class="success-message text-success" style="display: none;">
+                                                <span></span>
+                                            </div>
+                                            <div class="error-message text-danger" style="display: none;">
+                                                <span></span>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <div class="cart_btn">
+                                            Please <a href="{{ route("register") }}">register and submit company information</a> to request.
+                                        </div>
+                                    @endif
+
+                                </form>
+                            </div>
 
                         </div>
                     </div>
@@ -172,4 +211,5 @@
 @endsection
 
 @section('script')
+
 @endsection

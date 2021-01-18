@@ -136,7 +136,7 @@
                             </form>
                         </div>
                             <ul class="navbar-nav attr-nav align-items-center">
-                                <li><a href="#" class="nav-link "><span>Wanted List</span></a></li>
+                                <li><a href="{{ route('public.cart.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List</a></li>
                             </ul>
                         <div class="pr_search_icon">
                             <a href="javascript:void(0);" class="nav-link pr_search_trigger"><i class="linearicons-magnifier"></i></a>

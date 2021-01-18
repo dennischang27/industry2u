@@ -81,9 +81,7 @@
 
 <!-- others plugins -->
 <script src="{{ asset('assets/themes/js/jquery.elevatezoom.js') }}"></script>
-<script src="{{ asset('assets/themes/js/scripts.js?v=1.0.13') }}"></script>
-<script src="{{ asset('assets/themes/plugins/ecommerce/js/change-product-swatches.js') }}"></script>
-<script src="{{ asset('assets/themes/js/app.js?v=1.0.13') }}"></script>
+<script src="{{ asset('assets/themes/js/scripts.js') }}"></script>
 
 @yield('script')
 

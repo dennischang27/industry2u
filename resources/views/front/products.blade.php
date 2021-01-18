@@ -46,8 +46,6 @@
                                                 <option value="default_sorting" @if (request()->input('sort-by') == 'default_sorting') selected @endif>{{ __('Default') }}</option>
                                                 <option value="date_asc" @if (request()->input('sort-by') == 'date_asc') selected @endif>{{ __('Oldest') }}</option>
                                                 <option value="date_desc" @if (request()->input('sort-by') == 'date_desc') selected @endif>{{ __('Newest') }}</option>
-                                                <option value="price_asc" @if (request()->input('sort-by') == 'price_asc') selected @endif>{{ __('Price') }}: {{ __('low to high') }}</option>
-                                                <option value="price_desc" @if (request()->input('sort-by') == 'price_desc') selected @endif>{{ __('Price') }}: {{ __('high to low') }}</option>
                                                 <option value="name_asc" @if (request()->input('sort-by') == 'name_asc') selected @endif>{{ __('Name') }}: {{ __('A-Z') }}</option>
                                                 <option value="name_desc" @if (request()->input('sort-by') == 'name_desc') selected @endif>{{ __('Name') }}: {{ __('Z-A') }}</option>
                                             </select>
@@ -72,36 +70,35 @@
                         </div>
                         <div class="row shop_container grid">
                             @if ($products->count() > 0)
-                                @if ($products->count() > 0)
-                                    @foreach($products as $product)
-                                        <div class="col-md-4 col-6">
-                                            <div class="product">
+                                @foreach($products as $product)
+                                    <div class="col-md-4 col-6">
+                                        <div class="product">
+                                            <div class="product_img">
+                                                <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
+                                                    <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="product_info">
+                                                <h6 class="product_title"><a href="{{ 'product/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
                                                 <div >
-                                                    <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
-                                                        <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
-                                                    </a>
+                                                    <span >{{ $product->company->city }}, {{ $product->company->state->name }}</span>
                                                 </div>
-                                                <div class="product_info">
-                                                    <h6 class="product_title"><a href="{{ 'product/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
-                                                    <div >
-                                                        <span >{{ $product->company->city }}, {{ $product->company->state->name }}</span>
-                                                    </div>
-                                                    <div class="pr_desc">
-                                                        <p>{{ $product->description }}</p>
-                                                    </div>
+                                                <div class="pr_desc">
+                                                    <p>{{ $product->description }}</p>
                                                 </div>
-                                            </div>
 
-                                        </div>
-                                    @endforeach
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mt-3 justify-content-center pagination_style1">
-                                                {!! $products->appends(request()->query())->links() !!}
                                             </div>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mt-3 justify-content-center pagination_style1">
+                                            {!! $products->appends(request()->query())->links() !!}
                                         </div>
                                     </div>
-                                @endif
+                                </div>
                             @else
                                 <br>
                                 <div class="col-12 text-center">{{ __('No products!') }}</div>
@@ -125,4 +122,5 @@
 @endsection
 
 @section('script')
+
 @endsection

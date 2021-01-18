@@ -34,6 +34,14 @@ Route::group(['middleware' => ['auth']], function() {
         });
     });
 
+    Route::get('cart-view', 'CartController@index')->name('public.cart.view');
+    Route::get('ajax/cart', 'CartController@ajaxcart')->name('public.cart.ajaxcart');
+    Route::post('cart/update', 'CartController@update')->name('public.cart.update');
+    Route::get('cart/remove/{company}/{product}', 'CartController@remove')->name('public.cart.remove');
+    Route::get('cart-checkout', 'CartController@checkout')->name('public.cart.checkout');
+    Route::put('cart-checkout/process', 'CartController@checkoutProcess')->name('public.cart.checkout.process');
+    Route::post('add-to-cart', 'CartController@add')->name('public.cart.add');
+
     Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
     Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
     Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
