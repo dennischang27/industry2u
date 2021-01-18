@@ -1,6 +1,6 @@
 @extends('seller.layouts.app')
 @section('title')
-    <title>{{ config('app.name', 'Industry2u') .  __(' Seller Portal - Dashboard') }}</title>
+    <title>{{ config('app.name', 'Industry2u') .  __(' Supplier Centre') }}</title>
 @endsection
 @section('pagetitle')
 

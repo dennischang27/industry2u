@@ -136,7 +136,28 @@
                             </form>
                         </div>
                             <ul class="navbar-nav attr-nav align-items-center">
-                                <li><a href="{{ route('public.cart.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List</a></li>
+                                <li><a href="{{ route('public.cart.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List
+                                        <span class="cart_count">
+                                            @php
+                                                $c = array();
+                                                $c = Session::get('cart');
+                                                $sum = 0;
+                                              if(!empty($c)){
+                                                $c = array_filter($c);
+                                                    foreach ($c as $p) {
+                                                        foreach ($p as $item) {
+                                                            $sum += $item['qty'];
+                                                        }
+                                                    }
+                                              }else{
+                                                $c = [];
+                                              }
+
+                                            @endphp
+
+                                            {{ $sum }}
+                                           </span>
+                                    </a></li>
                             </ul>
                         <div class="pr_search_icon">
                             <a href="javascript:void(0);" class="nav-link pr_search_trigger"><i class="linearicons-magnifier"></i></a>

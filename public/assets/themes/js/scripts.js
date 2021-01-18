@@ -391,6 +391,8 @@
         };
 
         $(document).on('click', '.add-to-cart-form button[type=submit]', function (event) {
+
+            var base_url = window.location.origin;
             event.preventDefault();
             event.stopPropagation();
 
@@ -428,8 +430,7 @@
                         method: 'GET',
                         success: function (response) {
                             if (!response.error) {
-                                $('.cart_box').html(response.data.html);
-                                $('.btn-shopping-cart span').text(response.data.count);
+                                $('.btn-shopping-cart span').text(response.count);
                             }
                         }
                     });

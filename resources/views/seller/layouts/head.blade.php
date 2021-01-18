@@ -5,7 +5,7 @@
 <div class="header-area">
     <div class="row align-items-center">
         <!-- nav and search button -->
-        <div class="col-md-6 col-sm-6 clearfix">
+        <div class="col-md-6 col-sm-6 col-4 clearfix">
             <div class="nav-btn pull-left">
                 <span></span>
                 <span></span>
@@ -13,40 +13,37 @@
             </div>
         </div>
         <!-- profile info & task notification -->
-        <div class="col-md-6 col-sm-6 clearfix pull-right">
-            <!--ul class="notification-area pull-right">
-                <li id="full-view"><i class="ti-fullscreen"></i></li>
-                <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
-                <li class="dropdown">
-                    <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
-                        <span>2</span>
-                    </i>
-                    <div class="dropdown-menu bell-notify-box notify-box">
-                        <span class="notify-title">You have 0 new notifications</span>
-                        <div class="nofity-list">
+        <div class="col-md-6 col-sm-6 col-8 clearfix pull-right">
+                <ul class="notification-area pull-right">
+                    <li class="dropdown">
+                        <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
+                            <span>0</span>
+                        </i>
+                        <div class="dropdown-menu bell-notify-box notify-box">
+                            <span class="notify-title">You have 0 new notifications</span>
+                            <div class="nofity-list">
 
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                    <li class="dropdown">
+                        @if (!auth('web')->check())
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Jia Song<i class="fa fa-angle-down"></i></h4>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Log Out</a>
+                            </div>
+                        @else
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ auth('web')->user()->first_name }}<i class="fa fa-angle-down"></i></h4>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('seller.logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Log Out</a>
+                            </div>
+                        @endif
 
-            </ul-->
-            <div class="user-profile pull-right">
-                @if (!auth('web')->check())
-                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Jia Song<i class="fa fa-angle-down"></i></h4>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="" onclick="event.preventDefault();
-											 document.getElementById('logout-form').submit();">Log Out</a>
-                    </div>
-                @else
-                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ auth('web')->user()->first_name }}<i class="fa fa-angle-down"></i></h4>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('seller.logout') }}" onclick="event.preventDefault();
-											 document.getElementById('logout-form').submit();">Log Out</a>
-                    </div>
-                @endif
-
-            </div>
+                    </li>
+                </ul>
         </div>
     </div>
 </div>

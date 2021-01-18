@@ -2,7 +2,7 @@
 <div class="sidebar-menu">
     <div class="sidebar-header">
         <div class="logo">
-            <a href="{{ route('seller.dashboard') }}"><img src="{{ asset('images/industry2u_100.png') }}" alt="industry2u"> <span>Seller Centre</span></a>
+            <a href="{{ route('seller.dashboard') }}"><img src="{{ asset('images/industry2u_100.png') }}" alt="industry2u"> <span style="font-size: 14px;">Supplier Centre</span></a>
         </div>
     </div>
     <div class="main-menu">

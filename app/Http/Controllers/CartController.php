@@ -160,8 +160,19 @@ class CartController extends Controller
 
     public function ajaxcart()
     {
+        $c = array();
+        $c = session()->get('cart');
+        $sum = 0;
+        if(!empty($c)){
+            $c = array_filter($c);
+            foreach ($c as $p) {
+                foreach ($p as $item) {
+                    $sum += $item['qty'];
+                }
+            }
+        }
         return response()->json([
-            'count' => count(Session::get('cart', array())),
+            'count' => $sum,
         ]);
     }
 }

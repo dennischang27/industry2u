@@ -9,7 +9,7 @@
     @yield('meta')
 
     @section('title')
-        <title>{{ config('app.name', 'Industry2u') }}</title>
+        <title>{{ config('app.name', ' Supplier Centre - Industry2u') }}</title>
     @show
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
