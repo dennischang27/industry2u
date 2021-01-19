@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -11,6 +12,7 @@ class Product extends Model
      *
      * @var array
      */
+    use SoftDeletes;
 
     protected $fillable = [
         'name', 'description','series_no','slug','image', 'value','position','is_featured','price',

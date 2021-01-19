@@ -28,7 +28,6 @@
                         <table class="table table-hover progress-table text-center">
                             <thead class="text-uppercase">
                                 <tr>
-                                    <th scope="col">No</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Series No</th>
                                     <th scope="col">Category</th>
@@ -40,7 +39,6 @@
 
                             @foreach ($products as $product)
                                 <tr>
-                                    <td class="row">{{ ++$i }}</td>
                                     <th scope="row">{{ $product->name }}</td>
                                     <td>{{ $product->series_no }}</td>
                                     <td>@if($product->category->parentCategory)
@@ -49,15 +47,35 @@
                                         {{ $product->category->name }}</td>
                                     <td>{{ $product->brand->name }}</td>
                                     <td>
-                                        <form action="{{ route('seller.products.destroy',$product->id) }}" method="POST">
                                             <a class="btn btn-info" href="{{ route('seller.products.show',$product->id) }}">Show</a>
 
                                             <a class="btn btn-primary" href="{{ route('seller.products.edit',$product->id) }}">Edit</a>
 
-                                            @csrf
+
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteproduct{{ $product->id }}">Delete</button>
+                                            <div id="deleteproduct{{ $product->id }}" class="delete-modal modal fade" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="delete-icon"></div>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h4 class="modal-heading">Are You Sure ?</h4>
+                                                            <p>Do you really want to delete this product? This process cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form method="post" action="{{route('seller.products.destroy',$product->id)}}" class="pull-right">
+                                                                {{csrf_field()}}
+                                                                <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </td>
                                 </tr>
                             @endforeach
