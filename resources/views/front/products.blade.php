@@ -74,9 +74,14 @@
                                     <div class="col-md-4 col-6">
                                         <div class="product">
                                             <div class="product_img">
-                                                <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
-                                                    <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
-                                                </a>
+                                                @if($product->productImage->firstWhere('name', 'image_thumbnail'))
+                                                    <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
+                                                        <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                    </a>
+                                                @else
+                                                    <img src="{{ asset('images/noimage.jpg') }}">
+                                                @endif
+
                                             </div>
                                             <div class="product_info">
                                                 <h6 class="product_title"><a href="{{ 'product/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>

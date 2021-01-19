@@ -40,7 +40,11 @@
                 <div class="col-lg-5 col-md-5 mb-4 mb-md-0">
                     <div class="product-image">
                         <div class="product_img_box text-center">
+                            @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
                             <img id="product_img"  src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                            @else
+                                <img src="{{ asset('images/noimage.jpg') }}">
+                            @endif
                         </div>
                         <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
                             @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))

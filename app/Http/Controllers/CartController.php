@@ -130,6 +130,12 @@ class CartController extends Controller
         if (!$company) {
             $response->message ='This supplier is not a valid company!';
         }
+        if($product->productImage->firstWhere('name', 'image_thumbnail')){
+            $productImage = $product->productImage->firstWhere('name', 'image_thumbnail')->path;
+        }
+        else{
+            $productImage = "";
+        }
         if($cart) {
             if(isset($cart[$companyId][$productId])) {
                 $cart[$companyId][$productId]['qty']= $cart[$companyId][$productId]['qty']+$qty;
@@ -139,7 +145,7 @@ class CartController extends Controller
                     "supplier_name" => $company->name,
                     "product_name" => $product->name,
                     "product_slug" => $product->slug,
-                    "product_filepath" => $product->productImage->firstWhere('name', 'image_thumbnail')->path,
+                    "product_filepath" => $productImage,
                 ];
             }
         }else{
@@ -149,7 +155,7 @@ class CartController extends Controller
                 "supplier_name" => $company->name,
                 "product_name" => $product->name,
                 "product_slug" => $product->slug,
-                "product_filepath" => $product->productImage->firstWhere('name', 'image_thumbnail')->path,
+                "product_filepath" => $productImage,
             ];
         }
         session()->put('cart', $cart);

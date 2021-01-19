@@ -74,7 +74,11 @@
                                             @foreach($data as $id => $item)
                                                 <tr>
                                                     <td class="product-thumbnail">
-                                                       <img src="{{ asset('storage/'.$item["product_filepath"]) }}" alt="{{$item["product_name"]}}">
+                                                        @if ($item["product_filepath"])
+                                                            <img src="{{ asset('storage/'.$item["product_filepath"]) }}" alt="{{$item["product_name"]}}">
+                                                        @else
+                                                            <img src="{{ asset('images/noimage.jpg') }}">
+                                                        @endif
 
                                                     </td>
                                                     <td class="product-name" data-title="Product">

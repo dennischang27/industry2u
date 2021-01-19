@@ -64,9 +64,13 @@
 
                                                         <tr>
                                                             <td class="product-thumbnail">
+                                                                @if ($item["product_filepath"])
                                                                 <a href="{{route('public.products.show',['product' => $id, 'slug'=>$item["product_slug"]])}}">
                                                                     <img src="{{ asset('storage/'.$item["product_filepath"]) }}" alt="{{$item["product_name"]}}">
                                                                 </a>
+                                                                @else
+                                                                    <img src="{{ asset('images/noimage.jpg') }}">
+                                                                @endif
                                                             </td>
                                                             <td class="product-name" data-title="Product">
                                                                 {!! link_to_route('public.products.show', $item["product_name"], ['product' => $id, 'slug'=>$item["product_slug"]]) !!}
