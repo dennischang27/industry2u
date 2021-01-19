@@ -86,7 +86,7 @@
                                             <div class="product_info">
                                                 <h6 class="product_title"><a href="{{ 'product/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
                                                 <div >
-                                                    <span >{{ $product->company->city }}, {{ $product->company->state->name }}</span>
+                                                    <span style="font-size: 12px;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
                                                 </div>
                                                 <div class="pr_desc">
                                                     <p>{{ $product->description }}</p>
