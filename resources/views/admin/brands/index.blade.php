@@ -44,8 +44,8 @@
                                     <a class="btn btn-primary" href="{{ route('admin.brands.edit',$brand->id) }}">Edit</a>
                                 @csrf
                                 @method('DELETE')
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{ $brand->id }}deletebrand">Delete</button>
-                                <div id="{{ $brand->id }}deletebrand" class="delete-modal modal fade" role="dialog">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletebrand{{ $brand->id }}">Delete</button>
+                                <div id="deletebrand{{ $brand->id }}" class="delete-modal modal fade" role="dialog">
                                     <div class="modal-dialog modal-sm">
                                         <!-- Modal content-->
                                         <div class="modal-content">
