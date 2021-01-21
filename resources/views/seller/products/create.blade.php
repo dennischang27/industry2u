@@ -111,57 +111,85 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
                                 <label for="brand_id" class="col-sm-3 col-form-label"><strong>Brand:</strong></label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-5">
                                     <select title="Please select brand" required name="brand_id"
-                                            class="@error('brand_id') is-invalid @enderror form-control select2" id="brand_id">
+                                            class="@error('brand_id') is-invalid @enderror form-control select2 have-other" id="brand_id" data-target="#brand_name" >
                                         <option value="">Select brand</option>
                                         @foreach($brands as $brand)
                                             <option value="{{ $brand->id }}"  {{ $brand->id == old('brand_id')?'selected' : ''}}/> {{ $brand->name }} </option>
                                         @endforeach
+                                        <option {{ old('brand_id') == 'Other' ? 'selected' : '' }} value="Other">Other Brand</option>
                                     </select>
                                     <div class="errorTxt"></div>
                                     @error('brand_id')
                                     <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                       </span>
-                                    @enderror </div>
+                                    @enderror
+
+                                </div>
+                                <div class="col-sm-4"  id="BrandDivText" style="display: {{ ($bShow = old('brand_id') == 'Other') ? 'block' : 'none' }};">
+                                    <input id="brand_name" name="brand_name" {{ $bShow ? 'required' : 'disabled' }} value="{{ old('brand_name') }}" class="form-control @error('brand_name') is-invalid @enderror" placeholder="Brand Name" />
+
+                                    @error('brand_name')
+                                    <span class="invalid-feedback" role="alert">
+								            <strong>{{ $message }}</strong>
+							            </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
                                 <label for="main_category_id" class="col-sm-3 col-form-label"><strong>Category:</strong></label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-3" id="CatDiv" >
                                     <select id="main_category_id" name="main_category_id" class="form-control select2" required title="Please select product category">
-                                        <option {{ old('main_category_id') ? '' : 'selected' }} value="">Select Main Category</option>
+                                        <option disabled {{ old('main_category_id') ? '' : 'selected' }} value="">Select Main Category</option>
                                         @foreach($categories->where('parent_id', null) as $category)
                                             <option value="{{ $category->id }}" {{ $category->id == old('main_category_id')?'selected' : ''}}>{{ $category->name }}</option>
                                         @endforeach
+                                        <option {{ old('main_category_id') == 'Other' ? 'selected' : '' }} value="Other" value="Other">Other Category</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12"  id="SubCatDiv" style="display: none;">
-                            <div class="form-group row">
-                                <label for="sub_category_id" class="col-sm-3 col-form-label"><strong>Sub Category:</strong></label>
-                                <div class="col-sm-9">
-                                    <select id="sub_category_id" name="sub_category_id" class="form-control select2" required>
-                                        <option disabled {{ old('sub_category_id') ? '' : 'selected' }} value="">Select Sub Category</option>
+                                <div class="col-sm-3" id="CatDivText" style="display: {{ ($mcShow = old('main_category_id') == 'Other') ? 'block' : 'none' }};">
+                                    <input id="main_category_name" name="main_category_name"  {{ $mcShow ? 'required' : 'disabled' }}  value="{{ old('main_category_name') }}" class="form-control @error('main_category_name') is-invalid @enderror" placeholder="Main Category Name" />
+                                    @error('main_category_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-3" id="SubCatDiv" style="display:{{ ($mcShow = old('main_category_id') == 'Other') ? 'block' : 'none' }};">
+                                    <select id="category_id" name="category_id" class="form-control select2 have-other" required  data-target="#category_name">
+                                        <option disabled {{ old('category_id') ? '' : 'selected' }} value="">Select Sub Category</option>
                                         @foreach($categories->where('parent_id', 1) as $category)
-                                            <option value="{{ $category->id }}" {{ $category->id == old('sub_category_id')?'selected' : ''}}>{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" {{ $category->id == old('category_id')?'selected' : ''}}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-sm-3" id="SubCatDivText" style="display: {{ ($cShow = old('main_category_id') == 'Other' || old('category_id') == 'Other') ? 'block' : 'none' }};">
+                                    <input id="category_name" name="category_name" {{ $cShow ? 'required' : 'disabled' }} value="{{ old('category_name') }}" class="form-control @error('category_name') is-invalid @enderror" placeholder="Sub Category Name" />
+
+                                    @error('category_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <hr>
                             <h4 class="header-title">Sales Information</h4>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="price" class="col-sm-3 col-form-label"><strong>Price:</strong><small class="text-danger">*</small></label>
+                                <label for="price" class="col-sm-3 col-form-label">
+                                    <strong>List Price:</strong>
+                                    <br>(Only use in quotation and hidden from viewing)</label>
                                 <div class="col-sm-9">
-                                    <input type="number" required class="form-control @error('price') is-invalid @enderror"
+                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
                                            id="price" name="price"  step="0.01" data-number-to-fixed="2" placeholder="Enter Product Price" value="{{old('price')}}"
                                            title="Please Enter Valid Product Price">
                                 </div>
@@ -178,7 +206,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="sub_category_id" class="col-sm-3 col-form-label"><strong>{{ __('Product images') }}:</strong></label>
+                                <label for="category_id" class="col-sm-3 col-form-label"><strong>{{ __('Product images') }}:</strong></label>
                                 <div class="col-sm-3">
                                     <input type="file" name="image_thumbnail" value="{{old('image_thumbnail')}}" accept="image/png, image/jpeg"  class="form-control @error('image_thumbnail') is-invalid @enderror" required title="Please upload at least 1 image">
                                     <span><small class="text-danger">*</small>Cover Photo</span>
@@ -291,12 +319,16 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     <script>
         var subCategories = {!! $categories->where('parent_id', null)->values()->pluck('subCategories', 'id') !!};
 
         function getSubCategorySelection(categoryId) {
-            subcatOptions = {};
+            subcatOptions = {
+                "Other": "Other sub category"
+            };
+
             if(categoryId && subCategories[categoryId]) {
                 subCategories[categoryId].forEach(function(item) {
                     subcatOptions[item.id] = item.name;
@@ -313,23 +345,70 @@
             width: '100%'
         });
         $(document).ready(function() {
-            var x = document.getElementById("SubCatDiv");
-            var subcat = $("#sub_category_id");
+            var subcatdiv = document.getElementById("SubCatDiv");
+            var subcatdivtext = document.getElementById("SubCatDivText");
+            var catdivtext = document.getElementById("CatDivText");
+            var branddivtext = document.getElementById("BrandDivText");
+            var subcat = $("#category_id");
             subcat.empty();
             var value = $("#main_category_id").val();
+            var brandvalue = $("#brand_id").val();
             var list = getSubCategorySelection(value);
-            if(Object.keys(list).length === 0) {
-                x.style.display = "none";
+            if(value == 'Other') {
+                $("#main_category_name").attr("required", true);
+                $("#main_category_name").parent().show();
+                $("#main_category_name").removeAttr('disabled');
+
+                subcat.removeAttr('required');
+                subcat.parent().hide();
+                subcat.attr('disabled', true);
+
+                $("#category_name").attr("required", true);
+                $("#category_name").parent().show();
+                $("#category_name").removeAttr('disabled');
+
+                subcatdiv.style.display = "none";
+                catdivtext.style.display = "block";
+                subcatdivtext.style.display = "block";
             }
             else{
-                x.style.display = "block";
-                $.each(list, function (id, name) {
-                    var option = $("<option></option>");
-                    option.val(id);
-                    option.text(name);
+                if (Object.keys(list).length > 1) {
 
-                    subcat.append(option);
-                });
+                    catdivtext.style.display = "none";
+                    subcatdiv.style.display = "block";
+                    subcatdivtext.style.display = "none";
+
+                    subcatdiv.style.display = "block";
+                    $.each(list, function (id, name) {
+                        var option = $("<option></option>");
+                        option.val(id);
+                        option.text(name);
+
+                        subcat.append(option);
+                    });
+                } else {
+                    catdivtext.style.display = "none";
+                    subcatdiv.style.display = "block";
+                    subcatdivtext.style.display = "block";
+                    $.each(list, function (id, name) {
+                        var option = $("<option></option>");
+                        option.val(id);
+                        option.text(name);
+
+                        subcat.append(option);
+                    });
+                    $("#category_name").attr("required", true);
+                    $("#category_name").parent().show();
+                    $("#category_name").removeAttr('disabled');
+                }
+            }
+            if(brandvalue == 'Other') {
+                branddivtext.style.display = "block";
+                branddivtext.attr("required", true);
+            }
+            else{
+                branddivtext.style.display = "none";
+                branddivtext.attr("required", false);
             }
         });
         $(document).ready(function () {
@@ -340,27 +419,86 @@
             });
         });
         $('#main_category_id').on('change', function () {
-
-            var x = document.getElementById("SubCatDiv");
-            var subcat = $("#sub_category_id");
+            var subcatdiv = document.getElementById("SubCatDiv");
+            var subcatdivtext = document.getElementById("SubCatDivText");
+            var catdivtext = document.getElementById("CatDivText");
+            var subcat = $("#category_id");
             subcat.empty();
             var value = $(this).val();
-            var list = getSubCategorySelection(value);
-            if(Object.keys(list).length === 0) {
-                x.style.display = "none";
-            }
-            else{
-                x.style.display = "block";
-                $.each(list, function (id, name) {
-                    var option = $("<option></option>");
-                    option.val(id);
-                    option.text(name);
+            if(value == 'Other') {
+                $("#main_category_name").attr("required", true);
+                $("#main_category_name").parent().show();
+                $("#main_category_name").removeAttr('disabled');
 
-                    subcat.append(option);
-                });
-            }
+                subcat.removeAttr('required');
+                subcat.parent().hide();
+                subcat.attr('disabled', true);
 
+                $("#category_name").attr("required", true);
+                $("#category_name").parent().show();
+                $("#category_name").removeAttr('disabled');
+
+                subcatdiv.style.display = "none";
+                catdivtext.style.display = "block";
+                subcatdivtext.style.display = "block";
+
+            }else {
+                $("#main_category_name").removeAttr("required");
+                $("#main_category_name").parent().hide();
+                $("#main_category_name").attr('disabled', true);
+
+                subcat.attr('required', true);
+                subcat.parent().show();
+                subcat.removeAttr('disabled');
+                var list = getSubCategorySelection(value);
+
+                if (Object.keys(list).length > 1) {
+
+                    catdivtext.style.display = "none";
+                    subcatdiv.style.display = "block";
+                    subcatdivtext.style.display = "none";
+
+                    subcatdiv.style.display = "block";
+                    $.each(list, function (id, name) {
+                        var option = $("<option></option>");
+                        option.val(id);
+                        option.text(name);
+
+                        subcat.append(option);
+                    });
+                } else {
+                    catdivtext.style.display = "none";
+                    subcatdiv.style.display = "block";
+                    subcatdivtext.style.display = "block";
+                    $.each(list, function (id, name) {
+                        var option = $("<option></option>");
+                        option.val(id);
+                        option.text(name);
+
+                        subcat.append(option);
+                    });
+                    $("#category_name").attr("required", true);
+                    $("#category_name").parent().show();
+                    $("#category_name").removeAttr('disabled');
+                }
+            }
         });
+
+        $(document).on('change', '.have-other', function() {
+            var target = $(this.dataset.target);
+            var container = target.parent();
+
+            if(this.value == "Other") {
+                target.attr("required", true);
+                target.removeAttr("disabled");
+                container.show();
+            } else {
+                target.removeAttr("required");
+                target.attr("disabled", true);
+                container.hide();
+            }
+        });
+
         jQuery(function ($) {
             var validator = $('#product_form').validate({
                 rules: {

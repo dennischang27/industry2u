@@ -66,15 +66,50 @@ class ProductController extends Controller
             'series_no' => 'required',
             'description' => 'required',
         ]);
+
         $user = Auth::user();
         $input = $request->all();
         $input['company_id'] = $user->company->id;
         $input['user_id'] = $user->id;
-        if($input['sub_category_id']){
-            $input['category_id'] = $input['sub_category_id'];
-        }else{
-            $input['category_id'] = $input['main_category_id'];
+
+        if($input['brand_id'] == 'Other') {
+            $brand = Brand::create([
+                'name' => $input['brand_name'],
+                'description' => $input['brand_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['brand_name'])
+            ]);
+            $input['brand_id'] = $brand->id;
         }
+
+        if ($input['main_category_id']== "Other"){
+
+            $main_category = ProductCategory::create([
+                'name' => $input['main_category_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
+            ]);
+            $category = ProductCategory::create([
+                'name' => $input['category_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+                'parent_id' => $main_category->id,
+            ]);
+            $input['category_id'] = $category->id;
+        }else{
+            if ($input['category_id']== "Other"){
+                $category = ProductCategory::create([
+                    'name' => $input['category_name'],
+                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+                    'parent_id' => $input['main_category_id'],
+                ]);
+                $input['category_id'] = $category->id;
+            }
+        }
+
+
+        print_r("<pre>");
+        print_r($input);
+        print_r("</pre>");
+
+        exit();
 
         $product = Product::create($input);
         if(isset($input['attr'])) {
@@ -255,10 +290,37 @@ class ProductController extends Controller
         ]);
         $user = Auth::user();
         $input = $request->all();
-        if(isset($input['sub_category_id'])){
-            $input['category_id'] = $input['sub_category_id'];
+
+        if($input['brand_id'] == 'Other') {
+            $brand = Brand::create([
+                'name' => $input['brand_name'],
+                'description' => $input['brand_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['brand_name'])
+            ]);
+            $input['brand_id'] = $brand->id;
+        }
+
+        if ($input['main_category_id']== "Other"){
+
+            $main_category = ProductCategory::create([
+                'name' => $input['main_category_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
+            ]);
+            $category = ProductCategory::create([
+                'name' => $input['category_name'],
+                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+                'parent_id' => $main_category->id,
+            ]);
+            $input['category_id'] = $category->id;
         }else{
-            $input['category_id'] = $input['main_category_id'];
+            if ($input['category_id']== "Other"){
+                $category = ProductCategory::create([
+                    'name' => $input['category_name'],
+                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+                    'parent_id' => $input['main_category_id'],
+                ]);
+                $input['category_id'] = $category->id;
+            }
         }
 
 
