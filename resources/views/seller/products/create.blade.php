@@ -319,7 +319,6 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/additional-methods.min.js') }}"></script>
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     <script>
         var subCategories = {!! $categories->where('parent_id', null)->values()->pluck('subCategories', 'id') !!};
@@ -372,6 +371,7 @@
                 subcatdivtext.style.display = "block";
             }
             else{
+                if(value){
                 if (Object.keys(list).length > 1) {
 
                     catdivtext.style.display = "none";
@@ -400,15 +400,11 @@
                     $("#category_name").attr("required", true);
                     $("#category_name").parent().show();
                     $("#category_name").removeAttr('disabled');
-                }
+                }}
             }
             if(brandvalue == 'Other') {
                 branddivtext.style.display = "block";
                 branddivtext.attr("required", true);
-            }
-            else{
-                branddivtext.style.display = "none";
-                branddivtext.attr("required", false);
             }
         });
         $(document).ready(function () {

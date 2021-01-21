@@ -398,6 +398,7 @@
                 subcatdivtext.style.display = "block";
             }
             else{
+                if(value){
                 if (Object.keys(list).length > 1) {
 
                     catdivtext.style.display = "none";
@@ -426,6 +427,7 @@
                     $("#category_name").attr("required", true);
                     $("#category_name").parent().show();
                     $("#category_name").removeAttr('disabled');
+                }
                 }
             }
             if(brandvalue == 'Other') {
