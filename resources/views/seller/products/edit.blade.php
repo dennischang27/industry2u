@@ -290,41 +290,74 @@
                             <h4 class="header-title">Attributes Information</h4>
                         </div>
                         <div  class="col-xs-12 col-sm-12 col-md-12">
-                            @foreach($attributes as $attribute)
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label"><strong>{{ __($attribute->name) }}</strong></label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                @if(isset($productAttributes[$attribute->id]))
-                                                <input id="attr_{{ $attribute->id }}" type="number"
-                                                       class="form-control @error('attr.' .$attribute->id) is-invalid @enderror"
-                                                       value="{{ $productAttributes[$attribute->id]->value }}" name="attr[{{ $attribute->id }}]" />
-                                                @else
-                                                    <input id="attr_{{ $attribute->id }}" type="{{($attribute->type)? $attribute->type : 'text'}}"
-                                                           class="form-control @error('attr.' .$attribute->id) is-invalid @enderror"
-                                                           value="{{ old('attr') ? old('attr')[$attribute->id] : null }}" name="attr[{{ $attribute->id }}]" />
-                                                @endif
 
-                                                @error('attr.' . $attribute->id)
-                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
+                            @foreach([0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as $index)
+                                @php($sproduct = $product && $product->productAttribute ? $product->productAttribute->get($index) : null)
+                                @php($sproductattr = $sproduct ? $sproduct->attribute : null)
+                                @php($sproductattrmeasure = $sproduct ? $sproduct->attribute_measurement : null)
+                                @php($allattrmeasure = $sproductattr ? $sproductattr->attributemeasurement : null)
+
+                                <div class="form-group row attribute-group">
+                                    <label class="col-sm-3 col-form-label">
+                                        <select name="attributes[{{ $index }}]" class="form-control attribute-group-select">
+                                            <option disabled {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] ? '' : 'selected' }} value="">Select Attribute</option>
+                                            @foreach($attributes as $ag)
+                                                <option value="{{ $ag->id }}"
+                                                    {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == $ag->id ? 'selected' :
+                                                    ($sproduct && $sproduct->attribute_id  == $ag->id ? 'selected' : '')}}>
+                                                    {{ $ag->name }}
+                                                </option>
+                                            @endforeach
+                                            <option {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == 'Other' ? 'selected' : '' }} value="Other">Other Attribute</option>
+                                        </select>
+                                    </label>
+                                    <div class="col-sm-8 new-attribute-group" style="display: {{ ($aShow = old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == 'Other') ? 'block' : 'none' }};">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-2 form-check">
+                                                        <input id="attribute_type_{{ $index }}" name="attribute_type[{{ $index }}]" type="checkbox" value="1" {{ old('attribute_type') && isset(old('attribute_type')[$index]) ? 'checked' : '' }} class="form-check-input attribute-type" />
+                                                        <label for="attribute_type_{{ $index }}" class="form-check-label">
+                                                            Is Countable
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <input name="attribute_name[{{ $index }}]" type="text" value="{{ old('attribute_name') && isset(old('attribute_name')[$index]) ? old('attribute_name')[$index] : '' }}" class="form-control @error('attribute_type.' . $index) is-invalid @enderror" placeholder="Attribute Name" />
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <input class="form-control" type="text" name="attribute_value[{{ $index }}]" placeholder="Attribute Value" value="{{ old('attribute_value') && isset(old('attribute_value')[$index]) ? old('attribute_value')[$index] : '' }}" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                @if (sizeof($attribute->attributemeasurement) > 0)
-                                                    <select name="unit[{{ $attribute->id }}]"
-                                                            class="@error('unit.'.$attribute->id) is-invalid @enderror form-control  select2" id="unit_{{ $attribute->id }}">
-                                                        @foreach($attribute->attributemeasurement as $measurement)
-                                                            @if(isset($productAttributes[$attribute->id]))
-                                                                <option value="{{ $measurement->id }}"  {{ $measurement->id == $productAttributes[$attribute->id]->attribute_measurement_id ? 'selected' : ''}}/>  {{ $measurement->name }} </option>
-                                                            @else
-                                                                <option value="{{ $measurement->id }}" />  {{ $measurement->name }} </option>
-                                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 attribute-select {{ ($agsShow = old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == 'Other' && !isset(old('attribute_type')[$index])) ? ' offset-sm-4' : '' }}" style="display: {{ $agsShow ? 'block' :
+							(old('attributes') && isset(old('attributes')[$index]) && ($ags = $attributes->find(old('attributes')[$index])) && !$ags->is_range ? 'block' :
+							($sproductattr ? ($sproductattr->is_range ? 'none' : 'block') :'none')) }};">
+                                        <input class="form-control" type="text" name="attribute_value[{{ $index }}]" placeholder="Attribute Value" value="{{ old('attribute_value') && isset(old('attribute_value')[$index]) ? old('attribute_value')[$index] : ($sproduct ? $sproduct->value : '')  }}" />
+                                    </div>
+                                    <div class="col-sm-8 attribute-range {{ ($agrShow = old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == 'Other' && isset(old('attribute_type')[$index])) ? ' offset-sm-4' : '' }}" style="display: {{ $agrShow ? 'block' :
+							(old('attributes') && isset(old('attributes')[$index]) && ($agr = $attributes->find(old('attributes')[$index])) && $agr->is_range ? 'block' :($sproductattr ? ($sproductattr->is_range ? 'block' : 'none') :'none')) }};">
+                                        <div class="row">
+                                            <div class="col-md-3 com-sm-6">
+                                                <input class="form-control" type="number" require name="attribute_range_value[{{ $index }}]" placeholder="Attribute Value" value="{{ old('attribute_range_value') && isset(old('attribute_range_value')[$index]) ? old('attribute_range_value')[$index] : ($sproduct ? $sproduct->value : '')}}" />
+                                            </div>
+
+                                            <div class="col-md-4 com-sm-6">
+                                                <select name="attribute_unit[{{ $index }}]" class="form-control attribute-unit have-other" data-target="#attribute_unit_name_{{ $index }}">
+                                                    @if($allattrmeasure && $allattrmeasure->count() > 0)
+                                                        @foreach($allattrmeasure as $measurement)
+                                                            <option value="{{ $measurement->id }}" {{ old('attribute_unit') && isset(old('attribute_unit')[$index]) && old('attribute_unit')[$index] == $ag->id ? 'selected' :
+											( $sproductattrmeasure && $sproductattrmeasure->name == $measurement->name ? 'selected' : '') }}>{{ $measurement->name }}</option>
                                                         @endforeach
-                                                    </select>
-                                                @endif
+                                                    @else
+                                                        <option value="Other">Other measurement unit</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 com-sm-6" style="display: {{ old('attribute_unit') && isset(old('attribute_unit')[$index]) && old('attribute_unit')[$index] == 'Other' ? 'block' : 'none' }};">
+                                                <input id="attribute_unit_name_{{ $index }}" class="form-control" type="text" name="attribute_unit_name[{{ $index }}]" placeholder="Unit Name" value="{{ old('attribute_unit_name') && isset(old('attribute_unit_name')[$index]) ? old('attribute_unit_name')[$index] : '' }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -348,6 +381,121 @@
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/additional-methods.min.js') }}"></script>
     <script>
+        var agOptions = {};
+        {!! $attributes !!}.forEach(function(item) {
+            agOptions[item.id] = item;
+        });
+
+        var agList = {!! $attributes->mapWithKeys(function ($item) {
+            return [$item->id => $item];
+        }) !!};
+
+        var agPairs = {!! $attributes->pluck('attributemeasurement', 'id') !!};
+
+        function getAttributeSelection(groupId) {
+            aOptions = {
+                "": "Please select attribute",
+                "Other": "Other attribute"
+            };
+
+            if(groupId) {
+                agPairs[groupId].forEach(function(item) {
+                    aOptions[item.id] = item.name;
+                });
+            }
+
+            return aOptions;
+        }
+
+
+        $(document).on('change', ".attribute-group-select", function() {
+            var container = $(this).closest(".attribute-group");
+            var rangeContainer = container.find(".attribute-range");
+            var normalContainer = container.find(".attribute-select");
+
+
+            if(this.value == 'Other') {
+
+                var groupContainer = container.find(".new-attribute-group");
+                groupContainer.show();
+
+                //var groupType = groupContainer.find(".attribute-type");
+
+                // if(groupType.is(':checked')) {
+                //     showAttributeRangeInput(this, null);
+                // } else {
+                showAttributeNormalInput(this);
+                // }
+            } else {
+                container.find(".new-attribute-group").hide();
+                var ag = agOptions[this.value];
+                if(ag) {
+                    if(ag.is_range) {
+                        showAttributeRangeInput(this, ag);
+                    } else {
+                        showAttributeNormalInput(this);
+                    }
+
+                    return;
+                } else {
+                    rangeContainer.find("input,select").attr("disabled", true);
+                    normalContainer.find("input").attr("disabled", true);
+
+                    rangeContainer.hide();
+                    normalContainer.hide();
+                }
+            }
+        });
+
+        function showAttributeRangeInput(element, ag) {
+            var rangeContainer = $(element).closest(".attribute-group").find(".attribute-range");
+            var normalContainer = $(element).closest(".attribute-group").find(".attribute-select");
+
+            rangeContainer.find("input,select").removeAttr("disabled");
+            normalContainer.find("input").attr("disabled", true);
+
+            var unit = $(element).closest(".attribute-group").find(".attribute-unit");
+            unit.empty();
+
+            if(ag) {
+                if(ag.attributemeasurement && ag.attributemeasurement.length > 0) {
+                    ag.attributemeasurement.forEach(function(item) {
+                        var option = $("<option></option>");
+                        option.val(item.id);
+                        option.text(item.name);
+
+                        unit.append(option);
+                    });
+                }
+            }
+
+            var option = $("<option></option>");
+            option.val("Other");
+            option.text("Other measurement unit");
+
+            unit.append(option);
+            unit.change();
+
+            rangeContainer.show();
+            normalContainer.hide();
+        }
+
+        function showAttributeNormalInput(element) {
+            var rangeContainer = $(element).closest(".attribute-group").find(".attribute-range");
+            var normalContainer = $(element).closest(".attribute-group").find(".attribute-select");
+
+            rangeContainer.find("input,select").attr("disabled", true);
+            rangeContainer.hide();
+            if (element.value == 'Other'){
+                normalContainer.find("input").attr("disabled", true);
+                normalContainer.hide();
+            }
+            else{
+                normalContainer.find("input").removeAttr("disabled");
+                normalContainer.show();
+            }
+        }
+
         var subCategories = {!! $categories->where('parent_id', null)->values()->pluck('subCategories', 'id') !!};
 
         function getSubCategorySelection(categoryId) {
