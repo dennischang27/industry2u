@@ -104,13 +104,6 @@ class ProductController extends Controller
             }
         }
 
-
-        print_r("<pre>");
-        print_r($input);
-        print_r("</pre>");
-
-        exit();
-
         $product = Product::create($input);
         if(isset($input['attr'])) {
             foreach($input['attr'] as $index => $id) {
