@@ -300,7 +300,7 @@
                                 <div class="form-group row attribute-group">
                                     <label class="col-sm-3 col-form-label">
                                         <select name="attributes[{{ $index }}]" class="form-control attribute-group-select">
-                                            <option disabled {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] ? '' : 'selected' }} value="">Select Attribute</option>
+                                            <option {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] ? '' : 'selected' }} value="">Select Attribute</option>
                                             @foreach($attributes as $ag)
                                                 <option value="{{ $ag->id }}"
                                                     {{ old('attributes') && isset(old('attributes')[$index]) && old('attributes')[$index] == $ag->id ? 'selected' :
