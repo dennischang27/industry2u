@@ -57,7 +57,7 @@ class UserController extends Controller
 
         $user->last_name = request('last_name');
         $user->first_name = request('first_name');
-        $user->phone = request('phone');
+        $user->mobile = request('mobile');
 
         $user->save();
 

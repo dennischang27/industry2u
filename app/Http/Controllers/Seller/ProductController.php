@@ -50,7 +50,7 @@ class ProductController extends Controller
 
         $brands = Brand::all();
         $categories = ProductCategory::all();
-        $attributes = Attribute::with(['attributemeasurement'])->get(['id', 'name', 'is_range']);
+        $attributes = Attribute::with(['attributemeasurement'])->orderBy('name')->get(['id', 'name', 'is_range']);
         return view('seller.products.create', compact('brands', 'categories', 'attributes'));
     }
     /**
@@ -324,7 +324,7 @@ class ProductController extends Controller
     {
         $brands = Brand::all();
         $categories = ProductCategory::all();
-        $attributes = Attribute::with(['attributemeasurement'])->get(['id', 'name', 'is_range']);
+        $attributes = Attribute::with(['attributemeasurement'])->orderBy('name')->get(['id', 'name', 'is_range']);
         $productAttributes=[];
         if($product) {
             foreach($product->productAttribute as $attribute) {
@@ -574,18 +574,21 @@ class ProductController extends Controller
             $path = $docFiles->storeAs('products/' . $product->id,  "specification." . $docFiles->getClientOriginalExtension(), 'public');
 
 
+
             $product_specification = $product->productAttachment->where('name', 'specification')->first();
+
             if($product_specification){
                 $product_specification->update([
-                    'path' =>  $path,
+                    'file_path' =>  $path,
                 ]);
             }
             else{
                 $product->productAttachment()->create([
-                    'path' => $path,
+                    'file_path' => $path,
                     'name' => 'specification',
                     'product_id' => $product->id,
                 ]);
+
             }
 
         }
@@ -596,12 +599,12 @@ class ProductController extends Controller
             $product_specification = $product->productAttachment->where('name', 'dimension')->first();
             if($product_specification){
                 $product_specification->update([
-                    'path' =>  $path,
+                    'file_path' =>  $path,
                 ]);
             }
             else{
                 $product->productAttachment()->create([
-                    'path' => $path,
+                    'file_path' => $path,
                     'name' => 'dimension',
                     'product_id' => $product->id,
                 ]);

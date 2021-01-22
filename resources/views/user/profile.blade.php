@@ -61,8 +61,8 @@
                                         <input id="email" type="text" class="form-control" disabled="disabled" value="{{ $user->email }}" name="email">
                                     </div>
                                     <div class="form-group ">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" value="{{ $user->phone }}">
+                                        <label for="mobile">Phone</label>
+                                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Phone" value="{{ $user->mobile }}">
                                     </div>
                                     <div class="form-group text-center">
                                         <button type="submit" class="btn btn-fill-out btn-sm">Update</button>
