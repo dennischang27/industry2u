@@ -247,7 +247,7 @@
                             <div class="form-group row">
                                 <label for="specification" class="col-sm-3 col-form-label"><strong>{{ __('Attachment PDF') }}:</strong></label>
                                 <div class="col-sm-3">
-                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf"  class="form-control @error('specification') is-invalid @enderror" >
+                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
                                     <span>Specification</span>
                                     @error('specification')
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -256,7 +256,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf" class="form-control @error('dimension') is-invalid @enderror" >
+                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
                                     @error('dimension')
                                     <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -255,33 +255,49 @@
                             <div class="form-group row">
                                 <label for="specification" class="col-sm-3 col-form-label"><strong>{{ __('Attachment PDF') }}:</strong></label>
                                 <div class="col-sm-3">
+                                    <div class="row" style="min-height:140px;padding :10px;">
                                     @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
-                                        <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                        @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
+                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" width="100" height="100"></a>
+                                        @else
+                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                        @endif
+
                                     @else
                                         <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
                                     @endif
-                                    <br>
-                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf"  class="form-control @error('specification') is-invalid @enderror" >
+                                    </div>
+                                    <div class="row"style="padding :10px;">
+                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
                                     <span>Specification</span>
                                     @error('specification')
                                     <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                       </span>
                                     @enderror
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
-                                        <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
-                                    @else
-                                        <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
-                                    @endif
-                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf" class="form-control @error('dimension') is-invalid @enderror" >
+                                    <div class="row" style="min-height:140px;padding :10px;">
+                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                            @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                                <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" width="100" height="100"></a>
+                                            @else
+                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                            @endif
+                                        @else
+                                            <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
+                                        @endif
+                                    </div>
+                                    <div class="row" style="padding :10px;">
+                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
                                     @error('dimension')
                                     <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                       </span>
                                     @enderror
                                     <span>Dimension</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
