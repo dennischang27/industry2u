@@ -107,13 +107,11 @@
 
                                     </div>
                                 @endforeach
-                                <div class="row">
                                     <div class="col-12">
                                         <div class="justify-content-center ">
                                             {!! $products->appends(request()->query())->links() !!}
                                         </div>
                                     </div>
-                                </div>
                             @else
                                 <br>
                                 <div class="col-12 text-center">{{ __('No products!') }}</div>
