@@ -53,12 +53,13 @@ class BrandController extends Controller
             'slug' => 'required',
         ]);
         $input = $request->all();
+        $input['slug'] =lowercase($input['slug']);
         if ($file = $request->file('logo'))
         {
 
                 $img = Image::make($file->path());
                 $destinationPath = storage_path("app/public/brands/");
-                $image = time().rand(1,100).$file->getClientOriginalName();
+                $image = time().rand(1,100).$input['slug'].$file->getClientOriginalExtension();
                 $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 });
@@ -107,12 +108,13 @@ class BrandController extends Controller
         ]);
 
         $input = $request->all();
+        $input['slug'] =strtolower($input['slug']);
         if ($file = $request->file('logo'))
         {
 
             $img = Image::make($file->path());
             $destinationPath = storage_path("app/public/brands/");
-            $image = time().rand(1,100).$file->getClientOriginalName();
+            $image = time().rand(1,100).$input['slug'].$file->getClientOriginalExtension();
             $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             });
