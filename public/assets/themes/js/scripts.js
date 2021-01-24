@@ -1218,7 +1218,7 @@ PAGE JS
     });
 
     /*===================================*
-   22. PRICE FILTER JS
+   22. POWER FILTER JS
    *===================================*/
     $(document).ready(function () {
         function number_format(number, decimals, dec_point, thousands_sep) {
@@ -1244,7 +1244,7 @@ PAGE JS
             return s.join(dec);
         }
 
-        var $filter_selector = $('#price_filter');
+        var $filter_selector = $('#power_filter');
         if ($filter_selector.length) {
             var a = $filter_selector.data('min-value');
             var b = $filter_selector.data('max-value');
@@ -1269,12 +1269,12 @@ PAGE JS
                         to = to + c;
                     }
 
-                    $('#flt_price').html(from + ' - ' + to);
-                    $('#price_first').val(ui.values[0]);
-                    $('#price_second').val(ui.values[1]);
+                    $('#flt_power').html(from + ' - ' + to);
+                    $('#power_first').val(ui.values[0]);
+                    $('#power_second').val(ui.values[1]);
                 },
                 stop: function () {
-                    $('#price_filter').closest('form').submit();
+                    $('#power_filter').closest('form').submit();
                 }
             });
             var from = number_format($filter_selector.slider('values', 0) * currentExchangeRate);
@@ -1287,7 +1287,7 @@ PAGE JS
                 from = from + c;
                 to = to + c;
             }
-            $('#flt_price').html(from + ' - ' + to);
+            $('#flt_power').html(from + ' - ' + to);
         }
     });
 

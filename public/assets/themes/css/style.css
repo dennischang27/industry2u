@@ -12,7 +12,7 @@ body {
     background: #fff none repeat scroll 0 0;
     color: #687188;
     font-family: var(--primary-font), sans-serif;
-    font-size: 16px
+    font-size: 14px
 }
 
 h1,
@@ -2783,7 +2783,7 @@ footer .widget_title {
     padding-bottom: 0
 }
 
-.filter_price .ui-widget.ui-widget-content {
+.filter_widget .ui-widget.ui-widget-content {
     border: 0;
     border-radius: 0;
     background-color: #ddd;
@@ -2796,12 +2796,12 @@ footer .widget_title {
     height: 100%
 }
 
-.filter_price .ui-slider .ui-slider-range {
+.filter_widget .ui-slider .ui-slider-range {
     background-color: var(--color-1st);
     border-radius: 0
 }
 
-.filter_price .ui-slider .ui-slider-handle {
+.filter_widget .ui-slider .ui-slider-handle {
     cursor: pointer;
     background-color: #fff;
     border-radius: 100%;
@@ -2813,11 +2813,11 @@ footer .widget_title {
     box-shadow: 0 0 10px rgba(0, 0, 0, .2)
 }
 
-.price_range {
+.filter_range {
     color: #292b2c
 }
 
-#flt_price {
+#flt_power {
     margin-left: 5px;
     font-weight: 600
 }
