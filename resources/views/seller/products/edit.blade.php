@@ -194,7 +194,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label"><strong>{{ __('Product images') }}:</strong></label>
                                 <div class="col-sm-3">
-                                        @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" width="100" height="100">
                                         @else
                                             <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="col-sm-3">
 
-                                    @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path))
                                         <div class="image-area">
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path) }}" width="100" height="100">
                                             <!--a class="remove-image" href="#" style="display: inline;">&#215;</a-->
@@ -228,7 +228,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image2')->path))
                                         <div class="image-area">
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" width="100" height="100">
                                             <!--a class="remove-image" href="#" style="display: inline;">&#215;</a-->
@@ -256,7 +256,7 @@
                                 <label for="specification" class="col-sm-3 col-form-label"><strong>{{ __('Attachment PDF') }}:</strong></label>
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
-                                    @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
+                                        @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
                                         @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
                                             <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" width="100" height="100"></a>
                                         @else
@@ -279,7 +279,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
-                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                        @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path))
                                             @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
                                                 <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" width="100" height="100"></a>
                                             @else

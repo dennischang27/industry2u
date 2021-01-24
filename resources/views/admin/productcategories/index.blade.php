@@ -34,7 +34,7 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $productcategory->name }}</td>
                                 <td>
-                                    @if($image = @file_get_contents(asset('storage/categories/'.$productcategory->image)))
+                                    @if(isset($productcategory->image))
                                         <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
                                     @else
                                         <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">

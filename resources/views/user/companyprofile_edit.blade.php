@@ -211,7 +211,7 @@
                                     <div class="form-group">
                                         <label>{{ __('Company logo') }}:</label>
                                         <br>
-                                        @if($image = @file_get_contents(asset('storage/'.$company->logo)))
+                                        @if(isset($company->logo))
                                             <img src="{{ asset('storage/'.$company->logo) }}" width="100" height="100">
                                         @else
                                             <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">

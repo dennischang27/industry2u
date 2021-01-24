@@ -46,9 +46,7 @@
 <form class="form-signin" action="{{ route('admin.login') }}" method="post">
     @csrf
     <div class="text-center mb-4">
-        @if($image = @file_get_contents('images/icons/icon96x96.png'))
-            <img class="mb-4" src="{{url('images/icons/icon96x96.png')}}" alt="Icon" />
-        @endif
+         <img class="mb-4" src="{{url('images/icons/icon96x96.png')}}" alt="Icon" />
         <h1 class="h3 mb-3 font-weight-normal">{{ __('Admin Login') }}</h1>
     </div>
 

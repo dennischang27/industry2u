@@ -33,7 +33,7 @@
                             <td>{{ $brand->name }}</td>
                             <td>{{ $brand->description }}</td>
                             <td>
-                                @if($image = @file_get_contents(asset('storage/brands/'.$brand->logo)))
+                                @if(isset($brand->logo))
                                     <img src="{{ asset('storage/brands/'.$brand->logo) }}" width="60" height="60">
                                 @else
                                     <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">

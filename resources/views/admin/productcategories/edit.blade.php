@@ -38,7 +38,7 @@
                         <div class="form-group">
                             <strong>Image:</strong>
                             <div>
-                                @if($image = @file_get_contents(asset('storage/categories/'.$productcategory->image)))
+                                @if(isset($productcategory->logo))
                                     <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="100" height="100">
                                 @else
                                     <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">

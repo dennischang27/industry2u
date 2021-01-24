@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="profile-img">
-                                @if($image = @file_get_contents(asset('storage/'.$company->logo)))
+                                @if(isset($company->logo))
                                     <img src="{{ asset('storage/'.$company->logo) }}" width="200" height="200">
                                 @else
                                     <img src=" {{ asset('images/noimage.jpg') }}" width="200" height="200">

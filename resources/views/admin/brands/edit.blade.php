@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <strong>Logo:</strong>
                             <div>
-                                @if($image = @file_get_contents(asset('storage/brands/'.$brand->logo)))
+                                @if(isset($brand->logo))
                                     <img src="{{ asset('storage/brands/'.$brand->logo) }}" width="100" height="100">
                                 @else
                                     <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">

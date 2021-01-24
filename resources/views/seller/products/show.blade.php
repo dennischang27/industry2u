@@ -95,25 +95,25 @@
                             <div id="productCarousel" class="carousel slide" data-ride="carousel" align="center">
                                 <!-- slides -->
                                 <div class="carousel-inner">
-                                    @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
                                         <div class="carousel-item active">
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" width="100" height="100">
                                         </div>
                                     @endif
-                                    @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
-                                        <div class="carousel-item">
+                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path))
+                                       <div class="carousel-item">
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path) }}" width="100" height="100">
                                         </div>
                                     @endif
-                                    @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
-                                        <div class="carousel-item">
+                                    @if(isset($product->productImage->firstWhere('name', 'image2')->path))
+                                       <div class="carousel-item">
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" width="100" height="100">
                                         </div>
                                     @endif
                                 </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
                                 <div class="form-group">
                                 <ol class="carousel-indicators list-inline ">
-                                    @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
                                         <li class="list-inline-item active">
                                             <div style="float: left;">
                                             <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#productCarousel">
@@ -123,7 +123,7 @@
                                             <div style="float: none; clear: both;"></div>
                                         </li>
                                     @endif
-                                    @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path))
                                         <li class="list-inline-item">
                                             <div style="float: left;">
                                                 <a id="carousel-selector-1" data-slide-to="1" data-target="#productCarousel">
@@ -132,8 +132,11 @@
                                             </div>
                                         </li>
                                     @endif
-                                    @if($image = @file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
-                                         <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="2" data-target="#productCarousel"> <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" class="img-fluid"> </a> </li>
+                                    @if(isset($product->productImage->firstWhere('name', 'image2')->path))
+                                         <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="2" data-target="#productCarousel">
+                                                 <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" class="img-fluid">
+                                             </a>
+                                         </li>
                                     @endif
                                 </ol>
                                 </div>
@@ -227,7 +230,9 @@
                                         <label for="specification" class="col-sm-3 col-form-label"><strong>{{ __('Attachment PDF') }}:</strong></label>
                                         <div class="col-sm-3">
                                             <div class="row" style="min-height:140px;padding :10px;">
-                                            @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
+
+                                            @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
+
                                                 @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
                                                     <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" width="100" height="100"></a>
                                                 @else
@@ -241,7 +246,7 @@
                                         </div>
                                         <div class="col-sm-3" >
                                             <div class="row" style="min-height:140px;padding :10px;">
-                                            @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                            @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path))
                                                 @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
                                                     <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" width="100" height="100"></a>
                                                 @else

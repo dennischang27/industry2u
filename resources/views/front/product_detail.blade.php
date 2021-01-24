@@ -40,28 +40,28 @@
                 <div class="col-lg-5 col-md-5 mb-4 mb-md-0">
                     <div class="product-image">
                         <div class="product_img_box text-center">
-                            @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
                             <img id="product_img"  src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
                             @else
                                 <img src="{{ asset('images/noimage.jpg') }}">
                             @endif
                         </div>
                         <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
-                            @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
                                 <div class="item">
                                     <a href="#" class="product_gallery_item active " data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)}}" />
                                     </a>
                                 </div>
                             @endif
-                            @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
+                                @if(isset($product->productImage->firstWhere('name', 'image1')->path))
                                 <div class="item">
                                     <a href="#" class="product_gallery_item" data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)}}" />
                                     </a>
                                 </div>
                             @endif
-                            @if(@file_get_contents(asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
+                                @if(isset($product->productImage->firstWhere('name', 'image2')->path))
                                 <div class="item">
                                     <a href="#" class="product_gallery_item" data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)}}" />
@@ -184,14 +184,14 @@
                             <div class="tab-pane fade" id="attachment" role="tabpanel" aria-labelledby="attachment-tab">
                                 <div  class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group row">
-                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
+                                        @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
                                             <div class="col-sm-3">
                                                 <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
                                                 <br>
                                                 <span>Specification</span>
                                             </div>
                                         @endif
-                                        @if($file = @file_get_contents(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
+                                            @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path))
                                             <div class="col-sm-3">
                                                     <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
                                                 <br>
