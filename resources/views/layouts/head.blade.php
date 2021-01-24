@@ -88,7 +88,7 @@
                         @endif
                     </ul>
                 </div>
-                <div class="product_search_form float-left">
+                <div  id="serch_form" class="product_search_form float-left">
                     <form action="{{ route('public.products') }}" method="GET">
                         <div class="input-group">
                             <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
@@ -127,8 +127,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="product_search_form_nav float-left float-sm-right">
-                            <form action="{{ route('public.products') }}" method="GET">
+                        <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >
+                            <form action="{{ route('public.products') }}" method="GET"  >
                                 <div class="input-group">
                                     <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
                                     <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>

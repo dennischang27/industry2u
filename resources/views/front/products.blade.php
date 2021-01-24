@@ -56,15 +56,10 @@
                             <div class="col-12">
                                 <div class="product_header">
                                     <div class="product_header_left">
-                                        <!--div class="custom_select">
-                                            <select class="form-control form-control-sm submit-form-on-change" name="sort-by" id="sort-by" >
-                                                <option value="default_sorting" @if (request()->input('sort-by') == 'default_sorting') selected @endif>{{ __('Default') }}</option>
-                                                <option value="date_asc" @if (request()->input('sort-by') == 'date_asc') selected @endif>{{ __('Oldest') }}</option>
-                                                <option value="date_desc" @if (request()->input('sort-by') == 'date_desc') selected @endif>{{ __('Newest') }}</option>
-                                                <option value="name_asc" @if (request()->input('sort-by') == 'name_asc') selected @endif>{{ __('Name') }}: {{ __('A-Z') }}</option>
-                                                <option value="name_desc" @if (request()->input('sort-by') == 'name_desc') selected @endif>{{ __('Name') }}: {{ __('Z-A') }}</option>
-                                            </select>
-                                        </div-->
+                                        <div class="input-group">
+                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
+                                            <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+                                        </div>
                                     </div>
                                     <div class="product_header_right">
                                         <div class="products_view">
@@ -159,6 +154,13 @@
     <script>
         $(window).on('load', function(){
             $(".se-pre-con").fadeOut("slow");
+        });
+        $(document).ready(function() {
+            var searchForm2Div = document.getElementById("serch_form2");
+            searchForm2Div.style.display = "none";
+
+            var searchFormDiv = document.getElementById("serch_form");
+            searchFormDiv.style.display = "none";
         });
         $('#searchProduct').submit(function() {
             var pass = true;
