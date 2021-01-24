@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
 use phpDocumentor\Reflection\Types\Self_;
@@ -26,43 +28,30 @@ class ProductController extends Controller
         $query = $request->get('q');
         $num = $request->get('num');
 
-//        $sortBy = $request->get('sort-by');
-//        switch ($sortBy) {
-//            case 'date_asc':
-//                $orderBy = [
-//                    'products.created_at' => 'asc',
-//                ];
-//                break;
-//            case 'date_desc':
-//                $orderBy = [
-//                    'products.created_at' => 'desc',
-//                ];
-//                break;
-//            case 'name_asc':
-//                $orderBy = [
-//                    'products.name' => 'asc',
-//                ];
-//                break;
-//            case 'name_desc':
-//                $orderBy = [
-//                    'products.name' => 'desc',
-//                ];
-//                break;
-//            default:
-//                $orderBy = [
-//                    'products.created_at' => 'DESC',
-//                ];
-//                break;
-//        }
-//
+        $rawCategories =[];
+        $rawCategories = $request->input('categories', null);
+
+        if($rawCategories) {
+            $Subcategory = ProductCategory::whereIn('parent_id', $rawCategories)->pluck('id')->toArray();
+        }else{
+            $Subcategory=[];
+        }
         if($num){
             $pageqty =$num;
         }else{
             $pageqty =9;
         }
+        $categories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
+        $attributes = Attribute::with(['attributemeasurement'])->where('is_filterable', 1)->orderBy('name')->get(['id', 'name', 'is_range']);
 
-        $products = Product::where('name', 'like', '%'.$query.'%')->paginate($pageqty);
-        return view('front.products', compact('products'));
+        if ($Subcategory){
+            $products = Product::where('name', 'like', '%'.$query.'%')->whereIn('category_id', $Subcategory)->paginate($pageqty);
+
+        }else{
+            $products = Product::where('name', 'like', '%'.$query.'%')->paginate($pageqty);
+
+        }
+        return view('front.products', compact('products', 'categories'));
     }
 
     public function product_detail(Product $product)
