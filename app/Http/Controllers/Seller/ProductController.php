@@ -116,7 +116,7 @@ class ProductController extends Controller
                     if(isset($input['attribute_type'][$index])){
                         $type = "number";
                     }else{
-                        $type = "type";
+                        $type = "Text";
                     }
                     $attr = Attribute::create([
                         'name' => $input['attribute_name'][$index],
@@ -404,7 +404,7 @@ class ProductController extends Controller
                     if(isset($input['attribute_type'][$index])){
                         $type = "number";
                     }else{
-                        $type = "type";
+                        $type = "Text";
                     }
                     $attr = Attribute::create([
                         'name' => $input['attribute_name'][$index],
