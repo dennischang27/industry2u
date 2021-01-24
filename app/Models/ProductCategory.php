@@ -19,12 +19,20 @@ class ProductCategory extends Model
     ];
 
     public function parentCategory() {
-        return $this->belongsTo(ProductCategory::class, 'parent_id')->withTrashed();
+        return $this->belongsTo(ProductCategory::class, 'parent_id');
     }
-    public function subCategories() {
-        return $this->hasMany(ProductCategory::class, 'parent_id');
-    }
+
     public function products() {
         return $this->hasMany(Product::class, 'category_id');
     }
+
+    public function subCategories() {
+        return $this->hasMany(ProductCategory::class, 'parent_id');
+    }
+
+    public function subProducts()
+    {
+        return $this->hasManyThrough(Product::class, self::class, 'parent_id', 'category_id');
+    }
+
 }

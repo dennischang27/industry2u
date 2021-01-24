@@ -64,7 +64,7 @@
 
 <div id="app">
 @yield('body')
-    <a href="#" class="scrollup" style=""><i class="ion-ios-arrow-up"></i></a>
+    <a href="#" class="scrollup" style="display: none;"><i class="ion-ios-arrow-up"></i></a>
 </div>
 <!-- offset area end -->
 

@@ -3,6 +3,21 @@
     <title>{{ config('app.name', 'Industry2u') .  __(' Products') }}</title>
 @endsection
 
+@section('style')
+<style>
+    .no-js #loader { display: none;  }
+    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+    .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url({{ asset('images/Preloader_1.gif') }} ) center no-repeat #fff;
+    }
+</style>
+@endsection
 @section('breadcrumbs')
     <!-- breadcrumbs start here-->
     <div class="breadcrumb_section bg_gray page-title-mini">
@@ -31,9 +46,8 @@
     </div>
 @endsection
 @section('content')
-
     <div class="section">
-        <form action="{{ URL::current() }}" method="GET">
+        <form id="searchProduct" action="{{ URL::current() }}" method="GET">
             <input type="hidden" value="{{ request()->input('q') }}" name="q"  >
             <div class="container">
                 <div class="row">
@@ -100,7 +114,7 @@
                                 @endforeach
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="mt-3 justify-content-center pagination_style1">
+                                        <div class="justify-content-center ">
                                             {!! $products->appends(request()->query())->links() !!}
                                         </div>
                                     </div>
@@ -114,11 +128,24 @@
                     <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
                         <div class="sidebar">
                             <div class="widget">
-                                <h5 class="widget_title">{{ __('Filters') }}</h5>
+                                <h5 class="widget_title">{{ __('Categories') }}</h5>
                                 <ul class="widget_categories">
-
+                                    @foreach($categories as $index => $category)
+                                        @if($category->subProducts->count()>0)
+                                        <li>
+                                            <div class="custome-checkbox">
+                                                <input class="form-check-input submit-form-on-change" type="checkbox" name="categories[]" id="category-{{ $category->id }}" value="{{ $category->id }}" @if (in_array($category->id , request()->input('categories', []))) checked @endif>
+                                                <label class="form-check-label" for="category-{{ $category->id }}">
+                                                    <span>{{ $category->name }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -128,5 +155,21 @@
 @endsection
 
 @section('script')
+    <div class="se-pre-con"></div>
+    <script>
+        $(window).on('load', function(){
+            $(".se-pre-con").fadeOut("slow");
+        });
+        $('#searchProduct').submit(function() {
+            var pass = true;
+            //some validations
 
+            if(pass == false){
+                return false;
+            }
+            $(".se-pre-con").fadeIn("slow");
+
+            return true;
+        });
+    </script>
 @endsection
