@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $brands = Brand::latest()->paginate(6);
+        $brands = Brand::where('is_featured', 1)->limit(6)->get();
         return view('home', compact('brands'));
     }
     public function privacy()
