@@ -20,6 +20,57 @@
 
     <!-- Table start -->
     <div class="col-12 mt-5">
+        @error('uploaded_file')
+        <div class="alert alert-danger">
+            <strong>{{ $message }}</strong>
+        </div>
+        @enderror
+        @if(session('product_process'))
+            <div class='row'>
+                <i class="col-12">{{ session('product_process')->successCount }} product(s) are uploaded</i>
+            </div>
+
+            <div class='row'>
+                <i class="col-12">{{ session('product_process')->skipCount }} product(s) are skipped</i>
+            </div>
+
+            @if(session('product_process')->skipCount > 0)
+                <div class='row'>
+                    <i class="col-12">skip reason(s):</i>
+                    <ul>
+                        @foreach(session('product_process')->skipSummary as $reason => $flag)
+                            <li>{{ $reason }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        @endif
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Bulk product upload</h4>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"><strong>Product List Excel Template :</strong></label>
+                        <div class="col-sm-9">
+                            <a target="_blank" href="{{ route("seller.products.template.download") }}">
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                    <form action="{{route('seller.products.template.upload')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-4">
+                            <input class="form-control " id="uploaded_file" accept=".xls, .xlsx" type="file" value="{{@old('uploaded_file')}}" name="uploaded_file" required="" autofocus="">
+                            </div>
+                            <div class="col-4">
+                                <input class="btn btn-primary" type="submit" value="Upload">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Products</h4>

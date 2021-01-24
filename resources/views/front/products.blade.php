@@ -85,9 +85,13 @@
                                         <div class="product">
                                             <div class="product_img">
                                                 @if($product->productImage->firstWhere('name', 'image_thumbnail'))
+                                                    @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
                                                     <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
                                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
                                                     </a>
+                                                    @else
+                                                        <img src="{{ asset('images/noimage.jpg') }}">
+                                                    @endif
                                                 @else
                                                     <img src="{{ asset('images/noimage.jpg') }}">
                                                 @endif

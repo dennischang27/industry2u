@@ -23,6 +23,9 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::get('products/{product}/edit', 'ProductController@edit')->name('products.edit');
             Route::post('products/{product}/update', 'ProductController@update')->name('products.update');
             Route::post('products/{product}/delete', 'ProductController@destroy')->name('products.destroy');
+            Route::post('products/template/upload', 'ProductUploadController@uploadTemplate')->name('products.template.upload');
+            Route::get('products/template/download', 'ProductUploadController@downloadTemplate')->name('products.template.download');
+
             Route::get('company', 'CompanyController@index')->name('company.profile');
             Route::get('company/edit', 'CompanyController@edit')->name('company.profile.edit');
             Route::post('company/{company}/update', 'CompanyController@update')->name('company.profile.update');

@@ -40,28 +40,28 @@
                 <div class="col-lg-5 col-md-5 mb-4 mb-md-0">
                     <div class="product-image">
                         <div class="product_img_box text-center">
-                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
+                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
                             <img id="product_img"  src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
                             @else
                                 <img src="{{ asset('images/noimage.jpg') }}">
                             @endif
                         </div>
                         <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
-                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path))
-                                <div class="item">
+                            @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                 <div class="item">
                                     <a href="#" class="product_gallery_item active " data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)}}" />
                                     </a>
                                 </div>
                             @endif
-                                @if(isset($product->productImage->firstWhere('name', 'image1')->path))
+                                @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
                                 <div class="item">
                                     <a href="#" class="product_gallery_item" data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path)}}" />
                                     </a>
                                 </div>
                             @endif
-                                @if(isset($product->productImage->firstWhere('name', 'image2')->path))
+                                @if(isset($product->productImage->firstWhere('name', 'image2')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
                                 <div class="item">
                                     <a href="#" class="product_gallery_item" data-image="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)}}" >
                                         <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path)}}" />
