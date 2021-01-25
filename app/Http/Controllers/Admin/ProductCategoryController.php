@@ -26,9 +26,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $productcategories = ProductCategory::latest()->orderBy('name')->withTrashed()->paginate(5);
-        return view('admin.productcategories.index',compact('productcategories'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $productcategories = ProductCategory::orderBy('name')->paginate(5);
+        return view('admin.productcategories.index',compact('productcategories'));
     }
     /**
      * Show the form for creating a new resource.
@@ -37,7 +36,9 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.productcategories.create');
+
+        $categories = ProductCategory::where('parent_id', null)->orderBy('name')->get();
+        return view('admin.productcategories.create', compact('categories'));
     }
     /**
      * Store a newly created resource in storage.
@@ -52,6 +53,7 @@ class ProductCategoryController extends Controller
             'slug' => 'required'
         ]);
         $input = $request->all();
+        $input["slug"] = preg_replace('/\s+/', '_', $input['slug']);
         if ($file = $request->file('image'))
         {
 
@@ -66,8 +68,8 @@ class ProductCategoryController extends Controller
 
             $input['image'] = $image;
         }
-        ProductCategory::create($input);
-        return redirect()->route('admin.productcategories.index')
+        $Productcat = ProductCategory::create($input);
+        return redirect()->route('admin.productcategories.show',$Productcat)
             ->with('success','Product category created successfully.');
     }
     /**
@@ -88,7 +90,9 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productcategory)
     {
-        return view('admin.productcategories.edit',compact('productcategory'));
+
+        $categories = ProductCategory::where('parent_id', null)->orderBy('name')->get();
+        return view('admin.productcategories.edit',compact('productcategory', 'categories'));
     }
     /**
      * Update the specified resource in storage.
@@ -104,6 +108,7 @@ class ProductCategoryController extends Controller
             'slug' => 'required',
         ]);
         $input = $request->all();
+        $input["slug"] = preg_replace('/\s+/', '_', $input['slug']);
         if ($file = $request->file('image'))
         {
 
@@ -119,7 +124,7 @@ class ProductCategoryController extends Controller
             $input['image'] = $image;
         }
         $productcategory->update($input);
-        return redirect()->route('admin.productcategories.index')
+        return redirect()->route('admin.productcategories.show', $productcategory)
             ->with('success','Product Category updated successfully');
     }
     /**

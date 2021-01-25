@@ -26,10 +26,22 @@
             <form action="{{ route('admin.productcategories.store') }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 <div class="row">
+
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Name:</strong>
-                            <input type="text" name="name" class="form-control" placeholder="Name">
+                            <input type="text"  name="name" id="name"  class="form-control" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Parent Category:</strong>
+                            <select id="parent_id" name="parent_id" class="form-control select2" title="Please select product category">
+                                <option {{ old('parent_id') ? '' : 'selected' }} value="">None</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $category->id == old('parent_id')?'selected' : ''}}>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">

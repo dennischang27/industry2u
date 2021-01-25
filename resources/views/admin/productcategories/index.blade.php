@@ -24,15 +24,24 @@
                 <div class="table-responsive">
                     <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
                         <tr>
-                            <th>No</th>
-                            <th>Name</th>
+                            <th>id</th>
+                            <th>Category Name</th>
+                            <th>Parent Category</th>
                             <th>Image</th>
                             <th width="280px">Action</th>
                         </tr>
                         @foreach ($productcategories as $productcategory)
                             <tr>
-                                <td>{{ ++$i }}</td>
+                                <td>{{ $productcategory->id }}</td>
+
                                 <td>{{ $productcategory->name }}</td>
+                                <td>
+                                    @if($productcategory->parentCategory)
+                                        {{ $productcategory->parentCategory->name }}
+                                    @else
+                                        None
+                                    @endif
+                                </td>
                                 <td>
                                     @if(isset($productcategory->image))
                                         <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
