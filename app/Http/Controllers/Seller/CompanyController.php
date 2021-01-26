@@ -13,6 +13,7 @@ use App\Models\PhoneCountry;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Image;
 
 class CompanyController extends Controller
 {
