@@ -27,7 +27,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Parent Category:</strong>
-                        {{ $productcategory->parentCategory->name }}
+                        @if ($productcategory->parentCategory)
+                            {{ $productcategory->parentCategory->name }}
+                        @else
+                            None
+                        @endif
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
