@@ -109,6 +109,7 @@
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" width="100" height="100">
                                         </div>
                                     @endif
+
                                 </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
                                 <div class="form-group">
                                 <ol class="carousel-indicators list-inline ">
@@ -122,7 +123,7 @@
                                             <div style="float: none; clear: both;"></div>
                                         </li>
                                     @endif
-                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1l')->path)))
+                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
                                         <li class="list-inline-item">
                                             <div style="float: left;">
                                                 <a id="carousel-selector-1" data-slide-to="1" data-target="#productCarousel">
