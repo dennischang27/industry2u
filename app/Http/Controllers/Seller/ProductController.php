@@ -84,28 +84,28 @@ class ProductController extends Controller
             $input['brand_id'] = $brand->id;
         }
 
-        if ($input['main_category_id']== "Other"){
-
-            $main_category = ProductCategory::create([
-                'name' => $input['main_category_name'],
-                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
-            ]);
-            $category = ProductCategory::create([
-                'name' => $input['category_name'],
-                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-                'parent_id' => $main_category->id,
-            ]);
-            $input['category_id'] = $category->id;
-        }else{
-            if ($input['category_id']== "Other"){
-                $category = ProductCategory::create([
-                    'name' => $input['category_name'],
-                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-                    'parent_id' => $input['main_category_id'],
-                ]);
-                $input['category_id'] = $category->id;
-            }
-        }
+//        if ($input['main_category_id']== "Other"){
+//
+//            $main_category = ProductCategory::create([
+//                'name' => $input['main_category_name'],
+//                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
+//            ]);
+//            $category = ProductCategory::create([
+//                'name' => $input['category_name'],
+//                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+//                'parent_id' => $main_category->id,
+//            ]);
+//            $input['category_id'] = $category->id;
+//        }else{
+//            if ($input['category_id']== "Other"){
+//                $category = ProductCategory::create([
+//                    'name' => $input['category_name'],
+//                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+//                    'parent_id' => $input['main_category_id'],
+//                ]);
+//                $input['category_id'] = $category->id;
+//            }
+//        }
 
         $product = Product::create($input);
 
@@ -371,28 +371,28 @@ class ProductController extends Controller
             $input['brand_id'] = $brand->id;
         }
 
-        if ($input['main_category_id']== "Other"){
-
-            $main_category = ProductCategory::create([
-                'name' => $input['main_category_name'],
-                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
-            ]);
-            $category = ProductCategory::create([
-                'name' => $input['category_name'],
-                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-                'parent_id' => $main_category->id,
-            ]);
-            $input['category_id'] = $category->id;
-        }else{
-            if ($input['category_id']== "Other"){
-                $category = ProductCategory::create([
-                    'name' => $input['category_name'],
-                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-                    'parent_id' => $input['main_category_id'],
-                ]);
-                $input['category_id'] = $category->id;
-            }
-        }
+//        if ($input['main_category_id']== "Other"){
+//
+//            $main_category = ProductCategory::create([
+//                'name' => $input['main_category_name'],
+//                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
+//            ]);
+//            $category = ProductCategory::create([
+//                'name' => $input['category_name'],
+//                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+//                'parent_id' => $main_category->id,
+//            ]);
+//            $input['category_id'] = $category->id;
+//        }else{
+//            if ($input['category_id']== "Other"){
+//                $category = ProductCategory::create([
+//                    'name' => $input['category_name'],
+//                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
+//                    'parent_id' => $input['main_category_id'],
+//                ]);
+//                $input['category_id'] = $category->id;
+//            }
+//        }
 
 
         $product->update($input);

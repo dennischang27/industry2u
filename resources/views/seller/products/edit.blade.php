@@ -129,43 +129,25 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="main_category_id" class="col-sm-3 col-form-label"><strong>Category:</strong></label>
-                                <div class="col-sm-3" id="CatDiv" >
-                                    <select id="main_category_id" name="main_category_id" class="form-control select2" required title="Please select product category">
-                                        <option disabled {{ old('main_category_id') ? '' : 'selected' }} value="">Select Main Category</option>
+                                <label for="category_id" class="col-sm-3 col-form-label"><strong>Category:</strong><small class="text-danger">*</small></label>
+                                <div class="col-sm-6" id="CatDiv" >
+                                    <select id="category_id" name="category_id" class="form-control select2" required title="Please select product category">
+                                        <option disabled value="">Select Category</option>
                                         @foreach($categories->where('parent_id', null) as $category)
-                                            <option value="{{ $category->id }}" {{ ($category->id == $product->category->parentCategory->id) ?: ($category->id == $product->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
-                                        @endforeach
-                                        <option {{ old('main_category_id') == 'Other' ? 'selected' : '' }} value="Other" value="Other">Other Category</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-3" id="CatDivText" style="display: {{ ($mcShow = old('main_category_id') == 'Other') ? 'block' : 'none' }};">
-                                    <input id="main_category_name" name="main_category_name"  {{ $mcShow ? 'required' : 'disabled' }}  value="{{ old('main_category_name') }}" class="form-control @error('main_category_name') is-invalid @enderror" placeholder="Main Category Name" />
-                                    @error('main_category_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-3" id="SubCatDiv" style="display:{{ ($mcShow = old('main_category_id') == 'Other') ? 'block' : 'none' }};">
-                                    <select id="category_id" name="category_id" class="form-control select2 have-other" required  data-target="#category_name">
-                                        <option disabled {{ old('category_id') ? '' : 'selected' }} value="">Select Sub Category</option>
-                                        @foreach($categories->where('parent_id', 1) as $category)
-                                            <option value="{{ $category->id }}" {{ $category->id == old('category_id')?'selected' : ''}}>{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-3" id="SubCatDivText" style="display: {{ ($cShow = old('main_category_id') == 'Other' || old('category_id') == 'Other') ? 'block' : 'none' }};">
-                                    <input id="category_name" name="category_name" {{ $cShow ? 'required' : 'disabled' }} value="{{ old('category_name') }}" class="form-control @error('category_name') is-invalid @enderror" placeholder="Sub Category Name" />
 
-                                    @error('category_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                            <optgroup label="{{ $category->name }}">
+                                                @if($category->subCategories)
+                                                    @foreach($category->subCategories as $subcategory)
+                                                        <option value="{{ $subcategory->id }}" {{  ($subcategory->id == $product->category_id) ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </optgroup>
+                                        @endforeach
+                                    </select>
                                 </div>
+
                             </div>
-                        </div>
+
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <hr>
                             <h4 class="header-title">Sales Information</h4>
@@ -537,65 +519,9 @@
         });
         $(document).ready(function() {
 
-            var subcatdiv = document.getElementById("SubCatDiv");
-            var subcatdivtext = document.getElementById("SubCatDivText");
-            var catdivtext = document.getElementById("CatDivText");
+
             var branddivtext = document.getElementById("BrandDivText");
-            var subcat = $("#category_id");
-            subcat.empty();
-            var value = $("#main_category_id").val();
             var brandvalue = $("#brand_id").val();
-            var list = getSubCategorySelection(value);
-            if(value == 'Other') {
-                $("#main_category_name").attr("required", true);
-                $("#main_category_name").parent().show();
-                $("#main_category_name").removeAttr('disabled');
-
-                subcat.removeAttr('required');
-                subcat.parent().hide();
-                subcat.attr('disabled', true);
-
-                $("#category_name").attr("required", true);
-                $("#category_name").parent().show();
-                $("#category_name").removeAttr('disabled');
-
-                subcatdiv.style.display = "none";
-                catdivtext.style.display = "block";
-                subcatdivtext.style.display = "block";
-            }
-            else{
-                if(value){
-                if (Object.keys(list).length > 1) {
-
-                    catdivtext.style.display = "none";
-                    subcatdiv.style.display = "block";
-                    subcatdivtext.style.display = "none";
-
-                    subcatdiv.style.display = "block";
-                    $.each(list, function (id, name) {
-                        var option = $("<option></option>");
-                        option.val(id);
-                        option.text(name);
-
-                        subcat.append(option);
-                    });
-                } else {
-                    catdivtext.style.display = "none";
-                    subcatdiv.style.display = "block";
-                    subcatdivtext.style.display = "block";
-                    $.each(list, function (id, name) {
-                        var option = $("<option></option>");
-                        option.val(id);
-                        option.text(name);
-
-                        subcat.append(option);
-                    });
-                    $("#category_name").attr("required", true);
-                    $("#category_name").parent().show();
-                    $("#category_name").removeAttr('disabled');
-                }
-                }
-            }
             if(brandvalue == 'Other') {
 
                 branddivtext.style.display = "block";
@@ -612,73 +538,7 @@
                 $("#slug").val(Text);
             });
         });
-        $('#main_category_id').on('change', function () {
 
-            var subcatdiv = document.getElementById("SubCatDiv");
-            var subcatdivtext = document.getElementById("SubCatDivText");
-            var catdivtext = document.getElementById("CatDivText");
-            var subcat = $("#category_id");
-            subcat.empty();
-            var value = $(this).val();
-            if(value == 'Other') {
-                $("#main_category_name").attr("required", true);
-                $("#main_category_name").parent().show();
-                $("#main_category_name").removeAttr('disabled');
-
-                subcat.removeAttr('required');
-                subcat.parent().hide();
-                subcat.attr('disabled', true);
-
-                $("#category_name").attr("required", true);
-                $("#category_name").parent().show();
-                $("#category_name").removeAttr('disabled');
-
-                subcatdiv.style.display = "none";
-                catdivtext.style.display = "block";
-                subcatdivtext.style.display = "block";
-
-            }else {
-                $("#main_category_name").removeAttr("required");
-                $("#main_category_name").parent().hide();
-                $("#main_category_name").attr('disabled', true);
-
-                subcat.attr('required', true);
-                subcat.parent().show();
-                subcat.removeAttr('disabled');
-                var list = getSubCategorySelection(value);
-
-                if (Object.keys(list).length > 1) {
-
-                    catdivtext.style.display = "none";
-                    subcatdiv.style.display = "block";
-                    subcatdivtext.style.display = "none";
-
-                    subcatdiv.style.display = "block";
-                    $.each(list, function (id, name) {
-                        var option = $("<option></option>");
-                        option.val(id);
-                        option.text(name);
-
-                        subcat.append(option);
-                    });
-                } else {
-                    catdivtext.style.display = "none";
-                    subcatdiv.style.display = "block";
-                    subcatdivtext.style.display = "block";
-                    $.each(list, function (id, name) {
-                        var option = $("<option></option>");
-                        option.val(id);
-                        option.text(name);
-
-                        subcat.append(option);
-                    });
-                    $("#category_name").attr("required", true);
-                    $("#category_name").parent().show();
-                    $("#category_name").removeAttr('disabled');
-                }
-            }
-
-        });
         $(document).on('change', '.have-other', function() {
             var target = $(this.dataset.target);
             var container = target.parent();
