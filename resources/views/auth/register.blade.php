@@ -71,7 +71,7 @@
                                 <div class="chek-form">
                                     <div class="custome-checkbox">
                                         <input class="form-check-input" type="checkbox" name="terms" id="terms-policy" value="1">
-                                        <label class="form-check-label" for="terms-policy"><span>{{ __('I agree to terms & Policy.') }}</span></label>
+                                        <label class="form-check-label" for="terms-policy"><span>I agree to <a target="_blank" href="{{ route("privacy") }}">Privacy Policy</a> and <a target="_blank" href="{{ route("terms") }}">Terms of Use</a></span></label>
 
                                     </div>
                                     @if ($errors->has('terms'))

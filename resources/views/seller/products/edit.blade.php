@@ -172,8 +172,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
-                                <label for="price" class="col-sm-3 col-form-label"><strong>List Price:</strong>
-                                    <br>(Only use in quotation and hidden from viewing)</label>
+                                <label for="price" class="col-sm-3 col-form-label">
+                                    <strong>List Price:</strong>
+                                    <p style="font-size:12px;">(The list price is for supplier internal reference and only used in generating quotations and invoices)</p>
+                                </label>
                                 <div class="col-sm-9">
                                     <input type="number" required class="form-control @error('price') is-invalid @enderror"
                                            id="price" name="price"  step="0.01" data-number-to-fixed="2" placeholder="Enter Product Price" value="{{$product->price}}"

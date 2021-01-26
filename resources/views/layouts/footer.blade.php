@@ -21,6 +21,10 @@
                             <li>
                                 <a class="footer-link" href="{{ route("terms") }}">Term Of Use</a>
                             </li>
+
+                            <li>
+                                <a class="footer-link" href="{{ route("termsbuysell") }}">Term For Buyers &amp; Sellers</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -44,5 +44,10 @@ class HomeController extends Controller
 
         return view('terms');
     }
+    public function termsbuysell()
+    {
+
+        return view('terms_for_buyer_seller');
+    }
 
 }

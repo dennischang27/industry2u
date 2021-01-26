@@ -16,6 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('privacy', 'HomeController@privacy')->name('privacy');
 Route::get('terms', 'HomeController@terms')->name('terms');
+Route::get('terms_for_buyers_sellers', 'HomeController@termsbuysell')->name('termsbuysell');
 Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
 Route::get('products', 'ProductController@index')->name('public.products');
 Route::get('product/{product}/{slug}', 'ProductController@product_detail')->name('public.products.show');
