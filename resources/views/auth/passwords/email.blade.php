@@ -20,7 +20,7 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
-                            <form method="POST" action="{{ route('password.request') }}">
+                            <form method="POST" action="{{ route('password.email') }}">
                                 @csrf
                                 <div class="form-group">
                                     <input class="form-control" name="email" id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Your Email') }}">
