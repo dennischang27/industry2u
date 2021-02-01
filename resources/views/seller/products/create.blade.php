@@ -483,7 +483,7 @@
         $(document).ready(function () {
             $("#name").keyup(function () {
                 var Text = $(this).val();
-                Text=Text.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
+                Text=Text.toLowerCase().replace(/ /g,'_').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
                 $("#slug").val(Text);
             });
         });

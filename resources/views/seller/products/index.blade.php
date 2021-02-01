@@ -45,7 +45,7 @@
                 </div>
             @endif
         @endif
-        <div class="card">
+        <!--div class="card">
             <div class="card-body">
                 <h4 class="header-title">Bulk product upload</h4>
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -70,7 +70,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div-->
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Products</h4>

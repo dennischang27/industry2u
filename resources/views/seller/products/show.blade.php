@@ -231,13 +231,8 @@
                                         <div class="col-sm-3">
                                             <div class="row" style="min-height:140px;padding :10px;">
 
-                                            @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path)&&file_exists(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
-
-                                                @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path)))
-                                                    <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" width="100" height="100"></a>
-                                                @else
+                                            @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
                                                     <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
-                                                @endif
                                             @else
                                                 <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
                                             @endif
@@ -246,12 +241,8 @@
                                         </div>
                                         <div class="col-sm-3" >
                                             <div class="row" style="min-height:140px;padding :10px;">
-                                            @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path)&&file_exists(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
-                                                @if(getimagesize(asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path)))
-                                                    <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" width="100" height="100"></a>
-                                                @else
-                                                    <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
-                                                @endif
+                                            @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path))
+                                                 <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
                                             @else
                                                 <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
                                             @endif
