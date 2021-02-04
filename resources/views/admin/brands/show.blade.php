@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-primary" href="{{ route('admin.brands.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.ecommerce.brands.index') }}"> Back</a>
             </div>
         </div>
         <div class="card-body">

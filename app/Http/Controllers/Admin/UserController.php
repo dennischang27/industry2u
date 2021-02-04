@@ -17,10 +17,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
+        $page =5;
+        $data = User::orderBy('id','DESC')->paginate($page);
 
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return view('admin.users.index',compact('data'))
+            ->with('i', ($request->input('page', 1) - 1) * $page);
     }
 
 
@@ -33,7 +34,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        return view('admin.users.create',compact('roles'));
     }
 
 
@@ -48,8 +49,8 @@ class UserController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required',
-            'username' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
@@ -61,7 +62,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.users.index')
                         ->with('success','User created successfully');
 
     }
@@ -77,7 +78,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        return view('admin.users.show',compact('user'));
     }
 
 
@@ -93,7 +94,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('admin.users.edit',compact('user','roles','userRole'));
     }
 
 
@@ -108,8 +109,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'username' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
@@ -132,7 +133,7 @@ class UserController extends Controller
 
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.users.index')
                         ->with('success','User updated successfully');
 
     }
@@ -150,7 +151,7 @@ class UserController extends Controller
 
         User::find($id)->delete();
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.users.index')
                         ->with('success','User deleted successfully');
 
     }

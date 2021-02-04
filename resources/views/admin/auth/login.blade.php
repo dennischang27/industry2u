@@ -74,7 +74,7 @@
         </label>
     </div>
     <button type="submit" class="signin btn btn-lg btn-primary btn-block" type="submit">{{ __('Signin') }}</button>
-    <p class="mt-5 mb-3 text-muted text-center">&copy; {{ date('Y')." | All rights reserved | ".config('app.name') }}
+    <p class="mt-5 mb-3 text-muted text-center">&copy; {{ "2019 - ".date('Y')}} All Rights Reserved by Digital Blueocean Bhd.
     </p>
 </form>
 </body>

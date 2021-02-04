@@ -39,7 +39,7 @@ class ProductController extends Controller
         if($num){
             $pageqty =$num;
         }else{
-            $pageqty =9;
+            $pageqty =16;
         }
         $categories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
         $attributes = Attribute::with(['attributemeasurement'])->where('is_filterable', 1)->orderBy('name')->get(['id', 'name', 'is_range']);

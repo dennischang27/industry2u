@@ -3,7 +3,7 @@
 
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Product Categories</h1>
+    <h1 class="h3 mb-2 text-gray-800">Product Attributes</h1>
     <!-- End Page Heading -->
 @endsection
 
@@ -12,7 +12,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                    <a class="btn btn-success" href="{{ route('admin.ecommerce.productcategories.create') }}"> Create New Category</a>
+                    <a class="btn btn-success" href="{{ route('admin.ecommerce.attributes.create') }}"> Create New Attribute</a>
             </div>
         </div>
         <div class="card-body">
@@ -25,35 +25,17 @@
                     <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
                         <tr>
                             <th>No</th>
-                            <th>Category Name</th>
-                            <th>Parent Category</th>
-                            <th>Image</th>
+                            <th>Attribute Name</th>
                             <th width="280px">Action</th>
                         </tr>
-                        @foreach ($productcategories as $productcategory)
+                        @foreach ($attributes as $attribute)
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $productcategory->name }}</td>
+                                <td>{{ $attribute->name }}</td>
                                 <td>
-                                    @if($productcategory->parentCategory)
-                                        {{ $productcategory->parentCategory->name }}
-                                    @else
-                                        None
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($productcategory->image))
-                                        <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
-                                    @else
-                                        <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">
-                                    @endif
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary" href="{{ route('admin.ecommerce.productcategories.edit',$productcategory->id) }}">Edit</a>
-
-
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletecategory{{ $productcategory->id }}">Delete</button>
-                                    <div id="deletecategory{{ $productcategory->id }}" class="delete-modal modal fade" role="dialog">
+                                    <a class="btn btn-primary" href="{{ route('admin.ecommerce.attributes.edit',$attribute->id) }}">Edit</a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteattibute{{ $attribute->id }}">Delete</button>
+                                    <div id="deleteattibute{{ $attribute->id }}" class="delete-modal modal fade" role="dialog">
                                         <div class="modal-dialog modal-sm">
                                             <!-- Modal content-->
                                             <div class="modal-content">
@@ -66,7 +48,7 @@
                                                     <p>Do you really want to delete this Product Category? This process cannot be undone.</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form method="post" action="{{route('admin.ecommerce.productcategories.destroy',$productcategory->id)}}" class="pull-right">
+                                                    <form method="post" action="{{route('admin.ecommerce.attributes.destroy',$attribute->id)}}" class="pull-right">
                                                         {{csrf_field()}}
                                                         {{method_field("DELETE")}}
 
@@ -82,6 +64,6 @@
                         @endforeach
                     </table>
                 </div>
-    {!! $productcategories->links() !!}
+    {!! $attributes->links() !!}
     </div>
 @endsection

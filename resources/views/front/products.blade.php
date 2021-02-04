@@ -69,9 +69,9 @@
                                         <div class="custom_select">
                                             <select class="form-control form-control-sm submit-form-on-change" name="num">
                                                 <option value="">{{ __('Showing') }}</option>
-                                                <option value="9" @if (request()->input('num') == 9) selected @endif>9</option>
-                                                <option value="12" @if (request()->input('num') == 12) selected @endif>12</option>
-                                                <option value="18" @if (request()->input('num') == 18) selected @endif>18</option>
+                                                <option value="16" @if (request()->input('num') == 16) selected @endif>16</option>
+                                                <option value="20" @if (request()->input('num') == 20) selected @endif>20</option>
+                                                <option value="24" @if (request()->input('num') == 24) selected @endif>24</option>
                                             </select>
                                         </div>
                                     </div>
@@ -81,9 +81,10 @@
                         <div class="row shop_container grid">
                             @if ($products->count() > 0)
                                 @foreach($products as $product)
-                                    <div class="col-md-4 col-6">
+                                    <div class="col col-6 col-md-3">
+
                                         <div class="product">
-                                            <div class="product_img">
+                                             <div class="product_img">
                                                 @if($product->productImage->firstWhere('name', 'image_thumbnail'))
                                                     @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
                                                     <a href="{{ 'product/'.$product->id.'/'.$product->slug }}">
@@ -95,7 +96,6 @@
                                                 @else
                                                     <img src="{{ asset('images/noimage.jpg') }}">
                                                 @endif
-
                                             </div>
                                             <div class="product_info">
                                                 <h6 class="product_title"><a href="{{ 'product/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
@@ -108,7 +108,6 @@
 
                                             </div>
                                         </div>
-
                                     </div>
                                 @endforeach
                                     <div class="col-12">

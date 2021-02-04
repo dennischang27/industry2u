@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-success" href="{{ route('admin.brands.create') }}"> Create New Brand</a>
+                <a class="btn btn-success" href="{{ route('admin.ecommerce.brands.create') }}"> Create New Brand</a>
             </div>
         </div>
         <div class="card-body">
@@ -40,8 +40,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a class="btn btn-info" href="{{ route('admin.brands.show',$brand->id) }}">Show</a>
-                                    <a class="btn btn-primary" href="{{ route('admin.brands.edit',$brand->id) }}">Edit</a>
+                                    <a class="btn btn-primary" href="{{ route('admin.ecommerce.brands.edit',$brand->id) }}">Edit</a>
                                 @csrf
                                 @method('DELETE')
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletebrand{{ $brand->id }}">Delete</button>
@@ -58,7 +57,7 @@
                                                 <p>Do you really want to delete this brand? This process cannot be undone.</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <form method="post" action="{{route('admin.brands.destroy',$brand->id)}}" class="pull-right">
+                                                <form method="post" action="{{route('admin.ecommerce.brands.destroy',$brand->id)}}" class="pull-right">
                                                     {{csrf_field()}}
                                                     {{method_field("DELETE")}}
 

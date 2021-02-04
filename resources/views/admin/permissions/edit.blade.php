@@ -1,20 +1,19 @@
 @extends('admin.layouts.app')
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Add New Product</h1>
+    <h1 class="h3 mb-2 text-gray-800">Edit Permission - {{ $permission->name }}</h1>
     <!-- End Page Heading -->
 @endsection
-@section('content')
 
+@section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-primary" href="{{ route('admin.ecommerce.products.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.users.roles.index') }}"> Back</a>
             </div>
         </div>
         <div class="card-body">
-
-            @if ($errors->any())
+            @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.<br><br>
                     <ul>
@@ -24,26 +23,20 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.ecommerce.products.store') }}" method="POST">
-                @csrf
+                {!! Form::model($permission, ['method' => 'PATCH','route' => ['admin.users.permissions.update', $permission->id]]) !!}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Name:</strong>
-                            <input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}">
+                            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Detail:</strong>
-                            <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail" value="{{ old('detail') }}"></textarea>
-                        </div>
-                    </div>
+
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
-            </form>
+                {!! Form::close() !!}
         </div>
     </div>
 @endsection

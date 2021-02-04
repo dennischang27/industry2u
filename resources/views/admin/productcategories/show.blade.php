@@ -8,7 +8,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-primary" href="{{ route('admin.productcategories.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.ecommerce.productcategories.index') }}"> Back</a>
             </div>
         </div>
         <div class="card-body">
@@ -37,7 +37,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Image:</strong>
-                        @if(isset($productcategory->logo))
+                        @if(isset($productcategory->image))
 
                             <img src="{{ asset('storage/categories/'.$productcategory->image) }}" width="60" height="60">
                         @else

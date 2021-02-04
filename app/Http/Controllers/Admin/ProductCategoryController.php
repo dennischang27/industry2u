@@ -26,8 +26,10 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $productcategories = ProductCategory::orderBy('name')->paginate(5);
-        return view('admin.productcategories.index',compact('productcategories'));
+        $page =5;
+        $productcategories = ProductCategory::orderBy('name')->paginate($page);
+        return view('admin.productcategories.index',compact('productcategories'))
+            ->with('i', (request()->input('page', 1) - 1) * $page);
     }
     /**
      * Show the form for creating a new resource.
@@ -69,7 +71,7 @@ class ProductCategoryController extends Controller
             $input['image'] = $image;
         }
         $Productcat = ProductCategory::create($input);
-        return redirect()->route('admin.productcategories.show',$Productcat)
+        return redirect()->route('admin.ecommerce.productcategories.show',$Productcat)
             ->with('success','Product category created successfully.');
     }
     /**
@@ -124,8 +126,8 @@ class ProductCategoryController extends Controller
             $input['image'] = $image;
         }
         $productcategory->update($input);
-        return redirect()->route('admin.productcategories.show', $productcategory)
-            ->with('success','Product Category updated successfully');
+        return redirect()->route('admin.ecommerce.productcategories.index', $productcategory)
+            ->with('success','Product Category '.$input["name"].' updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -136,7 +138,7 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productcategory)
     {
         $productcategory->delete();
-        return redirect()->route('admin.productcategories.index')
+        return redirect()->route('admin.ecommerce.productcategories.index')
             ->with('success','Product Category deleted successfully');
     }
 }

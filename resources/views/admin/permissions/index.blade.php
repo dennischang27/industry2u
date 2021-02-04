@@ -1,15 +1,14 @@
 @extends('admin.layouts.app')
-
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Roles Management</h1>
+    <h1 class="h3 mb-2 text-gray-800">Permissions Management</h1>
     <!-- End Page Heading -->
 @endsection
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-success" href="{{ route('admin.users.roles.create') }}"> Create New Role</a>
+                <a class="btn btn-success" href="{{ route('admin.users.permissions.create') }}"> Create New Permission</a>
             </div>
         </div>
         <div class="card-body">
@@ -23,21 +22,17 @@
                     <tr>
                         <th>No</th>
                         <th>Name</th>
-                        <th>Buyer</th>
-                        <th>Seller</th>
                         <th width="280px">Action</th>
                     </tr>
-                    @foreach ($roles as $key => $role)
+                    @foreach ($permissions as $key => $permission)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $role->name }}</td>
-                            <td>{{  ($role->is_buyer? 'yes' : 'no')  }}</td>
-                            <td>{{ ($role->is_seller? 'yes' : 'no')  }}</td>
+                            <td>{{ $permission->name }}</td>
                             <td>
-                                <a class="btn btn-info" href="{{ route('admin.users.roles.show',$role->id) }}">Show</a>
-                                <a class="btn btn-primary" href="{{ route('admin.users.roles.edit',$role->id) }}">Edit</a>
+                                <a class="btn btn-info" href="{{ route('admin.users.permissions.show',$permission->id) }}">Show</a>
+                                <a class="btn btn-primary" href="{{ route('admin.users.permissions.edit',$permission->id) }}">Edit</a>
                                 @can('role-delete')
-                                    {!! Form::open(['method' => 'DELETE','route' => ['admin.users.roles.destroy', $role->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'DELETE','route' => ['admin.users.permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
                                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                                     {!! Form::close() !!}
                                 @endcan
@@ -45,7 +40,7 @@
                         </tr>
                     @endforeach
                 </table>
-                {!! $roles->render() !!}
+                {!! $permissions->render() !!}
             </div>
         </div>
     </div>

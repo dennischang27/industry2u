@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Add New Product Category</h1>
+    <h1 class="h3 mb-2 text-gray-800">Add New Product Attribute Unit</h1>
     <!-- End Page Heading -->
 @endsection
 @section('content')
@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-primary" href="{{ route('admin.ecommerce.productcategories.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.ecommerce.attributemeasurements.index') }}"> Back</a>
             </div>
         </div>
         <div class="card-body">
@@ -23,7 +23,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.ecommerce.productcategories.store') }}" method="POST"  enctype="multipart/form-data">
+            <form action="{{ route('admin.ecommerce.attributemeasurements.store') }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -33,24 +33,7 @@
                             <input type="text"  name="name" id="name"  class="form-control" placeholder="Name">
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Parent Category:</strong>
-                            <select id="parent_id" name="parent_id" class="form-control select2" title="Please select product category">
-                                <option {{ old('parent_id') ? '' : 'selected' }} value="">None</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $category->id == old('parent_id')?'selected' : ''}}>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Image:</strong>
-                            <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12">
-                            <small class="txt-desc">(Please Choose Category Image)</small>
-                        </div>
-                    </div>
+
                     <input type="hidden" name="slug" id="slug" class="form-control" placeholder="slug" value="{{ old('slug') }}">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>

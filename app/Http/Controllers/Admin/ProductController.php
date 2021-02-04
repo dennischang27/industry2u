@@ -25,9 +25,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
+
+        $page =5;
+        $products = Product::latest()->paginate($page);
         return view('admin.products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * $page);
     }
     /**
      * Show the form for creating a new resource.
@@ -51,7 +53,7 @@ class ProductController extends Controller
             'detail' => 'required',
         ]);
         Product::create($request->all());
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.ecommerce.products.index')
             ->with('success','Product created successfully.');
     }
     /**
@@ -88,7 +90,7 @@ class ProductController extends Controller
             'detail' => 'required',
         ]);
         $product->update($request->all());
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.ecommerce.products.index')
             ->with('success','Product updated successfully');
     }
     /**
@@ -100,7 +102,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('admin.products.index')
+        return redirect()->route('admin.ecommerce.products.index')
             ->with('success','Product deleted successfully');
     }
 }

@@ -24,6 +24,7 @@
     <link href="{{ asset('assets/sb-admin2/css/custom.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    @yield('style')
 </head>
 <body id="page-top">
 <!--[if lt IE 8]>

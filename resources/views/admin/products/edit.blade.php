@@ -6,7 +6,7 @@
                 <h2>Edit Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('admin.products.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.ecommerce.products.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('admin.products.update',$product->id) }}" method="POST">
+    <form action="{{ route('admin.ecommerce.products.update',$product->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">

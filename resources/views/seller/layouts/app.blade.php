@@ -23,7 +23,7 @@
         <!-- footer area start-->
         <footer>
             <div class="footer-area">
-                <p>© Copyright 2020. All right reserved. Industry2u.</p>
+                <p>&copy; {{ "2019 - ".date('Y')}} All Rights Reserved by Digital Blueocean Bhd.</p>
             </div>
         </footer>
         <!-- footer area end-->

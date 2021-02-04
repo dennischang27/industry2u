@@ -17,55 +17,75 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Products
+        e-commerce
     </div>
 
-    <!-- Nav Item - Categories Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link {{  request()->routeIs('admin.productcategories.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsecategories"
-           aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-list-alt"></i>
-            <span>Categories</span>
-        </a>
-        <div id="collapsecategories" class="collapse {{  request()->routeIs('admin.productcategories.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{  request()->routeIs('admin.productcategories.index') ? 'active' : '' }}" href="{{ route('admin.productcategories.index') }}">View</a>
-                <a class="collapse-item {{  request()->routeIs('admin.productcategories.create') ? 'active' : '' }}" href="{{ route('admin.productcategories.create') }}">Add New</a>
-            </div>
-        </div>
-    </li>
-    <!-- Nav Item - Bands Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link {{  request()->routeIs('admin.brands.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsebrands"
-           aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-ticket-alt"></i>
-            <span>Brands</span>
-        </a>
-        <div id="collapsebrands" class="collapse {{  request()->routeIs('admin.brands.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{  request()->routeIs('admin.brands.index') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">View</a>
-                <a class="collapse-item {{  request()->routeIs('admin.brands.create') ? 'active' : '' }}" href="{{ route('admin.brands.create') }}">Add New</a>
-            </div>
-        </div>
-    </li>
     <!-- Nav Item - Products Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link {{  request()->routeIs('admin.products.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseproducts"
+    <li class="nav-item {{  request()->routeIs('admin.ecommerce.*') ? 'active' : '' }}">
+        <a class="nav-link {{  request()->routeIs('admin.ecommerce.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseecommrce"
            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-shopping-bag"></i>
-            <span>Products</span>
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Product</span>
         </a>
-        <div id="collapseproducts" class="collapse {{  request()->routeIs('admin.products.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseecommrce" class="collapse {{  request()->routeIs('admin.ecommerce.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{  request()->routeIs('admin.products.index') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">View</a>
-                  </div>
+                <a class="collapse-item {{  request()->routeIs('admin.ecommerce.productcategories.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.productcategories.index') }}"><i class="fas fa-fw fa-archive"></i> Categories</a>
+                <a class="collapse-item {{  request()->routeIs('admin.ecommerce.brands.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.brands.index') }}"><i class="fas fa-fw fa-ticket-alt"></i> Brands</a>
+                <a class="collapse-item {{  request()->routeIs('admin.ecommerce.attributes.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.attributes.index') }}"><i class="fas fa-glass-martini"></i> Attributes</a>
+                <a class="collapse-item {{  request()->routeIs('admin.ecommerce.products.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.products.index') }}"><i class="fas fa-fw fa-shopping-bag"></i> Products</a>
+            </div>
         </div>
     </li>
+    <!-- Nav Item - Transaction Collapse Menu -->
+    <!--li class="nav-item {{  request()->routeIs('admin.transaction.*') ? 'active' : '' }}">
+        <a class="nav-link {{  request()->routeIs('admin.transaction.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsetransaction"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Transactions</span>
+        </a>
+        <div id="collapsetransaction" class="collapse {{  request()->routeIs('admin.transactions.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{  request()->routeIs('admin.transactions.ir.*') ? 'active' : '' }}" href="{{ route('admin.transactions.ir.index') }}"><i class="fas fa-fw fa-archive"></i> Item Request</a>
 
+            </div>
+        </div>
+    </li-->
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <hr class="sidebar-divider">
 
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Users
+    </div>
+    <!-- Nav Item - Products Collapse Menu -->
+    <li class="nav-item {{  request()->routeIs('admin.users.*') ? 'active' : '' }}">
+        <a class="nav-link {{  request()->routeIs('admin.users.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseusers"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user-alt"></i>
+            <span>Users</span>
+        </a>
+        <div id="collapseusers" class="collapse {{  request()->routeIs('admin.users.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{  request()->routeIs('admin.users.users.*') ? 'active' : '' }}" href="{{ route('admin.users.users.index') }}"><i class="fas fa-fw fa-user"></i> Users</a>
+                <a class="collapse-item {{  request()->routeIs('admin.users.roles.*') ? 'active' : '' }}" href="{{ route('admin.users.roles.index') }}"><i class="fas fa-fw fa-users"></i> Roles</a>
+                <a class="collapse-item {{  request()->routeIs('admin.users.permissions.*') ? 'active' : '' }}" href="{{ route('admin.users.permissions.index') }}"><i class="fas fa-fw fa-id-badge"></i> Permissions</a>
+            </div>
+        </div>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Settings
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route("admin.clear-cache")}}">
+            <i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i>
+            <span>Clear Cache</span></a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>

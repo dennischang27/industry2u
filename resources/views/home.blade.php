@@ -46,46 +46,21 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><a
-                                href="#"
-                                class="hover_effect1"><img
+                        <div class="sale-banner mb-3 mb-md-4"><img
                                     src="{{ asset('images/banners/promo1.png')}}"
-                                    alt="Image 1"></a></div>
+                                    alt="Image 1"></div>
                     </div>
                     <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><a
-                                href="#" class="hover_effect1"><img
+                        <div class="sale-banner mb-3 mb-md-4"><img
                                     src="{{asset('images/banners/promo2.png')}}"
-                                    alt="Image 2"></a></div>
+                                    alt="Image 2"></div>
                     </div>
                     <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><a
-                                href="#"
-                                class="hover_effect1"><img
+                        <div class="sale-banner mb-3 mb-md-4"><img
                                     src="{{asset('images/banners/promo3.png')}}"
-                                    alt="Image 3"></a></div>
+                                    alt="Image 3"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="heading_tab_header">
-                            <div class="heading_s2"><h2>Our Brands</h2></div>
-                        </div>
-                    </div>
-                        @foreach ($brands as $brand)
-                            <div class="col col-6 col-sm-4 col-md-4 col-lg-2">
-                                <div style="width: 160px; margin-right: 30px;">
-                                    <img  src="{{ asset('storage/brands/'.$brand->logo) }}">
-                                </div>
-                            </div>
-                        @endforeach
-                </div>
-
             </div>
         </div>
     </div>

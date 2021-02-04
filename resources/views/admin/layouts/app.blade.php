@@ -26,7 +26,7 @@
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Industry2u 2020</span>
+                            <span>&copy; {{ "2019 - ".date('Y')}} All Rights Reserved by Digital Blueocean Bhd.</span>
                         </div>
                     </div>
                 </footer>

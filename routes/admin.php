@@ -17,12 +17,37 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
     Route::post('/admin/login', 'Auth\LoginController@adminLogin');
     Route::group(['middleware' => ['auth:admin']], function() {
         Route::get('/', 'AdminController@index')->name('dashboard');
-        Route::resource('roles','RoleController');
-        Route::resource('users','UserController');
-        Route::resource('products','ProductController');
-        Route::resource('brands','BrandController');
-        Route::resource('productcategories','ProductCategoryController');
 
+
+        Route::group(["as" => "ecommerce."], function() {
+            Route::resource('products','ProductController');
+            Route::resource('brands','BrandController');
+            Route::resource('productcategories','ProductCategoryController');
+            Route::resource('attributes','AttributeController');
+            Route::resource('attributemeasurements','AttributeMeasurementController');
+            Route::get('attributes/attributemeasurements/update/{id}', 'AttributeMeasurementController@ajaxupdate')->name('attributes.attributemeasurements.ajaxupdate');
+            Route::get('attributes/attributemeasurements/store/{id}', 'AttributeMeasurementController@ajaxstore')->name('attributes.attributemeasurements.ajaxadd');
+            Route::get('attributes/attributemeasurements/delete/{id}', 'AttributeMeasurementController@ajaxdestroy')->name('attributes.attributemeasurements.ajaxdelete');
+        });
+        Route::group(["as" => "users."], function() {
+            Route::resource('roles','RoleController');
+            Route::resource('users','UserController');
+            Route::resource('permissions','PermissionController');
+
+        });
+
+        Route::group(["as" => "transactions."], function() {
+            Route::resource('ir','ItemRequestController');
+
+        });
+        Route::get('/clear-cache',function(){
+            Artisan::call('cache:clear');
+            Artisan::call('view:cache');
+            Artisan::call('view:clear');
+
+           // notify()->success("Cache has been cleared !");
+            return back();
+        })->name('clear-cache');
     });
 
 });

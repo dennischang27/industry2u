@@ -25,9 +25,10 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::latest()->paginate(5);
+        $page =5;
+        $brands = Brand::latest()->paginate($page);
         return view('admin.brands.index',compact('brands'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * $page);
     }
     /**
      * Show the form for creating a new resource.
@@ -69,7 +70,7 @@ class BrandController extends Controller
                 $input['logo'] = $image;
         }
         Brand::create($input);
-        return redirect()->route('admin.brands.index')
+        return redirect()->route('admin.ecommerce.brands.index')
             ->with('success','Brand created successfully.');
     }
     /**
@@ -124,7 +125,7 @@ class BrandController extends Controller
             $input['logo'] = $image;
         }
         $brand->update($input);
-        return redirect()->route('admin.brands.index')
+        return redirect()->route('admin.ecommerce.brands.index')
             ->with('success','Brand updated successfully');
     }
     /**
@@ -136,7 +137,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         $brand->delete();
-        return redirect()->route('admin.brands.index')
+        return redirect()->route('admin.ecommerce.brands.index')
             ->with('success','brand deleted successfully');
     }
 }

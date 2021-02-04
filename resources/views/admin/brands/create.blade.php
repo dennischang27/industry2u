@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-primary" href="{{ route('admin.brands.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.ecommerce.brands.index') }}"> Back</a>
             </div>
         </div>
         <div class="card-body">
@@ -23,7 +23,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.brands.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.ecommerce.brands.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -40,7 +40,7 @@
                                       placeholder="Description">{{ old('description') }}</textarea>
                         </div>
                     </div>
-                    
+
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Logo:</strong>
@@ -67,8 +67,7 @@
         $(document).ready(function () {
             $("#name").keyup(function () {
                 var Text = $(this).val();
-                Text = Text.toLowerCase();
-                Text = Text.replace('/\s/g', '-');
+                Text=Text.toLowerCase().replace(/ /g,'_').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
                 $("#slug").val(Text);
             });
 

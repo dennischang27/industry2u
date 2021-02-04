@@ -58,7 +58,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="mb-md-0 text-center text-md-left">&#169; 2020 All Rights Reserved by Digital Blueocean Bhd.</p>
+                    <p class="mb-md-0 text-center text-md-left">&copy; {{ "2019 - ".date('Y')}} All Rights Reserved by Digital Blueocean Bhd.</p>
                 </div>
                 <div class="col-md-6">
                     <ul class="footer_payment text-center text-lg-right">

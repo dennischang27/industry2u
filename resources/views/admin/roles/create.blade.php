@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -6,7 +6,7 @@
                 <h2>Create New Role</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('admin.users.roles.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -20,12 +20,30 @@
             </ul>
         </div>
     @endif
-    {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'admin.users.roles.store','method'=>'POST')) !!}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Is Buyer:</strong>
+                <input class="tgl tgl-skewed" id="toggle-event2" type="checkbox" name="is_buyer">
+                <label class="tgl-btn" data-tg-off="No" data-tg-on="Yes" for="toggle-event2"></label>
+
+                <small class="txt-desc">(If enable than Role can be select by Buyer )</small>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Is Seller:</strong>
+                <input class="tgl tgl-skewed" id="toggle-event2" type="checkbox" name="is_seller">
+                <label class="tgl-btn" data-tg-off="No" data-tg-on="Yes" for="toggle-event2"></label>
+
+                <small class="txt-desc">(If enable than Role can be select by Seller )</small>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
