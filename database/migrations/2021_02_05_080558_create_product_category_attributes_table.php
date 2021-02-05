@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributeCategoriesTable extends Migration
+class CreateProductCategoryAttributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAttributeCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_categories', function (Blueprint $table) {
+        Schema::create('product_category_attributes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('attribute_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
@@ -28,6 +28,6 @@ class CreateAttributeCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_categories');
+        Schema::dropIfExists('product_category_attributes');
     }
 }
