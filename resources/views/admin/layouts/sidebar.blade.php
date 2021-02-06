@@ -51,14 +51,7 @@
         </div>
     </li-->
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Users
-    </div>
-    <!-- Nav Item - Products Collapse Menu -->
+    <!-- Nav Item - Users Collapse Menu -->
     <li class="nav-item {{  request()->routeIs('admin.users.*') ? 'active' : '' }}">
         <a class="nav-link {{  request()->routeIs('admin.users.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseusers"
            aria-expanded="true" aria-controls="collapseTwo">
