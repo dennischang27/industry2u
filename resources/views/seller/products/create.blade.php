@@ -142,7 +142,7 @@
                             <div class="form-group row">
                                 <label for="category_id" class="col-sm-3 col-form-label"><strong>Category:</strong><small class="text-danger">*</small></label>
                                 <div class="col-sm-6" id="CatDiv" >
-                                    <select id="category_id" name="category_id" class="form-control select2" required title="Please select product category">
+                                    <select id="category_id" name="category_id" class="form-control select2 select-category" required title="Please select product category">
                                         <option disabled {{ old('category_id') ? '' : 'selected' }} value="">Select Category</option>
                                         @foreach($categories->where('parent_id', null) as $category)
 
@@ -252,6 +252,9 @@
                             <hr>
                             <h4 class="header-title">Attributes Information</h4>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12" id="recommended-attribute">
+
+                        </div>
                         <div  class="col-xs-12 col-sm-12 col-md-12">
                             @foreach([0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as $index)
                                 <div class="form-group row attribute-group">
@@ -274,7 +277,7 @@
                                                     <div class="col-sm-2 form-check">
                                                         <input id="attribute_type_{{ $index }}" name="attribute_type[{{ $index }}]" type="checkbox" value="1" {{ old('attribute_type') && isset(old('attribute_type')[$index]) ? 'checked' : '' }} class="form-check-input attribute-type" />
                                                          <label for="attribute_type_{{ $index }}" class="form-check-label">
-                                                            Is Countable
+                                                            Is Numeric Only
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-5">
@@ -334,6 +337,11 @@
 
     <script>
 
+        var agcatOptions = {};
+        {!! $procatattributes !!}.forEach(function(item) {
+            agcatOptions[item.category_id] = item.attribute_id;
+        });
+
         var agOptions = {};
         {!! $attributes !!}.forEach(function(item) {
             agOptions[item.id] = item;
@@ -359,8 +367,23 @@
 
             return aOptions;
         }
+        var url = {!!json_encode( url('seller/products/category/attributes/retrive/') )!!};
+        $(document).on('change', ".select-category", function() {
+            var id = this.value;
+            console.log(id);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : 'GET',
+                data : {newval: id},
+                url  : url+'/'+id,
+                success : function(data){
+                    $('#recommended-attribute').html(data);
+                }
+            });
 
-
+        });
         $(document).on('change', ".attribute-group-select", function() {
             var container = $(this).closest(".attribute-group");
             var rangeContainer = container.find(".attribute-range");

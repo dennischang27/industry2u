@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\AttributeMeasurement;
 use App\Models\Brand;
+use App\Models\ProductCategoryAttribute;
 use App\Models\User;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -49,9 +50,11 @@ class ProductController extends Controller
     {
 
         $brands = Brand::all();
-        $categories = ProductCategory::all();
+        $categories = ProductCategory::orderBy('name')->get();
         $attributes = Attribute::with(['attributemeasurement'])->orderBy('name')->get(['id', 'name', 'is_range']);
-        return view('seller.products.create', compact('brands', 'categories', 'attributes'));
+
+        $procatattributes = ProductCategoryAttribute::orderBy('category_id')->get(['category_id','attribute_id']);
+        return view('seller.products.create', compact('brands', 'categories', 'attributes', 'procatattributes'));
     }
     /**
      * Store a newly created resource in storage.
@@ -108,6 +111,31 @@ class ProductController extends Controller
 //        }
 
         $product = Product::create($input);
+
+        if(isset($input['attr'])) {
+            foreach($input['attr'] as $index => $id) {
+                $attribute = Attribute::get()->find($index);
+                if($id){
+                    if(isset($input['unit'][$index])){
+                        $product->productAttribute()->create([
+                            'value' => $id,
+                            'attribute_id' => $index,
+                            'product_id' => $product->id,
+                            'attribute_measurement_id' => $input['unit'][$index]
+                        ]);
+                    }
+                    else{
+                        $product->productAttribute()->create([
+                            'value' => $id,
+                            'attribute_id' => $index,
+
+                            'product_id' => $product->id,
+                        ]);
+                    }
+                }
+            }
+        }
+
 
         if(isset($input['attributes'])) {
 
@@ -625,5 +653,45 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('seller.products.index')
             ->with('success','Product deleted successfully');
+    }
+
+
+    public function attributeajaxretrive(Request $request,$catid)
+    {
+
+        $getval = $request->newval;
+        $returnDIV = "";
+
+        $categoryAttributes = ProductCategoryAttribute::where('category_id',$catid)->get();
+
+
+        if(!$categoryAttributes->isEmpty())
+        {
+            $returnDIV=$returnDIV.'<div class="form-group row"><div class="col-sm-12">Recommended Attribute </div></div>';
+            foreach($categoryAttributes as $attribute){
+                $returnDIV=$returnDIV.'<div class="form-group row">
+                            <label class="col-sm-3 col-form-label"><strong>'.$attribute->Attributes->name.'</strong></label>
+                            <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input id="attr_'.$attribute->Attributes->id.'" type="'.$attribute->Attributes->type.'" class="form-control"
+                                    name="attr['.$attribute->Attributes->id.']" />
+                                </div>
+                                    <div class="col-sm-6">';
+                                       if (sizeof($attribute->Attributes->attributemeasurement) > 0){
+                                           $returnDIV=$returnDIV.'<select name="unit['.$attribute->Attributes->id.']" class="form-control select2" id="unit_'.$attribute->Attributes->id.'">';
+                                           foreach($attribute->Attributes->attributemeasurement as $measurement){
+                                               $returnDIV=$returnDIV.'<option value="'.$measurement->id.'">  '.$measurement->name.' </option>';
+                                           }
+                                           $returnDIV=$returnDIV.' </select>';
+
+                                       }
+                $returnDIV=$returnDIV.'</div></div></div></div>';
+
+            }
+            return $returnDIV ;
+        }else {
+            return "" ;
+        }
     }
 }
