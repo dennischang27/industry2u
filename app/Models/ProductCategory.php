@@ -35,4 +35,8 @@ class ProductCategory extends Model
         return $this->hasManyThrough(Product::class, self::class, 'parent_id', 'category_id');
     }
 
+    public function comAttributes() {
+        return $this->hasMany(ProductCategoryAttribute::class, 'category_id');
+    }
+
 }

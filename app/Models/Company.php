@@ -33,4 +33,7 @@ class Company extends Model
     public function Products() {
         return $this->hasMany(Product::class, 'company_id');
     }
+    public function companyMembers() {
+        return $this->hasMany(CompanyUser::class);
+    }
 }

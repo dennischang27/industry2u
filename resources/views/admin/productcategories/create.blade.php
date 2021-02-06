@@ -1,4 +1,22 @@
 @extends('admin.layouts.app')
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <style>
+        .select2-selection__rendered {
+            line-height: 37px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+        .select2-container  {
+            margin-bottom: 15px;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+    </style>
+@endsection
 @section('pagetitle')
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Add New Product Category</h1>
@@ -40,6 +58,17 @@
                                 <option {{ old('parent_id') ? '' : 'selected' }} value="">None</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $category->id == old('parent_id')?'selected' : ''}}>{{ $category->name }}</option>
+
+                                    @if(count($category->subCategories))
+                                        @foreach($category->subCategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == old('parent_id')?'selected' : ''}}>{{ $category->name }} > {{ $subcategory->name }}  </option>
+                                            @if(count($subcategory->subCategories))
+                                                @foreach($subcategory->subCategories as $subsubcategory)
+                                                    <option value="{{ $subsubcategory->id }}" {{ $subsubcategory->id == old('parent_id')?'selected' : ''}}>{{ $category->name }} > {{ $subcategory->name }} >{{ $subsubcategory->name }}  </option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +92,14 @@
 
 
 @section('script')
+
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
+
+        $('.select2').select2({
+            allowClear: true,
+            width: '100%'
+        });
         $(document).ready(function() {
             $("#name").keyup(function(){
                 var Text = $(this).val();

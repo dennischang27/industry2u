@@ -23,6 +23,8 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
             Route::resource('products','ProductController');
             Route::resource('brands','BrandController');
             Route::resource('productcategories','ProductCategoryController');
+            Route::get('productcategories/attributes/store/{id}', 'ProductCategoryController@attributeajaxstore')->name('productcategories.attributes.ajaxadd');
+            Route::get('productcategories/attributes/delete/{id}', 'ProductCategoryController@attributeajaxdestroy')->name('productcategories.attributes.ajaxdelete');
             Route::resource('attributes','AttributeController');
             Route::resource('attributemeasurements','AttributeMeasurementController');
             Route::get('attributes/attributemeasurements/update/{id}', 'AttributeMeasurementController@ajaxupdate')->name('attributes.attributemeasurements.ajaxupdate');

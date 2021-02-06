@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use App\Models\ProductCategoryAttribute;
+use App\Models\Attribute;
 use Image;
 
 class ProductCategoryController extends Controller
@@ -93,8 +95,15 @@ class ProductCategoryController extends Controller
     public function edit(ProductCategory $productcategory)
     {
 
+        $exAttributes  =[] ;
+        if(count($productcategory->comAttributes)){
+            foreach($productcategory->comAttributes as $procatAttribute){
+                array_push($exAttributes,$procatAttribute->attribute_id);
+            }
+        }
         $categories = ProductCategory::where('parent_id', null)->orderBy('name')->get();
-        return view('admin.productcategories.edit',compact('productcategory', 'categories'));
+        $attributes = Attribute::whereNotIn('id', $exAttributes)->orderBy('name')->get();
+        return view('admin.productcategories.edit',compact('productcategory', 'categories','attributes'));
     }
     /**
      * Update the specified resource in storage.
@@ -140,5 +149,40 @@ class ProductCategoryController extends Controller
         $productcategory->delete();
         return redirect()->route('admin.ecommerce.productcategories.index')
             ->with('success','Product Category deleted successfully');
+    }
+
+    public function attributeajaxdestroy(Request $request,$id)
+    {
+        $getval = $request->newval;
+        $run_q = ProductCategoryAttribute::findOrFail($id)->delete();
+
+        if($run_q)
+        {
+            return "<div class='well custom-well'> attribute $getval removed succesfully !</div>" ;
+        }else {
+
+            return "<div class='well custom-well'>Error In removed the attribute !</div>" ;
+        }
+    }
+
+    public function attributeajaxstore(Request $request,$id)
+    {
+        $attrid = $request->newval;
+        $proattr = Attribute::findorfail($attrid);
+        $procat = ProductCategory::findorfail($id);
+        $newvalue = new ProductCategoryAttribute();
+
+        $findsameproval = ProductCategoryAttribute::where('attribute_id','=',$attrid)->where('category_id','=',$id)->first();
+
+        if (isset($findsameproval)) {
+            return "<div class='well custom-well'>Attribute is already added there !</div>" ;
+        }else
+        {
+            $newvalue->category_id = $id;
+            $newvalue->attribute_id = $attrid;
+            $newvalue->save();
+        }
+        return "<div class='well custom-well'>Attribute ".$newvalue->name." added succesfully ! </div>" ;
+
     }
 }

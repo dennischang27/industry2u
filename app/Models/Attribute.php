@@ -20,4 +20,9 @@ class Attribute extends Model
     public function attributemeasurement() {
         return $this->hasMany(AttributeMeasurement::class, 'attribute_id');
     }
+
+
+    public function category() {
+        return $this->hasMany(ProductCategoryAttribute::class, 'attribute_id');
+    }
 }
