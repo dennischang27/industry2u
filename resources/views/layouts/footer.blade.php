@@ -42,7 +42,7 @@
                             </li>
                             <li>
                                 <i class="ti-email"></i>
-                                <a href="info@industry2u.asia">info@industry2u.asia</a>
+                                <a class="footer-link" href="mailto:enquiry@industry2u.asia" target="_blank">info@industry2u.asia</a>
                             </li>
                             <!--li>
                                 <i class="ti-mobile"></i>
