@@ -2108,7 +2108,6 @@ div.dataTables_wrapper div.dataTables_length select {
 
 .datatable-primary thead {
     background: #4336fb;
-    color: #fff;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
@@ -2840,3 +2839,7 @@ table.dataTable thead td {
     font-size: 12px;
 }
 /*-------------------- END Offset Sidebar ------------------- */
+
+#divDownloadProduct a{
+    color: #ffffff;
+}

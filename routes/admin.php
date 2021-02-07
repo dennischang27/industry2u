@@ -20,6 +20,9 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
 
 
         Route::group(["as" => "ecommerce."], function() {
+            Route::get('products/import','ProductController@productsImport')->name('productsImport');
+            Route::post('products/template/upload', 'ProductUploadController@uploadTemplate')->name('products.template.upload');
+            Route::get('products/template/download', 'ProductUploadController@downloadTemplate')->name('products.template.download');
             Route::resource('products','ProductController');
             Route::resource('brands','BrandController');
             Route::resource('productcategories','ProductCategoryController');

@@ -105,4 +105,10 @@ class ProductController extends Controller
         return redirect()->route('admin.ecommerce.products.index')
             ->with('success','Product deleted successfully');
     }
+
+    public function productsImport()
+    {
+
+        return view('admin.products.productimport');
+    }
 }

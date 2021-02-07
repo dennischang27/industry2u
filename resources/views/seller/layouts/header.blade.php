@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/srtdash/css/metisMenu.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/srtdash/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/srtdash/css/slicknav.min.css') }}">
+    @yield('plugin_style')
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/srtdash/css/typography.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/srtdash/css/default-css.css') }}">
@@ -54,11 +55,13 @@
 <script src="{{ asset('assets/srtdash/js/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('assets/srtdash/js/jquery.slicknav.min.js') }}"></script>
 
+
+@yield('plugin_script')
 <!-- others plugins -->
 <script src="{{ asset('assets/srtdash/js/plugins.js') }}"></script>
 <script src="{{ asset('assets/srtdash/js/scripts.js') }}"></script>
 
-@yield('script')
 
+@yield('script')
 </body>
 </html>

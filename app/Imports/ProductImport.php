@@ -41,7 +41,16 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 	}
 
 	public function initHeaders() {
-		$header = new stdClass;
+
+        $header = new stdClass;
+        $header->name = "Product Image Name";
+        array_push($this->headers, $header);
+
+        $header = new stdClass;
+        $header->name = "SubCategory";
+        array_push($this->headers, $header);
+
+        $header = new stdClass;
 		$header->name = "Product_attributes";
 		$header->expandable = true;
 		array_push($this->headers, $header);
@@ -51,15 +60,11 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 		array_push($this->headers, $header);
 
 		$header = new stdClass;
-		$header->name = "Name";
+		$header->name = "Product Name";
 		array_push($this->headers, $header);
 
 		$header = new stdClass;
 		$header->name = "Product Description";
-		array_push($this->headers, $header);
-
-		$header = new stdClass;
-		$header->name = "Sub Category";
 		array_push($this->headers, $header);
 
 		$header = new stdClass;
@@ -71,11 +76,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 		array_push($this->headers, $header);
 
 		$header = new stdClass;
-		$header->name = "Product Category";
-		array_push($this->headers, $header);
-
-		$header = new stdClass;
-		$header->name = "Product Image Name";
+		$header->name = "Category";
 		array_push($this->headers, $header);
 
 		$header = new stdClass;
@@ -265,8 +266,8 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 						continue;
 					}
 
-					$pCategory = isset($row['Product Category']) ? $row['Product Category']
-						: (isset($row['Sub Category']) ? $row['Sub Category'] : null);
+					$pCategory = isset($row['Category']) ? $row['Category']
+						: (isset($row['Subcategory']) ? $row['Subcategory'] : null);
 
 					if(!$pCategory) {
 						if($this->log) {
@@ -277,7 +278,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 						continue;
 					}
 
-					$sCategory = isset($row['Sub Category']) ? $row['Sub Category'] : null;
+					$sCategory = isset($row['Subcategory']) ? $row['Subcategory'] : null;
 
 					$category = ProductCategory::withTrashed()->where('name', $sCategory)->first();
 
@@ -335,7 +336,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 					}
 
 
-					$itemName = isset($row['Name']) ? $row['Name'] : $itemCode;
+					$itemName = isset($row['Product Name']) ? $row['Product Name'] : $itemCode;
 
 					if($product) {
 						$product->update([

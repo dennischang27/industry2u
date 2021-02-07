@@ -30,8 +30,8 @@ class ProductExport implements	WithEvents, ShouldAutoSize, WithHeadings
 
 		$headers[0] = ['PLEASE FILL IN AFTER THE LINE'];
 
-		$headers[1] = [ 'Name','Series No',  'Product Description','Product Brands'
-		, 'Product Category', 'Sub Category',  'Price', 'Product Image Name',  'Specification', '', '', 'Dimension', '', ''
+		$headers[1] = [ 'Category', 'SubCategory', 'Product Name','Series No',  'Product Description','Product Brands'
+		,   'Price', 'Product Image Name',  'Specification', '', '', 'Dimension', '', ''
 		,  'Product_attributes'];
 
 		$headers[2] = [ '', '', '', '', '', '', '', '', 'Attachment', 'Page_From', 'Page_To', 'Attachment', 'Page_From', 'Page_To'

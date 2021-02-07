@@ -37,9 +37,8 @@ class ProductController extends Controller
         $user = Auth::getUser();
         $company = $user->company;
 
-        $products = Product::where('company_id', $company->id)->paginate(5);
-        return view('seller.products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $products = Product::where('company_id', $company->id)->get();
+        return view('seller.products.index',compact('products'));
     }
     /**
      * Show the form for creating a new resource.
@@ -372,6 +371,9 @@ class ProductController extends Controller
 
         return view('seller.products.edit',compact('product', 'brands', 'categories', 'attributes','images', 'productAttributes'));
     }
+
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -694,4 +696,11 @@ class ProductController extends Controller
             return "" ;
         }
     }
+
+    public function importproducts()
+    {
+        $categories = ProductCategory::orderBy('name')->get();
+        return view('seller.products.productimport',compact('categories'));
+    }
+
 }

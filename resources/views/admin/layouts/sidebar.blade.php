@@ -33,6 +33,7 @@
                 <a class="collapse-item {{  request()->routeIs('admin.ecommerce.brands.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.brands.index') }}"><i class="fas fa-fw fa-ticket-alt"></i> Brands</a>
                 <a class="collapse-item {{  request()->routeIs('admin.ecommerce.attributes.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.attributes.index') }}"><i class="fas fa-glass-martini"></i> Attributes</a>
                 <a class="collapse-item {{  request()->routeIs('admin.ecommerce.products.*') ? 'active' : '' }}" href="{{ route('admin.ecommerce.products.index') }}"><i class="fas fa-fw fa-shopping-bag"></i> Products</a>
+                <!--a class="collapse-item {{  request()->routeIs('admin.ecommerce.productsImport') ? 'active' : '' }}" href="{{ route('admin.ecommerce.productsImport') }}"><i class="fas fa-fw fa-shopping-bag"></i> Import Products</a-->
             </div>
         </div>
     </li>

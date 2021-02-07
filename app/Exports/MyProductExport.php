@@ -62,8 +62,8 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
 
 		$headers[0] = ['PLEASE FILL IN AFTER THE LINE'];
 
-		$headers[1] = [ 'NAME', 'SERIES No','Product Desctipion', 'Pricing'
-		, 'Product Category', 'Sub Category', 'Product Brands', 'Product Image Name', 'Specification', '', '', 'Dimension', '', ''
+		$headers[1] = [ 'Category', 'Subcategory', 'Product Name', 'Series No','Product Description', 'Pricing'
+		, 'Product Brands', 'Product Image Name', 'Specification', '', '', 'Dimension', '', ''
 		, 'UNIT_MEASUREMENT', 'PRODUCT_ATTRIBUTE'];
 
 		$headers[2] = [ '', '', '', '', '', '', '', '', 'ATTACHMENT', 'Page_From', 'Page_To', 'ATTACHMENT', 'Page_From', 'Page_To'

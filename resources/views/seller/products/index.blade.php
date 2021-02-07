@@ -16,6 +16,13 @@
     <!-- page title area end -->
 @endsection
 
+@section('plugin_style')
+    <!-- Start datatable css -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
+@endsection
 @section('content')
 
     <!-- Table start -->
@@ -25,62 +32,15 @@
             <strong>{{ $message }}</strong>
         </div>
         @enderror
-        @if(session('product_process'))
-            <div class='row'>
-                <i class="col-12">{{ session('product_process')->successCount }} product(s) are uploaded</i>
-            </div>
-
-            <div class='row'>
-                <i class="col-12">{{ session('product_process')->skipCount }} product(s) are skipped</i>
-            </div>
-
-            @if(session('product_process')->skipCount > 0)
-                <div class='row'>
-                    <i class="col-12">skip reason(s):</i>
-                    <ul>
-                        @foreach(session('product_process')->skipSummary as $reason => $flag)
-                            <li>{{ $reason }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        @endif
-        <!--div class="card">
-            <div class="card-body">
-                <h4 class="header-title">Bulk product upload</h4>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label"><strong>Product List Excel Template :</strong></label>
-                        <div class="col-sm-9">
-                            <a target="_blank" href="{{ route("seller.products.template.download") }}">
-                                Download
-                            </a>
-                        </div>
-                    </div>
-                    <form action="{{route('seller.products.template.upload')}}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group row">
-                            <div class="col-4">
-                            <input class="form-control " id="uploaded_file" accept=".xls, .xlsx" type="file" value="{{@old('uploaded_file')}}" name="uploaded_file" required="" autofocus="">
-                            </div>
-                            <div class="col-4">
-                                <input class="btn btn-primary" type="submit" value="Upload">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div-->
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Products</h4>
                 <div class="single-table">
-                    <div class="table-responsive">
-                        <table class="table table-hover progress-table text-center">
-                            <thead class="text-uppercase">
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center">
+                            <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Series No</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Brand</th>
                                     <th scope="col">Action</th>
@@ -91,20 +51,19 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <th scope="row">{{ $product->name }}</td>
-                                    <td>{{ $product->series_no }}</td>
                                     <td>@if($product->category->parentCategory)
                                             {{ $product->category->parentCategory->name }} >
                                         @endif
                                         {{ $product->category->name }}</td>
                                     <td>{{ $product->brand->name }}</td>
                                     <td>
-                                            <a class="btn btn-info" href="{{ route('seller.products.show',$product->id) }}">Show</a>
+                                            <a class="btn  btn-xs btn-info" href="{{ route('seller.products.show',$product->id) }}">Show</a>
 
-                                            <a class="btn btn-primary" href="{{ route('seller.products.edit',$product->id) }}">Edit</a>
+                                            <a class="btn  btn-xs btn-primary" href="{{ route('seller.products.edit',$product->id) }}">Edit</a>
 
 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteproduct{{ $product->id }}">Delete</button>
+                                            <button type="submit" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteproduct{{ $product->id }}">Delete</button>
                                             <div id="deleteproduct{{ $product->id }}" class="delete-modal modal fade" role="dialog">
                                                 <div class="modal-dialog modal-sm">
                                                     <!-- Modal content-->
@@ -132,12 +91,21 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {!! $products->links() !!}
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Progress Table end -->
+
+@endsection
+
+@section('plugin_script')
+    <!-- Start datatable js -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
 @endsection
