@@ -370,7 +370,6 @@
         var url = {!!json_encode( url('seller/products/category/attributes/retrive/') )!!};
         $(document).on('change', ".select-category", function() {
             var id = this.value;
-            console.log(id);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
