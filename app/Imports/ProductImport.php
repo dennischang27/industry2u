@@ -453,7 +453,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 				}
 
 				if(isset($row['Specification']) && $row['Specification']['Attachment']) {
-					$attachmentName = 'storage/' . strtolower($row['Specification']['Attachment']);
+					$attachmentName = 'companies/'.$this->user->company->id.'/products/' . strtolower($row['Specification']['Attachment']);
 
 					$attachment = $product->productAttachment()->where('name', 'specification')
 						->where('file_path', $attachmentName)->first();
@@ -482,7 +482,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 				}
 
 				if(isset($row['Dimension']) && $row['Dimension']['Attachment']) {
-					$attachmentName = 'storage/' . strtolower($row['Dimension']['Attachment']);
+					$attachmentName = 'companies/'.$this->user->company->id.'/products/' . strtolower($row['Dimension']['Attachment']);
 
 					$attachment = $product->productAttachment()->where('name', 'dimension')
 						->where('file_path', $attachmentName)->first();
@@ -511,7 +511,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 				}
 
 				if($row['Product Image Name']) {
-					$imageName = strtolower($row['Product Image Name']);
+					$imageName =  'companies/'.$this->user->company->id.'/products/'.strtolower($row['Product Image Name']);
 					$pImage = $product->productImage()->where('path', $imageName)->first();
 
 					if(!$pImage) {
