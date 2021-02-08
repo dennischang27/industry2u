@@ -23,6 +23,9 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
             Route::get('products/import','ProductController@productsImport')->name('productsImport');
             Route::post('products/template/upload', 'ProductUploadController@uploadTemplate')->name('products.template.upload');
             Route::get('products/template/download', 'ProductUploadController@downloadTemplate')->name('products.template.download');
+
+            Route::get('brands/list', 'BrandController@getBrands')->name('brands.list');
+
             Route::resource('products','ProductController');
             Route::resource('brands','BrandController');
             Route::resource('productcategories','ProductCategoryController');

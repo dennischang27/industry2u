@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Image;
+use DataTables;
+
 class BrandController extends Controller
 {
     /**
@@ -139,5 +141,20 @@ class BrandController extends Controller
         $brand->delete();
         return redirect()->route('admin.ecommerce.brands.index')
             ->with('success','brand deleted successfully');
+    }
+
+    public function getBrands(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Brand::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 }
