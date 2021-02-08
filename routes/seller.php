@@ -21,6 +21,10 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::post('products/store', 'ProductController@store')->name('products.store');
             Route::get('products/importproducts','ProductController@importproducts')->name('products.importproducts');
 
+            Route::get('products/uploadfile','UploadController@uploadfile')->name('products.uploadfile');
+            Route::post('products/uploadfile/process','UploadController@uploadfileprocess')->name('products.uploadfile.process');
+            Route::get('products/file/delete/{value}','UploadController@deletefile')->name('products.file.delete');
+
             Route::get('products/{product}', 'ProductController@show')->name('products.show');
             Route::get('products/{product}/edit', 'ProductController@edit')->name('products.edit');
             Route::post('products/{product}/update', 'ProductController@update')->name('products.update');

@@ -18,6 +18,7 @@
                             <li class="{{  request()->routeIs('seller.products.index') ? 'active' : '' }}"><a href="{{ route('seller.products.index') }}">My Products</a></li>
                             <li class="{{  request()->routeIs('seller.products.create') ? 'active' : '' }}"><a href="{{ route('seller.products.create') }}">Add New Product</a></li>
                             <li class="{{  request()->routeIs('seller.products.importproducts') ? 'active' : '' }}"><a href="{{ route('seller.products.importproducts') }}">Import Products</a></li>
+                            <li class="{{  request()->routeIs('seller.products.uploadfile') ? 'active' : '' }}"><a href="{{ route('seller.products.uploadfile') }}">Upload Files</a></li>
                         </ul>
                     </li>
                     <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }}">
