@@ -7,6 +7,30 @@
     <!-- End Page Heading -->
 @endsection
 
+@section('style')
+    <!-- Start datatable css -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.1em 0.1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        *cursor: hand;
+        color: #333 !important;
+        border: 1px solid transparent;
+        border-radius: 2px;
+    }
+</style>
+@endsection
+
 @section('content')
 
     <div class="card shadow mb-4">
@@ -21,18 +45,22 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
-                <div class="table-responsive">
-                    <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
+            <div class="single-table">
+                <div class="data-tables">
+                    <table id="dataTable" class="text-center">
+                        <thead class="bg-light text-capitalize">
                         <tr>
-                            <th>No</th>
+
                             <th>Category Name</th>
                             <th>Parent Category</th>
                             <th>Image</th>
                             <th width="280px">Action</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         @foreach ($productcategories as $productcategory)
                             <tr>
-                                <td>{{ ++$i }}</td>
+
                                 <td>{{ $productcategory->name }}</td>
                                 <td>
                                     @if($productcategory->parentCategory)
@@ -80,8 +108,26 @@
                                 </td>
                             </tr>
                         @endforeach
+                        </tbody>
                     </table>
                 </div>
-    {!! $productcategories->links() !!}
+            </div>
+        </div>
     </div>
+@endsection
+
+@section('plugin_script')
+    <!-- Start datatable js -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script>
+        if ($('#dataTable').length) {
+            $('#dataTable').DataTable({
+                responsive: false
+            });
+        }
+    </script>
 @endsection
