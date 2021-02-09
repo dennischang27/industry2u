@@ -66,7 +66,32 @@
         </div>
 
     </div>
-    <div class="card shadow mb-4" id="divUploadProduct">
+        @error('uploaded_file')
+        <div class="alert alert-danger">
+            <strong>{{ $message }}</strong>
+        </div>
+        @enderror
+        @if(session('product_process'))
+            <div class='row'>
+                <i class="col-12">{{ session('product_process')->successCount }} product(s) are uploaded</i>
+            </div>
+
+            <div class='row'>
+                <i class="col-12">{{ session('product_process')->skipCount }} product(s) are skipped</i>
+            </div>
+
+            @if(session('product_process')->skipCount > 0)
+                <div class='row'>
+                    <i class="col-12">skip reason(s):</i>
+                    <ul>
+                        @foreach(session('product_process')->skipSummary as $reason => $flag)
+                            <li>{{ $reason }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        @endif
+        <div class="card shadow mb-4" id="divUploadProduct">
             <div class="card-body">
                 <h4 class="header-title">Bulk product upload</h4>
                 <div class="col-xs-12 col-sm-12 col-md-12">

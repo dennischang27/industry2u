@@ -64,9 +64,9 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
 
 		$headers[1] = [ 'Category', 'Subcategory', 'Product Name', 'Series No','Product Description', 'Pricing'
 		, 'Product Brands', 'Product Image Name', 'Specification', '', '', 'Dimension', '', ''
-		, 'UNIT_MEASUREMENT', 'PRODUCT_ATTRIBUTE'];
+		,  'Product_attributes'];
 
-		$headers[2] = [ '', '', '', '', '', '', '', '', 'ATTACHMENT', 'Page_From', 'Page_To', 'ATTACHMENT', 'Page_From', 'Page_To'
+		$headers[2] = [ '', '', '', '', '', '', '', '', 'Attachment', 'Page_From', 'Page_To', 'Attachment', 'Page_From', 'Page_To'
 		, ''];
 
 		foreach($this->attributes as $ag) {

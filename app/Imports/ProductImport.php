@@ -244,7 +244,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 
 					$itemCode = $itemCodeString;
 				}
-
+echo $itemCode;
 				$product = Product::withTrashed()->where('series_no', $itemCode)->where('company_id', $this->user->company->id)
                     ->where('user_id', $this->user->id)->first();
 
@@ -267,7 +267,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 					}
 
 					$pCategory = isset($row['Category']) ? $row['Category']
-						: (isset($row['Subcategory']) ? $row['Subcategory'] : null);
+						: (isset($row['SubCategory']) ? $row['SubCategory'] : null);
 
 					if(!$pCategory) {
 						if($this->log) {
@@ -278,7 +278,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 						continue;
 					}
 
-					$sCategory = isset($row['Subcategory']) ? $row['Subcategory'] : null;
+					$sCategory = isset($row['SubCategory']) ? $row['SubCategory'] : null;
 
 					$category = ProductCategory::withTrashed()->where('name', $sCategory)->first();
 
@@ -357,16 +357,13 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 							'brand_id' => $brand->id,
 							'category_id' => $category->id,
                             'price' => $row['Price'],
-							'slug' => preg_replace('/\s+/', '_', $itemCode),
+							'slug' => preg_replace('/\s+/', '_', $itemName),
                             'company_id'=> $this->user->company->id,
                             'user_id' => $this->user->id,
 						]);
 
 					}
 				}
-
-
-
 				if(isset($row['Product_attributes']) && count($row['Product_attributes']) > 0) {
 					foreach($row['Product_attributes'] as $group => $value) {
 						if($value) {
