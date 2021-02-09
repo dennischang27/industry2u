@@ -16,10 +16,7 @@ class ProductCategoryController extends Controller
      */
     function __construct()
     {
-    //    $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-     //   $this->middleware('permission:product-create', ['only' => ['create','store']]);
-      //  $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-      //  $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+
     }
     /**
      * Display a listing of the resource.
@@ -29,9 +26,8 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $page =5;
-        $productcategories = ProductCategory::orderBy('name')->paginate($page);
-        return view('admin.productcategories.index',compact('productcategories'))
-            ->with('i', (request()->input('page', 1) - 1) * $page);
+        $productcategories = ProductCategory::orderBy('name')->get();
+        return view('admin.productcategories.index',compact('productcategories'));
     }
     /**
      * Show the form for creating a new resource.
