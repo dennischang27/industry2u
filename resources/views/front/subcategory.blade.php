@@ -25,7 +25,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="page-title">
-                        <h3></h3>
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -37,21 +37,14 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        @empty($subcategory)
-
-                            <li class="breadcrumb-item active">Products</li>
-
-                        @else
-                            <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                                <meta itemprop="position" content="1">
-                                <a href="{{route("home")}}" itemprop="item" title="Home">
-                                    {{$subcategory->parentCategory->name}}
-                                    <meta itemprop="name" content="Home">
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item active">{{$subcategory->name}}</li>
-
-                         @endif
+                        <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                            <meta itemprop="position" content="1">
+                            <a href="{{route("home")}}" itemprop="item" title="Home">
+                                {{$subcategory->parentCategory->name}}
+                                <meta itemprop="name" content="Home">
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">{{$subcategory->name}}</li>
                     </ol>
 
                 </div>
@@ -71,8 +64,8 @@
                                 <div class="product_header">
                                     <div class="product_header_left">
                                         <div class="input-group">
-                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..."  type="text">
-                                            <input class="form-control" name="categoryid" value="{{ request()->input('categoryid') }}"  type="hidden">
+                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
+                                            <input name="categoryid" value="{{ request()->input('categoryid') }}" type="hidden">
                                             <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
                                         </div>
                                     </div>
@@ -99,12 +92,12 @@
                                     <div class="col col-6 col-md-3">
 
                                         <div class="product">
-                                             <div class="product_img">
+                                            <div class="product_img">
                                                 @if($product->productImage->firstWhere('name', 'image_thumbnail'))
                                                     @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
-                                                    <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">
-                                                        <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
-                                                    </a>
+                                                        <a href="{{ URL::to('/').'/productview/'.$product->id.'/'.$product->slug }}">
+                                                            <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                        </a>
                                                     @else
                                                         <img src="{{ asset('images/noimage.jpg') }}">
                                                     @endif
@@ -113,7 +106,7 @@
                                                 @endif
                                             </div>
                                             <div class="product_info">
-                                                <h6 class="product_title"><a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
+                                                <h6 class="product_title"><a href="{{ URL::to('/').'/productview/'.$product->id.'/'.$product->slug }}">{{ $product->name }}</a></h6>
                                                 <div >
                                                     <span style="font-size: 12px;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
                                                 </div>
@@ -125,11 +118,11 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                    <div class="col-12">
-                                        <div class="justify-content-center ">
-                                            {!! $products->appends(request()->query())->links() !!}
-                                        </div>
+                                <div class="col-12">
+                                    <div class="justify-content-center ">
+                                        {!! $products->appends(request()->query())->links() !!}
                                     </div>
+                                </div>
                             @else
                                 <br>
                                 <div class="col-12 text-center">{{ __('No products!') }}</div>
@@ -144,42 +137,27 @@
                                     @foreach($categories as $index => $category)
                                         @if($category->subProducts->count()>0)
                                             <li class="dropdown menu-item">
-                                                @empty($subcategory)
-                                                    <a href="#childOpen{{$category->id}}" data-toggle="collapse" class="cat-page " aria-expanded="false">
-                                                @else
-                                                    <a href="#childOpen{{$category->id}}" data-toggle="collapse" class="cat-page {{ ($category->id ==$subcategory->parentCategory->id )? '' : 'collapsed' }}" aria-expanded="false">
-                                                @endif
+                                                <a href="#childOpen{{$category->id}}" data-toggle="collapse" class="cat-page {{ ($category->id ==$subcategory->parentCategory->id )? '' : 'collapsed' }}" aria-expanded="false">
                                                     <i class="fa fa-camera-retro"></i>
                                                     <label class="cursor-pointer">
                                                         {{ $category->name }}
                                                     </label>
                                                 </a>
-                                                     @empty($subcategory)
-                                                                <ul class="widget_subcategory collapse " id="childOpen{{$category->id}}" style="">
-
-                                                    @else
-                                                                        <ul class="widget_subcategory collapse {{ ($category->id ==$subcategory->parentCategory->id )? 'show' : '' }}" id="childOpen{{$category->id}}" style="">
-
-                                                    @endif
-                                                        @foreach($category->subCategories as $subcat)
+                                                <ul class="widget_subcategory collapse {{ ($category->id ==$subcategory->parentCategory->id )? 'show' : '' }}" id="childOpen{{$category->id}}" style="">
+                                                    @foreach($category->subCategories as $subcat)
                                                         @if($subcat->Products->count()>0)
-                                                            <li class="left-4 dropdown menu-item side-sub-list">
-                                                                @empty($subcategory)
-                                                                    <a class="" data-toggle="collapse" href="#collapsesubcat{{$subcat->id}}" aria-expanded="false" aria-controls="collapsesubcat{{$subcat->id}}">
-                                                                @else
-                                                                    <a class="{{ ($subcat->id ==$subcategory->id )? 'active' : '' }}" data-toggle="collapse" href="#collapsesubcat{{$subcat->id}}" aria-expanded="false" aria-controls="collapsesubcat{{$subcat->id}}">
-                                                                @endif
-                                                                    <label class="cursor-pointer" onclick="categoryfilter({{ $subcat->id}})">
-                                                                        {{trim($subcat->name)}}
-                                                                    </label>
-                                                                </a>
-                                                            </li>
+                                                        <li class="left-4 dropdown menu-item side-sub-list">
+                                                            <a class="{{ ($subcat->id ==$subcategory->id )? 'active' : '' }}" data-toggle="collapse" href="#collapsesubcat{{$subcat->id}}" aria-expanded="false" aria-controls="collapsesubcat{{$subcat->id}}">
+                                                                <label class="cursor-pointer" onclick="categoryfilter({{ $subcat->id}})">
+                                                                    {{trim($subcat->name)}}
+                                                                </label>
+                                                            </a>
+                                                        </li>
                                                         @endif
                                                     @endforeach
 
                                                 </ul>
                                             </li>
-
                                         @endif
                                     @endforeach
                                 </ul>
@@ -230,8 +208,6 @@
 
             var new_url = url.toString();
             location.href=new_url;
-
-            $(".se-pre-con").fadeIn("slow");
         };
     </script>
 @endsection
