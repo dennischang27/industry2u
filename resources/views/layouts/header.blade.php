@@ -72,7 +72,6 @@
 <!-- jquery latest version -->
 <script src="{{ asset('assets/themes/plugins/slick/slick.min.js') }}"></script>
 <!-- bootstrap 4 js -->
-<script src="{{ asset('assets/themes/plugins/cookie-consent/js/cookie-consent.js?v=1.0.0') }}"></script>
 <script src="{{ asset('assets/themes/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/themes/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/themes/js/magnific-popup.min.js') }}"></script>

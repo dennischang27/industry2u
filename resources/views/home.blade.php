@@ -3,6 +3,8 @@
     <title>{{ config('app.name', 'Industry2u') .  __(' Industry ecommerce system') }}</title>
 @endsection
 
+@section('style')
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -16,15 +18,15 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ asset('images/banners/photo-1.webp')}}"
+                                <img class="d-block w-100" src="{{ asset('images/banners/photo1.jpg')}}"
                                      alt="First slide">
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{asset('images/banners/photo-2.webp')}}"
+                                <img class="d-block w-100" src="{{asset('images/banners/photo2.jpg')}}"
                                      alt="Second slide">
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{asset('images/banners/photo-3.webp')}}"
+                                <img class="d-block w-100" src="{{asset('images/banners/photo3.jpg')}}"
                                      alt="Third slide">
                             </div>
                         </div>
@@ -42,26 +44,38 @@
                 </div>
             </div>
         </div>
-        <div class="section pb_20 small_pt">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><img
-                                    src="{{ asset('images/banners/promo1.png')}}"
-                                    alt="Image 1"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><img
-                                    src="{{asset('images/banners/promo2.png')}}"
-                                    alt="Image 2"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="sale-banner mb-3 mb-md-4"><img
-                                    src="{{asset('images/banners/promo3.png')}}"
-                                    alt="Image 3"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="row">
+        <div class="category-grid">
+            @foreach($productcategories as $productcategory )
+                @if (count($productcategory->subCategories))
+                    @if($productcategory->subProducts->count()>0)
+                        <div class="category-grid-item">
+                            <div class="category-grid-media">
+                                <img src="{{asset('storage/categories/'.$productcategory->image)}}" class="category-grid-media-image" alt="{{$productcategory->name}}">
+                            </div>
+                            <div class="category-level">
+
+                                <?php $count = 0; ?>
+                                @foreach($productcategory->subCategories as $subcategory )
+                                    @if ($subcategory->products->count()>0)
+                                    <?php if($count == 8) break; ?>
+                                    <div class="category-level-item">
+                                        <a href="product/{{$productcategory->slug}}/{{$subcategory->slug}}/{{$subcategory->id}}?categoryid={{$subcategory->id}}" class="category-level-item" title="{{$subcategory->name}}">{{$subcategory->name}}</a>
+                                    </div>
+                                     <?php $count++; ?>
+                                     @endif
+                                @endforeach
+                            </div>
+                            <div class="category-grid-item-name">
+                                <a href="product/{{$productcategory->slug}}/{{$productcategory->id}}?categoryid={{$productcategory->id}}" class="category-grid-item-name-link" title="{{$productcategory->name}}">
+                                    {{$productcategory->name}}
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endif
+            @endforeach
+        </div>
         </div>
     </div>
 @endsection

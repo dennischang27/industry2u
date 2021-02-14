@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -27,7 +28,9 @@ class HomeController extends Controller
     public function index()
     {
         $brands = Brand::where('is_featured', 1)->limit(6)->get();
-        return view('home', compact('brands'));
+        $productcategories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
+
+        return view('home', compact('brands', 'productcategories'));
     }
     public function privacy()
     {

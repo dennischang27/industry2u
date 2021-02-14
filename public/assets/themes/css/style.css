@@ -1369,12 +1369,12 @@ input.text {
 
 .banner_section:not(.full_screen),
 .banner_section:not(.full_screen) .carousel-item {
-    height: 800px
+    height: 300px
 }
 
 .banner_section.shop_el_slider,
 .banner_section.shop_el_slider .carousel-item {
-    height: 500px
+    height: 300px
 }
 
 .banner_section .banner_slide_content {
@@ -3936,11 +3936,11 @@ body .owl-theme .owl-nav [class*=owl-] {
     }
     .banner_section:not(.full_screen),
     .banner_section:not(.full_screen) .carousel-item {
-        height: 600px
+        height: 300px
     }
     .banner_section.shop_el_slider,
     .banner_section.shop_el_slider .carousel-item {
-        height: 400px
+        height: 300px
     }
     .breadcrumb_section {
         padding: 100px 0
@@ -4162,7 +4162,7 @@ body .owl-theme .owl-nav [class*=owl-] {
     .banner_section:not(.full_screen),
     .banner_section:not(.full_screen) .carousel-item {
         height: 600px;
-        height: 500px
+        height: 300px
     }
     .breadcrumb_section {
         padding: 80px 0
@@ -4567,6 +4567,14 @@ body .owl-theme .owl-nav [class*=owl-] {
     .subscribe_popup .modal-dialog {
         max-width: 100%
     }
+    .banner_section:not(.full_screen),
+    .banner_section:not(.full_screen) .carousel-item {
+        height: 200px
+    }
+    .banner_section.shop_el_slider,
+    .banner_section.shop_el_slider .carousel-item {
+        height: 200px
+    }
 }
 
 @media only screen and (max-width:480px) {
@@ -4738,6 +4746,7 @@ body .owl-theme .owl-nav [class*=owl-] {
     .popup-text .heading_s1 * {
         line-height: normal
     }
+
 }
 
 @media only screen and (max-width:380px) {
@@ -4805,6 +4814,7 @@ body .owl-theme .owl-nav [class*=owl-] {
     .newsletter_form2 input:focus {
         height: 48px
     }
+
 }
 
 .button-loading {
