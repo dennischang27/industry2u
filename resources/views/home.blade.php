@@ -60,7 +60,7 @@
                                     @if ($subcategory->products->count()>0)
                                     <?php if($count == 8) break; ?>
                                     <div class="category-level-item">
-                                        <a href="product/{{$productcategory->slug}}/{{$subcategory->slug}}/{{$subcategory->id}}?categoryid={{$subcategory->id}}" class="category-level-item" title="{{$subcategory->name}}">{{$subcategory->name}}</a>
+                                        <a href="products?categoryid={{$subcategory->id}}" class="category-level-item" title="{{$subcategory->name}}">{{$subcategory->name}}</a>
                                     </div>
                                      <?php $count++; ?>
                                      @endif

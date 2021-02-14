@@ -226,7 +226,6 @@
 
             search_params.set('categoryid', catid);
             url.search = search_params.toString();
-            console.log(url.search);
 
             var new_url = url.toString();
             location.href=new_url;

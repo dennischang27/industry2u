@@ -53,9 +53,9 @@
                 <div class="row">
                     <div class="col-xs-12 col-12">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-1 product-imgwrap">
+                            <!--div class="col-xs-12 col-sm-1 product-imgwrap">
                                 <img src="{{asset('storage/categories/'.$category->image)}}" title="{{$category->name}}">
-                            </div>
+                            </div-->
                             <div class="col-xs-12 col-sm-10 img-description">
                                 <h3 class="category-name">{{$category->name}}</h3>
                             </div>
