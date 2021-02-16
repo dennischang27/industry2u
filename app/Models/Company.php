@@ -27,6 +27,7 @@ class Company extends Model
     public function companybudgetrange() {
         return $this->belongsTo(CompanyBudgetRange::class, 'company_budget_range_id');
     }
+
     public function companyDocs() {
         return $this->hasMany(CompanyDoc::class);
     }
@@ -35,5 +36,8 @@ class Company extends Model
     }
     public function companyMembers() {
         return $this->hasMany(CompanyUser::class);
+    }
+    public function adminUser() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -44,6 +44,9 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
 
         });
 
+        Route::resource('companies','CompanyController');
+
+
         Route::group(["as" => "transactions."], function() {
             Route::resource('ir','ItemRequestController');
 

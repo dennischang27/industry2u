@@ -67,6 +67,21 @@
             </div>
         </div>
     </li>
+
+    <!-- Nav Item - Users Collapse Menu -->
+    <li class="nav-item {{  request()->routeIs('admin.companies.*') ? 'active' : '' }}">
+        <a class="nav-link {{  request()->routeIs('admin.companies.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsecompanies"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user-alt"></i>
+            <span>Companies</span>
+        </a>
+        <div id="collapsecompanies" class="collapse {{  request()->routeIs('admin.companies.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{  request()->routeIs('admin.companies.*') ? 'active' : '' }}" href="{{ route('admin.companies.index') }}"><i class="fas fa-fw fa-user"></i> Companies</a>
+
+            </div>
+        </div>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Heading -->
