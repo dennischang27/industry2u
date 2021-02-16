@@ -12,6 +12,8 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
 use Image;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 
 class ProductController extends Controller
 {
@@ -701,6 +703,49 @@ class ProductController extends Controller
     {
         $categories = ProductCategory::orderBy('name')->get();
         return view('seller.products.productimport',compact('categories'));
+    }
+
+    public function openPDF() {
+        try {
+            if(!Auth::user()) {
+                return redirect()->route('login');
+            }
+
+            $path = Request::input('path');
+            $pageFrom = Request::input('from', 1);
+            $pageTo = Request::input('to', $pageFrom);
+
+            $pdi = new Fpdi();
+            $fileName = str_replace("storage/", "", $path);
+            $file = Storage::disk('public')->path($fileName);
+
+            if(!$file) {
+                throw new Exception("Invalid file path, make sure it is from valid source, contact customer service for more information.");
+            }
+
+            $totalPage = $pdi->setSourceFile($file);
+
+            if($totalPage >= $pageTo) {
+                for($page = $pageFrom; $page <= $pageTo; $page++) {
+                    $pdi->AddPage();
+                    $targetPage = $pdi->ImportPage($page);
+                    $pdi->UseTemplate($targetPage);
+                }
+
+                $response = response($pdi->Output('s'));
+                $response->header('Content-Type', 'application/pdf');
+                $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+                $response->header('Cache-Control:', 'private, max-age=0, must-revalidate');
+
+                return $response;
+            } else {
+                return redirect()->back()->with(["message" => "The pdf don have page " . $pageTo . "."]);
+            }
+        } catch(CrossReferenceException $ex) {
+            return redirect()->back()->with(["message" => "This pdf file is unsopported version, contact customer serevice for more information."]);
+        } catch(Exception $ex) {
+            return redirect()->back()->with(["message" => $ex->getMessage()]);
+        }
     }
 
 }
