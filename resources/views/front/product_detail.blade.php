@@ -150,9 +150,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="attachment-tab" data-toggle="tab" href="#attachment" role="tab" aria-controls="attachment" aria-selected="true">{{ __('Attachment') }}</a>
                             </li>
-                                <li class="nav-item">
+                                <!--li class="nav-item">
                                     <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">{{ __('Reviews') }}</a>
-                                </li>
+                                </li-->
                         </ul>
                         <div class="tab-content shop_info_tab">
                             <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
@@ -201,11 +201,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <!--div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                                 <div id="app">
                                     Review
                                 </div>
-                            </div>
+                            </div-->
                         </div>
                     </div>
                 </div>
