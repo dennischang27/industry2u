@@ -44,7 +44,7 @@
                         @else
                             <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
                                 <meta itemprop="position" content="1">
-                                <a href="{{route("home")}}" itemprop="item" title="Home">
+                                <a href="product/{{$subcategory->parentCategory->slug}}/{{$subcategory->parentCategory->id}}?categoryid={{$subcategory->parentCategory->id}}" itemprop="item" title="Home">
                                     {{$subcategory->parentCategory->name}}
                                     <meta itemprop="name" content="Home">
                                 </a>
