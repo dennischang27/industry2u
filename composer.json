@@ -19,6 +19,7 @@
         "maatwebsite/excel": "^3.1",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.3",
+        "spatie/laravel-cookie-consent": "^2.12",
         "spatie/laravel-permission": "^3.18",
         "yajra/laravel-datatables-oracle": "^9.15"
     },
