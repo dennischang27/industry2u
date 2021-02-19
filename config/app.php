@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Spatie\CookieConsent\CookieConsentServiceProvider::class,
 
         /*
          * Package Service Providers...
