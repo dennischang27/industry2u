@@ -15,6 +15,43 @@
         .select2-selection__arrow {
             height: 37px !important;
         }
+        .img-wrap {
+            width:100px;
+            height:100px;
+            position:relative;
+        }
+
+        .img-wrap img {
+            max-width:100%;
+            max-height:100%;
+        }
+        .img-wrap {
+            position: relative;
+            display: inline-block;
+
+            font-size: 0;
+        }
+        .img-wrap .closes {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            z-index: 100;
+            background-color: #FFF;
+            padding: 4px 3px;
+
+            color: #ab1919;
+            font-weight: bold;
+            cursor: pointer;
+
+            text-align: center;
+            font-size: 16px;
+            line-height: 10px;
+            border-radius: 50%;
+            border:1px solid #9f2840;
+        }
+        .img-wrap:hover .closes {
+            opacity: 1;
+        }
     </style>
 
 @endsection
@@ -179,7 +216,37 @@
                                 <label class="col-sm-3 col-form-label"><strong>{{ __('Product images') }}:</strong></label>
                                 <div class="col-sm-3">
                                     @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
-                                       <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" width="100" height="100">
+                                        <div class="img-wrap">
+                                            <a href="#deleteimg{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}" data-toggle="modal" class="closes">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <!--span  class="img_click closes" title="Delete">&times;</span-->
+                                            <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" width="100" height="100">
+                                        </div>
+                                        <!-- Modal for Delete-->
+                                        <div id="deleteimg{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}" class="delete-modal modal fade" role="dialog">
+                                            <div class="modal-dialog modal-sm">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="delete-icon"></div>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="display-none" id="resultdeleteimg{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}">
+                                                        </div>
+                                                        <input id="getDeleteValue{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteValue{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}" value="{{$product->productImage->firstWhere('name', 'image_thumbnail')->name}}">
+                                                        <h4 class="modal-heading">Are You Sure ?</h4>
+                                                        <p>Do you really want to delete this Cover Photo? This process cannot be undone.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+
+                                                        <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                        <button type="button" onclick="submitdeleteimg('{{$product->productImage->firstWhere('name', 'image_thumbnail')->id}}')" class="btn btn-danger">Yes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @else
                                             <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
                                         @endif
@@ -195,9 +262,37 @@
                                 <div class="col-sm-3">
 
                                     @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
-                                       <div class="image-area">
+                                        <div class="img-wrap">
+                                            <a href="#deleteimg{{$product->productImage->firstWhere('name', 'image1')->id}}" data-toggle="modal" class="closes">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <!--span  class="img_click closes" title="Delete">&times;</span-->
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path) }}" width="100" height="100">
-                                            <!--a class="remove-image" href="#" style="display: inline;">&#215;</a-->
+                                        </div>
+                                        <!-- Modal for Delete-->
+                                        <div id="deleteimg{{$product->productImage->firstWhere('name', 'image1')->id}}" class="delete-modal modal fade" role="dialog">
+                                            <div class="modal-dialog modal-sm">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="delete-icon"></div>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="display-none" id="resultdeleteimg{{$product->productImage->firstWhere('name', 'image1')->id}}">
+                                                        </div>
+                                                        <input id="getDeleteImgValue{{$product->productImage->firstWhere('name', 'image1')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteImgValue{{$product->productImage->firstWhere('name', 'image1')->id}}" value="{{$product->productImage->firstWhere('name', 'image1')->name}}">
+                                                        <h4 class="modal-heading">Are You Sure ?</h4>
+                                                        <p>Do you really want to delete Image 1? This process cannot be undone.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+
+
+                                                        <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                        <button type="button" onclick="submitdeleteimg('{{$product->productImage->firstWhere('name', 'image1')->id}}')" class="btn btn-danger">Yes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     @else
                                         <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
@@ -213,9 +308,35 @@
                                 </div>
                                 <div class="col-sm-3">
                                     @if(isset($product->productImage->firstWhere('name', 'image2')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
-                                       <div class="image-area">
+                                        <div class="img-wrap">
+                                            <a href="#deleteimg{{$product->productImage->firstWhere('name', 'image2')->id}}" data-toggle="modal" class="closes">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <!--span  class="img_click closes" title="Delete">&times;</span-->
                                             <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" width="100" height="100">
-                                            <!--a class="remove-image" href="#" style="display: inline;">&#215;</a-->
+                                        </div>
+                                        <!-- Modal for Delete-->
+                                        <div id="deleteimg{{$product->productImage->firstWhere('name', 'image2')->id}}" class="delete-modal modal fade" role="dialog">
+                                            <div class="modal-dialog modal-sm">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="delete-icon"></div>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="display-none" id="resultdeleteimg{{$product->productImage->firstWhere('name', 'image2')->id}}">
+                                                        </div>
+                                                        <input id="getDeleteImgValue{{$product->productImage->firstWhere('name', 'image2')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteImgValue{{$product->productImage->firstWhere('name', 'image2')->id}}" value="{{$product->productImage->firstWhere('name', 'image2')->name}}">
+                                                        <h4 class="modal-heading">Are You Sure ?</h4>
+                                                        <p>Do you really want to delete Image 2? This process cannot be undone.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                        <button type="button" onclick="submitdeleteimg('{{$product->productImage->firstWhere('name', 'image2')->id}}')" class="btn btn-danger">Yes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     @else
                                         <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
@@ -241,8 +362,40 @@
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
                                     @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
-                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
-                                    @else
+                                            <div class="img-wrap">
+                                                <a href="#deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" data-toggle="modal" class="closes">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <!--span  class="img_click closes" title="Delete">&times;</span-->
+                                                <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                            </div>
+                                            <!-- Modal for Delete-->
+                                            <div id="deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" class="delete-modal modal fade" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="delete-icon"></div>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <div class="display-none" id="resultdeleteatt{{$product->productAttachment->firstWhere('name', 'specification')->id}}">
+                                                            </div>
+                                                            <input id="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" value="{{$product->productAttachment->firstWhere('name', 'specification')->name}}">
+                                                            <h4 class="modal-heading">Are You Sure ?</h4>
+                                                            <p>Do you really want to delete this Specification file? This process cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+
+
+                                                            <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                            <button type="button" onclick="submitdeleteatt('{{$product->productAttachment->firstWhere('name', 'specification')->id}}')" class="btn btn-danger">Yes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        @else
                                         <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
                                     @endif
                                     </div>
@@ -259,7 +412,38 @@
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
                                         @if(isset($product->productAttachment->firstWhere('name', 'dimension')->file_path))
-                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                            <div class="img-wrap">
+                                                <a href="#deleteattch{{$product->productAttachment->firstWhere('name', 'dimension')->id}}" data-toggle="modal" class="closes">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <!--span  class="img_click closes" title="Delete">&times;</span-->
+                                                <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'dimension')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                            </div>
+                                            <!-- Modal for Delete-->
+                                            <div id="deleteattch{{$product->productAttachment->firstWhere('name', 'dimension')->id}}" class="delete-modal modal fade" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="delete-icon"></div>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <div class="display-none" id="resultdeleteatt{{$product->productAttachment->firstWhere('name', 'dimension')->id}}">
+                                                            </div>
+                                                            <input id="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'dimension')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'dimension')->id}}" value="{{$product->productAttachment->firstWhere('name', 'dimension')->name}}">
+                                                            <h4 class="modal-heading">Are You Sure ?</h4>
+                                                            <p>Do you really want to delete this Dimension file? This process cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+
+
+                                                            <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                            <button type="button" onclick="submitdeleteatt('{{$product->productAttachment->firstWhere('name', 'dimension')->id}}')" class="btn btn-danger">Yes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @else
                                             <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
                                         @endif
@@ -398,7 +582,63 @@
             return aOptions;
         }
 
+        var deletefileurl = {!!json_encode( url('seller/file/') )!!};
+        var deleteimgurl = {!!json_encode( url('seller/image/') )!!};
+        function submitdeleteimg(id){
 
+            var v = $('#getDeleteImgValue'+id).val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : 'GET',
+                data : {newval: v},
+                url  : deleteimgurl+'/'+id,
+                success : function(data){
+                    $('#resultdeleteimg'+id).html(data).slideDown(500);
+
+                    window.setTimeout(function(){
+
+                        location.reload();
+
+                    }, 1500);
+
+                }
+            });
+
+            setTimeout(function() {
+                $('#resultdeleteimg'+id).slideUp(500);
+            }, 2000);
+        }
+
+        function submitdeleteatt(id){
+
+            var v = $('#getDeleteAttValue'+id).val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : 'GET',
+                data : {newval: v},
+                url  : deletefileurl+'/'+id,
+                success : function(data){
+                    $('#resultdeleteatt'+id).html(data).slideDown(500);
+
+                    window.setTimeout(function(){
+
+                        location.reload();
+
+                    }, 1500);
+
+                }
+            });
+
+            setTimeout(function() {
+                $('#resultdeleteatt'+id).slideUp(500);
+            }, 2000);
+        }
         $(document).on('change', ".attribute-group-select", function() {
             var container = $(this).closest(".attribute-group");
             var rangeContainer = container.find(".attribute-range");

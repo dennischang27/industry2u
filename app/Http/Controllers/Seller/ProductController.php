@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Seller;
 use App\Models\Attribute;
 use App\Models\Product;
+use App\Models\ProductAttachment;
 use App\Models\ProductAttribute;
 use App\Models\AttributeMeasurement;
 use App\Models\Brand;
 use App\Models\ProductCategoryAttribute;
+use App\Models\ProductImage;
 use App\Models\User;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
 use Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 
@@ -745,6 +749,48 @@ class ProductController extends Controller
             return redirect()->back()->with(["message" => "This pdf file is unsopported version, contact customer serevice for more information."]);
         } catch(Exception $ex) {
             return redirect()->back()->with(["message" => $ex->getMessage()]);
+        }
+    }
+
+    public function ajaxdelatt(Request $request,$id)
+    {
+
+        $getval = $request->newval;
+        $file_attached = ProductAttachment::findOrFail($id);
+        $file_path = storage_path("app/public/".$file_attached->file_path);
+        if (File::exists($file_path)) {
+            unlink($file_path);
+        }
+        $run_q = ProductAttachment::findOrFail($id)->delete();
+
+        if($run_q)
+        {
+            return "<div class='well custom-well'> Attachment $getval deleted succesfully !</div>" ;
+        }else {
+
+            return "<div class='well custom-well'>Error In Deleting the Attachment !</div>" ;
+        }
+    }
+
+    public function ajaxdelimg(Request $request,$id)
+    {
+
+        $getval = $request->newval;
+
+        $image = ProductImage::findOrFail($id);
+
+        $image_path = storage_path("app/public/".$image->path);
+        if (File::exists($image_path)) {
+            unlink($image_path);
+        }
+        $run_q = ProductImage::findOrFail($id)->delete();
+
+        if($run_q)
+        {
+            return "<div class='well custom-well'> Image $getval deleted succesfully !</div>" ;
+        }else {
+
+            return "<div class='well custom-well'>Error In Deleting the Image !</div>" ;
         }
     }
 
