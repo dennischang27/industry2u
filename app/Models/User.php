@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +21,9 @@ class User extends Authenticatable
     protected $fillable = [
         'title','first_name','last_name','username', 'email', 'password','email_verified_at','mobile',
         'referral_code','is_active','is_company_admin','manage_company_admin',
-        'is_super_user','manage_supers','is_buyer','is_seller','company_name','designation'
+        'is_super_user','manage_supers','is_buyer','is_seller','company_name','designation',
+        'last_login_at',
+        'last_login_ip'
     ];
 
     /**
