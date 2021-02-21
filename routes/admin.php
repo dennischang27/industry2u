@@ -59,6 +59,13 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
            // notify()->success("Cache has been cleared !");
             return back();
         })->name('clear-cache');
+
+        Route::get('/migration-db',function(){
+            Artisan::call('migrate');
+
+            // notify()->success("Cache has been cleared !");
+            return back();
+        })->name('migration-db');
     });
 
 });
