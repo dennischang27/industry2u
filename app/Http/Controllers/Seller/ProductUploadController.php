@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Excel as ExcelConstant;
 use App\Models\Attribute;
 use App\Models\ProductCategoryAttribute;
 use App\Models\Product;
-use Request;
+use Illuminate\Http\Request;
 use Auth;
 use Image;
 use Validator;
