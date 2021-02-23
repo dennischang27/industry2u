@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Excel as ExcelConstant;
 use App\Models\Attribute;
 use App\Models\ProductCategoryAttribute;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Request;
 use Auth;
 use Image;
 use Validator;
@@ -36,7 +36,7 @@ class ProductUploadController extends Controller
         }
     }
 
-    public function downloadTemplate(Request $request) {
+    public function downloadTemplate(\Illuminate\Http\Request $request) {
         try{
             $user = parent::getUser();
             $query = $request->get('cat');
