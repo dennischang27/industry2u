@@ -17,6 +17,48 @@
     .select2-selection__arrow {
     height: 37px !important;
     }
+    .img-wrap {
+        width:100px;
+        height:100px;
+        border-radius: 10px;
+        background: #fff;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #c2cdda;
+        position:relative;
+    }
+
+    .img-wrap img {
+        max-width:100%;
+        max-height:100%;
+    }
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+
+        font-size: 0;
+    }
+    .img-wrap .closes {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        z-index: 100;
+        background-color: #FFF;
+        padding: 4px 3px;
+
+        color: #ab1919;
+        font-weight: bold;
+        cursor: pointer;
+
+        text-align: center;
+        font-size: 16px;
+        line-height: 10px;
+        border-radius: 50%;
+        border:1px solid #9f2840;
+    }
+    .img-wrap:hover .closes {
+        opacity: 1;
+    }
 </style>
 
 @endsection
@@ -190,7 +232,13 @@
                             <div class="form-group row">
                                 <label for="category_id" class="col-sm-3 col-form-label"><strong>{{ __('Product images') }}:</strong></label>
                                 <div class="col-sm-3">
-                                    <input type="file" name="image_thumbnail" value="{{old('image_thumbnail')}}" accept="image/png, image/jpeg"  class="form-control @error('image_thumbnail') is-invalid @enderror" required title="Please upload at least 1 image">
+                                    <div class="img-wrap">
+                                        <a href="#" data-toggle="modal" class="closes" id="img-thumb-remove" style="display: none">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    <img id="ImgtID" src="{{ asset('images/upload.jpg') }}" />
+                                    </div>
+                                    <input type="file" onchange="readimgthumbURL(this);" id="image_thumbnail"  name="image_thumbnail" value="{{old('image_thumbnail')}}" accept="image/png, image/jpeg"  class="form-control @error('image_thumbnail') is-invalid @enderror" required title="Please upload at least 1 image">
                                     <span><small class="text-danger">*</small>Cover Photo</span>
                                     @error('image_thumbnail')
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -200,7 +248,14 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="file" name="image1" value="{{old('image1')}}" accept="image/png, image/jpeg" class="form-control @error('image1') is-invalid @enderror" >
+                                    <div class="img-wrap">
+                                        <a href="#" data-toggle="modal" class="closes" id="img1-remove" style="display: none">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <img id="Img1ID" src="{{ asset('images/upload.jpg') }}" />
+                                    </div>
+
+                                    <input type="file" onchange="readimg1URL(this);" id="image1"  name="image1" value="{{old('image1')}}" accept="image/png, image/jpeg" class="form-control @error('image1') is-invalid @enderror" >
                                     <span>Image 1</span>
                                     @error('image1')
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -210,7 +265,13 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="file" name="image2" value="{{old('image2')}}" accept="image/png, image/jpeg" class="form-control @error('image2') is-invalid @enderror">
+                                    <div class="img-wrap">
+                                        <a href="#" data-toggle="modal" class="closes" id="img2-remove" style="display: none">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <img id="Img2ID" src="{{ asset('images/upload.jpg') }}" />
+                                    </div>
+                                    <input type="file" onchange="readimg2URL(this);" id="image2" name="image2" value="{{old('image2')}}" accept="image/png, image/jpeg" class="form-control @error('image2') is-invalid @enderror">
                                     <span>Image 2</span>
                                     @error('image2')
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -557,6 +618,56 @@
                     }
                 }
             });
+        });
+
+        function readimgthumbURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#ImgtID').attr('src', e.target.result);
+                };
+                $('#img-thumb-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img-thumb-remove").on("click", function(){
+            $("#image_thumbnail").replaceWith( $("#image_thumbnail").val('').clone( true ) );
+            $('#img-thumb-remove').hide();
+            $("#ImgtID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+
+        function readimg1URL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#Img1ID').attr('src', e.target.result);
+                };
+                $('#img1-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img1-remove").on("click", function(){
+            $("#image1").replaceWith( $("#image1").val('').clone( true ) );
+            $('#img1-remove').hide();
+            $("#Img1ID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+        function readimg2URL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#Img2ID').attr('src', e.target.result);
+                };
+                $('#img2-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img2-remove").on("click", function(){
+            $("#image2").replaceWith( $("#image2").val('').clone( true ) );
+            $('#img2-remove').hide();
+            $("#Img2ID").attr('src', '{{ asset('images/upload.jpg') }}');
         });
     </script>
 @endsection
