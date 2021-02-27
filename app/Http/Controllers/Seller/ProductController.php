@@ -80,8 +80,9 @@ class ProductController extends Controller
         $input['company_id'] = $user->company->id;
         $input['user_id'] = $user->id;
 
-
-
+        if((empty($input['slug'])) ||($input['slug'] === NULL)){
+            $input['slug'] =preg_replace('/\s+/', '_', $input['name']);
+        }
 
         if($input['brand_id'] == 'Other') {
             $brand = Brand::create([
@@ -91,7 +92,6 @@ class ProductController extends Controller
             ]);
             $input['brand_id'] = $brand->id;
         }
-
 //        if ($input['main_category_id']== "Other"){
 //
 //            $main_category = ProductCategory::create([
@@ -335,7 +335,8 @@ class ProductController extends Controller
         }
 
         return redirect()->route('seller.products.index')
-            ->with('success','Product created successfully.');
+            ->with('product_link', route('public.products.show',['id'=>$product->id, 'slug'=>$product->slug]))
+            ->with('success','Product '.$product->name.' created successfully. ');
     }
     /**
      * Display the specified resource.

@@ -127,6 +127,16 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
+                                <label for="sku" class="col-sm-3 col-form-label"><strong>SKU:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text"  class="form-control"
+                                           id="sku" name="sku"  placeholder="Enter Product SKU" value="{{ $product->sku }}"
+                                           title="Please Enter Product SKU">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group row">
                                 <label for="description" class="col-sm-3 col-form-label"><strong>Product Description:</strong><small class="text-danger">*</small></label>
                                 <div class="col-sm-9">
 

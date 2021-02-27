@@ -143,6 +143,16 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group row">
+                                <label for="sku" class="col-sm-3 col-form-label"><strong>SKU:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           id="sku" name="sku"  placeholder="Enter Product SKU" value="{{old('sku')}}"
+                                           title="Please Enter Product SKU">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group row">
                                 <label for="description" class="col-sm-3 col-form-label"><strong>Product Description:</strong><small class="text-danger">*</small></label>
                                 <div class="col-sm-9">
                                 <textarea class="form-control" style="height:150px" name="description" placeholder="Enter product description" title="Please enter product description" required>{{old('description')}}</textarea>
@@ -214,7 +224,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                           id="price" name="price"  step="0.01" data-number-to-fixed="2" placeholder="Enter Product Price" value="{{old('price')}}"
+                                           id="price" name="price"  step="0.01" data-number-to-fixed="2" placeholder="Enter Product Price" value="0.00"
                                            title="Please Enter Valid Product Price">
                                 </div>
                                 @error('price')

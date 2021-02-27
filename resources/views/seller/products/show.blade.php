@@ -167,6 +167,14 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group row">
+                                        <label for="sku" class="col-sm-3 col-form-label"><strong>Product SKU:</strong></label>
+                                        <div class="col-sm-9">
+                                            {{ $product->sku }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group row">
                                         <label for="description" class="col-sm-3 col-form-label"><strong>Product Description:</strong></label>
                                         <div class="col-sm-9">
                                             {{ $product->description }}

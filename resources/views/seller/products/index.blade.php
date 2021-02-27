@@ -27,14 +27,18 @@
 
     <!-- Table start -->
     <div class="col-12 mt-5">
-        @error('uploaded_file')
-        <div class="alert alert-danger">
-            <strong>{{ $message }}</strong>
-        </div>
-        @enderror
         <div class="card">
+
             <div class="card-body">
                 <h4 class="header-title">Products</h4>
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                        @if ($product_link = Session::get('product_link'))
+                            <a href="{{ $product_link }}" target="_blank">View</a>
+                        @endif
+                    </div>
+                @endif
                 <div class="single-table">
                     <div class="data-tables">
                         <table id="dataTable" class="text-center">

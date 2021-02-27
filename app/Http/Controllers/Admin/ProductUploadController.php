@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\ProductCategory;
 use Exception;
 use App\Imports\ProductImport;
 use App\Exports\ProductExport;
@@ -41,17 +42,17 @@ class ProductUploadController extends Controller
             $user = parent::getUser();
             $query = $request->get('cat');
             if ($query){
-            $prodCatAtrr = ProductCategoryAttribute::with('attributes')->where('category_id',$query)->get();
-            $attributes =[];
-            foreach($prodCatAtrr as $attr){
-                array_push($attributes, $attr->attributes);
-            }
+                $prodCatAtrr = ProductCategoryAttribute::with('attributes')->where('category_id',$query)->get();
+                $attributes =[];
+                foreach($prodCatAtrr as $attr){
+                    array_push($attributes, $attr->attributes);
+                }
             }
             else{
                 $attributes =Attribute::all();
             }
 
-            $exporter = new ProductExport($attributes);
+            $exporter = new ProductExport($attributes, $query);
 
             Excel::store($exporter, "public/companies/".$user->company->id . "/exceldownload/" . $this->fileName);
             $excel = Excel::download($exporter, $this->fileName);

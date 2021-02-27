@@ -30,6 +30,7 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
 			->join('brands', 'brands.id', '=', 'products.brand_id')->select([
 				'products.id',
 				'products.series_no',
+                'products.sku',
 				'products.name',
 				'products.description',
 				'products.price',
@@ -38,12 +39,13 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
 				'brands.name as brand_name',
 			])
 			->groupBy([
+                'parent_product_categories.name as parent_category_name',
+                'product_categories.name as category_name',
                 'products.series_no',
+                'products.sku',
                 'products.name',
                 'products.description',
                 'products.price',
-                'parent_product_categories.name as parent_category_name',
-                'product_categories.name as category_name',
                 'brands.name as brand_name',
 			])
 			->orderBy('products.id', 'asc');
@@ -62,11 +64,11 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
 
 		$headers[0] = ['PLEASE FILL IN AFTER THE LINE'];
 
-		$headers[1] = [ 'Category', 'Subcategory', 'Product Name', 'Series No','Product Description', 'Pricing'
-		, 'Product Brands', 'Product Image Name', 'Specification', '', '', 'Dimension', '', ''
+		$headers[1] = [ 'Category', 'Subcategory', 'Product Name', 'SKU','Series No','Product Description'
+		, 'Product Brands', 'Pricing', 'Product Image Name', 'Specification', '', '', 'Dimension', '', ''
 		,  'Product_attributes'];
 
-		$headers[2] = [ '', '', '', '', '', '', '', '', 'Attachment', 'Page_From', 'Page_To', 'Attachment', 'Page_From', 'Page_To'
+		$headers[2] = [ '', '', '', '', '', '', '', '','', 'Attachment', 'Page_From', 'Page_To', 'Attachment', 'Page_From', 'Page_To'
 		, ''];
 
 		foreach($this->attributes as $ag) {
@@ -86,12 +88,13 @@ class MyProductExport implements FromQuery, WithEvents, ShouldAutoSize, WithHead
         // This example will return 3 rows.
         // First row will have 2 column, the next 2 will have 1 column
 		$data = [
+            $product->parent_category_name ? : $product->category_name,
+            $product->parent_category_name ? $product->category_name : null,
 			$product->name,
             $product->series_no,
+            $product->sku,
 			$product->description,
 			$product->price,
-			$product->parent_category_name ? : $product->category_name,
-			$product->parent_category_name ? $product->category_name : null,
 			$product->brand_name,
 			'',
 			'',

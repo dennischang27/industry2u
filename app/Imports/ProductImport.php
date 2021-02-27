@@ -59,6 +59,10 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 		$header->name = "Series No";
 		array_push($this->headers, $header);
 
+        $header = new stdClass;
+        $header->name = "SKU";
+        array_push($this->headers, $header);
+
 		$header = new stdClass;
 		$header->name = "Product Name";
 		array_push($this->headers, $header);
@@ -208,9 +212,9 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 
 				if(!$subItemCode) {
 					if($this->log) {
-						$this->skipReasons[$rowIndex + $cRowIndex] = "Missing Item Code on row " . ($rowIndex + $cRowIndex);
+						$this->skipReasons[$rowIndex + $cRowIndex] = "Missing Series No on row " . ($rowIndex + $cRowIndex);
 					}
-					$this->skipSummary["Missing Item Code"] = true;
+					$this->skipSummary["Missing Series No"] = true;
 					$this->skipCount++;
 					continue;
 				}
@@ -244,7 +248,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 
 					$itemCode = $itemCodeString;
 				}
-echo $itemCode;
+
 				$product = Product::withTrashed()->where('series_no', $itemCode)->where('company_id', $this->user->company->id)
                     ->where('user_id', $this->user->id)->first();
 
@@ -342,6 +346,7 @@ echo $itemCode;
 						$product->update([
 							'name' => $itemName,
 							'series_no' => $itemCode,
+                            'sku' => $row['SKU'],
                             'description' => $row['Product Description'],
 							'brand_id' => $brand->id,
 							'category_id' => $category->id,
@@ -353,6 +358,7 @@ echo $itemCode;
 						$product = Product::create([
 							'name' => $itemName,
 							'series_no' => $itemCode,
+                            'sku' => $row['SKU'],
                             'description' => $row['Product Description'],
 							'brand_id' => $brand->id,
 							'category_id' => $category->id,
@@ -363,7 +369,6 @@ echo $itemCode;
 						]);
 
 					}
-				}
 				if(isset($row['Product_attributes']) && count($row['Product_attributes']) > 0) {
 					foreach($row['Product_attributes'] as $group => $value) {
 						if($value) {
@@ -529,6 +534,15 @@ echo $itemCode;
 
 
 				$this->successCount++;
+
+                }else{
+                    if($this->log) {
+                        $this->skipReasons[$rowIndex + $cRowIndex] = "Duplicated Series No (" . $itemCode . ") on row " . ($rowIndex + $cRowIndex);
+                    }
+                    $this->skipSummary["Duplicated Series No (" . $itemCode . ")"] = true;
+                    $this->skipCount++;
+                    continue;
+                }
 			}
 		} catch(Exception $ex) {
 			dd($ex);
