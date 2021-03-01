@@ -15,6 +15,7 @@ class AlterProductAttributeTable extends Migration
     {
         Schema::table('product_attributes', function (Blueprint $table) {
             $table->unsignedBigInteger('attribute_measurement_id')->nullable()->after('attribute_id');
+            $table->string('value', 150)->nullable()->change();
         });
     }
 

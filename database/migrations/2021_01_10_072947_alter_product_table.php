@@ -15,8 +15,7 @@ class AlterProductTable extends Migration
     {
 
         Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable()->after('category_id');
-            $table->bigInteger('views')->default(0)->change();
+           $table->bigInteger('views')->default(0)->change();
         });
     }
 

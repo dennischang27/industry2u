@@ -17,6 +17,7 @@ class AlterUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->datetime('last_login_at')->nullable()->after('is_buyer');
             $table->string('last_login_ip')->nullable()->after('last_login_at');
+            $table->softDeletes();
         });
     }
 
