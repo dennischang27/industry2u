@@ -63,6 +63,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{  request()->routeIs('admin.users.users.*') ? 'active' : '' }}" href="{{ route('admin.users.users.index') }}"><i class="fas fa-fw fa-user"></i> Users</a>
                 <a class="collapse-item {{  request()->routeIs('admin.users.roles.*') ? 'active' : '' }}" href="{{ route('admin.users.roles.index') }}"><i class="fas fa-fw fa-users"></i> Roles</a>
+                <a class="collapse-item {{  request()->routeIs('admin.users.designation.*') ? 'active' : '' }}" href="{{ route('admin.users.designation.index') }}"><i class="fas fa-fw fa-users"></i> Designation</a>
                 <a class="collapse-item {{  request()->routeIs('admin.users.permissions.*') ? 'active' : '' }}" href="{{ route('admin.users.permissions.index') }}"><i class="fas fa-fw fa-id-badge"></i> Permissions</a>
             </div>
         </div>
