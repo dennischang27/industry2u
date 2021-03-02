@@ -16,6 +16,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Image;
 use Illuminate\Http\UploadedFile;
+use DB;
 
 class MainController extends Controller
 {
@@ -107,6 +108,16 @@ class MainController extends Controller
         }
         $user->is_buyer = 1;
         $user->save();
+
+        $model_has_roles = DB::table('model_has_roles')->where('role_id','1')->where('model_id', $user->id)->first();
+
+        if(!$model_has_roles){
+             //user is not found
+             DB::table('model_has_roles')->insert([
+                 ['role_id' => '1', 'model_type' => 'App\Models\User', 'model_id' => $user->id]
+             ]);
+        }
+
         return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
 
@@ -181,6 +192,16 @@ class MainController extends Controller
         $user->is_buyer = 1;
         $user->is_seller = 1;
         $user->save();
+
+        $model_has_roles = DB::table('model_has_roles')->where('role_id','1')->where('model_id', $user->id)->first();
+
+        if(!$model_has_roles){
+             //user is not found
+             DB::table('model_has_roles')->insert([
+                 ['role_id' => '1', 'model_type' => 'App\Models\User', 'model_id' => $user->id]
+             ]);
+        }
+
         return redirect()->route('seller.company.profile')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
 
@@ -273,6 +294,7 @@ class MainController extends Controller
         $user->is_buyer = 1;
         $user->is_seller = 1;
         $user->save();
+
         return redirect()->route('seller.company.profile')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
      }
 }
