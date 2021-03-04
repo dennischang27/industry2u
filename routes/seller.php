@@ -57,9 +57,5 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
             Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
 
-            Route::put('discount/master', 'DiscountController@master')->name('discount.master');
-            Route::put('discount/manager', 'DiscountController@master')->name('discount.master');
-            Route::put('discount/sales', 'DiscountController@master')->name('discount.master');
-
         });
 });
