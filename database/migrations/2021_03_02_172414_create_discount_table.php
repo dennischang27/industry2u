@@ -24,7 +24,7 @@ class CreateDiscountTable extends Migration
             $table->integer('sales_tier1')->nullable();
             $table->integer('sales_tier2')->nullable();
             $table->integer('sales_tier3')->nullable();
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
