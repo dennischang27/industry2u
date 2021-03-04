@@ -32,7 +32,7 @@
                             <!--li class="{{  request()->routeIs('seller.account') ? 'active' : '' }}"><a href="{{ route('seller.account') }}">Account</a></li-->
                         </ul>
 
-                        @role('Admin')
+                        @hasanyrole('Admin|Moderator')
 
                         <ul class="collapse">
                             <li class="{{  request()->routeIs('seller.discount*') ? 'active' : '' }} {{  request()->routeIs('seller.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.index') }}">Discount Setting</a></li>
@@ -43,8 +43,9 @@
 
                             </ul>  
                         </ul>
+                        @endhasanyrole
                     </li>
-                    @endrole
+                   
                 </ul>
             </nav>
         </div>
