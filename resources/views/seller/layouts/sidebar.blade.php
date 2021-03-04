@@ -21,6 +21,8 @@
                             <li class="{{  request()->routeIs('seller.products.uploadfile') ? 'active' : '' }}"><a href="{{ route('seller.products.uploadfile') }}">Upload Files</a></li>
                         </ul>
                     </li>
+
+                    @role('Admin')
                     <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="ti-map-alt"></i>
@@ -40,9 +42,8 @@
 
                             </ul>  
                         </ul>
-
-
                     </li>
+                    @endrole
                 </ul>
             </nav>
         </div>
