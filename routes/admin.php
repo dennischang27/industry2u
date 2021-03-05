@@ -41,7 +41,7 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
             Route::resource('roles','RoleController');
             Route::resource('users','UserController');
             Route::resource('permissions','PermissionController');
-            Route::resource('designation','DesignationController');
+            Route::resource('departments','DepartmentController');
         });
 
         Route::resource('companies','CompanyController');
