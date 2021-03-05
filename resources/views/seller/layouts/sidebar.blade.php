@@ -22,7 +22,7 @@
                         </ul>
                     </li>
 
-                    <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }}">
+                    <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }} ">
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="ti-map-alt"></i>
                             <span>Company</span>
@@ -32,7 +32,7 @@
                             <!--li class="{{  request()->routeIs('seller.account') ? 'active' : '' }}"><a href="{{ route('seller.account') }}">Account</a></li-->
                         </ul>
 
-                        @hasanyrole('Admin|Moderator')
+                        {{-- @hasanyrole('Admin|Moderator')
 
                         <ul class="collapse">
                             <li class="{{  request()->routeIs('seller.discount*') ? 'active' : '' }} {{  request()->routeIs('seller.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.index') }}">Discount Setting</a></li>
@@ -43,9 +43,30 @@
 
                             </ul>  
                         </ul>
-                        @endhasanyrole
+                        @endhasanyrole --}}
                     </li>
-                   
+
+
+                    @hasanyrole('Admin|Moderator')
+
+                    <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }} {{  request()->routeIs('seller.discount*') ? 'active' : '' }}">
+                        <a href="javascript:void(0)" aria-expanded="true">
+                            <i class="ti-money"></i>
+                            <span>Price Management</span>
+                        </a>
+
+                        <ul class="collapse">
+                            <li class="{{  request()->routeIs('seller.discount*') ? 'active' : '' }} {{  request()->routeIs('seller.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.index') }}">Discount Setting</a></li>
+                            <ul>
+                                <li class="{{  request()->routeIs('seller.discount.masters') ? 'active' : '' }} {{  request()->routeIs('seller.company.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.masters') }}">Master</a></li>
+                                <li class="{{  request()->routeIs('seller.discount.manager') ? 'active' : '' }} {{  request()->routeIs('seller.company.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.manager') }}">Manager</a></li>
+                                <li class="{{  request()->routeIs('seller.discount.sales') ? 'active' : '' }} {{  request()->routeIs('seller.company.discount.*') ? 'active' : '' }}"><a href="{{ route('seller.discount.sales') }}">Sales</a></li>
+
+                            </ul>  
+                        </ul>
+                    </li>
+                    @endhasanyrole
+
                 </ul>
             </nav>
         </div>
