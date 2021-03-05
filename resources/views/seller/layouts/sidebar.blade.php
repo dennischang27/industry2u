@@ -22,7 +22,7 @@
                         </ul>
                     </li>
 
-                    <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }}">
+                    <li class="{{  request()->routeIs('seller.account') ? 'active' : '' }} {{  request()->routeIs('seller.company.*') ? 'active' : '' }} {{  request()->routeIs('seller.discount*') ? 'active' : '' }}">
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="ti-map-alt"></i>
                             <span>Company</span>
