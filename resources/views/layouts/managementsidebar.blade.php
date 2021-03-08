@@ -20,10 +20,10 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed text-truncate" href="#usermenu" data-toggle="collapse" data-target="#usermenu"> <i class="ti-user"></i><span class="d-none d-sm-inline">User Management</span><i class="fa fa-table"></i></a>
-            <div class="collapse  {{  request()->routeIs('user.invite') ? 'show' : '' }}" id="usermenu" aria-expanded="false">
+            <div class="collapse " id="usermenu" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
                   <li class="nav-item">
-                      <a class="nav-link  {{  request()->routeIs('user.invite') ? 'active' : '' }}" href="{{ route("user.invite") }}" style="padding-left:33px;">Invite User</a>
+                      <a class="nav-link  " href="#" style="padding-left:33px;">Invite User</a>
                   </li>
                 </ul>
             </div>
