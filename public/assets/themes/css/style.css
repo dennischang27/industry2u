@@ -4048,6 +4048,15 @@ body .owl-theme .owl-nav [class*=owl-] {
     .pr_search_icon {
         display: none
     }
+	.centre_mobile {
+		display: none;
+		visibility: hidden;
+	}
+	
+	.centre_web {
+		display: inline-block;
+		visibility: visible;
+	}
 }
 
 @media only screen and (max-width:991px) {
@@ -4262,6 +4271,14 @@ body .owl-theme .owl-nav [class*=owl-] {
     .popup_content {
         padding: 30px
     }
+	
+	.centre_mobile {
+		visibility: visible;
+	}
+	
+	.centre_web {
+		visibility: hidden;
+	}
 }
 
 @media only screen and (min-width:768px) {

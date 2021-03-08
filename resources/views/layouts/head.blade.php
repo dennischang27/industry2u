@@ -6,7 +6,7 @@
     <div class="top-header d-none d-md-block">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                     @if (auth('web')->check())
                         @if (!auth('web')->user()->is_seller )
                             @if (!auth('web')->user()->is_buyer )
@@ -30,9 +30,9 @@
                             </div>
                         @endif
                     @endif
-                </div>
+                </div>-->
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-end">
                         <ul class="header_list">
                             @if (!auth('web')->check())
@@ -103,19 +103,20 @@
     <div class="bottom_header light_skin main_menu_uppercase bg_dark">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-4">
-                        <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
-                        </a>
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-6 col-8">
+				<div class="col-lg-2 col-md-4 col-sm-6 col-4">
+					<a class="navbar-brand" href="{{ url('/') }}">
+						<img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
+					</a>
+				</div>
+
+				<div class="col-lg-10 col-md-8 col-sm-6 col-8">
                     <nav class="navbar navbar-expand-lg">
                         <button class="navbar-toggler side_navbar_toggler" type="button" data-toggle="collapse" data-target="#navbarSidetoggle" aria-expanded="false">
                             <span class="ion-android-menu"></span>
                         </button>
                         <div class="collapse navbar-collapse mobile_side_menu" id="navbarSidetoggle">
                             <ul class="navbar-nav">
-                                <li class="active">
+                                <!--<li class="active">
                                     <a class=" nav-link nav_item " href="{{ url('/') }}">
                                         Home
                                     </a>
@@ -124,7 +125,35 @@
                                     <a class=" nav-link nav_item " href="{{route('public.products')}}">
                                         Products
                                     </a>
-                                </li>
+                                </li>-->
+								
+								@role('Admin')
+									<li class="active centre_mobile">
+										<a class=" nav-link nav_item " href="{{route('user.company')}}">
+											Management
+										</a>
+									</li>
+									<li class="centre_mobile">
+										<a class=" nav-link nav_item " href="{{route('seller.dashboard')}}">
+											Sales
+										</a>
+									</li>
+									<li class="centre_mobile">
+										<a class=" nav-link nav_item " href="{{route('user.account')}}">
+											Purchasing
+										</a>
+									</li>
+								
+									<div class="text-center centre_web" style="padding: 10px 0;">
+										<a href="{{ route('user.company') }}" class="btn btn-success" style="padding: 10px 25px;" role="button">Management</a>
+									</div>
+									<div class="text-center centre_web" style="padding: 10px 0;">
+										<a href="{{ route('seller.dashboard') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
+									</div>
+									<div class="text-center centre_web" style="padding: 10px 0;">
+										<a href="{{ route('user.account') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
+									</div>
+								@endrole
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >

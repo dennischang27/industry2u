@@ -29,6 +29,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
+					<b class="h5">Management Centre</b>
                 </div>
                 <div class="col-md-6">
                     <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
@@ -53,7 +54,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-4">
-                    @include('layouts.usersidebar')
+                    @include('layouts.managementsidebar')
                 </div>
                 <div class="col-lg-9 col-md-8">
                     <div class="dashboard_content">
