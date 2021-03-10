@@ -28,6 +28,24 @@
                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
             </div>
         </div>
+		<div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Department:</strong>
+                <select title="Please Select User Department" name="department"
+					  class="@error('role_id') is-invalid @enderror form-control select2" id="department" style="color:#6e707e;height:40px;">
+				    <option value="">Department</option>
+				    @if ($departments)
+					    @foreach($departments as $d)
+						    @if (old('department') == $d->id)
+							    <option value="{{$d->id}}" selected> {{$d->name}} </option>
+						    @else
+							    <option value="{{$d->id}}" /> {{$d->name}} </option>
+						    @endif
+					    @endforeach
+				    @endif
+			    </select>
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Is Buyer:</strong>

@@ -25,6 +25,7 @@
                         <th>Name</th>
                         <th>Buyer</th>
                         <th>Seller</th>
+						<th>Department</th>
                         <th width="280px">Action</th>
                     </tr>
                     @foreach ($roles as $key => $role)
@@ -33,6 +34,7 @@
                             <td>{{ $role->name }}</td>
                             <td>{{  ($role->is_buyer? 'yes' : 'no')  }}</td>
                             <td>{{ ($role->is_seller? 'yes' : 'no')  }}</td>
+							<td>{{ $role->department_name  }}</td>
                             <td>
                                 <a class="btn btn-info" href="{{ route('admin.users.roles.show',$role->id) }}">Show</a>
                                 <a class="btn btn-primary" href="{{ route('admin.users.roles.edit',$role->id) }}">Edit</a>

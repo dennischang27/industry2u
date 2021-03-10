@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\Departments;
 use DB;
 
 class RoleController extends Controller
@@ -26,10 +27,11 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-
+    {	
         $page =5;
-        $roles = Role::orderBy('id','DESC')->paginate($page);
+        $roles = Role::select('roles.*', 'departments.name as department_name')->leftJoin('departments', function($join) {
+					$join->on('roles.department_id', '=', 'departments.id');
+				})->orderBy('roles.id','DESC')->paginate($page);
         return view('admin.roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * $page);
     }
@@ -41,7 +43,8 @@ class RoleController extends Controller
     public function create()
     {
         $permission = Permission::get();
-        return view('admin.roles.create',compact('permission'));
+		$departments = Departments::all();
+        return view('admin.roles.create',compact('permission','departments'));
     }
     /**
      * Store a newly created resource in storage.
@@ -53,6 +56,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
+			'department' => 'required',
             'permission' => 'required',
         ]);
         $is_seller = $request->input('is_seller');
@@ -68,7 +72,7 @@ class RoleController extends Controller
         } else {
             $input['is_buyer'] = '0';
         }
-        $role = Role::create(['guard_name' => 'web','name' => $request->input('name'),
+        $role = Role::create(['guard_name' => 'web','name' => $request->input('name'),'department_id' => $request->input('department'),
             'is_buyer'=> $input['is_buyer'], 'is_seller'=> $input['is_seller']]);
         $role->syncPermissions($request->input('permission'));
         return redirect()->route('admin.users.roles.index')
@@ -82,7 +86,14 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
+
+		
+		$role = Role::select('roles.*', 'departments.name as department_name')->leftJoin('departments', function($join) {
+					$join->on('roles.department_id', '=', 'departments.id');
+				})
+				->where("roles.id",$id)
+				->first();
+				
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
             ->where("role_has_permissions.role_id",$id)
             ->get();
@@ -98,10 +109,11 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $permission = Permission::get();
+		$departments = Departments::all();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-        return view('admin.roles.edit',compact('role','permission','rolePermissions'));
+        return view('admin.roles.edit',compact('role','permission','rolePermissions','departments'));
     }
     /**
      * Update the specified resource in storage.
