@@ -141,10 +141,12 @@ class RoleController extends Controller
         } else {
             $input['is_buyer'] = '0';
         }
+
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->is_seller = $input['is_seller'];
         $role->is_buyer = $input['is_buyer'];
+		$role->department_id = $request->input('department');
         $role->save();
         $role->syncPermissions($request->input('permission'));
         return redirect()->route('admin.users.roles.index')
