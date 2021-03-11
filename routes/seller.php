@@ -21,6 +21,8 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::get('products', 'ProductController@index')->name('products.index');
             Route::get('products/create', 'ProductController@create')->name('products.create');
             Route::post('products/store', 'ProductController@store')->name('products.store');
+            Route::get('products/getproducts','ProductController@getproducts')->name('products.getproducts');
+
             Route::get('products/importproducts','ProductController@importproducts')->name('products.importproducts');
 
 
