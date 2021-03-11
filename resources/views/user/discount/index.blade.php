@@ -44,7 +44,10 @@
                                 <h3>Discount Settings</h3>
                             </div>
                             <div class="card-body">
-                                <h5>Master</h5>
+
+                                <br>
+                                <h5>Maximum Discount Limit</h5>
+                                {{-- <h5>Master</h5> --}}
                                 <br>
 
                                 @if ($discount->master_tier1 != null && $discount->master_tier2 != null && $discount->master_tier3 != null)
@@ -78,7 +81,7 @@
                     
                                 <br /><br />
          
-                                <h5>Manager</h5>
+                                {{-- <h5>Manager</h5>
                                 <br />
                                 @if ($discount->manager_tier1 != null && $discount->manager_tier2 != null && $discount->manager_tier3 != null)
                                     <table class="table" class="text-center">
@@ -141,7 +144,7 @@
                                     <br />        
                                 @else
                                     <a class="btn btn-primary btn-sm" style="color: white;" href="{{ route('user.discount.sales') }}">Add Sales Discount Setting</a>
-                                @endif
+                                @endif --}}
 
                             </div>
                         </div>

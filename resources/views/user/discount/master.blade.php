@@ -44,6 +44,9 @@
                                 <h3>Discount Settings</h3>
                             </div>
                             <div class="card-body">
+                                <br>
+                                    <h5>Maximum Discount Setting</h5>
+                                <br>
                                 <form method="POST" action="{{route('user.discount.masters')}}">
                                     @csrf        
                                         <div class="row">
@@ -89,7 +92,9 @@
                                 </form>
 
 
+
                                 <div class="" style="margin-top: 10%">
+                                    <hr>
                                     <h4>Guide</h4><br>
                     
                                     If Listing Price = RM100 and set Discount Tier 1 at 30%, Discount Tier 2 at 10% and Discount Tier 3 at 5%.
