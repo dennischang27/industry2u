@@ -47,7 +47,7 @@
                                 <h5>Master</h5>
                                 <br>
 
-                                @if ($discount != null)
+                                @if ($discount->master_tier1 != null && $discount->master_tier2 != null && $discount->master_tier3 != null)
 
                                     <table class="table" class="text-center">
                                         <thead>
@@ -80,7 +80,7 @@
          
                                 <h5>Manager</h5>
                                 <br />
-                                @if ($discount != null)
+                                @if ($discount->manager_tier1 != null && $discount->manager_tier2 != null && $discount->manager_tier3 != null)
                                     <table class="table" class="text-center">
                                         <thead>
                                         <tr>
@@ -108,42 +108,43 @@
                                     <br>
                                 @endif
                 
-                            <br /><br />
+                                <br /><br />
                 
-                            <h5>Sales</h5>
-                            <br />
+                                <h5>Sales</h5>
+                                <br />
 
-                            @if ($discount != null)
-                                <table class="table" class="text-center">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Discount Tier 1</th>
-                                        <th scope="col">Discount Tier 2</th>
-                                        <th scope="col">Discount Tier 3</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <th>{{$discount->sales_tier1}}</th>
-                                        <th>{{$discount->sales_tier2}}</th>
-                                        <th>{{$discount->sales_tier3}}</th>
-            
-                                        <td>
-                                            <a class="btn btn-primary btn-xs" style="color: white;"
-                                            href="{{ route('user.discount.sales')}}">Edit</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table> 
-                                <br />        
-                            @else
-                                <a class="btn btn-primary btn-sm" style="color: white;" href="{{ route('user.discount.sales') }}">Add Sales Discount Setting</a>
-                            @endif
+    
 
-                              
+                                @if ($discount->sales_tier1 != null && $discount->sales_tier3 != null || $discount->sales_tier2 != null)
+
+                                    <table class="table" class="text-center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Discount Tier 1</th>
+                                            <th scope="col">Discount Tier 2</th>
+                                            <th scope="col">Discount Tier 3</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <th>{{$discount->sales_tier1}}</th>
+                                            <th>{{$discount->sales_tier2}}</th>
+                                            <th>{{$discount->sales_tier3}}</th>
+                
+                                            <td>
+                                                <a class="btn btn-primary btn-xs" style="color: white;"
+                                                href="{{ route('user.discount.sales')}}">Edit</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table> 
+                                    <br />        
+                                @else
+                                    <a class="btn btn-primary btn-sm" style="color: white;" href="{{ route('user.discount.sales') }}">Add Sales Discount Setting</a>
+                                @endif
+
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

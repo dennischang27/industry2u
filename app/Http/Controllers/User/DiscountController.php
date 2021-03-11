@@ -17,18 +17,34 @@ class DiscountController extends Controller{
     } 
 
     public function master(){
-        return view('user.discount.master');
+        $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
+
+        return view('user.discount.master', compact('discount'));
     } 
 
     public function manager(){
-        return view('user.discount.manager');
+        $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
+
+        return view('user.discount.manager', compact('discount'));
+    } 
+
+    public function sales(){
+        $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
+
+        return view('user.discount.sales', compact('discount'));
     } 
 
     public function masterCreate(){
 
-        $discount = new Discount();
+        // $discount = new Discount();
+
         $isUserExist = Discount::where('user_id', '=', Auth::user()->id)->count();
         $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
+
 
         if($isUserExist == 0 ) {
             $discount = new Discount();
@@ -51,15 +67,16 @@ class DiscountController extends Controller{
             $discount->save();
         }
 
-        return view('user.discount.master', compact('user'));
+        return view('user.discount.index', compact('user', 'discount'));
 
     }
 
     public function managerCreate(){
 
-        $discount = new Discount();
+        // $discount = new Discount();
         $isUserExist = Discount::where('user_id', '=', Auth::user()->id)->count();
         $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
 
         if($isUserExist == 0 ) {
             $discount = new Discount();
@@ -81,15 +98,16 @@ class DiscountController extends Controller{
             $discount->save();
         }
 
-        return view('user.discount.manager', compact('user'));
+        return view('user.discount.index', compact('user', 'discount'));
 
     }
 
     public function salesCreate(){
 
-        $discount = new Discount();
+        // $discount = new Discount();
         $isUserExist = Discount::where('user_id', '=', Auth::user()->id)->count();
         $user = Auth::getUser()->id;
+        $discount = Discount::where('user_id', $user)->first();
 
         if($isUserExist == 0 ) {
             $discount = new Discount();
@@ -113,12 +131,8 @@ class DiscountController extends Controller{
             $discount->save();
         }
 
-        return view('user.discount.sales', compact('user'));
+        return view('user.discount.index', compact('user', 'discount'));
 
     }
 
-    public function sales(){
-        $user = Auth::getUser();
-        return view('user.discount.sales');
-    } 
 }

@@ -52,7 +52,7 @@
                                                 <div class="form-group row">
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 1:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
-                                                        <input style="height: 40px" class="form-control" name="manager_tier1" placeholder="discount tier 1" title="" required> 
+                                                        <input style="height: 40px" class="form-control" name="manager_tier1" placeholder="discount tier 1" value="{{ $discount->manager_tier1 }}" required> 
                                                     </div>
                                                     <div style="margin-top: 0.5%">
                                                         <h4>%</h4>
@@ -62,7 +62,7 @@
                                                 <div class="form-group row">
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 2:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
-                                                        <input style="height: 40px" class="form-control" name="manager_tier2" placeholder="discount tier 2" title="" required>
+                                                        <input style="height: 40px" class="form-control" name="manager_tier2" placeholder="discount tier 2" value="{{ $discount->manager_tier2 }}" required>
                                                     </div>
                                                     <div style="margin-top: 0.5%">
                                                         <h4>%</h4>
@@ -72,7 +72,7 @@
                                                 <div class="form-group row">
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 3:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
-                                                        <input style="height: 40px" class="form-control" name="manager_tier3" placeholder="discount tier 3" title="" required>
+                                                        <input style="height: 40px" class="form-control" name="manager_tier3" placeholder="discount tier 3" value="{{ $discount->manager_tier3 }}" required>
                                                     </div>
                                                     <div style="margin-top: 0.5%">
                                                         <h4>%</h4>
