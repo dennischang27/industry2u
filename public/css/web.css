@@ -266,3 +266,6 @@
 .widget_subcategory li a.active .cursor-pointer{
     color: #13329d;
 }
+.product_img{
+    height: 200px;
+}

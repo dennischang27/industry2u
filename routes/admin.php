@@ -51,6 +51,11 @@ Route::group(["prefix" => "admin", "as" => "admin.", "namespace" => "Admin"], fu
             Route::resource('ir','ItemRequestController');
 
         });
+        Route::group(["as" => "settings."], function() {
+
+            Route::resource('industry','IndustryController');
+            Route::resource('companybudget','CompanyBudgetRangeController');
+        });
         Route::get('/clear-cache',function(){
             Artisan::call('cache:clear');
             Artisan::call('view:cache');

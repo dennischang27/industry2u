@@ -28,9 +28,8 @@ class BrandController extends Controller
     public function index()
     {
         $page =5;
-        $brands = Brand::latest()->paginate($page);
-        return view('admin.brands.index',compact('brands'))
-            ->with('i', (request()->input('page', 1) - 1) * $page);
+        $brands = Brand::orderBy('name')->get();
+        return view('admin.brands.index',compact('brands'));
     }
     /**
      * Show the form for creating a new resource.
@@ -57,6 +56,13 @@ class BrandController extends Controller
         ]);
         $input = $request->all();
         $input['slug'] =lowercase($input['slug']);
+
+        if ($request->file('logo')){
+            $optimizePath = storage_path("app/public/brands/");
+            if( ! \File::isDirectory($optimizePath) ) {
+                \File::makeDirectory($optimizePath, 493, true);
+            }
+        }
         if ($file = $request->file('logo'))
         {
 

@@ -54,6 +54,14 @@ class ProductCategoryController extends Controller
         ]);
         $input = $request->all();
         $input["slug"] = preg_replace('/\s+/', '_', $input['slug']);
+
+        if ($request->file('image')){
+            $optimizePath = storage_path("app/public/categories/");
+            if( ! \File::isDirectory($optimizePath) ) {
+                \File::makeDirectory($optimizePath, 493, true);
+            }
+        }
+
         if ($file = $request->file('image'))
         {
 

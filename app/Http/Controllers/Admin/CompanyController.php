@@ -48,20 +48,8 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $input = $request->all();
-
-//        print_r("<pre>");
-//        print_r($input);
-//        print_r("</pre>");
-      $company = Company::find($id);
-//        print_r("<pre>");
-//        print_r($company);
-//        print_r("</pre>");
+        $company = Company::find($id);
         $company->update($input);
-
-//        print_r("<pre>");
-//        print_r($company);
-//        print_r("</pre>");
-//        exit();
         return redirect()->route('admin.companies.index')
             ->with('success','Company updated successfully');
     }
