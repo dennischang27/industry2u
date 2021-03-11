@@ -28,5 +28,15 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed text-truncate" href="#pricemenu" data-toggle="collapse" data-target="#pricemenu"> <i class="ti-money"></i><span class="d-none d-sm-inline">Price Management</span><i class="fa fa-table"></i></a>
+            <div class="collapse  {{  request()->routeIs('user.discount.*') ? 'show' : '' }}" id="pricemenu" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                  <li class="nav-item">
+                      <a class="nav-link  {{  request()->routeIs('user.discount.*') ? 'active' : '' }}" href="{{ route('user.discount.index') }}" style="padding-left:33px;">Manage Sales Discount</a>
+                  </li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </div>
