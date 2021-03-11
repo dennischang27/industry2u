@@ -48,10 +48,10 @@ class ProductController extends Controller
         $attributes = Attribute::with(['attributemeasurement'])->where('is_filterable', 1)->orderBy('name')->get(['id', 'name', 'is_range']);
 
         if ($categoryid){
-            $products = Product::where('name', 'like', '%'.$query.'%')->where('category_id', $categoryid)->paginate($pageqty);
+            $products = Product::where('name', 'like', '%'.$query.'%')->where('category_id', $categoryid)->orderBy('created_at', 'desc')->paginate($pageqty);
             $subcategory = ProductCategory::findorfail($categoryid);
         }else{
-            $products = Product::where('name', 'like', '%'.$query.'%')->paginate($pageqty);
+            $products = Product::where('name', 'like', '%'.$query.'%')->orderBy('created_at', 'desc')->paginate($pageqty);
             $subcategory = [];
 
         }

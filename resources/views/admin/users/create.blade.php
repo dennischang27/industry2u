@@ -25,36 +25,46 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                <input type="text" name="name" id="name" class="form-control" placeholder="Name"
+                       value="{{ old('name') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Username:</strong>
-                {!! Form::text('username', null, array('placeholder' => 'Username','class' => 'form-control')) !!}
+                <strong>Last Name:</strong>
+                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name"
+                       value="{{ old('last_name') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Email:</strong>
-                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                <input type="text" name="email" id="email" class="form-control" placeholder="Email"
+                       value="{{ old('email') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Password:</strong>
-                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+                       value="{{ old('password') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Confirm Password:</strong>
-                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="Confirm Password"
+                       value="{{ old('confirm-password') }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Role:</strong>
+                <select multiple="multiple" name="roles[]" id="roles">
+                    @foreach($roles as $aKey => $role)
+                            <option value="{{$aKey}}" @if($aKey == $aItemKey)selected="selected"@endif>{{$role}}</option>
+                    @endforeach
+                </select>
                 {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
             </div>
         </div>

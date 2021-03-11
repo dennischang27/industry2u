@@ -2,7 +2,7 @@
 
 @section('pagetitle')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Brands</h1>
+    <h1 class="h3 mb-2 text-gray-800">Company Budget Ranges</h1>
 @endsection
 
 @section('style')
@@ -33,7 +33,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="float-right">
-                <a class="btn btn-success" href="{{ route('admin.ecommerce.brands.create') }}"> Create New Brand</a>
+                <a class="btn btn-success" href="{{ route('admin.settings.companybudget.create') }}"> Create New Budget Range</a>
             </div>
         </div>
         <div class="card-body">
@@ -48,29 +48,23 @@
                     <thead class="bg-light text-capitalize">
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
-                        <th>Logo</th>
+                        <th>From</th>
+                        <th>To</th>
                         <th width="280px">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($brands as $brand)
+                    @foreach ($companybudgets as $companybudget)
                         <tr>
-                            <td>{{ $brand->name }}</td>
-                            <td>{{ $brand->description }}</td>
+                            <td class="text-left">{{ $companybudget->name }}</td>
+                            <td class="text-left">{{ $companybudget->from }}</td>
+                            <td class="text-left">{{ $companybudget->to }}</td>
                             <td>
-                                @if(isset($brand->logo))
-                                    <img src="{{ asset('storage/brands/'.$brand->logo) }}" width="60" height="60">
-                                @else
-                                    <img src=" {{ asset('images/noimage.jpg') }}" width="60" height="60">
-                                @endif
-                            </td>
-                            <td>
-                                    <a class="btn btn-primary" href="{{ route('admin.ecommerce.brands.edit',$brand->id) }}">Edit</a>
+                                    <a class="btn btn-primary" href="{{ route('admin.settings.companybudget.edit',$companybudget->id) }}">Edit</a>
                                 @csrf
                                 @method('DELETE')
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletebrand{{ $brand->id }}">Delete</button>
-                                <div id="deletebrand{{ $brand->id }}" class="delete-modal modal fade" role="dialog">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletecompanybudget{{ $companybudget->id }}">Delete</button>
+                                <div id="deletecompanybudget{{ $companybudget->id }}" class="delete-modal modal fade" role="dialog">
                                     <div class="modal-dialog modal-sm">
                                         <!-- Modal content-->
                                         <div class="modal-content">
@@ -80,10 +74,10 @@
                                             </div>
                                             <div class="modal-body text-center">
                                                 <h4 class="modal-heading">Are You Sure ?</h4>
-                                                <p>Do you really want to delete this brand? This process cannot be undone.</p>
+                                                <p>Do you really want to delete this budget range? This process cannot be undone.</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <form method="post" action="{{route('admin.ecommerce.brands.destroy',$brand->id)}}" class="pull-right">
+                                                <form method="post" action="{{route('admin.settings.companybudget.destroy',$companybudget->id)}}" class="pull-right">
                                                     {{csrf_field()}}
                                                     {{method_field("DELETE")}}
 

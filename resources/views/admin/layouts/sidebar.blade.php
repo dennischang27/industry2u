@@ -89,6 +89,23 @@
     <div class="sidebar-heading">
         Settings
     </div>
+
+    <!-- Nav Item - Users Collapse Menu -->
+    <li class="nav-item {{  request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+        <a class="nav-link {{  request()->routeIs('admin.settings.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsesettings"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user-alt"></i>
+            <span>Settings</span>
+        </a>
+        <div id="collapsesettings" class="collapse {{  request()->routeIs('admin.settings.*') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{  request()->routeIs('admin.settings.industry.*') ? 'active' : '' }}" href="{{ route('admin.settings.industry.index') }}"><i class="fas fa-fw fa-industry"></i> Industries</a>
+                <a class="collapse-item {{  request()->routeIs('admin.settings.companybudget.*') ? 'active' : '' }}" href="{{ route('admin.settings.companybudget.index') }}"><i class="fas fa-fw fa-wallet"></i> Company Budgets</a>
+            </div>
+        </div>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
     <li class="nav-item">
         <a class="nav-link" href="{{route("admin.clear-cache")}}">
             <i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i>

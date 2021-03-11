@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use DataTables;
+use DB;
+
 
 class ProductController extends Controller
 {
@@ -28,10 +31,7 @@ class ProductController extends Controller
      */
     function __construct()
     {
-    //    $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-     //   $this->middleware('permission:product-create', ['only' => ['create','store']]);
-      //  $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-      //  $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+
     }
     /**
      * Display a listing of the resource.
@@ -92,28 +92,7 @@ class ProductController extends Controller
             ]);
             $input['brand_id'] = $brand->id;
         }
-//        if ($input['main_category_id']== "Other"){
-//
-//            $main_category = ProductCategory::create([
-//                'name' => $input['main_category_name'],
-//                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
-//            ]);
-//            $category = ProductCategory::create([
-//                'name' => $input['category_name'],
-//                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-//                'parent_id' => $main_category->id,
-//            ]);
-//            $input['category_id'] = $category->id;
-//        }else{
-//            if ($input['category_id']== "Other"){
-//                $category = ProductCategory::create([
-//                    'name' => $input['category_name'],
-//                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-//                    'parent_id' => $input['main_category_id'],
-//                ]);
-//                $input['category_id'] = $category->id;
-//            }
-//        }
+
 
         $product = Product::create($input);
 
@@ -223,29 +202,7 @@ class ProductController extends Controller
                 }
             }
         }
-//        if(isset($input['attr'])) {
-//            foreach($input['attr'] as $index => $id) {
-//                $attribute = Attribute::get()->find($index);
-//                if($id){
-//                    if(isset($input['unit'][$index])){
-//                        $product->productAttribute()->create([
-//                            'value' => $id,
-//                            'attribute_id' => $index,
-//                            'product_id' => $product->id,
-//                            'attribute_measurement_id' => $input['unit'][$index]
-//                        ]);
-//
-//                    }
-//                    else{
-//                        $product->productAttribute()->create([
-//                            'value' => $id,
-//                            'attribute_id' => $index,
-//                            'product_id' => $product->id,
-//                        ]);
-//                    }
-//                }
-//            }
-//        }
+
 
         if ($request->file('image_thumbnail')){
             $optimizePath = storage_path("app/public/products/".$product->id."/");
@@ -408,28 +365,6 @@ class ProductController extends Controller
             $input['brand_id'] = $brand->id;
         }
 
-//        if ($input['main_category_id']== "Other"){
-//
-//            $main_category = ProductCategory::create([
-//                'name' => $input['main_category_name'],
-//                'slug' => preg_replace('/\s+/', '_', $input['main_category_name']),
-//            ]);
-//            $category = ProductCategory::create([
-//                'name' => $input['category_name'],
-//                'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-//                'parent_id' => $main_category->id,
-//            ]);
-//            $input['category_id'] = $category->id;
-//        }else{
-//            if ($input['category_id']== "Other"){
-//                $category = ProductCategory::create([
-//                    'name' => $input['category_name'],
-//                    'slug' => preg_replace('/\s+/', '_', $input['category_name']),
-//                    'parent_id' => $input['main_category_id'],
-//                ]);
-//                $input['category_id'] = $category->id;
-//            }
-//        }
 
 
         $product->update($input);
@@ -792,6 +727,55 @@ class ProductController extends Controller
         }else {
 
             return "<div class='well custom-well'>Error In Deleting the Image !</div>" ;
+        }
+    }
+
+
+    public function getproducts(Request $request)
+    {
+
+        $user = Auth::getUser();
+        $company = $user->company;
+
+        if ($request->ajax()) {
+            $data = DB::table('products')
+                ->select('products.id','products.name','product_categories.name as category_name','brands.name as brand_name' )
+                ->join('product_categories','products.category_id','=','product_categories.id')
+                ->join('brands','products.brand_id','=','brands.id')
+                ->where('products.company_id',$company->id)
+                ->whereNull('products.deleted_at');
+            return Datatables::of($data)
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a class="btn  btn-xs btn-info" href="'.route('seller.products.show',$row->id).'">Show</a>
+                                            <a class="btn  btn-xs btn-primary" href="'. route('seller.products.edit',$row->id).'">Edit</a>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteproduct'.$row->id.'">Delete</button>
+                                            <div id="deleteproduct'.$row->id.'" class="delete-modal modal fade" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="delete-icon"></div>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h4 class="modal-heading">Are You Sure ?</h4>
+                                                            <p>Do you really want to delete this product? This process cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form method="post" action="'.route('seller.products.destroy',$row->id).'" class="pull-right">
+                                                                '.csrf_field().'
+                                                                <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
     }
 

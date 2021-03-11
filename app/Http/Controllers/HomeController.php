@@ -28,7 +28,11 @@ class HomeController extends Controller
     public function index()
     {
         $brands = Brand::where('is_featured', 1)->limit(6)->get();
-        $productcategories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
+        $productcategories = ProductCategory::with([ 'subProducts'])
+                ->where('parent_id', null)
+            ->orderBy('position')
+            ->orderBy('name')
+            ->get();
 
         return view('home', compact('brands', 'productcategories'));
     }

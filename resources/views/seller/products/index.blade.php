@@ -41,58 +41,17 @@
                 @endif
                 <div class="single-table">
                     <div class="data-tables">
-                        <table id="dataTable" class="text-center">
+                        <table class="text-center yajra-datatable">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Brand</th>
+                                    <th scope="col">name</th>
+                                    <th scope="col">category</th>
+                                    <th scope="col">brand</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                            @foreach ($products as $product)
-                                <tr>
-                                    <th scope="row">{{ $product->name }}</td>
-                                    <td>@if($product->category->parentCategory)
-                                            {{ $product->category->parentCategory->name }} >
-                                        @endif
-                                        {{ $product->category->name }}</td>
-                                    <td>{{ $product->brand->name }}</td>
-                                    <td>
-                                            <a class="btn  btn-xs btn-info" href="{{ route('seller.products.show',$product->id) }}">Show</a>
-
-                                            <a class="btn  btn-xs btn-primary" href="{{ route('seller.products.edit',$product->id) }}">Edit</a>
-
-
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteproduct{{ $product->id }}">Delete</button>
-                                            <div id="deleteproduct{{ $product->id }}" class="delete-modal modal fade" role="dialog">
-                                                <div class="modal-dialog modal-sm">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            <div class="delete-icon"></div>
-                                                        </div>
-                                                        <div class="modal-body text-center">
-                                                            <h4 class="modal-heading">Are You Sure ?</h4>
-                                                            <p>Do you really want to delete this product? This process cannot be undone.</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form method="post" action="{{route('seller.products.destroy',$product->id)}}" class="pull-right">
-                                                                {{csrf_field()}}
-                                                                <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
-                                                                <button type="submit" class="btn btn-danger">Yes</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </td>
-                                </tr>
-                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -105,11 +64,28 @@
 @endsection
 
 @section('plugin_script')
-    <!-- Start datatable js -->
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
 
+            var table = $('.yajra-datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('seller.products.getproducts') }}",
+                columns: [
+                    {data: 'name', name: 'name'},
+                    {data: 'category_name', name: 'product_categories.name'},
+                    {data: 'brand_name', name: 'brands.name'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+
+                ]
+
+            });
+
+        });
+    </script>
 @endsection

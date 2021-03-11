@@ -24,9 +24,8 @@ class AttributeController extends Controller
     public function index()
     {
         $page = 5;
-        $attributes = Attribute::orderBy('name')->paginate($page);
-        return view('admin.attributes.index',compact('attributes'))
-            ->with('i', (request()->input('page', 1) - 1) * $page);
+        $attributes = Attribute::orderBy('name')->get();
+        return view('admin.attributes.index',compact('attributes'));
     }
     /**
      * Show the form for creating a new resource.
