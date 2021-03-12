@@ -159,7 +159,7 @@
             color: white;
             text-transform: uppercase;
             font-size: 9px;
-            width: 50%;
+            width: 33.3%;
             float: left;
             position: relative;
             letter-spacing: 1px;
@@ -255,14 +255,30 @@
                   action="{{route('addcompanypost')}}">
             @csrf
             <!-- progressbar -->
+
+				
                 <div class="col-md-12 text-center">
                     <ul id="progressbar">
-                        <li class="active">{{ __('Agreement') }}</li>
-                        <li>{{ __('Company information & confirm') }}</li>
+					    <li id="page1" class="active">{{ __('Seller or Buyer') }}</li>
+						<li id="page2" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
+                        <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
                     </ul>
                 </div>
                 <!-- fieldsets -->
-                <fieldset>
+				<fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
+					<div><h2 class="fs-title">Are you a Supplier / Purchaser / Both?</h2></div>
+					<div><label class="font-weight-bold">
+                        <input {{ old('is_buyer') ? "checked" : "" }} type="checkbox" id="is_buyer" name="is_buyer" title="Buyer">
+                        Purchaser (Buyer)
+                    </label></div>
+					<div><label class="font-weight-bold">
+                        <input {{ old('is_seller') ? "checked" : "" }} type="checkbox" id="is_seller" name="is_seller" title="Seller">
+                        Supplier (Seller)
+                    </label></div>
+					<div id="error_buyer_seller"></div>
+					<input type="button" name="next" class="next action-button" value="Next" />
+				</fieldset>
+                <fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
                     <h2 class="fs-title">User Agreement</h2>
                     <h3 class="fs-subtitle">Read the agreement carefully and proceed further !</h3>
                     <hr>
@@ -1466,11 +1482,13 @@
                               <strong>{{ $message }}</strong>
                             </span>
                     @enderror
+					<input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     <input type="button" name="next" class="next action-button" value="Next" />
                 </fieldset>
-                <fieldset>
+                <fieldset style="{{ $errors->has('initial') ? 'display:block;' : '' }} {{ $errors->has('reg_no') ? 'display:block;' : '' }}">
                     <h2 class="fs-title">Company Information</h2>
                     <h3 class="fs-subtitle">Tell us something more about your company</h3>
+					
                     <label class="float-left">Company Name: <small class="text-danger">*</small></label>
                     <input class="@error('name') is-invalid @enderror" value="{{ old('name') }}"
                            title="Please enter company name" required type="text" name="name"
@@ -1481,6 +1499,18 @@
                               <strong>{{ $message }}</strong>
                             </span>
                     @enderror
+					
+					<label class="float-left">Company Initial (3 letters) : <small class="text-danger">*</small></label>
+                    <input class="@error('initial') is-invalid @enderror" value="{{ old('initial') }}"
+                           title="Please enter company initial" required type="text" name="initial"
+                           placeholder="Please enter company initial" maxlength="3" />
+                    <div class="errorTxt"></div>
+                    @error('initial')
+                    <span class="invalid-feedback text-danger" role="alert">
+                              <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+					
                     <label class="float-left">{{ __('Business Registration Number') }} <small class="text-danger">*</small></label>
                     <input class="@error('reg_no') is-invalid @enderror" required name="reg_no"  type="text"
                            value="{{old('reg_no')}}" placeholder="Please Enter Business Registration Number"
@@ -1498,7 +1528,7 @@
                                     class="@error('industry_id') is-invalid @enderror form-control select2" id="industry_id">
                                 <option value="">Please select business type</option>
                                 @foreach($industry as $s)
-                                    <option value="{{$s->id}}" /> {{$s->name}} </option>
+                                    <option value="{{$s->id}}" {{ old('industry_id') == $s->id ? "selected" : "" }}> {{$s->name}} </option>
                                 @endforeach
                             </select>
                             <div class="errorTxt"></div>
@@ -1508,13 +1538,13 @@
                                       </span>
                             @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div id="company_budget_range" class="form-group col-md-6">
                             <label class="float-left">{{ __('Monthly Budget Range') }}: <small class="text-danger">*</small></label>
                             <select title="lease Monthly Budget Range" required name="company_budget_range_id"
                                     class="@error('company_budget_range_id') is-invalid @enderror form-control select2" id="company_budget_range_id">
                                 <option value="">Please Monthly Budget Range</option>
                                 @foreach($companybudgetrange as $s)
-                                    <option value="{{$s->id}}" /> {{$s->name}} </option>
+									<option value="{{$s->id}}" {{ old('company_budget_range_id') == $s->id ? "selected" : "" }}> {{$s->name}} </option>
                                 @endforeach
                             </select>
                             <div class="errorTxt"></div>
@@ -1577,7 +1607,7 @@
                                 class="@error('state_id') is-invalid @enderror form-control select2" id="state_id">
                             <option value="">Please select state</option>
                             @foreach($state as $s)
-                                <option value="{{$s->id}}" /> {{$s->name}} </option>
+								<option value="{{$s->id}}" {{ old('state_id') == $s->id ? "selected" : "" }}> {{$s->name}} </option>
                             @endforeach
                         </select>
                         <div class="errorTxt"></div>
@@ -1600,7 +1630,16 @@
                     <br>
                     <h3 class="fs-title">SSM Documents</h3>
                     <div class="form-row">
-                        @foreach($doc_types as $doc_type)
+                        <div class="col-md-12">
+							<label style="font-weight: 700">SSM Form 9</label>
+							<input id="file_1" accept="image/png, image/jpeg, application/pdf" type="file" class="form-control " value="" name="file[1]" autofocus="">
+							@error('file_1')
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+							@enderror
+						</div>
+						<!--@foreach($doc_types as $doc_type)
                             <div class="col-md-4">
                                 <label style="font-weight: 700">{{ __($doc_type->name) }}</label>
 
@@ -1613,11 +1652,66 @@
 											</span>
                                 @enderror
                             </div>
-                        @endforeach
-
+                        @endforeach-->
                     </div>
-
+					<hr>
+					<section id="payment_info"><br/>
+					<h2 class="fs-title">Payment Information</h2>
+				    <div class="form-row">
+					   <div class="form-group col-md-6">
+						   <label class="float-left">{{ __('Bank Name') }}: <small class="text-danger">*</small></label>
+						   <select title="Please select Bank Name" required name="bank_id"
+								   class="@error('bank_id') is-invalid @enderror form-control select2" id="bank_id">
+							   <option value="">Please select Bank Name</option>
+							   @foreach($bank as $s)
+								   <option value="{{$s->id}}" {{ old('bank_id') == $s->id ? "selected" : "" }}> {{$s->name}} </option>
+							   @endforeach
+						   </select>
+						   <div class="errorTxt"></div>
+						   @error('bank_id')
+						   <span class="invalid-feedback text-danger" role="alert">
+							  <strong>{{ $message }}</strong>
+							</span>
+						   @enderror
+					   </div>
+					   <div class="form-group col-md-6">
+						   <label class="float-left">{{ __('Bank Account Number') }}: <small class="text-danger">*</small></label>
+						   <input class="@error('bank_account') is-invalid @enderror" title="Invalid bank account no." required number name="bank_account"
+								  type="text" value="{{old('bank_account')}}" placeholder="{{ __('Please enter bank account number') }}">
+						   <div class="errorTxt"></div>
+						   @error('bank_account')
+						   <span class="invalid-feedback text-danger" role="alert">
+							  <strong>{{ $message }}</strong>
+							</span>
+						   @enderror
+					   </div>
+					</div>
+					<hr>
+					</section>
+					<section id="sst_info">
+						<h2 class="fs-title">SST INFORMATION</h2>
+						<div class="form-group">
+							<label>{{ __('SST Number') }}</label>
+							<input pattern="[0-9]+" title="Invalid SST number" type="text" name="sst_no"
+								 value="{{old('sst_no')}}" placeholder="{{ __('Please enter SST number') }}">
+						</div>
+						<div class="form-row">
+							@foreach($doc_type_sst as $doc_type)
+								<div class="col-md-4">
+									<label style="font-weight: 700">{{ __($doc_type->name) }}</label>
+									<input id="sstfile_{{ $doc_type->id }}" accept="image/png, image/jpeg, application/pdf" type="file"
+										 class="form-control @error('sstfile.' .$doc_type->id) is-invalid @enderror"
+										 value="{{ old('sstfile') ? old('sstfile')[$doc_type->id] : null }}" name="sstfile[{{ $doc_type->id }}]" autofocus />
+									@error('sstfile.' . $doc_type->id)
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										</span>
+									@enderror
+								</div>
+							@endforeach
+						</div>
                     <hr>
+					</section>
                     <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     <input type="submit" name="submit" class="submit action-button" value="Submit" />
                 </fieldset>
@@ -1646,7 +1740,33 @@
     var animating; //flag to prevent quick multi-click glitches
 
     $(".next").click(function () {
-
+		if(!$('#is_buyer').is(':checked') && !$('#is_seller').is(':checked')){
+			$('#error_buyer_seller').html( "<span style='color:red;'>* Please select to become purchaser or supplier.</span>" );
+			return;
+		}else{
+			$('#error_buyer_seller').html( "" );
+		}
+		
+		if($('#is_buyer').is(':checked')){
+			$('#company_budget_range').show();
+			$('#sellerform').attr('action', '{{route("addcompanypost")}}');
+		}else{
+			$('#company_budget_range').hide();
+		}
+		
+		if($('#is_seller').is(':checked')){
+			$('#payment_info').show();
+			$('#sst_info').show();
+			$('#sellerform').attr('action', '{{route("apply.seller.company.post")}}');
+		}else{
+			$('#payment_info').hide();
+			$('#sst_info').hide();
+		}
+		
+		if($('#is_buyer').is(':checked') && $('#is_seller').is(':checked')){
+			$('#sellerform').attr('action', '{{route("apply.seller.company.post")}}');
+		}
+		
         if ($('#sellerform').valid()) {
             if (animating) return false;
             animating = true;

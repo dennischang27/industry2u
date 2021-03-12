@@ -126,33 +126,39 @@
                                         Products
                                     </a>
                                 </li>-->
-								
 								@role('Admin')
 									<li class="active centre_mobile">
 										<a class=" nav-link nav_item " href="{{route('user.company')}}">
 											Management
 										</a>
 									</li>
+									@if (auth('web')->user()->is_seller)
 									<li class="centre_mobile">
 										<a class=" nav-link nav_item " href="{{route('seller.dashboard')}}">
 											Sales
 										</a>
 									</li>
+									@endif
+									@if (auth('web')->user()->is_buyer)
 									<li class="centre_mobile">
 										<a class=" nav-link nav_item " href="{{route('user.account')}}">
 											Purchasing
 										</a>
 									</li>
-								
+									@endif
 									<div class="text-center centre_web" style="padding: 10px 0;">
 										<a href="{{ route('user.company') }}" class="btn btn-success" style="padding: 10px 25px;" role="button">Management</a>
 									</div>
+									@if (auth('web')->user()->is_seller)
 									<div class="text-center centre_web" style="padding: 10px 0;">
 										<a href="{{ route('seller.dashboard') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
 									</div>
+									@endif
+									@if (auth('web')->user()->is_buyer)
 									<div class="text-center centre_web" style="padding: 10px 0;">
 										<a href="{{ route('user.account') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
 									</div>
+									@endif
 								@endrole
                             </ul>
                         </div>

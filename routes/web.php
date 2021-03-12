@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::post('users/{user}/update', 'UserController@updateprofile')->name('.updateprofile');
         Route::get('changepassword', 'UserController@changepassword')->name('.changepassword');
         Route::post('postchangepassword/{user}/update', 'UserController@postchangepassword')->name('.postchangepassword');
-        Route::group(['middleware' => ['CheckBuyer']], function() {
+        //Route::group(['middleware' => ['CheckBuyer']], function() {
 
             // Management Center
             Route::get('company', 'UserController@company')->name('.company');
@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/pricingmanagement', 'PriceManagementController@index')->name('.pricemanagement.index');
 
 
-        });
+        //});
     });
 
     Route::get('cart-view', 'CartController@index')->name('public.cart.view');
@@ -107,11 +107,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('cart-checkout/process', 'CartController@checkoutProcess')->name('public.cart.checkout.process');
     Route::post('add-to-cart', 'CartController@add')->name('public.cart.add');
 
-    Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
-    Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
-    Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
-    Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');
-    Route::get('upgrade-to-seller', 'MainController@upgradetoseller')->name('upgrade.seller.company');
-    Route::post('upgrade-to-seller/{company}/update', 'MainController@upgradetosellerpost')->name('upgrade.seller.company.post');
+    Route::group(['middleware' => ['CheckCompanyRegistration']], function() {
+		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
+		Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
+		Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
+		Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');
+		Route::get('upgrade-to-seller', 'MainController@upgradetoseller')->name('upgrade.seller.company');
+		Route::post('upgrade-to-seller/{company}/update', 'MainController@upgradetosellerpost')->name('upgrade.seller.company.post');
+	});
 
 });

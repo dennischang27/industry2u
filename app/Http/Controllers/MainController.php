@@ -53,18 +53,38 @@ class MainController extends Controller
         $companybudgetrange = CompanyBudgetRange::all();
         $bank=Bank::all();
         $doc_types = DocType::where('type','SSM')->get();
+		$doc_type_sst = DocType::where('type','SST')->get();
         $id = Auth::user()->id;
         $user = User::where('id', $id)->first();
-        return view('user.addcompany', compact('user', 'country', 'state', 'bank','companybudgetrange','doc_types', 'industry','currency'));
+        return view('user.addcompany', compact('user', 'country', 'state', 'bank','companybudgetrange','doc_types', 'doc_type_sst', 'industry','currency'));
     }
     public function addcompanypost(Request $request)
     {
+		$this->validate(request(), [
+            'initial' => 'required|unique:companies',
+			'reg_no' => 'required|unique:companies',
+        ]);
 
         $user = Auth::user();
 
 
-        $input = $request->all();
+        //$input = $request->all();
+		$input = $request->except(['bank_id','bank_account','sst_no']);
         $input["user_id"] = $user->id;
+		$input["initial"] = strtoupper(request('initial'));
+		
+		if(isset($input["is_seller"])){
+			$input["is_seller"] = 1;
+		}else{
+			$input["is_seller"] = 0;
+		}
+		
+		if(isset($input["is_buyer"])){
+			$input["is_buyer"] = 1;
+		}else{
+			$input["is_buyer"] = 0;
+		}
+		
         $company = Company::create($input);
         if ($request->file('logo')||$request->file('file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
@@ -106,7 +126,8 @@ class MainController extends Controller
                 }
             }
         }
-        $user->is_buyer = 1;
+        $user->is_buyer = $input["is_buyer"];
+        $user->is_seller = $input["is_seller"];
         $user->save();
 
         $model_has_roles = DB::table('model_has_roles')->where('role_id','1')->where('model_id', $user->id)->first();
@@ -141,12 +162,29 @@ class MainController extends Controller
 
     public function applyforsellerpost(Request $request)
     {
-
+		$this->validate(request(), [
+            'initial' => 'required|unique:companies',
+			'reg_no' => 'required|unique:companies',
+        ]);
+		
         $user = Auth::user();
-
 
         $input = $request->all();
         $input["user_id"] = $user->id;
+		$input["initial"] = strtoupper(request('initial'));
+		
+		if(isset($input["is_seller"])){
+			$input["is_seller"] = 1;
+		}else{
+			$input["is_seller"] = 0;
+		}
+		
+		if(isset($input["is_buyer"])){
+			$input["is_buyer"] = 1;
+		}else{
+			$input["is_buyer"] = 0;
+		}
+		
         $company = Company::create($input);
 
         if ($request->file('logo')||$request->file('file')){
@@ -189,8 +227,8 @@ class MainController extends Controller
                 }
             }
         }
-        $user->is_buyer = 1;
-        $user->is_seller = 1;
+        $user->is_buyer = $input["is_buyer"];
+        $user->is_seller = $input["is_seller"];
         $user->save();
 
         $model_has_roles = DB::table('model_has_roles')->where('role_id','1')->where('model_id', $user->id)->first();
@@ -202,7 +240,8 @@ class MainController extends Controller
              ]);
         }
 
-        return redirect()->route('seller.company.profile')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
+        //return redirect()->route('seller.company.profile')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
+		return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
 
 
