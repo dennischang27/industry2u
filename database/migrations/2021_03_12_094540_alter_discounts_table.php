@@ -35,6 +35,6 @@ class AlterDiscountsTable extends Migration
             $table->integer('sales_tier1')->nullable();
             $table->integer('sales_tier2')->nullable();
             $table->integer('sales_tier3')->nullable();
-        }
+        });
     }
 }
