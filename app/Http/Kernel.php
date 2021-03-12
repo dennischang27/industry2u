@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'CheckSeller' => \App\Http\Middleware\CheckSeller::class,
         'CheckBuyer' => \App\Http\Middleware\CheckBuyer::class,
+		'CheckCompanyRegistration' => \App\Http\Middleware\CheckCompanyRegistration::class,
     ];
 
     /**
