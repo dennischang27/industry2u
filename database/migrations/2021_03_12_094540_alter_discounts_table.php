@@ -27,11 +27,14 @@ class AlterDiscountsTable extends Migration
     public function down()
     {
         //
-        $table->integer('manager_tier1')->nullable();
-        $table->integer('manager_tier2')->nullable();
-        $table->integer('manager_tier3')->nullable();
-        $table->integer('sales_tier1')->nullable();
-        $table->integer('sales_tier2')->nullable();
-        $table->integer('sales_tier3')->nullable();
+        Schema::table('discounts', function (Blueprint $table) {
+
+            $table->integer('manager_tier1')->nullable();
+            $table->integer('manager_tier2')->nullable();
+            $table->integer('manager_tier3')->nullable();
+            $table->integer('sales_tier1')->nullable();
+            $table->integer('sales_tier2')->nullable();
+            $table->integer('sales_tier3')->nullable();
+        }
     }
 }
