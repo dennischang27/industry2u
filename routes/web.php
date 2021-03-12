@@ -37,6 +37,10 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('company', 'UserController@company')->name('.company');
             Route::get('company/edit', 'UserController@companyedit')->name('.company.edit');
             Route::post('company/{company}/update', 'UserController@companyupdate')->name('.company.update');
+            Route::get('bankinfo', 'UserController@bankinfo')->name('.bankinfo');
+            Route::get('bankinfo/add', 'UserController@bankinfoadd')->name('.bankinfo.add');
+            Route::post('bankinfo/{company}/add', 'UserController@bankinfoaddpost')->name('.bankinfo.store');
+            Route::get('bankinfo/edit', 'UserController@bankinfoedit')->name('.bankinfo.edit');
 
             // Discount
             Route::get('discount', 'DiscountController@index')->name('.discount.index');

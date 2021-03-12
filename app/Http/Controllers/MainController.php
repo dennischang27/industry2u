@@ -227,6 +227,32 @@ class MainController extends Controller
                 }
             }
         }
+
+        if($sstdocFiles = $request->file('sstfile')) {
+            foreach($sstdocFiles as $key => $doc) {
+                if($doc) {
+                    $doc_type = DocType::find($key);
+
+                    if($doc_type) {
+                        $path = $doc->storeAs('companies/' . $company->id, $doc_type->name . "." . $doc->getClientOriginalExtension(), 'public');
+
+                        $document = $company->companyDocs->where('doc_type_id', $key)->first();
+                        if($document) {
+                            $document->update([
+                                'file_path' =>  $path,
+                            ]);
+                        } else {
+                            $company->CompanyDocs()->create([
+                                'file_path' => $path,
+                                'doc_type_id' => $doc_type->id,
+                            ]);
+                        }
+
+                    }
+                }
+            }
+        }
+        
         $user->is_buyer = $input["is_buyer"];
         $user->is_seller = $input["is_seller"];
         $user->save();

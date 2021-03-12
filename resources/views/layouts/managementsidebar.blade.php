@@ -8,12 +8,15 @@
 </style>
 <div class="dashboard_menu">
     <ul class="nav nav-tabs flex-column" role="tablist">
-		<li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link collapsed text-truncate" href="#companymenu" data-toggle="collapse" data-target="#companymenu"> <i class="ti-layout-cta-right"></i><span class="d-none d-sm-inline">Company Management</span><i class="fa fa-table"></i></a>
-            <div class="collapse  {{  request()->routeIs('user.company') ? 'show' : '' }} {{  request()->routeIs('user.company.edit') ? 'show' : '' }}" id="companymenu" aria-expanded="false">
+            <div class="collapse  {{  request()->routeIs('user.company') ? 'show' : '' }} {{  request()->routeIs('user.company.edit') ? 'show' : '' }} {{  request()->routeIs('user.bankinfo') ? 'show' : '' }} {{  request()->routeIs('user.bankinfo.*') ? 'show' : '' }}" id="companymenu" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
                   <li class="nav-item">
                       <a class="nav-link  {{  request()->routeIs('user.company') ? 'active' : '' }} {{  request()->routeIs('user.company.edit') ? 'active' : '' }}" href="{{ route("user.company") }}" style="padding-left:33px;">Company Profile</a>
+                  </li>
+				  <li class="nav-item">
+                      <a class="nav-link {{  request()->routeIs('user.bankinfo') ? 'active' : '' }} {{  request()->routeIs('user.bankinfo.*') ? 'active' : '' }}" href="{{ route("user.bankinfo") }}" style="padding-left:33px;">Bank & SST Info</a>
                   </li>
                 </ul>
             </div>
