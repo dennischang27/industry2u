@@ -50,7 +50,7 @@
                                 {{-- <h5>Master</h5> --}}
                                 <br>
 
-                                @if ($discount->master_tier1 != null && $discount->master_tier2 != null && $discount->master_tier3 != null)
+                                @if ($discount != null)
 
                                     <table class="table" class="text-center">
                                         <thead>
