@@ -177,7 +177,7 @@
                                     <div class="form-group row">
                                         <label for="description" class="col-sm-3 col-form-label"><strong>Product Description:</strong></label>
                                         <div class="col-sm-9">
-                                            {{ $product->description }}
+                                            <span style="white-space: pre;">{{ $product->description }}</span>
                                         </div>
                                     </div>
                                 </div>
