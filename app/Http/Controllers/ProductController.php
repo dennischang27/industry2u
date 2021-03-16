@@ -60,6 +60,14 @@ class ProductController extends Controller
 
     public function product_detail(Product $product)
     {
+        $Key = 'product' . $product->id;
+        if (!\Session::has($Key)) {
+
+            \DB::table('products')
+                ->where('id', $product->id)
+                ->increment('views', 1);
+            \Session::put($Key, 1);
+        }
         return view('front.product_detail', compact('product'));
 
     }
