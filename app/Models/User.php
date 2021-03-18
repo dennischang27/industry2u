@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\CanResetPassword;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -49,6 +50,14 @@ class User extends Authenticatable
 
     public function companyMember() {
         return $this->hasOne(CompanyUser::class, 'user_id');
+    }
+
+    public function designationName() {
+        return $this->belongsTo(Roles::class, 'designation_id');
+    }
+
+    public function departmentName() {
+        return $this->belongsTo(Departments::class, 'department_id');
     }
 
 }

@@ -15,6 +15,7 @@ use Auth;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\DocType;
+use App\Models\Departments;
 use Carbon\Carbon;
 use Hash;
 use Image;
@@ -30,11 +31,20 @@ class UserController extends Controller
 {
 	const URL = "";
 
-	public function account()
+	public function account(Request $request)
 	{
 		$user = parent::getUser();
+        $code = '';
 
-		return view('user.account', ['user' => $user]);
+        if(null !== $request->input('code')){
+            $code = $request->input('code');
+        }
+
+        if($user['status'] == 'pending join'){
+            $code = $user['invitation_code'];
+        }
+
+		return view('user.account', ['user' => $user,'code' => $code]);
 	}
 
 	public function profile() {
@@ -198,6 +208,152 @@ class UserController extends Controller
         return redirect()->route('user.changepassword')
             ->with('success','User password has been updated.');
     }
+
+	public function invite(Request $request) {
+		$user = parent::getUser();
+		//$roles = Role::where('name', '!=' , 'Admin')->where('name', '!=' , 'Sales')->get();
+        $departments = Departments::where('name', '!=' , 'Admin')->get();
+		$designations = "";
+
+		$errors = Session::get('errors');
+		if($errors){
+				$designations = Role::where('department_id', '=', $request->old('department'))->get();
+		}
+
+		return view('user.invite', compact('user','departments','designations'));
+	}
+
+	function generateRandomString($length = 10) {
+    	return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    }
+
+    public function joincompany(User $user, Request $request) {
+        $user->status = 'active';
+        $user->save();
+        return redirect()->route('user.acount')->with('success','Join successfully.');
+    }
+
+	public function sendinvitation(User $user, Request $request) {
+        $this->validate(request(), [
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'designation' => 'required',
+                'department' => 'required',
+        ]);
+
+        $invitation_code = $this->generateRandomString(50);
+
+        $userdata = User::where('email', '=', $request->email)->first();
+        if ($userdata === null) {
+            echo "Email not exist <br/>";
+            // user doesn't exist
+            // store users table and model_has_roles table
+            $new_user = new User;
+            $new_user->title = '.';
+            $new_user->first_name = $request->firstname;
+            $new_user->last_name = $request->lastname;
+            $new_user->username = $request->email;
+            $new_user->email = $request->email;
+            $new_user->password = '.';
+            $new_user->is_active = 0;
+            $new_user->is_company_admin = 0;
+            $new_user->manage_company_admin = 0;
+            $new_user->is_super_user = 0;
+            $new_user->manage_supers = 0;
+
+            if($request->designation == 3 || $request->designation == 5 || $request->designation == 7){
+                // Seller
+                $new_user->is_buyer = 0;
+                $new_user->is_seller = 1;
+            }elseif($request->designation == 4 || $request->designation == 6 || $request->designation == 8 || $request->designation == 9 || $request->designation == 10){
+                // Buyer
+                $new_user->is_buyer = 1;
+                $new_user->is_seller = 0;
+            }else{
+                // Moderator
+                $new_user->is_buyer = 1;
+                $new_user->is_seller = 1;
+            }
+            
+            $new_user->invitation_code = $invitation_code;
+            $new_user->status = 'pending register';
+            $new_user->designation_id = $request->designation;
+            $new_user->department_id = $request->department;
+            $new_user->user_admin_id = $user->id;
+            $new_user->save();
+
+            // add user roles
+            DB::table('model_has_roles')->insert([
+                ['role_id' => $request->designation, 'model_type' => 'App\Models\User', 'model_id' => $new_user->id]
+            ]);
+
+            // Send invitation emails
+            $mail["email"] = $request->email;
+            $mail["subject"] = "Industry2u Registration Invitation";
+            $mail["company"] = $user->company->name;
+            $mail["invitation_code"] = $invitation_code;
+
+            Mail::send('user.newusermail', $mail, function($message)use($mail) {
+                $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+            });
+
+            return redirect()->route('user.invite')->with('success','Invitation email had sent.');
+        } else {
+            // user exist
+            if($userdata->is_buyer==0 && $userdata->is_seller==0){
+                // General User
+                // Update User Data
+                if($request->designation == 3 || $request->designation == 5 || $request->designation == 7){
+                    // Seller
+                    $userdata->is_buyer = 0;
+                    $userdata->is_seller = 1;
+                }elseif($request->designation == 4 || $request->designation == 6 || $request->designation == 8 || $request->designation == 9 || $request->designation == 10){
+                    // Buyer
+                    $userdata->is_buyer = 1;
+                    $userdata->is_seller = 0;
+                }else{
+                    // Moderator
+                    $userdata->is_buyer = 1;
+                    $userdata->is_seller = 1;
+                }
+
+                $userdata->invitation_code = $invitation_code;
+                $userdata->status = 'pending join';
+                $userdata->designation_id = $request->designation;
+                $userdata->department_id = $request->department;
+                $userdata->user_admin_id = $user->id;
+                $userdata->save();
+
+                // add user roles
+                DB::table('model_has_roles')->insert([
+                    ['role_id' => $request->designation, 'model_type' => 'App\Models\User', 'model_id' => $userdata->id]
+                ]);
+
+                // Send Invite User
+                $mail["email"] = $request->email;
+                $mail["subject"] = "Industry2u Registration Invitation";
+                $mail["company"] = $user->company->name;
+                $mail["invitation_code"] = $invitation_code;
+
+                Mail::send('user.generalusermail', $mail, function($message)use($mail) {
+                    $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                });
+
+                return redirect()->route('user.invite')->with('success','Invitation email had sent.');
+            }else{
+                // Moderator
+                return Redirect::back()->withInput()->withErrors(['message'=>'Invitation is failed! User Account has been registered with us']);
+            }
+        }
+	}
+
+	public function getdesignation(Request $request) {
+	    $departmentid = $request->departmentid;
+        $roles = Role::where('department_id', '=', $departmentid)->get();
+			//$designations = Designations::where('roles_id', '=', $depatmentid)->get();
+		return Response::json( $roles );
+	}
 	
 	public function bankinfo() {
 		$user = parent::getUser();

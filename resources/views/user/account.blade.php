@@ -1,12 +1,17 @@
 @extends('layouts.app')
-
+@section('style')
+    <style>
+        .btn{
+            padding:5px 15px;
+        }
+    </style>
+@endsection
 @section('breadcrumbs')
  <!-- breadcrumbs start here-->
 <div class="breadcrumb_section bg_gray page-title-mini">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-
             </div>
             <div class="col-md-6">
                 <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
@@ -73,9 +78,18 @@
                                         <p>{{auth('web')->user()->phone }}</p>
                                     </div>
                                 </div>
+                                @if($code)
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <form method="POST" action="{{ route("user.joincompany", $user) }}" accept-charset="UTF-8">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success">Join</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

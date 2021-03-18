@@ -48,15 +48,27 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'company_name' => ['required', 'string', 'max:255'],
-            'designation' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'terms' => 'required'
-        ]);
+        if(isset($data['code'])){
+            return Validator::make($data, [
+                'company_name' => ['required', 'string', 'max:255'],
+                'designation' => ['required', 'string', 'max:255'],
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'terms' => 'required'
+            ]);
+        }else{
+            return Validator::make($data, [
+                'company_name' => ['required', 'string', 'max:255'],
+                'designation' => ['required', 'string', 'max:255'],
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'terms' => 'required'
+            ]);
+        }
     }
 
     /**
@@ -67,15 +79,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'title' => $data['title'],
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'company_name' => $data['company_name'],
-            'designation' => $data['designation'],
-            'username' => $data['email'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        if(isset($data['code'])){
+            $user = User::where('invitation_code', '=', $data['code'])->first();
+            $user->title = $data['title'];
+            $user->first_name = $data['first_name'];
+            $user->last_name = $data['last_name'];
+            $user->company_name = $data['company_name'];
+            $user->designation = $data['designation'];
+            $user->username = $data['email'];
+            $user->email = $data['email'];
+            $user->is_active = 1;
+            $user->status = 'active';
+            $user->save();
+            return $user;
+        } else {
+            return User::create([
+                'title' => $data['title'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'company_name' => $data['company_name'],
+                'designation' => $data['designation'],
+                'username' => $data['email'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
     }
 }
