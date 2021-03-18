@@ -194,9 +194,6 @@ class UserController extends Controller
     }
 
     public function postchangepassword(User $user) {
-
-
-
         $this->validate(request(), [
             'old_password' => ['required', new MatchOldPassword],
             'password' => ['required'],
@@ -288,6 +285,11 @@ class UserController extends Controller
                 ['role_id' => $request->designation, 'model_type' => 'App\Models\User', 'model_id' => $new_user->id]
             ]);
 
+            // add company users
+            DB::table('company_users')->insert([
+                ['user_id' => $new_user->id, 'company_id' => $user->company->id]
+            ]);
+
             // Send invitation emails
             $mail["email"] = $request->email;
             $mail["subject"] = "Industry2u Registration Invitation";
@@ -328,6 +330,11 @@ class UserController extends Controller
                 // add user roles
                 DB::table('model_has_roles')->insert([
                     ['role_id' => $request->designation, 'model_type' => 'App\Models\User', 'model_id' => $userdata->id]
+                ]);
+
+                // add company users
+                DB::table('company_users')->insert([
+                    ['user_id' => $userdata->id, 'company_id' => $user->company->id]
                 ]);
 
                 // Send Invite User

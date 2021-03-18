@@ -79,8 +79,8 @@
                                     @endif
                                 </div>
                             </div>
-                            @if ($code)
-                                <input type="hidden" id="code" name="code" value="{{$code}}">
+                            @if (app('request')->input('code'))
+                                <input type="hidden" id="code" name="code" value="{{app('request')->input('code')}}">
                             @endif
                             <div class="form-group">
                                 <button type="submit" class="btn btn-fill-out btn-block">{{ __('Register') }}</button>
