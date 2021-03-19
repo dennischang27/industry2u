@@ -126,26 +126,33 @@
                                         Products
                                     </a>
                                 </li>-->
-								@role('Admin')
-									<li class="active centre_mobile">
-										<a class=" nav-link nav_item " href="{{route('user.company')}}">
-											Management
-										</a>
-									</li>
-									@if (auth('web')->user()->is_seller)
-									<li class="centre_mobile">
-										<a class=" nav-link nav_item " href="{{route('seller.dashboard')}}">
-											Sales
-										</a>
-									</li>
-									@endif
-									@if (auth('web')->user()->is_buyer)
-									<li class="centre_mobile">
-										<a class=" nav-link nav_item " href="{{route('user.account')}}">
-											Purchasing
-										</a>
-									</li>
-									@endif
+                                @if (auth('web')->check())
+                                    @hasrole('Admin|Moderator')
+                                        <li class="active centre_mobile">
+                                            <a class=" nav-link nav_item " href="{{route('user.company')}}">
+                                                Management
+                                            </a>
+                                        </li>
+                                    @endhasrole
+                                    @if (auth('web')->user()->is_seller)
+                                        @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
+                                        <li class="centre_mobile">
+                                            <a class=" nav-link nav_item " href="{{route('seller.dashboard')}}">
+                                                Sales
+                                            </a>
+                                        </li>
+                                        @endhasrole
+                                    @endif
+                                    @if (auth('web')->user()->is_buyer)
+                                        @hasrole('Admin|Moderator|Puchasing Moderator|Puchasing Manager|Puchasing Executive|Engineer|Clerical Staff')
+                                        <li class="centre_mobile">
+                                            <a class=" nav-link nav_item " href="{{route('user.account')}}">
+                                                Purchasing
+                                            </a>
+                                        </li>
+                                        @endhasrole
+                                    @endif
+
 									<div class="text-center centre_web" style="padding: 10px 0;">
 										<a href="{{ route('user.company') }}" class="btn btn-success" style="padding: 10px 25px;" role="button">Management</a>
 									</div>
@@ -159,7 +166,8 @@
 										<a href="{{ route('user.account') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
 									</div>
 									@endif
-								@endrole
+                                @endif
+								
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >

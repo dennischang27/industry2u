@@ -1631,8 +1631,8 @@
                     <h3 class="fs-title">SSM Documents</h3>
                     <div class="form-row">
                         <div class="col-md-12">
-							<label style="font-weight: 700">SSM Form 9</label>
-							<input id="file_1" accept="image/png, image/jpeg, application/pdf" type="file" class="form-control " value="" name="file[1]" autofocus="">
+							<label style="font-weight: 700">SSM Form 9: <small class="text-danger">*</small></label>
+							<input id="file_1" accept="image/png, image/jpeg, application/pdf" type="file" class="form-control @error('file[1]') is-invalid @enderror" value="" required name="file[1]" autofocus="">
 							@error('file_1')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>

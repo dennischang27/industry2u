@@ -229,9 +229,11 @@
                                     <h3 class="fs-title">SSM Documents</h3>
                                     <div class="form-row">
                                         @foreach($document_list as $doc_type)
+                                            @if($doc_type->name == 'SSM Form 9')
                                             <div class="form-group col-md-4">
                                                 <label >{{ __($doc_type->name) }}:</label>
-                                                <br>
+                                            </div>
+                                            <div class="col-md-8">
                                                 @if(isset($myDocuments[$doc_type->id]))
                                                     <a href="{{ asset('storage/'.$myDocuments[$doc_type->id]->file_path) }}" target="_blank">My {{ $myDocuments[$doc_type->id]->doc_type->name }}</a>
                                                 @endif
@@ -240,13 +242,14 @@
                                                        value="{{ old('file') ? old('file')[$doc_type->id] : null }}" name="file[{{ $doc_type->id }}]" autofocus />
                                                 @error('file.' . $doc_type->id)
                                                 <span class="invalid-feedback" role="alert">
-												<strong>{{ $message }}</strong>
-											</span>
+												    <strong>{{ $message }}</strong>
+											    </span>
                                                 @enderror
                                             </div>
+                                            @endif
                                         @endforeach
-
                                     </div>
+                                    <br/>
                                     <div class="form-group text-center">
                                         <button type="submit" class="btn btn-fill-out btn-sm">Update</button>
                                     </div>

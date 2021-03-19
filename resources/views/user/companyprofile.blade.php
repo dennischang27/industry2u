@@ -125,13 +125,16 @@
                                     </div>
                                     <div class="form-group row">
                                         @foreach($document_list as $document)
-                                            <div class="col-md-6">
+                                            @if($document->name == 'SSM Form 9')
+                                            <div class="col-md-4">
                                                 <label style="font-weight: 700">{{ __($document->name) }} : </label>
-
+                                            </div>
+                                            <div class="col-md-8">
                                                 @if(isset($myDocuments[$document->id]))
                                                     <a href="{{ asset('storage/'.$myDocuments[$document->id]->file_path) }}" target="_blank">My {{ $myDocuments[$document->id]->doc_type->name }}</a>
                                                 @endif
                                             </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                     <div class="form-group text-right">

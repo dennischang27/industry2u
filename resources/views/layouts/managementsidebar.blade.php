@@ -31,6 +31,7 @@
                 </ul>
             </div>
         </li>
+        @if (auth('web')->user()->is_seller)
         <li class="nav-item">
             <a class="nav-link collapsed text-truncate" href="#pricemenu" data-toggle="collapse" data-target="#pricemenu"> <i class="ti-money"></i><span class="d-none d-sm-inline">Price Management</span><i class="fa fa-table"></i></a>
             <div class="collapse  {{  request()->routeIs('user.discount.*') ? 'show' : '' }}" id="pricemenu" aria-expanded="false">
@@ -41,5 +42,6 @@
                 </ul>
             </div>
         </li>
+        @endif
     </ul>
 </div>
