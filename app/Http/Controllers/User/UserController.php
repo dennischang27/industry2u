@@ -194,6 +194,9 @@ class UserController extends Controller
     }
 
     public function postchangepassword(User $user) {
+
+
+
         $this->validate(request(), [
             'old_password' => ['required', new MatchOldPassword],
             'password' => ['required'],
@@ -219,6 +222,101 @@ class UserController extends Controller
 
 		return view('user.invite', compact('user','departments','designations'));
 	}
+
+    public function manage(Request $request) {
+		$user = parent::getUser();
+        $users = User::where('user_admin_id', $user->id)->get();
+        $i = 0;
+
+        /*if($user->hasRole('Admin')){
+            $users = User::where('user_admin_id', $user->id)->get();
+            echo 'Admin';
+        }elseif($user->hasRole('Moderator')){
+            echo 'Moderator';
+        }*/
+
+		return view('user.manage', compact('users','i'));
+	}
+
+    public function manageedit(Request $request) {
+        $user_id = $request->user;
+        $user = User::where('id', $user_id)->first();
+        $departments = Departments::where('name', '!=' , 'Admin')->get();
+        $designations = Role::where('name', '!=' , 'Admin')->get();
+        $status = ['active','inactive'];
+        return view('user.manage_edit', compact('user','departments','designations','status'));
+    }
+
+    public function manageeditupdate(User $user, Request $request) {
+        $this->validate(request(), [
+            'department_id' => 'required',
+			'designation_id' => 'required',
+            'status' => 'required',
+        ]);
+
+        $user = User::where('id', $user->id)->first();
+        $user->department_id = request('department_id');
+        $user->designation_id = request('designation_id');
+        $user->status = request('status'); 
+        $user->save();
+
+        return redirect()->route('user.manage')->with('success','Update user successfully.');
+    }
+
+    public function reporting(Request $request) {
+		$user = parent::getUser();
+        $users = User::where('user_admin_id', $user->id)->where('status', 'active')->get();
+        $i = 0;
+		return view('user.reporting', compact('users','i'));
+	}
+
+    public function reportingedit(Request $request) {
+        $login_user = parent::getUser();
+        $user_id = $request->user;
+        $user = User::where('id', $user_id)->first();
+
+        if($user->designation_id == 2 || $user->designation_id == 3 || $user->designation_id == 4){
+            // Is Moderator, Get Admin List
+            $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 1)->get();
+            echo "admin";
+        }elseif($user->designation_id == 5){
+            // Is Sales Manager, Get Moderator List
+            $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 2)->orWhere('designation_id', 3)->get();
+            echo "Sales Moderator";
+        }elseif($user->designation_id == 6 || $user->designation_id == 9 || $user->designation_id == 10){
+            // Is Puchasing Manager/Engineer/Clerical Staff, Get Moderator List
+            $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 2)->orWhere('designation_id', 4)->get();
+            echo "Puchasing Moderator";
+        }elseif($user->designation_id == 7){
+            // Is Sales Executive, Get Sales Manager List
+            $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 5)->get();
+            echo "Sales Manager";
+        }elseif($user->designation_id == 8){
+            // Is Puchasing Executive, Get Puchasing Manager List
+            $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 6)->get();
+            echo "Puchasing Manager";
+        }
+
+        return view('user.reporting_edit', compact('user','reportings'));
+    }
+
+    public function reportingupdate(User $user, Request $request) {
+        $this->validate(request(), [
+            'reporting' => 'required',
+        ]);
+
+        $user_id = $request->user->id;
+        $reporting = request('reporting');
+
+        echo $user_id . '<br/>';
+        echo $reporting;
+
+        $user = User::where('id', $user_id)->first();
+        $user->user_reporting_id = $reporting;
+        $user->save();
+
+        return redirect()->route('user.reporting')->with('success','Update user successfully.');
+    }
 
 	function generateRandomString($length = 10) {
     	return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);

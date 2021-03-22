@@ -48,6 +48,14 @@ Route::group(['middleware' => ['auth']], function() {
             Route::post('sendinvitation/{user}', 'UserController@sendinvitation')->name('.sendinvitation');
             Route::post('joincompany/{user}', 'UserController@joincompany')->name('.joincompany');
 
+            Route::get('manage', 'UserController@manage')->name('.manage');
+            Route::get('manage/{user}/edit', 'UserController@manageedit')->name('.manage.edit');
+            Route::post('manage/{user}/update', 'UserController@manageeditupdate')->name('.manage.update');
+
+            Route::get('reporting', 'UserController@reporting')->name('.reporting');
+            Route::get('reporting/{user}/edit', 'UserController@reportingedit')->name('.reporting.edit');
+            Route::post('reporting/{user}/update', 'UserController@reportingupdate')->name('.reporting.update');
+
             // Discount
             Route::get('discount', 'DiscountController@index')->name('.discount.index');
             Route::get('discount/master', 'DiscountController@master')->name('.discount.masters');

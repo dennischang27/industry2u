@@ -23,10 +23,16 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed text-truncate" href="#usermenu" data-toggle="collapse" data-target="#usermenu"> <i class="ti-user"></i><span class="d-none d-sm-inline">User Management</span><i class="fa fa-table"></i></a>
-            <div class="collapse {{  request()->routeIs('user.invite') ? 'show' : '' }}" id="usermenu" aria-expanded="false">
+            <div class="collapse {{  request()->routeIs('user.invite') ? 'show' : '' }} {{  request()->routeIs('user.manage') ? 'show' : '' }} {{  request()->routeIs('user.manage.*') ? 'show' : '' }} {{  request()->routeIs('user.reporting') ? 'show' : '' }} {{  request()->routeIs('user.reporting.*') ? 'show' : '' }}" id="usermenu" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
                   <li class="nav-item">
                       <a class="nav-link {{  request()->routeIs('user.invite') ? 'active' : '' }}" href="{{ route('user.invite') }}" style="padding-left:33px;">Invite User</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link {{  request()->routeIs('user.manage') ? 'active' : '' }} {{  request()->routeIs('user.manage.*') ? 'active' : '' }}" href="{{ route('user.manage') }}" style="padding-left:33px;">Manage User</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link {{  request()->routeIs('user.reporting') ? 'active' : '' }} {{  request()->routeIs('user.manage.*') ? 'active' : '' }}" href="{{ route('user.reporting') }}" style="padding-left:33px;">Reporting Line</a>
                   </li>
                 </ul>
             </div>
