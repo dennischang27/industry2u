@@ -278,23 +278,18 @@ class UserController extends Controller
         if($user->designation_id == 2 || $user->designation_id == 3 || $user->designation_id == 4){
             // Is Moderator, Get Admin List
             $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 1)->get();
-            echo "admin";
         }elseif($user->designation_id == 5){
             // Is Sales Manager, Get Moderator List
             $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 2)->orWhere('designation_id', 3)->get();
-            echo "Sales Moderator";
         }elseif($user->designation_id == 6 || $user->designation_id == 9 || $user->designation_id == 10){
             // Is Puchasing Manager/Engineer/Clerical Staff, Get Moderator List
             $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 2)->orWhere('designation_id', 4)->get();
-            echo "Puchasing Moderator";
         }elseif($user->designation_id == 7){
             // Is Sales Executive, Get Sales Manager List
             $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 5)->get();
-            echo "Sales Manager";
         }elseif($user->designation_id == 8){
             // Is Puchasing Executive, Get Puchasing Manager List
             $reportings = User::where('user_admin_id', $login_user->id)->where('designation_id', 6)->get();
-            echo "Puchasing Manager";
         }
 
         return view('user.reporting_edit', compact('user','reportings'));
