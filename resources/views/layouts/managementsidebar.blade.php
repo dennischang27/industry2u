@@ -32,7 +32,7 @@
                       <a class="nav-link {{  request()->routeIs('user.manage') ? 'active' : '' }} {{  request()->routeIs('user.manage.*') ? 'active' : '' }}" href="{{ route('user.manage') }}" style="padding-left:33px;">Manage User</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link {{  request()->routeIs('user.reporting') ? 'active' : '' }} {{  request()->routeIs('user.manage.*') ? 'active' : '' }}" href="{{ route('user.reporting') }}" style="padding-left:33px;">Reporting Line</a>
+                      <a class="nav-link {{  request()->routeIs('user.reporting') ? 'active' : '' }} {{  request()->routeIs('user.reporting.*') ? 'active' : '' }}" href="{{ route('user.reporting') }}" style="padding-left:33px;">Reporting Line</a>
                   </li>
                 </ul>
             </div>
