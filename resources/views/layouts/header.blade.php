@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/themes/css/linearicons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/css/simple-line-icons.css') }}">
+    @yield('plugin_style')
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/themes/plugins/owlcarousel/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/themes/plugins/owlcarousel/css/owl.theme.css') }}">
@@ -71,6 +72,9 @@
 @include('layouts.footer')
 <!-- jquery latest version -->
 <script src="{{ asset('assets/themes/plugins/slick/slick.min.js') }}"></script>
+
+@yield('plugin_script')
+
 <!-- bootstrap 4 js -->
 <script src="{{ asset('assets/themes/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/themes/bootstrap/js/bootstrap.min.js') }}"></script>
