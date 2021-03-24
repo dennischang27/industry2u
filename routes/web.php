@@ -62,13 +62,13 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('discount/master', 'DiscountController@master')->name('.discount.masters');
             Route::get('discount/manager', 'DiscountController@manager')->name('.discount.manager');
             Route::get('discount/sales', 'DiscountController@sales')->name('.discount.sales');
-            
+
             Route::post('discount/master', 'DiscountController@masterCreate')->name('discount.master');
             Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
             Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
-            
+
             // Seller Center
-            // Pricing Management 
+            // Pricing Management
             Route::get('sales/pricingmanagement', 'PriceManagementController@index')->name('.pricemanagement.index');
             Route::post('sales/pricingmanagement', 'PriceManagementController@store')->name('.pricemanagement.store');
 
@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function() {
         //});
     });
 
-    Route::get('cart-view', 'CartController@index')->name('public.cart.view');
+    Route::get('cart-view', 'CartController@index')->name('public.wantedlist.view');
     Route::get('ajax/cart', 'CartController@ajaxcart')->name('public.cart.ajaxcart');
     Route::post('cart/update', 'CartController@update')->name('public.cart.update');
     Route::get('cart/remove/{company}/{product}', 'CartController@remove')->name('public.cart.remove');
