@@ -30,6 +30,21 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="widget">
+                        <h6 class="widget_title">Customer Service</h6>
+                        <ul class="contact_info contact_info_light">
+                            <li>
+                                <i class="ti-email"></i>
+                                <a class="footer-link" href="{{ route("contact_us") }}">Contact Us</a>
+                            </li>
+                            <!--li>
+                                <i class="ti-mobile"></i>
+                                <p>012-3456789</p>
+                            </li-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="widget">
                         <h6 class="widget_title">Company Info</h6>
                         <ul class="contact_info contact_info_light">
                             <li>
@@ -51,6 +66,7 @@
                         </ul>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
