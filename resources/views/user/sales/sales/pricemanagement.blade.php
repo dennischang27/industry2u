@@ -54,10 +54,18 @@
 @endsection
 
 @section('plugin_style')
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/datatables/css/jquery.dataTables.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/datatables/css/responsive.bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/datatables/css/responsive.jqueryui.min.css') }}" rel="stylesheet" type="text/css">
+
+
+
+{{-- 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css"> --}}
 @endsection
 
 @section('content')
@@ -103,7 +111,6 @@
                                                         <a onclick="updateuser({{$user->id}})" class="btn btn-xs btn-primary btn-lg" data-toggle="modal" data-target="#userDetails{{ $user->id }}" style="color: white">
                                                             <i class="ti-pencil"></i>
                                                         </a>
-                                                        <input type="hidden" id="test" name="test" value="">
                                                             <div class="modal fade" id="userDetails{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
@@ -247,11 +254,17 @@
 
 
 @section('plugin_script')
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="{{asset('assets/datatables/js/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/datatables/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/datatables/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/datatables/js/responsive.bootstrap.min.js')}}"></script>
+
+    {{-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script> --}}
 
     <script>
     if ($('#dataTable').length) {

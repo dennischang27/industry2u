@@ -29,7 +29,7 @@ class PriceManagementController extends Controller
         ->leftJoin('users AS a', 'users.user_reporting_id', '=', 'a.id' )
         ->leftJoin('discount_tiers', 'users.id', '=', 'discount_tiers.user_id')
         ->where('users.designation_id', '=', '3')->orWhere('users.designation_id', '=', 5)->orWhere('users.designation_id', '=', 7)
-        // ->where('company_id', '=', $companyId)
+        ->where('company_users.company_id', '=', $companyId)
         ->get();
             //  1 - admin //  2 - Moderator //  3 - Sales Moderator //  5 - Sales Manager //  7 - Sales Exec
 
@@ -112,12 +112,6 @@ class PriceManagementController extends Controller
 
 
 
-        // $userDiscount = DiscountTiers::updateOrCreate(
-        //     ['discount_tier1' => request('discount_tier1')],
-        //     ['discount_tier2' => request('discount_tier2')],
-        //     ['discount_tier3' => request('discount_tier3')],
-        //     ['user_id' => request('user_id')],
-        // );
         /*
         $user = Auth::getUser()->id;
         $reportingId = Auth::getUser()->user_reporting_id;
@@ -155,32 +149,6 @@ class PriceManagementController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
 
-        $user_id = request('userid');
-        // Store form data 
-        if($isUserExist == 0 ) {
-
-            $user = Auth::getUser()->id;
-            $discount = new DiscountTiers();
-    
-            $discount->discount_tier1 = request('discount_tier1');
-            $discount->discount_tier2 = request('discount_tier2');
-            $discount->discount_tier3 = request('discount_tier3');
-            $discount->user_id = $user_id;
-            $discount->reporting_id = $reportingId;
-            $discount->save();
-
-        } else {
-
-            $discount = DiscountTiers::where('user_id', $user_id)->first();
-            $discount->discount_tier1 = request('discount_tier1');
-            $discount->discount_tier2 = request('discount_tier2');
-            $discount->discount_tier3 = request('discount_tier3'); 
-            $discount->reporting_id = $reportingId;
-            $discount->user_id = $user_id;
-
-            $discount->save();
-        }
-        return redirect()->back();
 */
     }
 }
