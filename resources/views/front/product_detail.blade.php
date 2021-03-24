@@ -159,7 +159,7 @@
                                 <div  class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group row">
                                         <div class="col-sm-12">
-                                            <span style="white-space: pre;">{{ $product->description }}</span>
+                                            <span style="white-space: pre-wrap;">{{ $product->description }}</span>
                                         </div>
                                     </div>
                                 </div>
