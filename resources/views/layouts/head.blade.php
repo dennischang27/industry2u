@@ -137,7 +137,7 @@
                                     @if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                         <li class="centre_mobile">
-                                            <a class=" nav-link nav_item " href="{{route('seller.dashboard')}}">
+                                            <a class=" nav-link nav_item " href="{{route('user.pricemanagement.index')}}">
                                                 Sales
                                             </a>
                                         </li>
@@ -161,7 +161,7 @@
 									@if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('seller.dashboard') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
+                                                <a href="{{ route('user.pricemanagement.index') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
                                             </div>
                                         @endhasrole
 									@endif
