@@ -300,7 +300,13 @@
                             <div class="form-group row">
                                 <label for="specification" class="col-sm-3 col-form-label"><strong>{{ __('Attachment PDF') }}:</strong></label>
                                 <div class="col-sm-3">
-                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
+                                    <div class="img-wrap">
+                                        <a href="#" data-toggle="modal" class="closes" id="spec-file-remove" style="display: none">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                        <img id="SpecID" src="{{ asset('images/upload.jpg') }}" />
+                                    </div>
+                                    <input type="file" onchange="readSpecURL(this);" value="{{old('specification')}}" id="specification"  name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
                                     <span>Specification</span>
                                     @error('specification')
                                     <span class="invalid-feedback text-danger" role="alert">
@@ -309,7 +315,13 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
+                                    <div class="img-wrap">
+                                        <a href="#" data-toggle="modal" class="closes" id="dimension-file-remove" style="display: none">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                        <img id="DimID" src="{{ asset('images/upload.jpg') }}" />
+                                    </div>
+                                    <input type="file"  onchange="readDimensionURL(this);"  id="dimension"  name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
                                     @error('dimension')
                                     <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -345,12 +357,12 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="row">
-                                                    <div class="col-sm-2 form-check">
+                                                    <!--div class="col-sm-2 form-check">
                                                         <input id="attribute_type_{{ $index }}" name="attribute_type[{{ $index }}]" type="checkbox" value="1" {{ old('attribute_type') && isset(old('attribute_type')[$index]) ? 'checked' : '' }} class="form-check-input attribute-type" />
                                                          <label for="attribute_type_{{ $index }}" class="form-check-label">
                                                             Is Numeric Only
                                                         </label>
-                                                    </div>
+                                                    </div-->
                                                     <div class="col-sm-5">
                                                         <input name="attribute_name[{{ $index }}]" type="text" value="{{ old('attribute_name') && isset(old('attribute_name')[$index]) ? old('attribute_name')[$index] : '' }}" class="form-control @error('attribute_type.' . $index) is-invalid @enderror" placeholder="Attribute Name" />
                                                     </div>
@@ -466,11 +478,10 @@
                 groupContainer.show();
 
                 //var groupType = groupContainer.find(".attribute-type");
-
                 // if(groupType.is(':checked')) {
                 //     showAttributeRangeInput(this, null);
                 // } else {
-                    showAttributeNormalInput(this);
+                showAttributeNormalInput(this);
                 // }
             } else {
                 container.find(".new-attribute-group").hide();
@@ -678,6 +689,52 @@
             $("#image2").replaceWith( $("#image2").val('').clone( true ) );
             $('#img2-remove').hide();
             $("#Img2ID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+        function readSpecURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                if((input.files[0].name.split('.').pop() =='pdf')||(input.files[0].name.split('.').pop() =='PDF')){
+                    reader.onload = function(e) {
+                        $('#SpecID').attr('src', '{{ asset('images/pdf-icon.png') }}');
+                    };
+                }
+                else{
+                    reader.onload = function(e) {
+                        $('#SpecID').attr('src', e.target.result);
+                    };
+                }
+                $('#spec-file-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#spec-file-remove").on("click", function(){
+            $("#specification").replaceWith( $("#specification").val('').clone( true ) );
+            $('#spec-file-remove').hide();
+            $("#SpecID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+
+        function readDimensionURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if((input.files[0].name.split('.').pop() =='pdf')||(input.files[0].name.split('.').pop() =='PDF')){
+                    reader.onload = function(e) {
+                        $('#DimID').attr('src', '{{ asset('images/pdf-icon.png') }}');
+                    };
+                }
+                else{
+                    reader.onload = function(e) {
+                        $('#DimID').attr('src', e.target.result);
+                    };
+                }
+                $('#dimension-file-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#dimension-file-remove").on("click", function(){
+            $("#dimension").replaceWith( $("#dimension").val('').clone( true ) );
+            $('#dimension-file-remove').hide();
+            $("#DimID").attr('src', '{{ asset('images/upload.jpg') }}');
         });
     </script>
 @endsection
