@@ -49,29 +49,19 @@
             @foreach($productcategories as $productcategory )
                 @if (count($productcategory->subCategories))
                     @if($productcategory->subProducts->count()>0)
+                        <a href="product/{{$productcategory->slug}}/{{$productcategory->id}}?categoryid={{$productcategory->id}}" class="category-grid-item-name-link" title="{{$productcategory->name}}">
                         <div class="category-grid-item">
                             <div class="category-grid-media">
                                 <img src="{{asset('storage/categories/'.$productcategory->image)}}" class="category-grid-media-image" alt="{{$productcategory->name}}">
                             </div>
-                            <div class="category-level">
 
-                                <?php $count = 0; ?>
-                                @foreach($productcategory->subCategories as $subcategory )
-                                    @if ($subcategory->products->count()>0)
-                                    <?php if($count == 8) break; ?>
-                                    <div class="category-level-item">
-                                        <a href="products?categoryid={{$subcategory->id}}" class="category-level-item" title="{{$subcategory->name}}">{{$subcategory->name}}</a>
-                                    </div>
-                                     <?php $count++; ?>
-                                     @endif
-                                @endforeach
-                            </div>
                             <div class="category-grid-item-name">
                                 <a href="product/{{$productcategory->slug}}/{{$productcategory->id}}?categoryid={{$productcategory->id}}" class="category-grid-item-name-link" title="{{$productcategory->name}}">
                                     {{$productcategory->name}}
                                 </a>
                             </div>
                         </div>
+                        </a>
                     @endif
                 @endif
             @endforeach
