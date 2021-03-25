@@ -3,6 +3,9 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <style>
+        .error {
+            color: red;
+        }
         .select2-selection__rendered {
             line-height: 37px !important;
         }
@@ -18,6 +21,11 @@
         .img-wrap {
             width:100px;
             height:100px;
+            border-radius: 10px;
+            background: #fff;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #c2cdda;
             position:relative;
         }
 
@@ -257,17 +265,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
+                                        <span>Cover Photo</span>
                                         @else
-                                            <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
+                                            <div class="img-wrap">
+                                                <a href="#" data-toggle="modal" class="closes" id="img-thumb-remove" style="display: none">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                                <img id="ImgtID" src="{{ asset('images/upload.jpg') }}" />
+                                            </div>
+                                            <input type="file" onchange="readimgthumbURL(this);" id="image_thumbnail"  name="image_thumbnail" value="{{old('image_thumbnail')}}" accept="image/png, image/jpeg"  class="form-control @error('image_thumbnail') is-invalid @enderror" required title="Please upload at least 1 image">
+                                            <span><small class="text-danger">*</small>Cover Photo</span>
+                                            @error('image_thumbnail')
+                                            <span class="invalid-feedback text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                                </span>
+                                            <br>
+                                            @enderror
                                         @endif
-                                    <input type="file" name="image_thumbnail" value="{{old('image_thumbnail')}}" accept="image/png, image/jpeg"  class="form-control @error('image_thumbnail') is-invalid @enderror" title="Please upload at least 1 image">
-                                    <span>Cover Photo</span>
-                                    @error('image_thumbnail')
-                                    <span class="invalid-feedback text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                      </span>
-                                    <br>
-                                    @enderror
+
                                 </div>
                                 <div class="col-sm-3">
 
@@ -304,17 +320,26 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
+                                        <span>Image 1</span>
                                     @else
-                                        <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
+                                        <div class="img-wrap">
+                                            <a href="#" data-toggle="modal" class="closes" id="img1-remove" style="display: none">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <img id="Img1ID" src="{{ asset('images/upload.jpg') }}" />
+                                        </div>
+
+                                        <input type="file" onchange="readimg1URL(this);" id="image1"  name="image1" value="{{old('image1')}}" accept="image/png, image/jpeg" class="form-control @error('image1') is-invalid @enderror" >
+                                        <span>Image 1</span>
+                                        @error('image1')
+                                            <span class="invalid-feedback text-danger" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        <br>
+                                        @enderror
                                     @endif
-                                    <input type="file" name="image1" value="{{old('image1')}}" accept="image/png, image/jpeg" class="form-control @error('image1') is-invalid @enderror" >
-                                    <span>Image 1</span>
-                                    @error('image1')
-                                    <span class="invalid-feedback text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    <br>
-                                    @enderror
+
                                 </div>
                                 <div class="col-sm-3">
                                     @if(isset($product->productImage->firstWhere('name', 'image2')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
@@ -348,17 +373,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
+                                        <span>Image 2</span>
                                     @else
-                                        <img src=" {{ asset('images/noimage.jpg') }}" width="100" height="100">
-                                    @endif
-                                    <input type="file" name="image2" value="{{old('image2')}}" accept="image/png, image/jpeg" class="form-control @error('image2') is-invalid @enderror">
-                                    <span>Image 2</span>
-                                    @error('image2')
-                                    <span class="invalid-feedback text-danger" role="alert">
+                                        <div class="img-wrap">
+                                            <a href="#" data-toggle="modal" class="closes" id="img2-remove" style="display: none">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <img id="Img2ID" src="{{ asset('images/upload.jpg') }}" />
+                                        </div>
+                                        <input type="file" onchange="readimg2URL(this);" id="image2" name="image2" value="{{old('image2')}}" accept="image/png, image/jpeg" class="form-control @error('image2') is-invalid @enderror">
+                                        <span>Image 2</span>
+                                        @error('image2')
+                                        <span class="invalid-feedback text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                       </span>
-                                    <br>
-                                    @enderror
+                                        <br>
+                                        @enderror
+
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -372,52 +405,59 @@
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
                                     @if(isset($product->productAttachment->firstWhere('name', 'specification')->file_path))
-                                            <div class="img-wrap">
-                                                <a href="#deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" data-toggle="modal" class="closes">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                                <!--span  class="img_click closes" title="Delete">&times;</span-->
-                                                <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
-                                            </div>
-                                            <!-- Modal for Delete-->
-                                            <div id="deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" class="delete-modal modal fade" role="dialog">
-                                                <div class="modal-dialog modal-sm">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            <div class="delete-icon"></div>
+                                        <div class="img-wrap">
+                                            <a href="#deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" data-toggle="modal" class="closes">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <!--span  class="img_click closes" title="Delete">&times;</span-->
+                                            <a href="{{ asset('storage/'.$product->productAttachment->firstWhere('name', 'specification')->file_path) }}" target="_blank"><img src=" {{ asset('images/pdf-icon.png') }}" width="100" height="100"></a>
+                                        </div>
+                                        <!-- Modal for Delete-->
+                                        <div id="deleteattch{{$product->productAttachment->firstWhere('name', 'specification')->id}}" class="delete-modal modal fade" role="dialog">
+                                            <div class="modal-dialog modal-sm">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <div class="delete-icon"></div>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="display-none" id="resultdeleteatt{{$product->productAttachment->firstWhere('name', 'specification')->id}}">
                                                         </div>
-                                                        <div class="modal-body text-center">
-                                                            <div class="display-none" id="resultdeleteatt{{$product->productAttachment->firstWhere('name', 'specification')->id}}">
-                                                            </div>
-                                                            <input id="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" value="{{$product->productAttachment->firstWhere('name', 'specification')->name}}">
-                                                            <h4 class="modal-heading">Are You Sure ?</h4>
-                                                            <p>Do you really want to delete this Specification file? This process cannot be undone.</p>
-                                                        </div>
-                                                        <div class="modal-footer">
+                                                        <input id="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" type="hidden" placeholder="Enter Name" class="form-control" name="getDeleteAttValue{{$product->productAttachment->firstWhere('name', 'specification')->id}}" value="{{$product->productAttachment->firstWhere('name', 'specification')->name}}">
+                                                        <h4 class="modal-heading">Are You Sure ?</h4>
+                                                        <p>Do you really want to delete this Specification file? This process cannot be undone.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
 
 
-                                                            <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
-                                                            <button type="button" onclick="submitdeleteatt('{{$product->productAttachment->firstWhere('name', 'specification')->id}}')" class="btn btn-danger">Yes</button>
-                                                        </div>
+                                                        <button type="reset" class="btn btn-gray translate-y-3" data-dismiss="modal">No</button>
+                                                        <button type="button" onclick="submitdeleteatt('{{$product->productAttachment->firstWhere('name', 'specification')->id}}')" class="btn btn-danger">Yes</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding :10px;">
+                                        <span>Specification</span>
+                                    </div>
+                                    @else
+                                        <div class="img-wrap">
+                                            <a href="#" data-toggle="modal" class="closes" id="spec-file-remove" style="display: none">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <img id="SpecID" src="{{ asset('images/upload.jpg') }}" />
+                                        </div>
+                                        <input type="file" onchange="readSpecURL(this);" value="{{old('specification')}}" id="specification"  name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
+                                        <span>Specification</span>
+                                        @error('specification')
+                                           <span class="invalid-feedback text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                          </span>
+                                        @enderror
 
-                                        @else
-                                        <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
+                                    </div>
                                     @endif
-                                    </div>
-                                    <div class="row"style="padding :10px;">
-                                    <input type="file" value="{{old('specification')}}" name="specification"  accept="application/pdf, image/png, image/jpeg"  class="form-control @error('specification') is-invalid @enderror" >
-                                    <span>Specification</span>
-                                    @error('specification')
-                                    <span class="invalid-feedback text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                      </span>
-                                    @enderror
-                                    </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="row" style="min-height:140px;padding :10px;">
@@ -454,19 +494,27 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row" style="padding :10px;">
+                                            <span>Dimension</span>
+                                        </div>
                                         @else
-                                            <img src=" {{ asset('images/no-file.png') }}" width="100" height="100">
+                                            <div class="img-wrap">
+                                                <a href="#" data-toggle="modal" class="closes" id="dimension-file-remove" style="display: none">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                                <img id="DimID" src="{{ asset('images/upload.jpg') }}" />
+                                            </div>
+                                            <input type="file"  onchange="readDimensionURL(this);"  id="dimension"  name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
+                                            @error('dimension')
+                                                <span class="invalid-feedback text-danger" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                              </span>
+                                            @enderror
+                                            <span>Dimension</span>
+
+                                         </div>
                                         @endif
-                                    </div>
-                                    <div class="row" style="padding :10px;">
-                                    <input type="file" name="dimension" value="{{old('dimension')}}" accept="application/pdf, image/png, image/jpeg" class="form-control @error('dimension') is-invalid @enderror" >
-                                    @error('dimension')
-                                    <span class="invalid-feedback text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                      </span>
-                                    @enderror
-                                    <span>Dimension</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -500,12 +548,12 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="row">
-                                                    <div class="col-sm-2 form-check">
+                                                    <!--div class="col-sm-2 form-check">
                                                         <input id="attribute_type_{{ $index }}" name="attribute_type[{{ $index }}]" type="checkbox" value="1" {{ old('attribute_type') && isset(old('attribute_type')[$index]) ? 'checked' : '' }} class="form-check-input attribute-type" />
                                                         <label for="attribute_type_{{ $index }}" class="form-check-label">
                                                             Is Countable
                                                         </label>
-                                                    </div>
+                                                    </div-->
                                                     <div class="col-sm-5">
                                                         <input name="attribute_name[{{ $index }}]" type="text" value="{{ old('attribute_name') && isset(old('attribute_name')[$index]) ? old('attribute_name')[$index] : '' }}" class="form-control @error('attribute_type.' . $index) is-invalid @enderror" placeholder="Attribute Name" />
                                                     </div>
@@ -825,6 +873,101 @@
                     }
                 }
             });
+        });
+        function readimgthumbURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#ImgtID').attr('src', e.target.result);
+                };
+                $('#img-thumb-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img-thumb-remove").on("click", function(){
+            $("#image_thumbnail").replaceWith( $("#image_thumbnail").val('').clone( true ) );
+            $('#img-thumb-remove').hide();
+            $("#ImgtID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+
+        function readimg1URL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#Img1ID').attr('src', e.target.result);
+                };
+                $('#img1-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img1-remove").on("click", function(){
+            $("#image1").replaceWith( $("#image1").val('').clone( true ) );
+            $('#img1-remove').hide();
+            $("#Img1ID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+        function readimg2URL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#Img2ID').attr('src', e.target.result);
+                };
+                $('#img2-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#img2-remove").on("click", function(){
+            $("#image2").replaceWith( $("#image2").val('').clone( true ) );
+            $('#img2-remove').hide();
+            $("#Img2ID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+        function readSpecURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                if((input.files[0].name.split('.').pop() =='pdf')||(input.files[0].name.split('.').pop() =='PDF')){
+                    reader.onload = function(e) {
+                        $('#SpecID').attr('src', '{{ asset('images/pdf-icon.png') }}');
+                    };
+                }
+                else{
+                    reader.onload = function(e) {
+                        $('#SpecID').attr('src', e.target.result);
+                    };
+                }
+                $('#spec-file-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#spec-file-remove").on("click", function(){
+            $("#specification").replaceWith( $("#specification").val('').clone( true ) );
+            $('#spec-file-remove').hide();
+            $("#SpecID").attr('src', '{{ asset('images/upload.jpg') }}');
+        });
+
+        function readDimensionURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if((input.files[0].name.split('.').pop() =='pdf')||(input.files[0].name.split('.').pop() =='PDF')){
+                    reader.onload = function(e) {
+                        $('#DimID').attr('src', '{{ asset('images/pdf-icon.png') }}');
+                    };
+                }
+                else{
+                    reader.onload = function(e) {
+                        $('#DimID').attr('src', e.target.result);
+                    };
+                }
+                $('#dimension-file-remove').show();
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#dimension-file-remove").on("click", function(){
+            $("#dimension").replaceWith( $("#dimension").val('').clone( true ) );
+            $('#dimension-file-remove').hide();
+            $("#DimID").attr('src', '{{ asset('images/upload.jpg') }}');
         });
     </script>
 @endsection

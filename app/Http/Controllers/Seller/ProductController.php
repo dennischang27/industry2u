@@ -95,115 +95,6 @@ class ProductController extends Controller
 
 
         $product = Product::create($input);
-
-        if(isset($input['attr'])) {
-            foreach($input['attr'] as $index => $id) {
-                $attribute = Attribute::get()->find($index);
-                if($id){
-                    if(isset($input['unit'][$index])){
-                        $product->productAttribute()->create([
-                            'value' => $id,
-                            'attribute_id' => $index,
-                            'product_id' => $product->id,
-                            'attribute_measurement_id' => $input['unit'][$index]
-                        ]);
-                    }
-                    else{
-                        $product->productAttribute()->create([
-                            'value' => $id,
-                            'attribute_id' => $index,
-
-                            'product_id' => $product->id,
-                        ]);
-                    }
-                }
-            }
-        }
-
-
-        if(isset($input['attributes'])) {
-
-            foreach($input['attributes'] as $index => $id) {
-                if($id == "Other") {
-                    if(isset($input['attribute_type'][$index])){
-                        $type = "number";
-                    }else{
-                        $type = "Text";
-                    }
-                    $attr = Attribute::create([
-                        'name' => $input['attribute_name'][$index],
-                        'slug' => preg_replace('/\s+/', '_', $input['attribute_name'][$index]),
-                        'is_range' => isset($input['attribute_type'][$index]),
-                        'type' => $type
-                    ]);
-                }else {
-                    $attr = Attribute::all()->find($id);
-
-                    if(!$attr) {
-                        continue;
-                    }
-                }
-                if($attr->is_range) {
-                    if ($id == "Other"){
-
-                        $value = $input['attribute_value'][$index];
-                    }
-                    else{
-                        if(!isset($input['attribute_unit'][$index]) || !isset($input['attribute_range_value'][$index])) {
-                            continue;
-                        }
-                        $value = $input['attribute_range_value'][$index];
-                        if($input['attribute_unit'][$index] == 'Other') {
-                            $attrmeasure = $attr->attributemeasurement()->create([
-                                'min' => $value,
-                                'max' => $value,
-                                'name' => $input['attribute_unit_name'][$index],
-                            ]);
-                        } else {
-                            $attrmeasure = $attr->attributemeasurement->find($input['attribute_unit'][$index]);
-
-                            if($attrmeasure) {
-                                if($attrmeasure->min > $value) {
-                                    $attrmeasure->min = $value;
-                                    $attrmeasure->save();
-                                } else if($attrmeasure->max < $value) {
-                                    $attrmeasure->max = $value;
-                                    $attrmeasure->save();
-                                }
-                            } else {
-                                continue;
-                            }
-                        }
-                    }
-
-                }else {
-                    if(!isset($input['attribute_value'][$index])) {
-                        continue;
-                    }
-                    $value = $input['attribute_value'][$index];
-                }
-                if($value){
-                    if(isset($input['attribute_unit'][$index])){
-                        $product->productAttribute()->create([
-                            'value' => $value,
-                            'attribute_id' => $attr->id,
-                            'product_id' => $product->id,
-                            'attribute_measurement_id' => $attrmeasure->id
-                        ]);
-
-                    }
-                    else{
-                        $product->productAttribute()->create([
-                            'value' => $value,
-                            'attribute_id' => $attr->id,
-                            'product_id' => $product->id,
-                        ]);
-                    }
-                }
-            }
-        }
-
-
         if ($request->file('image_thumbnail')){
             $optimizePath = storage_path("app/public/products/".$product->id."/");
             if( ! \File::isDirectory($optimizePath) ) {
@@ -290,6 +181,129 @@ class ProductController extends Controller
                 'product_id' => $product->id,
             ]);
         }
+
+        if(isset($input['attr'])) {
+            foreach($input['attr'] as $index => $id) {
+                $attribute = Attribute::get()->find($index);
+                if($id){
+                    if(isset($input['unit'][$index])){
+                        $product->productAttribute()->create([
+                            'value' => $id,
+                            'attribute_id' => $index,
+                            'product_id' => $product->id,
+                            'attribute_measurement_id' => $input['unit'][$index]
+                        ]);
+                    }
+                    else{
+                        $product->productAttribute()->create([
+                            'value' => $id,
+                            'attribute_id' => $index,
+
+                            'product_id' => $product->id,
+                        ]);
+                    }
+                }
+            }
+        }
+
+
+        if(isset($input['attributes'])) {
+
+            foreach($input['attributes'] as $index => $id) {
+                if($id == "Other") {
+
+                    if(isset($input['attribute_type'][$index])){
+                        $type = "number";
+                    }else{
+                        $type = "Text";
+                    }
+                    if(!isset($input['attribute_name'][$index])) {
+                        continue;
+                    }
+                    $exattr = Attribute::where('name', $input['attribute_name'][$index])->first();
+
+                    if(!$exattr) {
+                        $attr = Attribute::create([
+                            'name' => $input['attribute_name'][$index],
+                            'slug' => preg_replace('/\s+/', '_', $input['attribute_name'][$index]),
+                            'is_range' => isset($input['attribute_type'][$index]),
+                            'type' => $type
+                        ]);
+                    }
+                    else{
+                        $attr=  $exattr;
+                    }
+
+                }else {
+                    $attr = Attribute::all()->find($id);
+
+                    if(!$attr) {
+                        continue;
+                    }
+                }
+                if($attr->is_range) {
+                    if ($id == "Other"){
+
+                        $value = $input['attribute_value'][$index];
+                    }
+                    else{
+                        if(!isset($input['attribute_unit'][$index]) || !isset($input['attribute_range_value'][$index])) {
+                            continue;
+                        }
+                        $value = $input['attribute_range_value'][$index];
+                        if($input['attribute_unit'][$index] == 'Other') {
+                            $attrmeasure = $attr->attributemeasurement()->create([
+                                'min' => $value,
+                                'max' => $value,
+                                'name' => $input['attribute_unit_name'][$index],
+                            ]);
+                        } else {
+                            $attrmeasure = $attr->attributemeasurement->find($input['attribute_unit'][$index]);
+
+                            if($attrmeasure) {
+                                if($attrmeasure->min > $value) {
+                                    $attrmeasure->min = $value;
+                                    $attrmeasure->save();
+                                } else if($attrmeasure->max < $value) {
+                                    $attrmeasure->max = $value;
+                                    $attrmeasure->save();
+                                }
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+
+                }else {
+                    if(!isset($input['attribute_value'][$index])) {
+                        continue;
+                    }
+                    $value = $input['attribute_value'][$index];
+                }
+
+                if($value){
+                    if(isset($input['attribute_unit'][$index])){
+                        $product->productAttribute()->create([
+                            'value' => $value,
+                            'attribute_id' => $attr->id,
+                            'product_id' => $product->id,
+                            'attribute_measurement_id' => $attrmeasure->id
+                        ]);
+
+                    }
+                    else{
+                        $product->productAttribute()->create([
+                            'value' => $value,
+                            'attribute_id' => $attr->id,
+                            'product_id' => $product->id,
+                        ]);
+                    }
+                }
+            }
+        }
+
+
+
 
         return redirect()->route('seller.products.index')
             ->with('product_link', route('public.products.show',['id'=>$product->id, 'slug'=>$product->slug]))
@@ -378,12 +392,23 @@ class ProductController extends Controller
                     }else{
                         $type = "Text";
                     }
-                    $attr = Attribute::create([
-                        'name' => $input['attribute_name'][$index],
-                        'slug' => preg_replace('/\s+/', '_', $input['attribute_name'][$index]),
-                        'is_range' => isset($input['attribute_type'][$index]),
-                        'type' => $type
-                    ]);
+                    if(!isset($input['attribute_name'][$index])) {
+                        continue;
+                    }
+                    $exattr = Attribute::where('name', $input['attribute_name'][$index])->first();
+
+                    if(!$exattr) {
+                        $attr = Attribute::create([
+                            'name' => $input['attribute_name'][$index],
+                            'slug' => preg_replace('/\s+/', '_', $input['attribute_name'][$index]),
+                            'is_range' => isset($input['attribute_type'][$index]),
+                            'type' => $type
+                        ]);
+                    }
+                    else{
+                        $attr=  $exattr;
+                    }
+
                 }else {
                     $attr = Attribute::all()->find($id);
 
