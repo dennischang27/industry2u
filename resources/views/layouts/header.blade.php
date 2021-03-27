@@ -44,6 +44,15 @@
     <!-- modernizr css -->
 
     <script src="{{ asset('assets/themes/js/jquery-3.5.1.min.js') }}"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JGXB0BPYF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-3JGXB0BPYF');
+    </script>
 </head>
 <body>
 <!--[if lt IE 8]>

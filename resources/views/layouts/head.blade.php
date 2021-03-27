@@ -173,7 +173,6 @@
                                         @endhasrole
 									@endif
                                 @endif
-								
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >
@@ -192,7 +191,7 @@
                                         @else
                                             {{session()->get('total_wanted_list')}}
                                         @endif
-                                            
+
                                             {{--@php
                                                 $c = array();
                                                 $c = Session::get('cart');
