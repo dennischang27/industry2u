@@ -125,6 +125,30 @@
                                         Products
                                     </a>
                                 </li>
+                                @if (auth('web')->check())
+                                    @if (!auth('web')->user()->is_seller )
+                                        @if (!auth('web')->user()->is_buyer )
+                                            <li class="d-block d-sm-none">
+                                                <a class=" nav-link nav_item " href="{{ route('apply.seller.company') }}">
+                                                    Become Supplier
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="d-block d-sm-none">
+                                                <a class=" nav-link nav_item " href="{{ route('upgrade.seller.company') }}">
+                                                    Become Supplier
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @else
+                                        <li class=" d-block d-sm-none ">
+                                            <a class=" nav-link nav_item " href="{{ route('seller.dashboard') }}">
+                                                Supplier Centre
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endif
+
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >
