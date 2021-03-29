@@ -754,9 +754,6 @@ button:focus {
     color: var(--color-1st)
 }
 
-.pr_search_icon {
-    float: right
-}
 
 .pr_search_trigger.show i:before {
     content: "\EC2A"
