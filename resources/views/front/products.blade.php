@@ -71,9 +71,9 @@
                                 <div class="product_header">
                                     <div class="product_header_left">
                                         <div class="input-group">
-                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..."  type="text">
+                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..."  type="hidden">
                                             <input class="form-control" name="categoryid" value="{{ request()->input('categoryid') }}"  type="hidden">
-                                            <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+
                                         </div>
                                     </div>
                                     <div class="product_header_right">
@@ -155,10 +155,10 @@
                                                     </label>
                                                 </a>
                                                      @empty($subcategory)
-                                                                <ul class="widget_subcategory collapse " id="childOpen{{$category->id}}" style="">
+                                                        <ul class="widget_subcategory collapse " id="childOpen{{$category->id}}" style="">
 
                                                     @else
-                                                                        <ul class="widget_subcategory collapse {{ ($category->id ==$subcategory->parentCategory->id )? 'show' : '' }}" id="childOpen{{$category->id}}" style="">
+                                                         <ul class="widget_subcategory collapse {{ ($category->id ==$subcategory->parentCategory->id )? 'show' : '' }}" id="childOpen{{$category->id}}" style="">
 
                                                     @endif
                                                         @foreach($category->subCategories as $subcat)
@@ -198,13 +198,6 @@
     <script>
         $(window).on('load', function(){
             $(".se-pre-con").fadeOut("slow");
-        });
-        $(document).ready(function() {
-            var searchForm2Div = document.getElementById("serch_form2");
-            searchForm2Div.style.display = "none";
-
-            var searchFormDiv = document.getElementById("serch_form");
-            searchFormDiv.style.display = "none";
         });
         $('#searchProduct').submit(function() {
             var pass = true;
