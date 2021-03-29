@@ -116,16 +116,6 @@
                         </button>
                         <div class="collapse navbar-collapse mobile_side_menu" id="navbarSidetoggle">
                             <ul class="navbar-nav">
-                                <!--<li class="active">
-                                    <a class=" nav-link nav_item " href="{{ url('/') }}">
-                                        Home
-                                    </a>
-                                </li>
-                                <li class="  ">
-                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
-                                        Products
-                                    </a>
-                                </li>-->
                                 @if (auth('web')->check())
                                     @hasrole('Admin|Moderator')
                                         <li class="active centre_mobile">
@@ -183,7 +173,13 @@
                                 </div>
                             </form>
                         </div>
+
                             <ul class="navbar-nav attr-nav align-items-center">
+                                <li >
+                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
+                                        Products
+                                    </a>
+                                </li>
                                 <li><a href="{{ route('public.wantedlist.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List
                                         <span class="cart_count">
                                         @if (session('total_wanted_list'))
