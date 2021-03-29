@@ -113,11 +113,11 @@
                                                 </div>
                                             </a>
                                             <div class="product_info">
-                                                <h6 class="product_title">
-                                                    <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">{{ str_limit($product->name, 14) }}</a>
-                                                </h6>
-                                                <div >
-                                                    <span style="font-size: 12px;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
+                                                <div class="product_name_wrap">
+                                                    <span class='product_name' style="">
+                                                        <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}"><strong>{{ str_limit($product->name, 33) }}</strong></a>
+                                                    </span>
+                                                    <span style="font-size: .75rem;line-height: .875rem;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
                                                 </div>
                                                 <div class="pr_desc">
                                                     <p>{{ $product->description }}</p>
