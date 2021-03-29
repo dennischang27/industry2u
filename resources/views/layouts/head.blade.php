@@ -104,23 +104,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-4">
-                        <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
-                        </a>
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
+                    </a>
                 </div>
-                <div class="col-lg-9 col-md-8 col-sm-6 col-8">
+                <div id="top-nav" class="col-lg-9 col-md-8 col-sm-6 col-8">
                     <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler side_navbar_toggler" type="button" data-toggle="collapse" data-target="#navbarSidetoggle" aria-expanded="false">
+                        <button class="navbar-toggler side_navbar_toggler d-block d-sm-none" type="button" data-toggle="collapse" data-target="#navbarSidetoggle" aria-expanded="false">
                             <span class="ion-android-menu"></span>
                         </button>
                         <div class="collapse navbar-collapse mobile_side_menu" id="navbarSidetoggle">
-                            <ul class="navbar-nav">
-                                <li class="active">
-                                    <a class=" nav-link nav_item " href="{{ url('/') }}">
-                                        Home
-                                    </a>
-                                </li>
-                                <li class="  ">
+                            <ul class="navbar-nav pull-right">
+                                <li class="d-block d-sm-none">
                                     <a class=" nav-link nav_item " href="{{route('public.products')}}">
                                         Products
                                     </a>
@@ -159,7 +154,13 @@
                                 </div>
                             </form>
                         </div>
+
                             <ul class="navbar-nav attr-nav align-items-center">
+                                <li class="d-none d-sm-block">
+                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
+                                        Products
+                                    </a>
+                                </li>
                                 <li><a href="{{ route('public.cart.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List
                                         <span class="cart_count">
                                             @php
