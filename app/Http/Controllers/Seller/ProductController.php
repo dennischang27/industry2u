@@ -40,11 +40,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = Auth::getUser();
-        $company = $user->company;
-
-        $products = Product::where('company_id', $company->id)->get();
-        return view('seller.products.index',compact('products'));
+        return view('seller.products.index');
     }
     /**
      * Show the form for creating a new resource.
