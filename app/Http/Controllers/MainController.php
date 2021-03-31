@@ -142,6 +142,82 @@ class MainController extends Controller
         return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
 
+    public function purchaseraddcompanypost(Request $request){
+
+		$this->validate(request(), [
+            'initial' => 'required|unique:companies',
+			'reg_no' => 'required|unique:companies',
+        ]);
+
+        $user = Auth::user();
+		$input = $request->except(['bank_id','bank_account','sst_no']);
+        $input["user_id"] = $user->id;
+		$input["initial"] = strtoupper(request('initial'));
+		
+        $company = Company::create($input);
+        if ($request->file('logo')||$request->file('file')){
+            $optimizePath = storage_path("app/public/companies/".$company->id."/");
+            if( ! \File::isDirectory($optimizePath) ) {
+                \File::makeDirectory($optimizePath, 493, true);
+            }
+        }
+        if ($file = $request->file('logo')) {
+
+            $optimizeImage = Image::make($file);
+
+
+            $logo = time() . $file->getClientOriginalName();
+            $optimizeImage->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $optimizeImage->save($optimizePath . $logo, 90);
+
+            $logo_path = 'companies/' . $company->id.'/'.$logo;
+            $company->logo = $logo_path;
+            $company->save();
+
+        }
+
+
+        if($docFiles =  $request->file('file')) {
+            foreach($docFiles as $key => $doc) {
+                if($doc) {
+                    $doc_type = DocType::find($key);
+
+                    if($doc_type) {
+                        $path = $doc->storeAs('companies/' . $company->id, $doc_type->name . "." . $doc->getClientOriginalExtension(), 'public');
+
+                        $company->CompanyDocs()->create([
+                            'file_path' => $path,
+                            'doc_type_id' => $doc_type->id,
+                        ]);
+                    }
+                }
+            }
+        }
+        $user->is_buyer = 1;
+        $user->is_seller = 0;
+        $user->save();
+
+        $model_has_roles = DB::table('model_has_roles')->where('role_id','1')->where('model_id', $user->id)->first();
+
+        if(!$model_has_roles){
+             //user is not found
+             DB::table('model_has_roles')->insert([
+                 ['role_id' => '1', 'model_type' => 'App\Models\User', 'model_id' => $user->id]
+             ]);
+        }
+
+        // update user table
+        $customerId = Auth::user()->id;
+        $customer = User::where('id', $customerId)->first();
+        $customer->invite_source = '';
+        $customer->dedsignation_id = 1;
+        $customer->save();
+
+        return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
+    }
+
     public function applyforseller()
     {
         If(Auth::user()->is_seller){

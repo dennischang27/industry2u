@@ -80,18 +80,37 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         if(isset($data['code'])){
-            $user = User::where('invitation_code', '=', $data['code'])->first();
-            $user->title = $data['title'];
-            $user->first_name = $data['first_name'];
-            $user->last_name = $data['last_name'];
-            $user->company_name = $data['company_name'];
-            $user->designation = $data['designation'];
-            $user->username = $data['email'];
-            $user->email = $data['email'];
-            $user->is_active = 1;
-            $user->status = 'active';
-            $user->save();
-            return $user;
+            // check if user or customer 
+            if(isset($data['type'])){
+                $isPurchaser = true;
+                $customer = User::where('invitation_code', '=', $data['code'])->first();
+                $customer->title = $data['title'];
+                $customer->first_name = $data['first_name'];
+                $customer->last_name = $data['last_name'];
+                $customer->company_name = $data['company_name'];
+                $customer->designation = $data['designation'];
+                $customer->username = $data['email'];
+                $customer->email = $data['email'];
+                $customer->is_active = 1;
+                $customer->status = 'active';
+                $customer->password = Hash::make($data['password']);
+                $customer->save();
+                return $customer;
+            } else {
+                $user = User::where('invitation_code', '=', $data['code'])->first();
+                $user->title = $data['title'];
+                $user->first_name = $data['first_name'];
+                $user->last_name = $data['last_name'];
+                $user->company_name = $data['company_name'];
+                $user->designation = $data['designation'];
+                $user->username = $data['email'];
+                $user->email = $data['email'];
+                $user->is_active = 1;
+                $user->status = 'active';
+                $user->password = Hash::make($data['password']);
+                $user->save();
+                return $user;
+            } 
         } else {
             return User::create([
                 'title' => $data['title'],

@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::group(['middleware' => ['CheckCompanyRegistration']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
+        Route::post('addcompany/purchaser/proccess', 'MainController@purchaseraddcompanypost')->name('purchaseraddcompanypost');
 		Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
 		Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
 		Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');
