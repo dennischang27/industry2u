@@ -42,14 +42,6 @@ class InviteCustomerController extends Controller
         $user = Auth::getUser();
         $companyId = $user->company->id; 
 
-        // $customerList = DB::table('invited_customers')
-        // ->select('users.first_name', 'users.last_name', 'invited_customers.customer_company_name', 'invited_customers.customer_first_name', 'invited_customers.customer_last_name', 'invited_customers.customer_email', 'invited_customers.created_at')
-        // ->leftJoin('users', 'users.id', '=', 'invited_customers.company_salesperson_id')
-        // ->where('invited_customers.company_id', '=', $companyId)
-        // ->get();
-
-        // $i = 0;
-
         $this->validate(request(), [
             'customer_company_name' => 'required',
             'customer_first_name' => 'required',
@@ -74,7 +66,36 @@ class InviteCustomerController extends Controller
         $new_customer->company_salesperson_id = $request->company_salesperson_id;
         $new_customer->invitation_code = $invitation_code;
         $new_customer->save();
+
+        if($isUserExist === null){
+            $new_user = new User;
+            $new_user->title = '.';
+            $new_user->first_name = $request->customer_first_name;
+            $new_user->last_name = $request->customer_last_name;
+            $new_user->username = $request->customer_email;
+            $new_user->email = $request->customer_email;
+            $new_user->company_name = $request->customer_company_name;
+            $new_user->password = '.';
+            $new_user->is_active = 0;
+            $new_user->is_company_admin = 0;
+            $new_user->manage_company_admin = 0;
+            $new_user->is_super_user = 0;
+            $new_user->manage_supers = 0;
+            $new_user->is_buyer = 0;
+            $new_user->is_seller = 0;
+            $new_user->invitation_code = $invitation_code;
+            $new_user->invite_source = 'customer';
+            $new_user->status = 'pending register';
+            $new_user->save();
+        } else {
+            $isUserExist->invitation_code = $invitation_code;
+            $isUserExist->status = 'pending join';
+            $isUserExist->is_buyer = 1;
+            $isUserExist->is_seller = 0;
+            $isUserExist->save();
+        }
        
+        // send email
         if ($isUserExist === null) {
 
             $mail["email"] = $request->customer_email;

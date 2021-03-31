@@ -21,7 +21,7 @@
             <li>Join to become a customer of {{ $company }}</li>
         </ol>
 
-    <p> Click  <a href="{{ route('register') }}?code={{ $invitation_code }}"> Here</a> to register today. </p>
+    <p> Click  <a href="{{ route('register') }}?code={{ $invitation_code }}&type=customer"> Here</a> to register today. </p>
 
     <br>
     <p>Thank You!</p>
