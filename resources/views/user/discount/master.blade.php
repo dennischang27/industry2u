@@ -56,9 +56,9 @@
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 1:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
                                                         @if ($discount != null)
-                                                            <input style="height: 40px" class="form-control" name="master_tier1" placeholder="discount tier 1" value="{{ $discount->master_tier1 }}" required> 
+                                                            <input style="height: 40px" class="form-control" name="discount_tier1" placeholder="discount tier 1" value="{{ $discount->discount_tier1 }}" required> 
                                                         @else
-                                                        <input style="height: 40px" class="form-control" name="master_tier1" placeholder="discount tier 1" value="" required> 
+                                                        <input style="height: 40px" class="form-control" name="discount_tier1" placeholder="discount tier 1" value="" required> 
                                                         @endif
                                                     </div>
                                                     <div style="margin-top: 0.5%">
@@ -70,9 +70,9 @@
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 2:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
                                                         @if ($discount != null)
-                                                            <input style="height: 40px" class="form-control" name="master_tier2" placeholder="discount tier 2" value="{{ $discount->master_tier2 }}" required>
+                                                            <input style="height: 40px" class="form-control" name="discount_tier2" placeholder="discount tier 2" value="{{ $discount->discount_tier2 }}" required>
                                                         @else
-                                                            <input style="height: 40px" class="form-control" name="master_tier2" placeholder="discount tier 2" required> 
+                                                            <input style="height: 40px" class="form-control" name="discount_tier2" placeholder="discount tier 2" required> 
                                                         @endif
                                                     </div>
                                                     <div style="margin-top: 0.5%">
@@ -84,9 +84,9 @@
                                                     <label for="discount_tier1" class="col-sm-3 col-form-label"><strong>Discount Tier 3:</strong><small class="text-danger">*</small></label>
                                                     <div class="col-sm-3">
                                                         @if ($discount != null)
-                                                            <input style="height: 40px" class="form-control" name="master_tier3" placeholder="discount tier 3" value="{{ $discount->master_tier3 }}" required>
+                                                            <input style="height: 40px" class="form-control" name="discount_tier3" placeholder="discount tier 3" value="{{ $discount->discount_tier3 }}" required>
                                                         @else
-                                                            <input style="height: 40px" class="form-control" name="master_tier3" placeholder="discount tier 3" value="" required>
+                                                            <input style="height: 40px" class="form-control" name="discount_tier3" placeholder="discount tier 3" value="" required>
                                                         @endif
                                                     </div>
                                                     <div style="margin-top: 0.5%">

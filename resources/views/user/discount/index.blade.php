@@ -62,9 +62,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            <th>{{$discount->master_tier1}}</th>
-                                            <th>{{$discount->master_tier2}}</th>
-                                            <th>{{$discount->master_tier3}}</th>
+                                            <th>{{$discount->discount_tier1}}</th>
+                                            <th>{{$discount->discount_tier2}}</th>
+                                            <th>{{$discount->discount_tier3}}</th>
                 
                                             <td>
                                                 <a class="btn btn-primary btn-xs" style="color: white;"
