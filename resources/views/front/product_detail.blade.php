@@ -90,7 +90,7 @@
                                 <p><strong>{{ $product->company->city }}, {{ $product->company->state->name }}</strong></p>
                             </div>
                             <div class="cart_extra">
-                                <form class="add-to-cart-form" method="POST" action="{{ route("public.cart.add") }}">
+                                <form class="add-to-cart-form" method="POST" action="{{ route("public.wantedlist.add") }}">
                                     @csrf
                                     <input type="hidden" name="product_id" id="hidden-product-id" value="{{ $product->id }}">
                                     <input type="hidden" name="company_id" id="hidden-company-id" value="{{ $product->company_id }}">
@@ -105,14 +105,14 @@
                                             <div class="cart-product-quantity">
                                                 <div class="quantity float-left">
                                                     <input type="button" value="-" class="minus">
-                                                    <input type="text" name="qty" value="1" title="Qty" class="qty" size="4">
+                                                    <input type="text" id="qty" name="qty" value="1" title="Qty" class="qty" size="4">
                                                     <input type="button" value="+" class="plus">
                                                 </div> &nbsp;
                                                 <div class="float-right number-items-available" style="display: none; line-height: 45px;"></div>
                                             </div>
                                             <br>
                                             <div class="cart_btn">
-                                                <button class="btn btn-fill-out btn-addtocart" type="submit"><i class="icon-basket-loaded"></i> Add to wanted list</button>
+                                                <button onclick="addtowantedlist({{ $product->id }}, {{ $product->company_id }})" class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> Add to wanted list</button>
                                             </div>
                                             <br>
                                             <div class="success-message text-success" style="display: none;">
@@ -159,7 +159,7 @@
                                 <div  class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group row">
                                         <div class="col-sm-12">
-                                            <span style="white-space: pre-wrap;">{{ $product->description }}</span>
+                                            <span style="white-space: pre;">{{ $product->description }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -215,5 +215,22 @@
 @endsection
 
 @section('script')
-
+    <script>
+        function addtowantedlist(product_id, company_id){
+            var qty = $('#qty').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type : 'POST',
+                data : {qty: qty, product_id: product_id, company_id: company_id},
+                url  : '{{ route("public.wantedlist.add") }}',
+                success : function(data){
+                    $('.success-message>span').text(data.message);
+                    $('.success-message').show();
+                    $('.cart_count').text(data.total_wanted_list);
+                }
+            });
+        }
+    </script>
 @endsection

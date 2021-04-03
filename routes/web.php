@@ -76,13 +76,19 @@ Route::group(['middleware' => ['auth']], function() {
         //});
     });
 
-    Route::get('cart-view', 'CartController@index')->name('public.wantedlist.view');
+    Route::get('cart-view', 'CartController@index')->name('public.cart.view');
     Route::get('ajax/cart', 'CartController@ajaxcart')->name('public.cart.ajaxcart');
     Route::post('cart/update', 'CartController@update')->name('public.cart.update');
     Route::get('cart/remove/{company}/{product}', 'CartController@remove')->name('public.cart.remove');
     Route::get('cart-checkout', 'CartController@checkout')->name('public.cart.checkout');
     Route::put('cart-checkout/process', 'CartController@checkoutProcess')->name('public.cart.checkout.process');
     Route::post('add-to-cart', 'CartController@add')->name('public.cart.add');
+
+    Route::get('wanted-list-view', 'WantedListController@index')->name('public.wantedlist.view');
+    Route::post('add-to-wanted-list', 'WantedListController@add')->name('public.wantedlist.add');
+    Route::get('wanted-list/remove/{wanted_list}/{product}', 'WantedListController@remove')->name('public.wantedlist.remove');
+    Route::get('wanted-list/update/{wanted_list}/{quantity}', 'WantedListController@update')->name('public.wantedlist.update');
+    Route::post('wanted-list/request', 'WantedListController@quotation_request')->name('public.wantedlist.request');
 
     Route::group(['middleware' => ['CheckCompanyRegistration']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');

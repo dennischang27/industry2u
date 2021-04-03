@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Inquiry;
+use App\Models\WantedLists;
 use App\Mail\InquiryMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 
 class HomeController extends Controller
 {
@@ -36,6 +38,16 @@ class HomeController extends Controller
             ->orderBy('position')
             ->orderBy('name')
             ->get();
+
+        $user = Auth::user();
+        $total_wanted_list = 0;
+
+        if(isset($user->id)){
+            $result = WantedLists::where('user_id', '=', $user->id)->where('status', '=', '')->orWhereNull('status')->get();
+            $total_wanted_list = $result->count();
+        }
+
+        session()->put('total_wanted_list', $total_wanted_list);
         return view('home', compact('brands', 'productcategories'));
     }
     public function privacy()

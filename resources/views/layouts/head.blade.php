@@ -134,9 +134,9 @@
                                         @endhasrole
                                     @endif
                                     @if (auth('web')->user()->is_buyer)
-                                        @hasrole('Admin|Moderator|Puchasing Moderator|Puchasing Manager|Puchasing Executive|Engineer|Clerical Staff')
+                                        @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                         <li class="centre_mobile">
-                                            <a class=" nav-link nav_item " href="{{route('user.account')}}">
+                                            <a class=" nav-link nav_item " href="{{route('buyer.quote')}}">
                                                 Purchasing
                                             </a>
                                         </li>
@@ -156,9 +156,9 @@
                                         @endhasrole
 									@endif
 									@if (auth('web')->user()->is_buyer)
-                                        @hasrole('Admin|Moderator|Puchasing Moderator|Puchasing Manager|Puchasing Executive|Engineer|Clerical Staff')
+                                        @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('user.account') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
+                                                <a href="{{ route('buyer.quote') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
                                             </div>
                                         @endhasrole
 									@endif

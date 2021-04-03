@@ -36,6 +36,9 @@
         :root {
             --color-1st: #32a1e5;
             --color-2nd: #1D2224;
+            --color-3rd: #CF1818;
+            --color-4th: #2E8B57;
+            --color-5th: #f5c71a;
             --primary-font: Poppins, sans-serif;
         }
     </style>
