@@ -7,6 +7,7 @@ use App\Models\QuotationRequests;
 use App\Models\QuotationRequestDetails;
 use App\Models\CompanyUser;
 use App\Models\User;
+use App\Models\Company;
 use Response;
 use DB;
 use Mail;
@@ -22,14 +23,34 @@ class QuotationController extends Controller
     {
         $user = parent::getUser();
 
-        if($user->designation_id == 9 || $user->designation_id == 10){
-            $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
-                ->where('status', '<>', 'Pending Confirmation')
-                ->where('requester_id', $user->id)->get();
+        if(isset($user->companyMember->company_id)){
+            if($user->designation_id == 9 || $user->designation_id == 10){
+                $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
+                    ->where('status', '<>', 'Pending Confirmation')
+                    ->where('requester_id', $user->id)->get();
+            }else{
+                $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
+                    ->where('status', '<>', 'Pending Confirmation')
+                    ->get();
+            }
         }else{
-            $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
-                ->where('status', '<>', 'Pending Confirmation')
-                ->get();
+            // Handle existing users
+            $company = Company::where('user_id', $user->id)->first();
+
+            $company_user = new CompanyUser;
+            $company_user->user_id = $user->id;
+            $company_user->company_id = $company->id;
+            $company_user->save();
+
+            if($user->designation_id == 9 || $user->designation_id == 10){
+                $quotation_requests = QuotationRequests::where('purchaser_company_id', $company->id)
+                    ->where('status', '<>', 'Pending Confirmation')
+                    ->where('requester_id', $user->id)->get();
+            }else{
+                $quotation_requests = QuotationRequests::where('purchaser_company_id', $company->id)
+                    ->where('status', '<>', 'Pending Confirmation')
+                    ->get();
+            }
         }
 
         return view('buyer.quote',compact('quotation_requests'));

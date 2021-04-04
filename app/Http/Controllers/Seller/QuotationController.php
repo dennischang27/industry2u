@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\QuotationRequests;
 use App\Models\QuotationRequestDetails;
 use App\Models\CompanyUser;
+use App\Models\Company;
 use Response;
 use DB;
 use Mail;
@@ -22,9 +23,23 @@ class QuotationController extends Controller
         $user = parent::getUser();
         $i = 0;
 
-        $quotation_requests = QuotationRequests::where('supplier_company_id', $user->companyMember->company_id)
+        if(isset($user->companyMember->company_id)){
+            $quotation_requests = QuotationRequests::where('supplier_company_id', $user->companyMember->company_id)
                                 ->where('status', 'Pending Quotation')
                                 ->get();
+        }else{
+            // Handle existing users
+            $company = Company::where('user_id', $user->id)->first();
+
+            $company_user = new CompanyUser;
+            $company_user->user_id = $user->id;
+            $company_user->company_id = $company->id;
+            $company_user->save();
+
+            $quotation_requests = QuotationRequests::where('supplier_company_id', $company->id)
+                                ->where('status', 'Pending Quotation')
+                                ->get();
+        }
 
         return view('seller.quote',compact('quotation_requests','i'));
     }
