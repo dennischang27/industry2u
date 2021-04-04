@@ -26,6 +26,20 @@ Route::get('product/{category}/{categoryid}', 'ProductCategoryController@categor
 Route::get('product/{category}/{subcategory}/{subcategoryid}', 'ProductCategoryController@subcategory')->name('public.productscategory.subcategory');
 Route::group(['middleware' => ['auth']], function() {
 
+    Route::group(["prefix" => "buyer",'as' => 'buyer', 'namespace' => "Buyer"], function() {
+        Route::get('quote', 'QuotationController@quote')->name('.quote');
+        Route::post('quote/request', 'QuotationController@quotationrequest')->name('.quotationrequest');
+        Route::post('quote/reject', 'QuotationController@rejectquotationrequest')->name('.rejectquotationrequest');
+        Route::post('quote/cancel', 'QuotationController@cancelquotationrequest')->name('.cancelquotationrequest');
+        Route::get('quote/issued', 'QuotationController@quoteissued')->name('.quote.issued');
+        Route::post('quote/rejected', 'QuotationController@rejectquotation')->name('.rejectquotation');
+        Route::post('quote/accepted', 'QuotationController@quotation')->name('.quotation');
+        Route::get('quote/request/file', 'QuotationController@quoterequestfile')->name('.quote.request.file');
+        Route::get('quote/request/file/products', 'QuotationController@quoterequestfileproducts')->name('.quote.request.file.products');
+        Route::get('quote/file', 'QuotationController@quotefile')->name('.quote.file');
+        Route::get('quote/file/products', 'QuotationController@quotefileproducts')->name('.quote.file.products');
+    });
+
     Route::group(["prefix" => "user",'as' => 'user', 'namespace' => "User"], function() {
         Route::get('account', 'UserController@account')->name('.account');
         Route::get('profile', 'UserController@profile')->name('.profile');
