@@ -59,5 +59,10 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
             Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
 
+            Route::get('quote', 'QuotationController@quote')->name('quote');
+            Route::get('quote/{qr_id}/details', 'QuotationController@quoteDetails')->name('quote.details');
+            Route::post('quote/discount/add', 'QuotationController@adddiscount')->name('adddiscount');
+            Route::post('quote/issue', 'QuotationController@quotationissue')->name('quotationissue');
+            Route::get('quote/issued', 'QuotationController@quoteissued')->name('quote.issued');
         });
 });
