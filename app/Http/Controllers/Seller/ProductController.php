@@ -42,7 +42,6 @@ class ProductController extends Controller
     {
         $user = Auth::getUser();
         $company = $user->company;
-
         $products = Product::where('company_id', $company->id)->get();
         return view('seller.products.index',compact('products'));
     }
