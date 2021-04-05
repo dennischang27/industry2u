@@ -219,9 +219,10 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 					continue;
 				}
 
-				$priceString = $row['Price'];
+                $priceString = $row['Price'];
 
-				if(!$priceString) {
+
+				if($priceString=='') {
 					if($this->log) {
 						$this->skipReasons[$rowIndex + $cRowIndex] = "Price is not filled on row " . ($rowIndex + $cRowIndex);
 					}
@@ -350,7 +351,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
                             'description' => $row['Product Description'],
 							'brand_id' => $brand->id,
 							'category_id' => $category->id,
-                            'price' => $row['Price'],
+                            'price' => (float)$row['Price'],
 							'slug' => preg_replace('/\s+/', '_', $itemName),
 						]);
 
@@ -362,7 +363,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
                             'description' => $row['Product Description'],
 							'brand_id' => $brand->id,
 							'category_id' => $category->id,
-                            'price' => $row['Price'],
+                            'price' => (float)$row['Price'],
 							'slug' => preg_replace('/\s+/', '_', $itemName),
                             'company_id'=> $this->user->company->id,
                             'user_id' => $this->user->id,
