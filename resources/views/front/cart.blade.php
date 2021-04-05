@@ -2,7 +2,6 @@
 @section('title')
     <title>{{ config('app.name', 'Industry2u') .  __(' Wanted List') }}</title>
 @endsection
-
 @section('breadcrumbs')
     <!-- breadcrumbs start here-->
     <div class="breadcrumb_section bg_gray page-title-mini">
@@ -61,7 +60,6 @@
                                         <tbody>
                                             @foreach($cart as $sId => $data)
                                                 @foreach($data as $id => $item)
-
                                                         <tr>
                                                             <td class="product-thumbnail">
                                                                 @if ($item["product_filepath"])
@@ -87,7 +85,6 @@
                                                             </td>
                                                             <td class="product-remove" data-title="Remove"><a href="{{route('public.cart.remove',['company' => $sId, 'product'=>$id])}}" class="remove-cart-button"><i class="ti-close"></i></a></td>
                                                         </tr>
-
                                                 @endforeach
                                             @endforeach
                                         </tbody>
