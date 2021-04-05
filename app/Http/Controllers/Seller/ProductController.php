@@ -21,6 +21,7 @@ use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use DataTables;
 use DB;
 
+use Str;
 
 class ProductController extends Controller
 {
@@ -76,10 +77,9 @@ class ProductController extends Controller
         $input['company_id'] = $user->company->id;
         $input['user_id'] = $user->id;
 
-        if((empty($input['slug'])) ||($input['slug'] === NULL)){
-            $input['slug'] =preg_replace('/\s+/', '_', $input['name']);
-        }
 
+        $input['slug']  = preg_replace('/[^a-zA-Z0-9\']/', '_',Str::limit($input['slug'], 30));
+        $input['slug']  = str_replace("'", '', $input['slug'] );
         if($input['brand_id'] == 'Other') {
             $brand = Brand::create([
                 'name' => $input['brand_name'],
@@ -365,6 +365,9 @@ class ProductController extends Controller
         ]);
         $user = Auth::user();
         $input = $request->all();
+
+        $input['slug']  = preg_replace('/[^a-zA-Z0-9\']/', '_', Str::limit($input['slug'], 30));
+        $input['slug']  = str_replace("'", '', $input['slug'] );
 
         if($input['brand_id'] == 'Other') {
             $brand = Brand::create([
