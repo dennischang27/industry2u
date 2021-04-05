@@ -346,6 +346,10 @@ class MainController extends Controller
              ]);
         }
 
+        DB::table('company_users')->insert([
+            ['user_id' => $user->id, 'company_id' => $company->id]
+        ]);
+
         //return redirect()->route('seller.company.profile')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
 		return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
