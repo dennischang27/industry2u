@@ -72,14 +72,20 @@ Route::group(['middleware' => ['auth']], function() {
             Route::post('reporting/{user}/update', 'UserController@reportingupdate')->name('.reporting.update');
 
             // Discount
-            Route::get('discount', 'DiscountController@index')->name('.discount.index');
-            Route::get('discount/master', 'DiscountController@master')->name('.discount.masters');
-            Route::get('discount/manager', 'DiscountController@manager')->name('.discount.manager');
-            Route::get('discount/sales', 'DiscountController@sales')->name('.discount.sales');
+            // Route::get('discount', 'DiscountController@index')->name('.discount.index');
+            // Route::get('discount/master', 'DiscountController@master')->name('.discount.masters');
+            // Route::get('discount/manager', 'DiscountController@manager')->name('.discount.manager');
+            // Route::get('discount/sales', 'DiscountController@sales')->name('.discount.sales');
 
-            Route::post('discount/master', 'DiscountController@masterCreate')->name('discount.master');
-            Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
-            Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
+            // Route::post('discount/master', 'DiscountController@masterCreate')->name('discount.master');
+            // Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
+            // Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
+
+
+            Route::get('discount', 'DiscountSettingsController@masterIndex')->name('.discount.index');
+            Route::get('discount/master', 'DiscountSettingsController@masterCreate')->name('.discount.masters');
+            Route::post('discount/master', 'DiscountSettingsController@masterStore')->name('discount.masters');
+
 
             // Seller Center
             // Pricing Management
