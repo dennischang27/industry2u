@@ -26,6 +26,20 @@ Route::get('product/{category}/{categoryid}', 'ProductCategoryController@categor
 Route::get('product/{category}/{subcategory}/{subcategoryid}', 'ProductCategoryController@subcategory')->name('public.productscategory.subcategory');
 Route::group(['middleware' => ['auth']], function() {
 
+    Route::group(["prefix" => "buyer",'as' => 'buyer', 'namespace' => "Buyer"], function() {
+        Route::get('quote', 'QuotationController@quote')->name('.quote');
+        Route::post('quote/request', 'QuotationController@quotationrequest')->name('.quotationrequest');
+        Route::post('quote/reject', 'QuotationController@rejectquotationrequest')->name('.rejectquotationrequest');
+        Route::post('quote/cancel', 'QuotationController@cancelquotationrequest')->name('.cancelquotationrequest');
+        Route::get('quote/issued', 'QuotationController@quoteissued')->name('.quote.issued');
+        Route::post('quote/rejected', 'QuotationController@rejectquotation')->name('.rejectquotation');
+        Route::post('quote/accepted', 'QuotationController@quotation')->name('.quotation');
+        Route::get('quote/request/file', 'QuotationController@quoterequestfile')->name('.quote.request.file');
+        Route::get('quote/request/file/products', 'QuotationController@quoterequestfileproducts')->name('.quote.request.file.products');
+        Route::get('quote/file', 'QuotationController@quotefile')->name('.quote.file');
+        Route::get('quote/file/products', 'QuotationController@quotefileproducts')->name('.quote.file.products');
+    });
+
     Route::group(["prefix" => "user",'as' => 'user', 'namespace' => "User"], function() {
         Route::get('account', 'UserController@account')->name('.account');
         Route::get('profile', 'UserController@profile')->name('.profile');
@@ -90,13 +104,19 @@ Route::group(['middleware' => ['auth']], function() {
         //});
     });
 
-    Route::get('cart-view', 'CartController@index')->name('public.wantedlist.view');
+    Route::get('cart-view', 'CartController@index')->name('public.cart.view');
     Route::get('ajax/cart', 'CartController@ajaxcart')->name('public.cart.ajaxcart');
     Route::post('cart/update', 'CartController@update')->name('public.cart.update');
     Route::get('cart/remove/{company}/{product}', 'CartController@remove')->name('public.cart.remove');
     Route::get('cart-checkout', 'CartController@checkout')->name('public.cart.checkout');
     Route::put('cart-checkout/process', 'CartController@checkoutProcess')->name('public.cart.checkout.process');
     Route::post('add-to-cart', 'CartController@add')->name('public.cart.add');
+
+    Route::get('wanted-list-view', 'WantedListController@index')->name('public.wantedlist.view');
+    Route::post('add-to-wanted-list', 'WantedListController@add')->name('public.wantedlist.add');
+    Route::get('wanted-list/remove/{wanted_list}/{product}', 'WantedListController@remove')->name('public.wantedlist.remove');
+    Route::get('wanted-list/update/{wanted_list}/{quantity}', 'WantedListController@update')->name('public.wantedlist.update');
+    Route::post('wanted-list/request', 'WantedListController@quotation_request')->name('public.wantedlist.request');
 
     Route::group(['middleware' => ['CheckCompanyRegistration']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');

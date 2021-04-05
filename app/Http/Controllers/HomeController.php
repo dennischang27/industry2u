@@ -15,11 +15,13 @@ use App\Models\Industry;
 use App\Models\Currency;
 use App\Models\User;
 
+use App\Models\WantedLists;
 use App\Mail\InquiryMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 
 class HomeController extends Controller
 {
@@ -41,12 +43,23 @@ class HomeController extends Controller
     public function index()
     {
         $brands = Brand::where('is_featured', 1)->limit(6)->get();
-        $productcategories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
+        $productcategories = ProductCategory::with([ 'subProducts'])
+            ->where('parent_id', null)
+            ->orderBy('position')
+            ->orderBy('name')
+            ->get();
 
 
         // check whether it's purchaser or user
         $user = Auth::user();
+        $total_wanted_list = 0;
+
         if($user != null){
+
+            $result = WantedLists::where('user_id', '=', $user->id)->where('status', '=', '')->orWhereNull('status')->get();
+            $total_wanted_list = $result->count();
+
+            session()->put('total_wanted_list', $total_wanted_list);
 
             $isPurchaser = Auth::user()->is_buyer; 
             $isSeller = Auth::user()->is_seller; 
@@ -71,11 +84,13 @@ class HomeController extends Controller
             }
 
         } else {
+            session()->put('total_wanted_list', $total_wanted_list);
+
             return view('home', compact('brands', 'productcategories'));
         }
-        
-
+    
     }
+    
     public function privacy()
     {
         return view('privacy');
@@ -95,7 +110,7 @@ class HomeController extends Controller
     {
 
         return view('terms_for_buyer_seller');
-        
+
     }
     public function contactus()
     {

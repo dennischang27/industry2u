@@ -116,16 +116,6 @@
                         </button>
                         <div class="collapse navbar-collapse mobile_side_menu" id="navbarSidetoggle">
                             <ul class="navbar-nav">
-                                <!--<li class="active">
-                                    <a class=" nav-link nav_item " href="{{ url('/') }}">
-                                        Home
-                                    </a>
-                                </li>
-                                <li class="  ">
-                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
-                                        Products
-                                    </a>
-                                </li>-->
                                 @if (auth('web')->check())
                                     @hasrole('Admin|Moderator')
                                         <li class="active centre_mobile">
@@ -137,16 +127,20 @@
                                     @if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                         <li class="centre_mobile">
-                                            <a class=" nav-link nav_item " href="{{route('user.pricemanagement.index')}}">
+                                            <a class=" nav-link nav_item " href="{{route('seller.quote')}}">
                                                 Sales
                                             </a>
                                         </li>
                                         @endhasrole
                                     @endif
                                     @if (auth('web')->user()->is_buyer)
-                                        @hasrole('Admin|Moderator|Puchasing Moderator|Puchasing Manager|Puchasing Executive|Engineer|Clerical Staff')
+                                        @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                         <li class="centre_mobile">
+<<<<<<< HEAD
                                             <a class=" nav-link nav_item " href="{{route('user.suppliermanagement.supplierinvitation')}}">
+=======
+                                            <a class=" nav-link nav_item " href="{{route('buyer.quote')}}">
+>>>>>>> b5a647c9c1dd745eed52d9666ea0600307c10552
                                                 Purchasing
                                             </a>
                                         </li>
@@ -161,19 +155,18 @@
 									@if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('user.pricemanagement.index') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
+                                                <a href="{{ route('seller.quote') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
                                             </div>
                                         @endhasrole
 									@endif
 									@if (auth('web')->user()->is_buyer)
-                                        @hasrole('Admin|Moderator|Puchasing Moderator|Puchasing Manager|Puchasing Executive|Engineer|Clerical Staff')
+                                        @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
                                                 <a href="{{ route('user.suppliermanagement.supplierinvitation') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
                                             </div>
                                         @endhasrole
 									@endif
                                 @endif
-								
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >
@@ -184,16 +177,21 @@
                                 </div>
                             </form>
                         </div>
+
                             <ul class="navbar-nav attr-nav align-items-center">
-                                <li>
-                                    {{-- <a href="{{ route('public.wantedlist.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List --}}
+                                <li >
+                                    <a class=" nav-link nav_item " href="{{route('public.products')}}">
+                                        Products
+                                    </a>
+                                </li>
+                                <li><a href="{{ route('public.wantedlist.view') }}" class="nav-link  cart_trigger btn-shopping-cart">Wanted List
                                         <span class="cart_count">
                                         @if (session('total_wanted_list'))
                                             {{ session('total_wanted_list') }}
                                         @else
                                             {{session()->get('total_wanted_list')}}
                                         @endif
-                                            
+
                                             {{--@php
                                                 $c = array();
                                                 $c = Session::get('cart');
