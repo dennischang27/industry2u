@@ -208,6 +208,10 @@ class MainController extends Controller
              ]);
         }
 
+        DB::table('company_users')->insert([
+            ['user_id' => $user->id, 'company_id' => $company->id]
+            ]);
+
         // update user table
         $customerId = Auth::user()->id;
         $customer = User::where('id', $customerId)->first();

@@ -136,11 +136,7 @@
                                     @if (auth('web')->user()->is_buyer)
                                         @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                         <li class="centre_mobile">
-<<<<<<< HEAD
                                             <a class=" nav-link nav_item " href="{{route('user.suppliermanagement.supplierinvitation')}}">
-=======
-                                            <a class=" nav-link nav_item " href="{{route('buyer.quote')}}">
->>>>>>> b5a647c9c1dd745eed52d9666ea0600307c10552
                                                 Purchasing
                                             </a>
                                         </li>
