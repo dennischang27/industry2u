@@ -5,6 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Inquiry;
+use App\Models\Bank;
+use App\Models\Company;
+use App\Models\CompanyBudgetRange;
+use App\Models\Country;
+use App\Models\CountryState;
+use App\Models\DocType;
+use App\Models\Industry;
+use App\Models\Currency;
+use App\Models\User;
+
 use App\Models\WantedLists;
 use App\Mail\InquiryMail;
 use Illuminate\Support\Facades\Mail;
@@ -39,17 +49,48 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get();
 
+
+        // check whether it's purchaser or user
         $user = Auth::user();
         $total_wanted_list = 0;
 
-        if(isset($user->id)){
+        if($user != null){
+
             $result = WantedLists::where('user_id', '=', $user->id)->where('status', '=', '')->orWhereNull('status')->get();
             $total_wanted_list = $result->count();
-        }
 
-        session()->put('total_wanted_list', $total_wanted_list);
-        return view('home', compact('brands', 'productcategories'));
+            session()->put('total_wanted_list', $total_wanted_list);
+
+            $isPurchaser = Auth::user()->is_buyer; 
+            $isSeller = Auth::user()->is_seller; 
+            $source = Auth::user()->invite_source;
+
+            if($isPurchaser == 0 && $isSeller == 0 && $source == 'customer'){
+                $country = Country::all();
+                $state = CountryState::all();
+                $currency = Currency::all();
+                $industry = Industry::all();
+                $companybudgetrange = CompanyBudgetRange::all();
+                $bank=Bank::all();
+                $doc_types = DocType::where('type','SSM')->get();
+                $doc_type_sst = DocType::where('type','SST')->get();
+                $id = Auth::user()->id;
+                $user = User::where('id', $id)->first();
+                $customerId = Auth::getUser()->id;
+                
+                return view('user.addcompany', compact('source', 'isPurchaser', 'user', 'country', 'state', 'bank','companybudgetrange','doc_types', 'doc_type_sst', 'industry','currency'));
+            } else {
+                return view('home', compact('brands', 'productcategories'));
+            }
+
+        } else {
+            session()->put('total_wanted_list', $total_wanted_list);
+
+            return view('home', compact('brands', 'productcategories'));
+        }
+    
     }
+    
     public function privacy()
     {
         return view('privacy');

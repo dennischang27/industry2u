@@ -147,13 +147,24 @@
         }
 
         /*progressbar*/
-        #progressbar {
+        #progressbar, #progressbar_purchaser {
             margin-bottom: 30px;
             overflow: hidden;
             /*CSS counters to number the steps*/
             counter-reset: step;
         }
 
+        #progressbar_purchaser li{
+            list-style-type: none;
+            color: white;
+            text-transform: uppercase;
+            font-size: 9px;
+            width: 48%;
+            float: left;
+            position: relative;
+            letter-spacing: 1px;
+            text-align: center;
+        }
         #progressbar li {
             list-style-type: none;
             color: white;
@@ -166,7 +177,8 @@
             text-align: center;
         }
 
-        #progressbar li:before {
+        #progressbar li:before,
+        #progressbar_purchaser li:before {
             content: counter(step);
             counter-increment: step;
             width: 24px;
@@ -181,7 +193,8 @@
         }
 
         /*progressbar connectors*/
-        #progressbar li:after {
+        #progressbar li:after,
+        #progressbar_purchaser li:after {
             content: '';
             width: 100%;
             height: 2px;
@@ -193,7 +206,8 @@
             /*put it behind the numbers*/
         }
 
-        #progressbar li:first-child:after {
+        #progressbar li:first-child:after,
+        #progressbar_purchaser li:first-child:after {
             /*connector not needed before the first step*/
             content: none;
         }
@@ -201,7 +215,9 @@
         /*marking active/completed steps green*/
         /*The number of the step and the connector before it = green*/
         #progressbar li.active:before,
-        #progressbar li.active:after {
+        #progressbar li.active:after,
+        #progressbar_purchaser li.active:before,
+        #progressbar_purchaser li.active:after {
             background: #fdd922;
             color: #111;
         }
@@ -251,33 +267,49 @@
         <div class="col-md-12">
             <br>
             <h2 class="text-center text-light">Add Company Information</h2>
-            <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
-                  action="{{route('addcompanypost')}}">
-            @csrf
-            <!-- progressbar -->
 
-				
-                <div class="col-md-12 text-center">
-                    <ul id="progressbar">
-					    <li id="page1" class="active">{{ __('Seller or Buyer') }}</li>
-						<li id="page2" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
-                        <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
-                    </ul>
-                </div>
+            @if ($isPurchaser)
+                <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
+                action="{{route('addcompanypost')}}">
+
+                @csrf
+            @endif
+                <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
+                action="{{route('purchaseraddcompanypost')}}">
+                @csrf
+            <!-- progressbar -->
+                @if ($isPurchaser && $source=='')
+                    <div class="col-md-12 text-center">
+                        <ul id="progressbar">
+                            <li id="page1" class="active">{{ __('Seller or Buyer') }}</li>
+                            <li id="page2" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
+                            <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center">
+                        <ul id="progressbar_purchaser">
+                            <li id="page2" class="active {{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
+                            <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
+                        </ul>
+                    </div>
+                @endif
                 <!-- fieldsets -->
-				<fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
-					<div><h2 class="fs-title">Are you a Supplier / Purchaser / Both?</h2></div>
-					<div><label class="font-weight-bold">
-                        <input {{ old('is_buyer') ? "checked" : "" }} type="checkbox" id="is_buyer" name="is_buyer" title="Buyer">
-                        Purchaser (Buyer)
-                    </label></div>
-					<div><label class="font-weight-bold">
-                        <input {{ old('is_seller') ? "checked" : "" }} type="checkbox" id="is_seller" name="is_seller" title="Seller">
-                        Supplier (Seller)
-                    </label></div>
-					<div id="error_buyer_seller"></div>
-					<input type="button" name="next" class="next action-button" value="Next" />
-				</fieldset>
+                @if ($isPurchaser)
+                    <fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
+                        <div><h2 class="fs-title">Are you a Supplier / Purchaser / Both?</h2></div>
+                        <div><label class="font-weight-bold">
+                            <input {{ old('is_buyer') ? "checked" : "" }} type="checkbox" id="is_buyer" name="is_buyer" title="Buyer">
+                            Purchaser (Buyer)
+                        </label></div>
+                        <div><label class="font-weight-bold">
+                            <input {{ old('is_seller') ? "checked" : "" }} type="checkbox" id="is_seller" name="is_seller" title="Seller">
+                            Supplier (Seller)
+                        </label></div>
+                        <div id="error_buyer_seller"></div>
+                        <input type="button" name="next" class="next action-button" value="Next" />
+                    </fieldset>
+                @endif
                 <fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
                     <h2 class="fs-title">User Agreement</h2>
                     <h3 class="fs-subtitle">Read the agreement carefully and proceed further !</h3>
@@ -1482,8 +1514,11 @@
                               <strong>{{ $message }}</strong>
                             </span>
                     @enderror
-					<input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                    <input type="button" name="next" class="next action-button" value="Next" />
+                    @if ($isPurchaser)
+                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        <input type="button" name="next" class="next action-button" value="Next" />
+                    @endif
+                    <input type="button" name="next" class="purchase-next action-button" value="Next" />
                 </fieldset>
                 <fieldset style="{{ $errors->has('initial') ? 'display:block;' : '' }} {{ $errors->has('reg_no') ? 'display:block;' : '' }}">
                     <h2 class="fs-title">Company Information</h2>
@@ -1738,6 +1773,54 @@
     var current_fs, next_fs, previous_fs; //fieldsets
     var left, opacity, scale; //fieldset properties which we will animate
     var animating; //flag to prevent quick multi-click glitches
+
+    $(".purchase-next").click(function(){
+        $('#company_budget_range').show();
+		$('#sellerform').attr('action', '{{route("purchaseraddcompanypost")}}');
+        
+        if (animating) return false;
+            animating = true;
+
+            current_fs = $(this).parent();
+            next_fs = $(this).parent().next();
+
+            //activate next step on progressbar using the index of next_fs
+            $("#progressbar_purchaser li").eq($("fieldset").index(next_fs)).addClass("active");
+
+            //show the next fieldset
+            next_fs.show();
+            //hide the current fieldset with style
+            current_fs.animate({
+                opacity: 0
+            }, {
+                step: function (now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale current_fs down to 80%
+                    scale = 1 - (1 - now) * 0.2;
+                    //2. bring next_fs from the right(50%)
+                    left = (now * 50) + "%";
+                    //3. increase opacity of next_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({
+                        'transform': 'scale(' + scale + ')',
+                        'position': 'absolute'
+                    });
+                    next_fs.css({
+                        'left': left,
+                        'opacity': opacity
+                    });
+                },
+                duration: 800,
+                complete: function () {
+                    current_fs.hide();
+                    animating = false;
+                },
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+
+
+    }); 
 
     $(".next").click(function () {
 		if(!$('#is_buyer').is(':checked') && !$('#is_seller').is(':checked')){

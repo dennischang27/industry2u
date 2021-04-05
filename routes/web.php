@@ -92,6 +92,20 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/pricingmanagement', 'PriceManagementController@index')->name('.pricemanagement.index');
             Route::post('sales/pricingmanagement', 'PriceManagementController@store')->name('.pricemanagement.store');
 
+            // customer management
+             
+            //  invite customer
+             Route::get('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@inviteCustomerIndex')->name('.customermanagement.mycustomer.invite.index');
+             Route::post('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@sendInvitation')->name('.customermanagement.mycustomer.invite.sendinvitation');
+
+            //  customer invited
+             Route::get('sales/customermanagement/mycustomer/customerinvited', 'InviteCustomerController@customerInvitedIndex')->name('.customermanagement.mycustomer.customerinvited');
+
+
+            // Purchasing Center
+            Route::get('purchasing/suppliermanagement/supplierinvitation', 'SupplierManagementController@supplierInvitation')->name('.suppliermanagement.supplierinvitation');
+            Route::get('sales/suppliermanagement/mysupplier', 'SupplierManagementController@mySupplier')->name('.suppliermanagement.mysupplier');
+
 
         //});
     });
@@ -112,6 +126,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::group(['middleware' => ['CheckCompanyRegistration']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
+        Route::post('addcompany/purchaser/proccess', 'MainController@purchaseraddcompanypost')->name('purchaseraddcompanypost');
 		Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
 		Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
 		Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');

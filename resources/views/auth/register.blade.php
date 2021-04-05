@@ -82,9 +82,17 @@
                             @if (app('request')->input('code'))
                                 <input type="hidden" id="code" name="code" value="{{app('request')->input('code')}}">
                             @endif
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-fill-out btn-block">{{ __('Register') }}</button>
-                            </div>
+                            
+                            @if (app('request')->input('type') == 'customer')
+                                <input type="hidden" id="type" name="type" value="{{app('request')->input('type')}}">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-fill-out btn-block">Add Company Information</button>
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-fill-out btn-block">{{ __('Register') }}</button>
+                                </div>
+                            @endif
                         </form>
 
                         <div class="form-note text-center">{{ __('Already have an account?') }} <a href="{{ route('login') }}">{{ __('Log in') }}</a></div>

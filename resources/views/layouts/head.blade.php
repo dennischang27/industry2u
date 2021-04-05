@@ -127,7 +127,7 @@
                                     @if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                         <li class="centre_mobile">
-                                            <a class=" nav-link nav_item " href="{{route('seller.quote')}}">
+                                            <a class=" nav-link nav_item " href="{{route('user.customermanagement.mycustomer.invite.index')}}">
                                                 Sales
                                             </a>
                                         </li>
@@ -136,7 +136,7 @@
                                     @if (auth('web')->user()->is_buyer)
                                         @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                         <li class="centre_mobile">
-                                            <a class=" nav-link nav_item " href="{{route('buyer.quote')}}">
+                                            <a class=" nav-link nav_item " href="{{route('user.suppliermanagement.supplierinvitation')}}">
                                                 Purchasing
                                             </a>
                                         </li>
@@ -151,14 +151,14 @@
 									@if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('seller.quote') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
+                                                <a href="{{ route('user.customermanagement.mycustomer.invite.index') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
                                             </div>
                                         @endhasrole
 									@endif
 									@if (auth('web')->user()->is_buyer)
                                         @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('buyer.quote') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
+                                                <a href="{{ route('user.suppliermanagement.supplierinvitation') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
                                             </div>
                                         @endhasrole
 									@endif
