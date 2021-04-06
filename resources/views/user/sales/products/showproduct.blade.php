@@ -47,6 +47,11 @@
             width: 80%
         }
 
+        .carousel-item img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
 
     </style>
 @endsection
@@ -127,35 +132,38 @@
                                                         </div>
                                                     @endif
                 
-                                                </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
+                                                </div> 
+                                                <!-- Left right --> 
+                                                <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> 
+                                                <!-- Thumbnails -->
                                                 <div class="form-group">
-                                                <ol class="carousel-indicators list-inline ">
-                                                    @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
-                                                    <li class="list-inline-item active">
-                                                            <div style="float: left;">
-                                                            <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#productCarousel">
-                                                                <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" class="img-fluid">
-                                                            </a>
-                                                            </div>
-                                                            <div style="float: none; clear: both;"></div>
-                                                        </li>
-                                                    @endif
-                                                    @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
-                                                        <li class="list-inline-item">
-                                                            <div style="float: left;">
-                                                                <a id="carousel-selector-1" data-slide-to="1" data-target="#productCarousel">
-                                                                    <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path) }}" class="img-fluid">
+                                                    <ol class="carousel-indicators list-inline ">
+                                                        @if(isset($product->productImage->firstWhere('name', 'image_thumbnail')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                                            <li class="list-inline-item active">
+                                                                <div style="float: left;">
+                                                                <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#productCarousel">
+                                                                    <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" class="img-fluid">
                                                                 </a>
-                                                            </div>
-                                                        </li>
-                                                    @endif
-                                                        @if(isset($product->productImage->firstWhere('name', 'image2')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
-                                                        <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="2" data-target="#productCarousel">
-                                                                 <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" class="img-fluid">
-                                                             </a>
-                                                         </li>
-                                                    @endif
-                                                </ol>
+                                                                </div>
+                                                                <div style="float: none; clear: both;"></div>
+                                                            </li>
+                                                        @endif
+                                                        @if(isset($product->productImage->firstWhere('name', 'image1')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image1')->path)))
+                                                            <li class="list-inline-item">
+                                                                <div style="float: left;">
+                                                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#productCarousel">
+                                                                        <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image1')->path) }}" class="img-fluid">
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        @endif
+                                                            @if(isset($product->productImage->firstWhere('name', 'image2')->path)&&file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image2')->path)))
+                                                            <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="2" data-target="#productCarousel">
+                                                                    <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image2')->path) }}" class="img-fluid">
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    </ol>
                                                 </div>
                                             </div>
                                         </div>
