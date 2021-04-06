@@ -41,7 +41,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('seller.products.index');
+        // return view('seller.products.index');
+        return view('user.sales.products.myproducts');
     }
     /**
      * Show the form for creating a new resource.
@@ -56,7 +57,10 @@ class ProductController extends Controller
         $attributes = Attribute::with(['attributemeasurement'])->orderBy('name')->get(['id', 'name', 'is_range']);
 
         $procatattributes = ProductCategoryAttribute::orderBy('category_id')->get(['category_id','attribute_id']);
-        return view('seller.products.create', compact('brands', 'categories', 'attributes', 'procatattributes'));
+        // return view('seller.products.create', compact('brands', 'categories', 'attributes', 'procatattributes'));
+
+        return view('user.sales.products.addnewproduct', compact('brands', 'categories', 'attributes', 'procatattributes'));
+
     }
     /**
      * Store a newly created resource in storage.
@@ -313,7 +317,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('seller.products.show',compact('product'));
+        // return view('seller.products.show',compact('product'));
+        return view('user.sales.products.showproduct',compact('product'));
+
     }
     /**
      * Show the form for editing the specified resource.
@@ -343,7 +349,9 @@ class ProductController extends Controller
         }
 
 
-        return view('seller.products.edit',compact('product', 'brands', 'categories', 'attributes','images', 'productAttributes'));
+        // return view('seller.products.edit',compact('product', 'brands', 'categories', 'attributes','images', 'productAttributes'));
+        return view('user.sales.products.editproduct',compact('product', 'brands', 'categories', 'attributes','images', 'productAttributes'));
+
     }
 
 
@@ -666,7 +674,9 @@ class ProductController extends Controller
     public function importproducts()
     {
         $categories = ProductCategory::orderBy('name')->get();
-        return view('seller.products.productimport',compact('categories'));
+        // return view('seller.products.productimport',compact('categories'));
+        return view('user.sales.products.importproducts',compact('categories'));
+
     }
 
     public function openPDF() {
