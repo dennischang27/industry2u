@@ -156,8 +156,6 @@ class DiscountSettingsController extends Controller
 
         } elseif ((request('discount_tier1') > floor($masterDiscountTotal)) && (request('discount_tier2') >= 0) && (request('discount_tier3') >= 0)) {
             return $errorMsg = 'Modify Discount Tiers, total discount exceed limit';
-            // return Redirect::back()->withInput()->withErrors(['message'=>'Modify Discount Tiers, total discount exceed limit']);
-
 
         }
         
@@ -186,7 +184,7 @@ class DiscountSettingsController extends Controller
 
             }
 
-            return redirect()->back()->with('success','Discount Settings updated successfully.');
+            return 'success';
         }
 
     }
