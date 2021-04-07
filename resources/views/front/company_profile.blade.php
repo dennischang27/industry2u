@@ -51,14 +51,13 @@
                                 </div>
                                 </div>
                             </div>
-                                    <div class="col-8">
-                                    <label>COMPANY INFORMATION</label>
-                                    <hr>
-                                        <label><strong>ADDRESS:</strong></label>
-                                        <p><label>{{ $company->street }},{{ $company->postal_code }}
-                                         {{ $company->state->name }}</label></p>
-
-                                    </div></hr>       
+                            <div class="col-8">
+                            <label>COMPANY INFORMATION</label>
+                            <hr>
+                                <label><strong>ADDRESS:</strong></label>
+                                <p><label>{{ $company->street }},{{ $company->postal_code }}
+                                    {{ $company->state->name }}</label></p>
+                            </div>      
                         </div>
                         </div>
                     </div>
@@ -68,6 +67,7 @@
         @endif
     </div> 
     <div class="section">
+    <form id="ProductList" action="{{ URL::current() }}" method="GET">
         <div class="container">
             <div class="card">
                 <div class="p-2 mb-2 bg-dark">
@@ -75,54 +75,46 @@
                             <div class="card-header">
                                 <div class="float-left">
                                     <div class="row">
-                                    <div class="dropdown">
-                                        @if( count($categories)>0 )
-                                        <label>&nbsp;Category  </label>
-                                            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="categories" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Select 
-                                            </button>                        
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        @foreach ($categories as $category)
-                                                            <option disabled value=""style="font-size: 13px";>{!! $category->name !!} </option>
-                                                            <a class="dropdown-item" href='?subcat={{$category->subcat_id}}' option value="{{$category->subcat_id}}" style="font-size: 13px";>{!! $category->subcat_name !!}</a>
-                                                        @endforeach
-                                                </div>
-                                                </div>
-                                        @else
-                                    </div>
-                                        @endif
-                                        <div class="row-5">
                                         @if( count($categories)>0 )
                                             <div class="product-sorting">
-                                            <label> &nbsp; Sort By</label>
-                                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="categories" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Select 
-                                                </button>                        
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <div class="col">
-                                                        <a href="{{ URL::Current()}}" class="sort-font" style="font-size: 13px";>&nbsp;All</a>  
-                                                    </div>
-                                                    <div class="col">
-                                                        <a href="?sort=product_asc"class="sort-font" style="font-size: 13px";>&nbsp;Name: A to Z</a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a href="?sort=product_desc" class="sort-font" style="font-size: 13px";>&nbsp;Name: Z to A</a>       
-                                                    </div>
+                                                <label> &nbsp; Sort By</label>
+                                                <div class="col">
+                                                    <select class="form-control form-control-sm submit-form-on-change" name="sort">
+                                                        <option value="All">{{ __('All') }}</option>
+                                                        <option value="product_asc" @if (request()->input('sort')=='product_asc')) selected @endif>Name: A to Z</option>
+                                                        <option value="product_desc"@if (request()->input('sort')=='product_desc')) selected @endif>Name: Z to A</option>
+                                                    </select>
+                                                </div>
                                             </div>
+                                            <div class="categories-select">
+                                                <label>&nbsp;Category</label>
+                                                <div class="col">
+                                                    <select class="form-control form-control-sm submit-form-on-change" name="subcat">
+                                                            <option value="All">{{ __('All') }}</option>
+                                                            @foreach ($categories as $category)
+                                                                <option disabled value="">{!! $category->name !!} </option>
+                                                                <option value="{{$category->subcat_id}}" @if (request()->input('subcat')==$category->subcat_id)) selected @endif >{!! $category->subcat_name !!}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
-                            </div>
                                 <div style="float:right">
-                                @if($subcat_selected != '')
-                                    <h6 value="{{$subcat_selected->id}}" style="font-size: 13px";>{!! $subcat_selected->parentCategory->name !!} > {!! $subcat_selected->name !!}</h6>                            
-                                @endif
+                                    @if($subcat_selected != '')
+                                        <h6 value="{{$subcat_selected->id}}" style="font-size: 13px";>{!! $subcat_selected->parentCategory->name !!} > {!! $subcat_selected->name !!}</h6>                            
+                                    @endif
+                                    {{-- Pagination --}}
+                                    <div class="d-flex justify-content-center">
+                                    {!! $products->appends(request()->query())->links() !!}
+                                            <!-- {!! $products->links() !!} -->
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
                                 @if ($products->count() > 0)
-                                    <div class="row row-cols-1 row-cols-md-4">
+                                    <div class="row row-cols-1 row-cols-md-5">
                                         @foreach ($products as $product)
                                             <div class="col" style="margin-bottom: 20px">
                                                 <div class="card shadow-sm">
@@ -132,7 +124,7 @@
                                                         <img src="{{ asset('images/noimage.jpg') }}" width="233" height="180">
                                                     @endif    
                                                         <div class="card-body">
-                                                            <p class="card-grid title"><strong>{{$product->name}}</strong></p>
+                                                            <p class="card-grid title"><strong>{{ str_limit($product->name, 33) }}</strong></p>
                                                             <div class="btn-group">
                                                                 <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}" 
                                                                 class="btn btn-sm btn-outline-primary btn-rounded">View</a>
@@ -148,10 +140,11 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="float-right">  
-                                            
-                                        {{-- Pagination --}}
-                                        <div class="d-flex justify-content-center">
-                                            {!! $products->links() !!}
+                                        <div class="col">
+                                            {{-- Pagination --}}
+                                            <div class="d-flex justify-content-center">
+                                                {!! $products->links() !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -160,5 +153,6 @@
             </div>
         </div> 
     </div> 
+    </form>
 </div> 
 @endsection

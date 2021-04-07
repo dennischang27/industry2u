@@ -106,10 +106,9 @@ class HomeController extends Controller
     }
     public function companyprofile($id, Request $request)
     {
-        $page = 4;
+        $page = 2;
         $company = Company::find($id);
         
-
         $subcatid = $request->get('subcat');
         $categories = DB::table('products')
                         ->join('product_categories as subcategory', 'products.category_id', '=', 'subcategory.id')
@@ -121,19 +120,40 @@ class HomeController extends Controller
                         ->get();
     
         if  ($subcatid){
-            if ($request->get('sort')=='product_asc'){
-                
+            if($request->get('sort')=='All' && $subcatid == 'All') {
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate($page);
+
+            }elseif ($request->get('sort')=='All' && $subcatid != 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->where('category_id', $subcatid)
+                ->orderBy('name', 'desc')
+                ->paginate($page); 
+
+            }elseif($request->get('sort')=='product_asc' && $subcatid == 'All'){                
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'asc')
+                ->paginate($page);
+
+    
+            }elseif($request->get('sort')=='product_asc' && $subcatid != 'All'){
                 $products = Product::where('company_id', $company->id)
                 ->where('category_id', $subcatid)
                 ->orderBy('name', 'asc')
                 ->paginate($page);
-    
-            }elseif($request->get('sort')=='product_desc'){
+
+            }elseif($request->get('sort')=='product_desc' && $subcatid == 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'desc')
+                ->paginate($page);    
+
+            }elseif($request->get('sort')=='product_desc' && $subcatid != 'All'){
                 $products = Product::where('company_id', $company->id)
                 ->where('category_id', $subcatid)
                 ->orderBy('name', 'desc')
                 ->paginate($page);
-    
+
             }
             else{        
             $products = Product::where('company_id', $company->id)
@@ -164,7 +184,6 @@ class HomeController extends Controller
             }
             $subcat_selected ='';
         }
-
 
         return view('front.company_profile',compact('products','company','categories','subcatid', 'subcat_selected'));
 
