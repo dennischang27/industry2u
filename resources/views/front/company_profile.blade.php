@@ -41,7 +41,7 @@
 @section('content')
 <div class="section">
     <div class="container">
-        <div class="card"> 
+        <div class="card">
         <div class="p-2 mb-2 bg-dark text-white-100">
         @if($company)
         <label><strong>SUPPLIER: {{ $company->name }}</strong></label></div>
@@ -67,15 +67,15 @@
                                 <label><strong>ADDRESS:</strong></label>
                                 <p><label>{{ $company->street }},{{ $company->postal_code }}
                                     {{ $company->state->name }}</label></p>
-                            </div>      
+                            </div>
                         </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         @endif
-    </div> 
+    </div>
     <div class="section">
     <form id="ProductList" action="{{ URL::current() }}" method="GET">
         <div class="container">
@@ -100,11 +100,22 @@
                                                 <label>&nbsp;Category</label>
                                                 <div class="col">
                                                     <select class="form-control form-control-sm submit-form-on-change" name="subcat">
-                                                            <option value="All">{{ __('All') }}</option>
-                                                            @foreach ($categories as $category)
-                                                                <option disabled value="">{!! $category->name !!} </option>
-                                                                <option value="{{$category->subcat_id}}" @if (request()->input('subcat')==$category->subcat_id)) selected @endif >{!! $category->subcat_name !!}</option>
-                                                            @endforeach
+                                                        <option value="All">{{ __('All') }}</option>
+                                                        @php
+                                                            $var=0;
+                                                        @endphp
+                                                        @foreach ($categories as $category)
+                                                            @if ($var != $category->id)
+                                                                <optgroup label="{{$category->name }}">
+                                                                    @php
+                                                                        $var= $category->id
+                                                                    @endphp
+                                                                    @endif
+                                                                    <option value="{{$category->subcat_id}}" @if (request()->input('subcat')==$category->subcat_id)) selected @endif >{!! $category->subcat_name !!}</option>
+                                                                    @if($loop->last)
+                                                                </optgroup>
+                                                            @endif
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -113,7 +124,7 @@
                                 </div>
                                 <div style="float:right">
                                     @if($subcat_selected != '')
-                                        <h6 value="{{$subcat_selected->id}}" style="font-size: 13px";>{!! $subcat_selected->parentCategory->name !!} > {!! $subcat_selected->name !!}</h6>                            
+                                        <h6 value="{{$subcat_selected->id}}" style="font-size: 13px";>{!! $subcat_selected->parentCategory->name !!} > {!! $subcat_selected->name !!}</h6>
                                     @endif
                                     {{-- Pagination --}}
                                     <div class="d-flex justify-content-center">
@@ -132,26 +143,26 @@
                                                         <img src="{{ asset('storage/'.$product_images->path)}}" width="233" height="180">
                                                     @else
                                                         <img src="{{ asset('images/noimage.jpg') }}" width="233" height="180">
-                                                    @endif    
+                                                    @endif
                                                         <div class="card-body" style="">
                                                         <span class='product_name' style="">
                                                             <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}"><strong>{{ str_limit($product->name, 33) }}</strong></a>
                                                         </span><br>
                                                         <div class="btn-group">
-                                                            <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}" 
+                                                            <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}"
                                                             class="btn btn-sm btn-outline-primary btn-rounded">View</a>
                                                         </div>
                                                         </div>
                                                 </div>
                                             </div>
-                                        @endforeach  
+                                        @endforeach
                                     </div>
                                 @else
                                     <div class="col text-center">{{ __('No Products!') }}</div>
                                 @endif
                                 </div>
                                 <div class="card-footer">
-                                    <div class="float-right">  
+                                    <div class="float-right">
                                         <div class="col">
                                             {{-- Pagination --}}
                                             <div class="d-flex justify-content-center">
@@ -160,11 +171,11 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>   
+                        </div>
                 </div>
             </div>
-        </div> 
-    </div> 
+        </div>
+    </div>
     </form>
-</div> 
+</div>
 @endsection
