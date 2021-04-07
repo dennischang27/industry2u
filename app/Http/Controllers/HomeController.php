@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Auth;
 use DB;
+use Session;
 
 class HomeController extends Controller
 {
