@@ -22,7 +22,9 @@ class UploadController extends Controller
         $user = Auth::user();
         $files = Storage::files("public/companies/".$user->company->id."/products/");
         $i=1;
-        return view('seller.products.upload',compact('files', 'i'));
+        // return view('seller.products.upload',compact('files', 'i'));
+        return view('user.sales.products.uploadproducts',compact('files', 'i'));
+
     }
 
     public function uploadfileprocess(Request $request)

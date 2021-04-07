@@ -49,16 +49,6 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::post('company/{company}/update', 'CompanyController@update')->name('company.profile.update');
             Route::get('account', 'sellerController@account')->name('account');
 
-            // discount settings
-            Route::get('discount', 'DiscountController@index')->name('discount.index');
-            Route::get('discount/master', 'DiscountController@master')->name('discount.masters');
-            Route::get('discount/manager', 'DiscountController@manager')->name('discount.manager');
-            Route::get('discount/sales', 'DiscountController@sales')->name('discount.sales');
-            
-            Route::post('discount/master', 'DiscountController@masterCreate')->name('discount.master');
-            Route::post('discount/manager', 'DiscountController@managerCreate')->name('discount.manager');
-            Route::post('discount/sales', 'DiscountController@salesCreate')->name('discount.sales');
-
             Route::get('quote', 'QuotationController@quote')->name('quote');
             Route::get('quote/{qr_id}/details', 'QuotationController@quoteDetails')->name('quote.details');
             Route::post('quote/discount/add', 'QuotationController@adddiscount')->name('adddiscount');
