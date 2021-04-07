@@ -16,12 +16,14 @@ use App\Models\Currency;
 use App\Models\User;
 
 use App\Models\WantedLists;
+use App\Models\ProductImage;
 use App\Mail\InquiryMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Auth;
-use Session;
+use DB;
 
 class HomeController extends Controller
 {
@@ -61,8 +63,8 @@ class HomeController extends Controller
 
             session()->put('total_wanted_list', $total_wanted_list);
 
-            $isPurchaser = Auth::user()->is_buyer; 
-            $isSeller = Auth::user()->is_seller; 
+            $isPurchaser = Auth::user()->is_buyer;
+            $isSeller = Auth::user()->is_seller;
             $source = Auth::user()->invite_source;
 
             if($isPurchaser == 0 && $isSeller == 0 && $source == 'customer'){
@@ -77,7 +79,7 @@ class HomeController extends Controller
                 $id = Auth::user()->id;
                 $user = User::where('id', $id)->first();
                 $customerId = Auth::getUser()->id;
-                
+
                 return view('user.addcompany', compact('source', 'isPurchaser', 'user', 'country', 'state', 'bank','companybudgetrange','doc_types', 'doc_type_sst', 'industry','currency'));
             } else {
                 return view('home', compact('brands', 'productcategories'));
@@ -88,9 +90,8 @@ class HomeController extends Controller
 
             return view('home', compact('brands', 'productcategories'));
         }
-    
+
     }
-    
     public function privacy()
     {
         return view('privacy');
@@ -135,5 +136,122 @@ class HomeController extends Controller
         return redirect()->back()->with('message', 'Your message has been sent!');
 
     }
+    public function supplierlist(Request $request)
+    {
+        $query = $request->get('q');
+        $num = $request->get('num');
 
+        if($num){
+            $pageqty =$num;
+        }else{
+            $pageqty =16;
+        }
+
+        $companies = Company::where('name','like','%'.$query.'%')
+        ->orderBy('name')
+        ->paginate($pageqty);
+
+        return view('supplier_list',compact('companies'));
+
+    }
+    public function companyprofile($id, Request $request)
+    {
+        $page = 15;
+        $company = Company::find($id);
+
+        $subcatid = $request->get('subcat');
+        $categories = DB::table('products')
+                        ->join('product_categories as subcategory', 'products.category_id', '=', 'subcategory.id')
+                        ->join('product_categories as category', 'subcategory.parent_id', '=', 'category.id')
+                        ->where('products.company_id', $company->id )
+                        ->whereNull('products.deleted_at')
+                        ->select('category.id', 'category.name', 'subcategory.id as subcat_id', 'subcategory.name as subcat_name')
+                        ->groupby('category.id', 'category.name', 'subcategory.id', 'subcategory.name')
+                        ->get();
+
+        if  ($subcatid){
+            if($request->get('sort')=='All' && $subcatid == 'All') {
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate($page);
+
+            }elseif ($request->get('sort')=='All' && $subcatid != 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->where('category_id', $subcatid)
+                ->orderBy('name', 'desc')
+                ->paginate($page);
+
+            }elseif($request->get('sort')=='product_asc' && $subcatid == 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'asc')
+                ->paginate($page);
+
+
+            }elseif($request->get('sort')=='product_asc' && $subcatid != 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->where('category_id', $subcatid)
+                ->orderBy('name', 'asc')
+                ->paginate($page);
+
+            }elseif($request->get('sort')=='product_desc' && $subcatid == 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'desc')
+                ->paginate($page);
+
+            }elseif($request->get('sort')=='product_desc' && $subcatid != 'All'){
+                $products = Product::where('company_id', $company->id)
+                ->where('category_id', $subcatid)
+                ->orderBy('name', 'desc')
+                ->paginate($page);
+
+            }
+            else{
+            $products = Product::where('company_id', $company->id)
+            ->where('category_id', $subcatid)
+            ->orderBy('created_at', 'desc')
+            ->paginate($page);
+            }
+            $subcat_selected = ProductCategory::where('id',$subcatid)->first();
+
+        }else{
+            $products = Product::where('company_id', $company->id)->orderBy('created_at', 'desc')->paginate($page);
+            if ($request->get('sort')=='product_asc'){
+
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'asc')
+                ->paginate($page);
+
+            }elseif($request->get('sort')=='product_desc'){
+                $products = Product::where('company_id', $company->id)
+                ->orderBy('name', 'desc')
+                ->paginate($page);
+
+            }
+            else{
+            $products = Product::where('company_id', $company->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate($page);
+            }
+            $subcat_selected ='';
+        }
+
+        return view('front.company_profile',compact('products','company','categories','subcatid', 'subcat_selected'));
+
+    }
+
+    public function scopeSearch($q)
+    {
+    return empty(request()->search) ? $q : $q->where('name', 'like', '%'.request()->search.'%');
+    }
+
+    public function boot()
+    {
+        Paginator::useBootstrap();
+    }
+    public function faq(Request $request)
+    {
+        $query = $request->get('q');
+
+        return view('front.faq');
+    }
 }

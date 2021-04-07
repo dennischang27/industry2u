@@ -33,13 +33,18 @@
                         <h6 class="widget_title">Customer Service</h6>
                         <ul class="contact_info contact_info_light">
                             <li>
-                                <i class="ti-email"></i>
+                                <!-- <i class="ti-email"></i> -->
                                 <a class="footer-link" href="{{ route("contact_us") }}">Contact Us</a>
                             </li>
-                            <!--li>
-                                <i class="ti-mobile"></i>
-                                <p>012-3456789</p>
-                            </li-->
+                            <li>
+                                <!-- <i class="ti-email"></i> -->
+                                <a class="footer-link" href="{{ route("supplier_list") }}">Supplier List</a>
+                            </li>
+                            <li>
+                                <!-- <i class="ti-email"></i> -->
+                                <a class="footer-link" href="{{ route("faq") }}">Frequently Asked Questions(FAQ)</a>
+                            </li>
+                           
                         </ul>
                     </div>
                 </div>
