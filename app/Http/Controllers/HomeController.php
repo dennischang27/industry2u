@@ -106,7 +106,7 @@ class HomeController extends Controller
     }
     public function companyprofile($id, Request $request)
     {
-        $page = 16;
+        $page = 15;
         $company = Company::find($id);
         
         $subcatid = $request->get('subcat');

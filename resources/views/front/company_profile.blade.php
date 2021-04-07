@@ -2,6 +2,16 @@
 @section('title')
     <title>{{ config('app.name', 'Industry2u') .  __(' COMPANY PROFILE') }}</title>
 @endsection
+<!-- @section('style')
+<style>
+    .product_name h2 {
+    line-height: 2.5ex;
+    height: 5ex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
+@endsection -->
 @section('breadcrumbs')
     <!-- breadcrumbs start here-->
     <div class="breadcrumb_section bg_gray page-title-mini">
@@ -123,12 +133,14 @@
                                                     @else
                                                         <img src="{{ asset('images/noimage.jpg') }}" width="233" height="180">
                                                     @endif    
-                                                        <div class="card-body">
-                                                            <p class="card-grid title"><strong>{{ str_limit($product->name, 33) }}</strong></p>
-                                                            <div class="btn-group">
-                                                                <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}" 
-                                                                class="btn btn-sm btn-outline-primary btn-rounded">View</a>
-                                                            </div>
+                                                        <div class="card-body" style="">
+                                                        <span class='product_name' style="">
+                                                            <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}"><strong>{{ str_limit($product->name, 33) }}</strong></a>
+                                                        </span><br>
+                                                        <div class="btn-group">
+                                                            <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}" 
+                                                            class="btn btn-sm btn-outline-primary btn-rounded">View</a>
+                                                        </div>
                                                         </div>
                                                 </div>
                                             </div>
