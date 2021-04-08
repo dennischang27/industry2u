@@ -15,18 +15,18 @@
         z-index: 9999;
         background: url({{ asset('images/Preloader_1.gif') }} ) center no-repeat #fff;
 
+    }
     .column {
         float: left;
         width: 50%;
         padding: 10px;
-        }
+    }
 
-        /* Clear floats after the columns */
-        .row:after {
+    /* Clear floats after the columns */
+    .row:after {
         content: "";
         display: table;
         clear: both;
-        }
     }
 </style>
 @endsection
@@ -59,16 +59,14 @@
 @section('content')
 <div class="section">
     <form id="searchCompanies" action="{{ URL::current() }}" method="GET">
-        <input type="hidden" value="{{ request()->input('q') }}" name="q"  >
                 <div class="container">
                     <div class="row align-items-center mb-4 pb-1">
                         <div class="col-12">
                             <div class="product_header">
                                 <div class="product_header_left">
                                     <div class="input-group">
-                                        <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Supplier..."  type="text">
-                                        <input class="form-control" name="categoryid" value="{{ request()->input('name') }}" type="hidden">
-                                            <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+                                        <input class="form-control" name="sup" value="{{ request()->input('sup') }}" placeholder="Search Supplier..."  type="text">
+                                        <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
                                     </div>
                                 </div>
                                     <div class="product_header_right">
@@ -83,8 +81,8 @@
                                             </div>
                                     </div>
                                     </div>
-                            </div>    
-                                    
+                            </div>
+
                         @if ($companies->count() > 0)
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5" style="margin-bottom: 20px">
                                 @foreach($companies as $company)
@@ -94,7 +92,7 @@
                                                 <img src="{{ asset('storage/'.$company->logo) }}"  width="254" height="180">
                                             @else
                                                 <img src=" {{ asset('images/noimage.jpg') }}"  width="200" height="180">
-                                            @endif    
+                                            @endif
                                                 <div class="card-body">
                                                     <p class="card-text"><strong>{{ $company->name}} </strong></p>
                                                         <div class="btn-group">
@@ -103,17 +101,17 @@
                                                 </div>
                                         </div>
                                     </div>
-                                    
+
                                 @endforeach
                             </div>
                         @else
                             <br>
-                            <div class="col text-center">{{ __('No Companies!') }}</div>        
+                            <div class="col text-center">{{ __('No Companies!') }}</div>
                         @endif
                     </div>
                 </div>
     </form>
-</div>   
+</div>
 @endsection
 
 @section('script')
@@ -121,13 +119,6 @@
     <script>
         $(window).on('load', function(){
             $(".se-pre-con").fadeOut("slow");
-        });
-        $(document).ready(function() {
-            var searchForm2Div = document.getElementById("serch_form2");
-            searchForm2Div.style.display = "none";
-
-            var searchFormDiv = document.getElementById("serch_form");
-            searchFormDiv.style.display = "none";
         });
         $('#searchCompanies').submit(function() {
             var pass = true;
@@ -140,7 +131,7 @@
 
             return true;
         });
-        
+
 
     </script>
 @endsection
