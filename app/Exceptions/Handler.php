@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
             return response()->json(['User have not permission for this page access.']);
         }
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-            return redirect()->route('login');
+            return redirect()->guest(route('login'));
         }
         return parent::render($request, $exception);
     }
