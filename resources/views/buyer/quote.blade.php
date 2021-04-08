@@ -375,7 +375,7 @@
                 $.each(data, function(key,value) {
                     var product_html = '<div class="row"><div class="col-sm-8 text-left">'+i+'. '+value.product_name+'</div>' +
                                         '<div class="col-sm-2 text-left">'+value.quantity+'</div>' +
-                                        '<div class="col-sm-2 text-left"> PCS</div>';
+                                        '<div class="col-sm-2 text-left"> PCS</div></div>';
 
                         product_html = product_html + '<div class="row"><div class="col-sm-8 ml-3 text-left">series no: '+value.series_no+'</div>' +
                             '<div class="col-sm-2 text-left"></div>'+
