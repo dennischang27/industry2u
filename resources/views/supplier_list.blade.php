@@ -73,9 +73,9 @@
                                         <div class="custom_select">
                                             <select class="form-control form-control-sm submit-form-on-change" name="num">
                                                 <option value="">{{ __('Showing') }}</option>
-                                                <option value="16" @if (request()->input('num') == 16) selected @endif>16</option>
-                                                <option value="20" @if (request()->input('num') == 20) selected @endif>20</option>
-                                                <option value="24" @if (request()->input('num') == 24) selected @endif>24</option>
+                                                <option value="15" @if (request()->input('num') == 15) selected @endif>15</option>
+                                                <option value="25" @if (request()->input('num') == 25) selected @endif>25</option>
+                                                <option value="40" @if (request()->input('num') == 40) selected @endif>40</option>
                                             </select>
                                         </div>
                                             </div>
@@ -104,6 +104,11 @@
 
                                 @endforeach
                             </div>
+                             <div class="col-12">
+                            <div class="justify-content-center ">
+                                {!! $companies->appends(request()->query())->links() !!}
+                            </div>
+                        </div>
                         @else
                             <br>
                             <div class="col text-center">{{ __('No Companies!') }}</div>

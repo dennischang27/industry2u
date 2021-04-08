@@ -94,7 +94,7 @@ class HomeController extends Controller
         if($num){
             $pageqty =$num;
         }else{
-            $pageqty =16;
+            $pageqty =15;
         }
 
         $companies = Company::where('name','like','%'.$query.'%')
