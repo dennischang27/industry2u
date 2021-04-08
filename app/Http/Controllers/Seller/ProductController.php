@@ -81,9 +81,10 @@ class ProductController extends Controller
         $input['company_id'] = $user->company->id;
         $input['user_id'] = $user->id;
 
-
+        if($input['slug']==''){
         $input['slug']  = preg_replace('/[^a-zA-Z0-9\']/', '_',Str::limit($input['slug'], 30));
         $input['slug']  = str_replace("'", '', $input['slug'] );
+        }
         if($input['brand_id'] == 'Other') {
             $brand = Brand::create([
                 'name' => $input['brand_name'],

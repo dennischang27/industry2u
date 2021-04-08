@@ -139,7 +139,7 @@ class HomeController extends Controller
     }
     public function supplierlist(Request $request)
     {
-        $query = $request->get('q');
+        $query = $request->get('sup');
         $num = $request->get('num');
 
         if($num){

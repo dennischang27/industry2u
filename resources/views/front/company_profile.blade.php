@@ -123,9 +123,7 @@
                                     </div>
                                 </div>
                                 <div style="float:right">
-                                    @if($subcat_selected != '')
-                                        <h6 value="{{$subcat_selected->id}}" style="font-size: 13px";>{!! $subcat_selected->parentCategory->name !!} > {!! $subcat_selected->name !!}</h6>
-                                    @endif
+
                                     {{-- Pagination --}}
                                     <div class="d-flex justify-content-center">
                                     {!! $products->appends(request()->query())->links() !!}
@@ -139,18 +137,28 @@
                                         @foreach ($products as $product)
                                             <div class="col" style="margin-bottom: 20px">
                                                 <div class="card shadow-sm">
-                                                    @if(isset($product->path))
-                                                        <img src="{{ asset('storage/'.$product_images->path)}}" width="233" height="180">
+                                                    @if($product->productImage->firstWhere('name', 'image_thumbnail'))
+                                                        @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
+                                                            <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                        @else
+                                                            <img src="{{ asset('images/noimage.jpg') }}">
+                                                        @endif
                                                     @else
-                                                        <img src="{{ asset('images/noimage.jpg') }}" width="233" height="180">
+                                                        <img src="{{ asset('images/noimage.jpg') }}">
                                                     @endif
-                                                        <div class="card-body" style="">
-                                                        <span class='product_name' style="">
-                                                            <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}"><strong>{{ str_limit($product->name, 33) }}</strong></a>
+                                                        <div class="card-body">
+                                                        <span class='product_name'>
+                                                                <strong>{{ str_limit($product->name, 33) }}</strong>
                                                         </span><br>
                                                         <div class="btn-group">
-                                                            <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}"
-                                                            class="btn btn-sm btn-outline-primary btn-rounded">View</a>
+                                                            @if($product->slug)
+                                                                <a href="{{ url('productview/'.$product->id.'/'.$product->slug) }}"
+                                                                   class="btn btn-sm btn-outline-primary btn-rounded">
+                                                            @else
+                                                                <a href="{{ url('productview/'.$product->id.'/'.str_slug($product->name)) }}"
+                                                                   class="btn btn-sm btn-outline-primary btn-rounded">
+                                                            @endif
+                                                            View</a>
                                                         </div>
                                                         </div>
                                                 </div>
