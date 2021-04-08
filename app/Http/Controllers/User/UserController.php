@@ -338,7 +338,7 @@ class UserController extends Controller
     public function joincompany(User $user, Request $request) {
         $user->status = 'active';
         $user->save();
-        return redirect()->route('user.acount')->with('success','Join successfully.');
+        return redirect()->route('user.account')->with('success','Join successfully.');
     }
 
 	public function sendinvitation(User $user, Request $request) {
