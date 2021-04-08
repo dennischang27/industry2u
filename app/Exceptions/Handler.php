@@ -50,7 +50,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return response()->json(['User have not permission for this page access.']);
         }
-
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect()->route('login');
+        }
         return parent::render($request, $exception);
     }
     protected function unauthenticated($request, AuthenticationException $exception)
