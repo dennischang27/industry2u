@@ -142,6 +142,17 @@ class QuotationController extends Controller
         $qr->status = 'Pending Confirmation';
         $qr->save();
 
+        //Send email notification to requester
+        $user = User::where('id', '=', $qr->requester_id)->first();
+        
+        $mail["email"] = $user->email;
+        $mail["subject"] = "Quotation";
+        $mail["supplier_company_name"] = $qr->supplier_company_name;
+
+        Mail::send('seller.quotationmail', $mail, function($message)use($mail) {
+            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+        });
+
         return redirect()->route('seller.quote')->with('success','Quotation issued successfully');
     }
 }
