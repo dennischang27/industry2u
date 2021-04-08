@@ -94,7 +94,12 @@ class QuotationController extends Controller
 
     public function quoterequestfileproducts(Request $request){
         $qr_id = $request->qr_id;
-        $data = QuotationRequestDetails::where('qr_id', $qr_id)->get();
+        $data = QuotationRequestDetails::select('quotation_request_details.*','p.series_no AS series_no','c.name AS category_name')
+                            ->where('qr_id', $qr_id)
+                            ->leftJoin('products AS p', 'p.id', '=', 'quotation_request_details.product_id')
+                            ->leftJoin('product_categories AS c', 'c.id', '=', 'p.category_id')
+                            ->get();
+
         return response()->json($data);
     }
 
@@ -121,7 +126,13 @@ class QuotationController extends Controller
 
     public function quotefileproducts(Request $request){
         $qr_id = $request->qr_id;
-        $data = QuotationRequestDetails::where('qr_id', $qr_id)->get();
+        //$data = QuotationRequestDetails::where('qr_id', $qr_id)->get();
+        $data = QuotationRequestDetails::select('quotation_request_details.*','p.series_no AS series_no','c.name AS category_name')
+                            ->where('qr_id', $qr_id)
+                            ->leftJoin('products AS p', 'p.id', '=', 'quotation_request_details.product_id')
+                            ->leftJoin('product_categories AS c', 'c.id', '=', 'p.category_id')
+                            ->get();
+
         return response()->json($data);
     }
 
@@ -188,48 +199,132 @@ class QuotationController extends Controller
         if(!null == $request->input('quotation_request_id')){
             if(!empty($request->input('quotation_request_id'))) {
                 foreach($request->input('quotation_request_id') as $value){
-                    QuotationRequests::where('id',$value)->update(['status'=>'Pending Quotation','purchaser_id' => $user->id]);
-
-                    // An email notification will be sent to Requester
-                    $data = QuotationRequests::where('quotation_requests.id', $value)
-                            ->leftJoin('companies', 'companies.id', '=', 'quotation_requests.purchaser_company_id')
-                            ->first();
-
-                    $mail["email"] = $data->requestBy->email;
-                    $mail["subject"] = "Quotation Submitted";
-                    $mail["firstname"] = $user->first_name;
-                    $mail["lastname"] = $user->last_name;
-                    $mail["supplier_company_name"] = $data->supplier_company_name;
-
-                    Mail::send('buyer.torequestermail', $mail, function($message)use($mail) {
-                        $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                    });
-
-                    // An email notification will be sent to Supplier - Sales Executive(7), Sales Manager(5), Sales Moderator(3)
-                    $arrsuppliers = [3,5,7];
-                    $suppliers = CompanyUser::select('users.first_name as first_name','users.last_name as last_name','users.email as email')
-                                ->leftJoin('users', 'users.id', '=', 'company_users.user_id')
-                                ->where('company_users.company_id', $data->supplier_company_id)
-                                ->whereIn('users.designation_id', $arrsuppliers)
-                                ->get();
+                    /* Auto Quotation */
+                    // Check Is Supplier and Customer Match
+                    $status = "";
+                    $qr = QuotationRequests::select('supplier_company_id', 'purchaser_company_id')
+                        ->where('id', $value)->first();
                     
-                    if($suppliers){
-                        foreach ($suppliers as $supplier) {
-                            //echo $supplier->email."<br/>";
-                            $mail["email"] = $supplier->email;
-                            $mail["subject"] = "Quotation Request";
-                            $mail["purchaser"] = $data->name;
-    
-                            Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
-                                $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                            });
+                    $qr_details = QuotationRequestDetails::where('qr_id', '=', $value)->get();
+                    $arr_qr_details=array();
+
+                    foreach($qr_details as $qr_detail){
+                        array_push($arr_qr_details, $qr_detail->product_id);
+                    }
+
+                    // Check previous quotation
+                    $match_qrs = QuotationRequests::where('supplier_company_id', $qr->supplier_company_id)
+                        ->where('purchaser_company_id', $qr->purchaser_company_id)
+                        ->where('id', '!=' , $value)
+                        ->get();
+
+                    foreach($match_qrs as $match_qr){
+                        $previous_qr_details = QuotationRequestDetails::where('qr_id', '=', $match_qr->id)->get();
+                        $arr_previous_qr_details = array();
+
+                        foreach($previous_qr_details as $previous_qr_detail){
+                            array_push($arr_previous_qr_details, $previous_qr_detail->product_id);
+                        }
+
+                        $result = array_diff($arr_qr_details, $arr_previous_qr_details);
+
+                        if(empty($result)) {
+                            // Quotation Match!
+                            // Get previous discount and add to current quotation details
+                            foreach($previous_qr_details as $previous_qr_detail){
+                                $selected_qr_details = QuotationRequestDetails::where('qr_id', $value)
+                                    ->where('product_id', '=', $previous_qr_detail->product_id)->first();
+                                $selected_qr_details->discount_tier1 = $previous_qr_detail->discount_tier1;
+                                $selected_qr_details->discount_tier2 = $previous_qr_detail->discount_tier2;
+                                $selected_qr_details->discount_tier3 = $previous_qr_detail->discount_tier3;
+                                $selected_qr_details->total_discount = $previous_qr_detail->total_discount;
+                                $selected_qr_details->save();
+                            }
+
+                            $status = "match";
+                            break;
+                        }
+                    }
+
+                    if($status == "match"){
+                        QuotationRequests::where('id',$value)->update(['status'=>'Pending Confirmation','purchaser_id' => $user->id]);
+
+                        $company_user = CompanyUser::where('user_id', $user->id)->first();
+                        $month = date('m');
+                        $year = date('y');
+
+                        $qr = QuotationRequests::where('supplier_company_id', $company_user->company->id)
+                                ->where('quotation_no', '<>', '')
+                                ->orWhereNotNull('quotation_no')->get();
+
+                        $qr_count = $qr->count() + 1;
+                        $number = str_pad($qr_count, 4, '0', STR_PAD_LEFT);
+
+                        $quotation_amount = QuotationRequestDetails::where('qr_id', $value)->get()->sum("total_amount");
+                        $quotation_valid_until = Date('y-m-d', strtotime('+7 days'));
+
+                        $qr = QuotationRequests::where('id', '=', $value)->first();
+                        $qr->supplier_user_id = $user->id;
+                        $qr->quotation_no = "SQ".$company_user->company->initial."-".$month.$year."-".$number;
+                        $qr->quotation_amount = $quotation_amount;
+                        $qr->quotation_valid_until = $quotation_valid_until;
+                        $qr->status = 'Pending Confirmation';
+                        $qr->save();
+
+                        //Send email notification to requester
+                        $user = User::where('id', '=', $qr->requester_id)->first();
+                        
+                        $mail["email"] = $user->email;
+                        $mail["subject"] = "Quotation";
+                        $mail["supplier_company_name"] = $qr->supplier_company_name;
+
+                        Mail::send('seller.quotationmail', $mail, function($message)use($mail) {
+                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                        });
+                    }else{
+                        QuotationRequests::where('id',$value)->update(['status'=>'Pending Quotation','purchaser_id' => $user->id]);
+
+                        // An email notification will be sent to Requester
+                        $data = QuotationRequests::where('quotation_requests.id', $value)
+                                ->leftJoin('companies', 'companies.id', '=', 'quotation_requests.purchaser_company_id')
+                                ->first();
+
+                        $mail["email"] = $data->requestBy->email;
+                        $mail["subject"] = "Quotation Submitted";
+                        $mail["firstname"] = $user->first_name;
+                        $mail["lastname"] = $user->last_name;
+                        $mail["supplier_company_name"] = $data->supplier_company_name;
+
+                        Mail::send('buyer.torequestermail', $mail, function($message)use($mail) {
+                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                        });
+
+                        // An email notification will be sent to Supplier - Sales Executive(7), Sales Manager(5), Sales Moderator(3)
+                        $arrsuppliers = [3,5,7];
+                        $suppliers = CompanyUser::select('users.first_name as first_name','users.last_name as last_name','users.email as email')
+                                    ->leftJoin('users', 'users.id', '=', 'company_users.user_id')
+                                    ->where('company_users.company_id', $data->supplier_company_id)
+                                    ->whereIn('users.designation_id', $arrsuppliers)
+                                    ->get();
+                        
+                        if($suppliers){
+                            foreach ($suppliers as $supplier) {
+                                //echo $supplier->email."<br/>";
+                                $mail["email"] = $supplier->email;
+                                $mail["subject"] = "Quotation Request";
+                                $mail["purchaser"] = $data->name;
+        
+                                Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                                    $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                                });
+                            }
                         }
                     }
                 }
             }
         }
 
-        return redirect()->route('buyer.quote')->with('success','Quotation submitted successfully');
+        //return redirect()->route('buyer.quote')->with('success','Quotation submitted successfully');
     }
 
     public function rejectquotationrequest(Request $request)

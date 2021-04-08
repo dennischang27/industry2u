@@ -167,7 +167,7 @@
                                                                             <p><span id="qr_supplier_postal_code"></span>, <span id="qr_supplier_city"></span></p>
                                                                             <p><span id="qr_supplier_state"></span> <span id="qr_supplier_country"></span></p><br/>
                                                                             <p>Tel: <span id="qr_supplier_phone"></span></p>
-                                                                            <p>Email: <span id="qr_supplier_email"></span></p>
+                                                                            <!--<p>Email: <span id="qr_supplier_email"></span></p>-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -250,7 +250,7 @@
                                                                             <p><span id="supplier_postal_code"></span>, <span id="supplier_city"></span></p>
                                                                             <p><span id="supplier_state"></span> <span id="supplier_country"></span></p><br/>
                                                                             <p>Tel: <span id="supplier_phone"></span></p>
-                                                                            <p>Email: <span id="supplier_email"></span></p>
+                                                                            <!--<p>Email: <span id="supplier_email"></span></p>-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -407,7 +407,7 @@
                 $("#qr_supplier_state").text(data.purchaser_state_id);
                 $("#qr_supplier_country").text(data.purchaser_country);
                 $("#qr_supplier_phone").text(data.purchaser_phone);
-                $("#qr_supplier_email").text("missing email");
+                //$("#qr_supplier_email").text("missing email");
                 
                 $("#qr_purchaser_company_name").text(data.supplier_company_name);
                 var purchaser_address = data.supplier_street + ", " + data.supplier_postal_code + " " + data.supplier_city  + ", " + 
@@ -439,6 +439,14 @@
                                         '<div class="col-sm-2 text-left">'+value.quantity+'</div>' +
                                         '<div class="col-sm-2 text-left"> PCS</div>';
 
+                        product_html = product_html + '<div class="row"><div class="col-sm-8 ml-3 text-left">series no: '+value.series_no+'</div>' +
+                            '<div class="col-sm-2 text-left"></div>'+
+                            '<div class="col-sm-2 text-left"></div></div>';
+
+                        product_html = product_html + '<div class="row"><div class="col-sm-8 ml-3 text-left">category : '+value.category_name+'</div>' +
+                                        '<div class="col-sm-2 text-left"></div>'+
+                                        '<div class="col-sm-2 text-left"></div></div>';
+
                     $( "#qr_product_list" ).append(product_html);
                     i++;
                 }); 
@@ -466,7 +474,7 @@
                 $("#supplier_state").text(data.supplier_state_id);
                 $("#supplier_country").text(data.supplier_country);
                 $("#supplier_phone").text(data.supplier_phone);
-                $("#supplier_email").text("missing email");
+                //$("#supplier_email").text("missing email");
                 
                 $("#purchaser_company_name").text(data.purchaser_company_name);
                 var purchaser_address = data.purchaser_street + ", " + data.purchaser_postal_code + " " + data.purchaser_city  + ", " + 
@@ -497,6 +505,14 @@
                     var product_html = '<div class="row"><div class="col-sm-8 text-left">'+i+'. '+value.product_name+'</div>' +
                                         '<div class="col-sm-2 text-left">'+value.quantity+'</div>' +
                                         '<div class="col-sm-2 text-left"> PCS</div>';
+
+                        product_html = product_html + '<div class="row"><div class="col-sm-8 ml-3 text-left">series no: '+value.series_no+'</div>' +
+                            '<div class="col-sm-2 text-left"></div>'+
+                            '<div class="col-sm-2 text-left"></div></div>';
+
+                        product_html = product_html + '<div class="row"><div class="col-sm-8 ml-3 text-left">category : '+value.category_name+'</div>' +
+                                        '<div class="col-sm-2 text-left"></div>'+
+                                        '<div class="col-sm-2 text-left"></div></div>';
 
                     $( "#product_list" ).append(product_html);
                     i++;
