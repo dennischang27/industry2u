@@ -268,17 +268,25 @@
             <br>
             <h2 class="text-center text-light">Add Company Information</h2>
 
-            @if ($isPurchaser)
+            @if(isset($isPurchaser))
+                <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
+                    action="{{route('purchaseraddcompanypost')}}">
+                    @csrf
+            @else
                 <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
                 action="{{route('addcompanypost')}}">
-
                 @csrf
             @endif
-                <form id="sellerform" novalidate class="form" method="post" enctype="multipart/form-data"
-                action="{{route('purchaseraddcompanypost')}}">
-                @csrf
+                
             <!-- progressbar -->
-                @if ($isPurchaser && $source=='')
+                @if(isset($isPurchaser))
+                    <div class="col-md-12 text-center">
+                        <ul id="progressbar_purchaser">
+                            <li id="page2" class="active {{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
+                            <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
+                        </ul>
+                    </div>
+                @else
                     <div class="col-md-12 text-center">
                         <ul id="progressbar">
                             <li id="page1" class="active">{{ __('Seller or Buyer') }}</li>
@@ -286,16 +294,9 @@
                             <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
                         </ul>
                     </div>
-                @else
-                    <div class="col-md-12 text-center">
-                        <ul id="progressbar_purchaser">
-                            <li id="page2" class="active {{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Agreement') }}</li>
-                            <li id="page3" class="{{ $errors->has('initial') ? 'active' : '' }} {{ $errors->has('reg_no') ? 'active' : '' }}">{{ __('Company information & confirm') }}</li>
-                        </ul>
-                    </div>
                 @endif
                 <!-- fieldsets -->
-                @if ($isPurchaser)
+                @empty($isPurchaser)
                     <fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
                         <div><h2 class="fs-title">Are you a Supplier / Purchaser / Both?</h2></div>
                         <div><label class="font-weight-bold">
@@ -309,7 +310,7 @@
                         <div id="error_buyer_seller"></div>
                         <input type="button" name="next" class="next action-button" value="Next" />
                     </fieldset>
-                @endif
+                @endempty
                 <fieldset style="{{ $errors->has('initial') ? 'display:none;' : '' }} {{ $errors->has('reg_no') ? 'display:none;' : '' }}">
                     <h2 class="fs-title">User Agreement</h2>
                     <h3 class="fs-subtitle">Read the agreement carefully and proceed further !</h3>
@@ -1514,11 +1515,14 @@
                               <strong>{{ $message }}</strong>
                             </span>
                     @enderror
-                    @if ($isPurchaser)
+                    
+                    @if(isset($isPurchaser))
+                        <input type="button" name="next" class="purchase-next action-button" value="Next" />
+                    @else
                         <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                         <input type="button" name="next" class="next action-button" value="Next" />
                     @endif
-                    <input type="button" name="next" class="purchase-next action-button" value="Next" />
+                    
                 </fieldset>
                 <fieldset style="{{ $errors->has('initial') ? 'display:block;' : '' }} {{ $errors->has('reg_no') ? 'display:block;' : '' }}">
                     <h2 class="fs-title">Company Information</h2>
