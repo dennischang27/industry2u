@@ -1778,6 +1778,19 @@
     var left, opacity, scale; //fieldset properties which we will animate
     var animating; //flag to prevent quick multi-click glitches
 
+    var server_error = {{count($errors)}};
+
+    if(server_error > 0){
+        if($('#is_seller').is(':checked')){
+            $('#payment_info').show();
+            $('#sst_info').show();
+            $('#sellerform').attr('action', '{{route("apply.seller.company.post")}}');
+        }else{
+            $('#payment_info').hide();
+            $('#sst_info').hide();
+        }
+    }
+
     $(".purchase-next").click(function(){
         $('#company_budget_range').show();
 		$('#sellerform').attr('action', '{{route("purchaseraddcompanypost")}}');
