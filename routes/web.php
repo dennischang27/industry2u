@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth']], function() {
 
             // reassign customer 
             Route::get('sales/customermanagement/customerReassign', 'CustomerManagementController@customerReassign')->name('.customermanagement.mycustomer.customerReassign');
-            Route::post('sales/customermanagement/customerReassign', 'CustomerManagementController@customerReassignStore')->name('.customermanagement.mycustomer.customerReassign');
+            Route::post('sales/customermanagement/customerReassign/reassign', 'CustomerManagementController@customerReassignStore')->name('.customermanagement.mycustomer.customerReassign.reassign');
 
             // my customer
             Route::get('sales/customermanagement/mycustomer', 'CustomerManagementController@mycustomerindex')->name('.customermanagement.mycustomer.index');
