@@ -11,7 +11,7 @@
 
             @if (auth('web')->user()->is_seller)
             <li class="nav-item">
-                <a class="nav-link collapsed text-truncate" href="#customermenu" data-toggle="collapse" data-target="#productmenu"> <i class="ti-user"></i><span class="d-none d-sm-inline">Product Management</span><i class="fa fa-table"></i></a>
+                <a class="nav-link collapsed text-truncate" href="#productmenu" data-toggle="collapse" data-target="#productmenu"> <i class="ti-user"></i><span class="d-none d-sm-inline">Product Management</span><i class="fa fa-table"></i></a>
                 <div class="collapse {{  request()->routeIs('seller.products.*') ? 'show' : '' }}" id="productmenu" aria-expanded="false">
                     <ul class="flex-column pl-2 nav">
 
