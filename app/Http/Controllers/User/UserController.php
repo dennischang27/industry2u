@@ -475,7 +475,7 @@ class UserController extends Controller
 	
 	public function bankinfo() {
 		$user = parent::getUser();
-        $company = Company::where('user_id', $user->id)->first();
+        $company = Company::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
         $sst_file_path = '';
         $sst_file_name = '';
 
