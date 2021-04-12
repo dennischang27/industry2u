@@ -50,10 +50,10 @@
                                         <!-- Dropdown - User Information -->
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                              aria-labelledby="userDropdown">
-                                            @if (!auth('web')->user()->is_buyer )
-                                                <a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>
-                                            @else
+                                            @if (auth('web')->user()->is_buyer || auth('web')->user()->is_seller)
                                                 <a class="dropdown-item"  href="{{ route('user.company') }}"><span>Company Profile</span></a>
+                                            @else
+                                                <a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>
                                             @endif
                                              <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="{{ route("user.account") }}"><span>Account</span></a>
