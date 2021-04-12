@@ -1,11 +1,4 @@
 <style>
-    /* .dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding : 0px !important;
-    margin-left: 0px;
-    display: inline;
-    border: 0px;
-} */
-
     .dataTables_wrapper .dataTables_paginate .paginate_button {
         box-sizing: border-box;
         display: inline;
@@ -21,9 +14,9 @@
         border: 1px solid transparent;
         border-radius: 2px;
     }
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    border: 0px;
-}
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+    }
 </style>
 
 @extends('layouts.app')
@@ -58,10 +51,11 @@
 
 @section('plugin_style')
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
+<link href="{{ asset('assets/datatables/css/jquery.dataTables.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/datatables/css/jquery.dataTables.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/datatables/css/responsive.bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/datatables/css/responsive.jqueryui.min.css') }}" rel="stylesheet" type="text/css">
 
 @endsection
 
@@ -94,7 +88,7 @@
                                     <div class="data-tables">
                                         <form id="reassign-form" class="form--shopping-cart" method="post" action="{{ route("user.customermanagement.mycustomer.customerReassign.reassign") }}">
                                             @csrf
-                                        <table id="dataTable" class="text-center">
+                                        <table id="dataTable" class="text-center row-border">
                                             <thead class="bg-light text-capitalize">
                                                 <tr style="font-size: 11px">
                                                     <th scope="col" data-orderable="false" class="no-sort">
@@ -160,7 +154,6 @@
                                           </div>
                                           <div class="modal-footer">
                                             <button id="btnModalSave" type="button" class="btn btn-primary btn-sm">Save</button>
-                                            {{-- <button id="btnModalSave" type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Save</button> --}}
                                           </div>
                                         </div>
                                       </div>
@@ -179,12 +172,11 @@
 
 
 @section('plugin_script')
-
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/responsive.bootstrap.min.js') }}"></script>
 
     <script>
         if ($('#dataTable').length) {

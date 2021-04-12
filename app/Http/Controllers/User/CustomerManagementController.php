@@ -99,6 +99,13 @@ class CustomerManagementController extends Controller
         $user = Auth::getUser();
         $companyId = $user->company->id; 
 
+        // update company customer table
+        DB::table('company_customers')->insert([
+            'company_id' => $companyId,
+            'company_salesperson_id' => request('sales_ex_id'),
+            'purchaser_company_id' =>  request('purchaser_id')
+        ]);
+
         $customerList = DB::table('company_customers')
         ->select('company_customers.purchaser_company_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at')
         ->leftJoin('company_users', 'company_users.user_id', '=', 'company_customers.purchaser_company_id') 
@@ -107,13 +114,6 @@ class CustomerManagementController extends Controller
         ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
         ->where('company_customers.company_id', '=', $companyId)
         ->get();
-
-        // update company customer table
-        DB::table('company_customers')->insert([
-            'company_id' => $companyId,
-            'company_salesperson_id' => request('sales_ex_id'),
-            'purchaser_company_id' =>  request('purchaser_id')
-        ]);
 
         
         // update QR table 
