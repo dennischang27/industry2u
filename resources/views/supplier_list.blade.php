@@ -28,6 +28,14 @@
         display: table;
         clear: both;
     }
+    /* .text {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+    }    */
+}
 </style>
 @endsection
 @section('breadcrumbs')
@@ -82,39 +90,38 @@
                                     </div>
                                     </div>
                             </div>
-
                         @if ($companies->count() > 0)
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5" style="margin-bottom: 20px">
                                 @foreach($companies as $company)
                                     <div class="col" style="margin-bottom: 20px">
                                         <div class="card shadow-sm">
+                                         <a href="{{route('company_profile',$company->id)}}">
                                             @if(isset($company->logo))
-                                                <img src="{{ asset('storage/'.$company->logo) }}"  width="254" height="180">
+                                                <img src="{{ asset('storage/'.$company->logo) }}"  width="195" height="180">
                                             @else
-                                                <img src=" {{ asset('images/noimage.jpg') }}"  width="200" height="180">
+                                                <img src="{{ asset('images/noimage.jpg') }}"  width="200" height="180">
                                             @endif
                                                 <div class="card-body">
-                                                    <p class="card-text"><strong>{{ $company->name}} </strong></p>
-                                                        <div class="btn-group">
-                                                            <a href="{{route('company_profile',$company->id)}}" class="btn btn-sm btn-outline-primary pull-right">View</a>
-                                                        </div>
+                                                <div class="text">
+                                                    <strong>{{ str_limit($company->name, 33) }}</strong><br><br>
+                                                    <a href="{{route('company_profile',$company->id)}}" class="btn btn-sm btn-outline-primary pull-right">View</a>
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
-
                                 @endforeach
+                    
                             </div>
-                             <div class="col-12">
-                            <div class="justify-content-center ">
-                                {!! $companies->appends(request()->query())->links() !!}
+                            <div class="col-12">
+                                <div class="justify-content-center ">
+                                    {!! $companies->appends(request()->query())->links() !!}
+                                </div>
                             </div>
-                        </div>
                         @else
-                            <br>
-                            <div class="col text-center">{{ __('No Companies!') }}</div>
+                            <br><div class="col text-center">{{ __('No Companies!') }}</div>
                         @endif
                     </div>
-                </div>
+        </div>
     </form>
 </div>
 @endsection
