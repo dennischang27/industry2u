@@ -255,4 +255,10 @@ class HomeController extends Controller
 
         return view('front.faq');
     }
+
+    public function about_us(Request $request)
+    {
+
+        return view('front.about_us');
+    }
 }
