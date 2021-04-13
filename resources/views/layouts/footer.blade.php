@@ -38,18 +38,15 @@
                         <h6 class="widget_title">Customer Service</h6>
                         <ul class="contact_info contact_info_light">
                             <li>
-                                <!-- <i class="ti-email"></i> -->
                                 <a class="footer-link" href="{{ route("contact_us") }}">Contact Us</a>
                             </li>
                             <li>
-                                <!-- <i class="ti-email"></i> -->
                                 <a class="footer-link" href="{{ route("supplier_list") }}">Supplier List</a>
                             </li>
-                            <li>
-                                <!-- <i class="ti-email"></i> -->
+                            <!--li>
                                 <a class="footer-link" href="{{ route("faq") }}">Frequently Asked Questions(FAQ)</a>
-                            </li>
-                           
+                            </li-->
+
                         </ul>
                     </div>
                 </div>
@@ -76,7 +73,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

@@ -39,11 +39,4 @@ class ProductCategory extends Model
         return $this->hasMany(ProductCategoryAttribute::class, 'category_id');
     }
 
-    public function scopeFilterBy($query, $filters)
-    {
-        $namespace = 'App\Utilities\PostFilters';
-        $filter = new FilterBuilder($query, $filters, $namespace);
-
-        return $filter->apply();
-    }
 }

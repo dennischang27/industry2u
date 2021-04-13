@@ -25,7 +25,7 @@ Route::get('terms_for_buyers_sellers', 'HomeController@termsbuysell')->name('ter
 Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
 Route::get('products', 'ProductController@index')->name('public.products');
 Route::get('supplier_list', 'HomeController@supplierlist')->name('supplier_list');
-Route::get('FAQ', 'HomeController@faq')->name('faq');
+Route::get('faq', 'HomeController@faq')->name('faq');
 Route::get('productview/{product}/{slug}', 'ProductController@product_detail')->name('public.products.show');
 Route::get('product/{category}/{categoryid}', 'ProductCategoryController@category')->name('public.productscategory');
 Route::get('product/{category}/{subcategory}/{subcategoryid}', 'ProductCategoryController@subcategory')->name('public.productscategory.subcategory');
