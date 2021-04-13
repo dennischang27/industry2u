@@ -6,6 +6,11 @@
                     <div class="widget">
                         <h6 class="widget_title">About Us</h6>
                         <p>Industry2u is a supply chain system that enables industrial players to simplify the process for product sourcing and supplying.</p>
+                        <ul class="contact_info contact_info_light">
+                        <li>
+                                <a class="footer-link" href="{{ route("about_us") }}">About industry2U.asia</a>
+                        </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">

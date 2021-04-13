@@ -16,6 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('privacy', 'HomeController@privacy')->name('privacy');
 Route::get('terms', 'HomeController@terms')->name('terms');
+Route::get('aboutus', 'HomeController@about_us')->name('about_us');
 Route::get('company_profile/{id}', 'HomeController@companyprofile')->name('company_profile');
 Route::get('product_show/{id}', 'HomeController@productshow')->name('product_show');
 Route::get('contact_us', 'HomeController@contactus')->name('contact_us');
