@@ -28,14 +28,6 @@
         display: table;
         clear: both;
     }
-    /* .text {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   -webkit-line-clamp: 2; /* number of lines to show */
-   -webkit-box-orient: vertical;
-    }    */
-}
 </style>
 @endsection
 @section('breadcrumbs')
@@ -86,46 +78,55 @@
                                                 <option value="40" @if (request()->input('num') == 40) selected @endif>40</option>
                                             </select>
                                         </div>
-                                            </div>
                                     </div>
                                     </div>
+                                </div>
                             </div>
                         @if ($companies->count() > 0)
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5" style="margin-bottom: 20px">
                                 @foreach($companies as $company)
                                     <div class="col" style="margin-bottom: 20px">
-                                        <div class="card shadow-sm">
+                                        <div class="card shadow-sm h-100">
                                          <a href="{{route('company_profile',$company->id)}}">
                                             @if(isset($company->logo))
-                                                <img src="{{ asset('storage/'.$company->logo) }}"  width="195" height="180">
+                                                <img src="{{ asset('storage/'.$company->logo) }}" class="category-grid-media-image" width="195" height="180">
                                             @else
-                                                <img src="{{ asset('images/noimage.jpg') }}"  width="200" height="180">
+                                                <img src=" {{ asset('images/noimage.jpg') }}"  width="200" height="180">
                                             @endif
-                                                <div class="card-body">
-                                                <div class="text">
-                                                    <strong>{{ str_limit($company->name, 33) }}</strong><br><br>
-                                                    <a href="{{route('company_profile',$company->id)}}" class="btn btn-sm btn-outline-primary pull-right">View</a>
+                                            <div class="product_info">
+                                                <div class="company_name_wrap" style="text-align:center;">
+                                                    <span class='company_name' >
+                                                        @if($company)
+                                                            <a href="{{route('company_profile',$company->id)}}">
+                                                        @else
+                                                            <a href="{{route('company_profile',$company->id)}}">
+                                                        @endif
+                                                            <strong> {{ str_limit($company->name, 33) }}</strong>
+                                                           </a>
+                                                    </span>
+                                                </div>
+                                                <div class="pr_desc">
+                                                    <p>{{ $company->address }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-                    
                             </div>
-                            <div class="col-12">
-                                <div class="justify-content-center ">
-                                    {!! $companies->appends(request()->query())->links() !!}
-                                </div>
+                             <div class="col-12">
+                            <div class="justify-content-center ">
+                                {!! $companies->appends(request()->query())->links() !!}
                             </div>
+                        </div>
                         @else
-                            <br><div class="col text-center">{{ __('No Companies!') }}</div>
+                            <br>
+                            <div class="col text-center">{{ __('No Companies!') }}</div>
                         @endif
                     </div>
-        </div>
+                </div>
     </form>
 </div>
 @endsection
-
 @section('script')
     <div class="se-pre-con"></div>
     <script>
@@ -143,7 +144,5 @@
 
             return true;
         });
-
-
     </script>
 @endsection
