@@ -58,6 +58,25 @@ class MainController extends Controller
         $user = User::where('id', $id)->first();
         return view('user.addcompany', compact('user', 'country', 'state', 'bank','companybudgetrange','doc_types', 'doc_type_sst', 'industry','currency'));
     }
+
+    public function validatecompanypost(Request $request){
+        $initial = $request->get('initial');
+        $reg_no = $request->get('reg_no');
+        $arr_error=array();
+
+        if (Company::where('initial', '=', $initial)->count() > 0) {
+            // initial found
+            array_push($arr_error,"initial");
+        }
+
+        if (Company::where('reg_no', '=', $reg_no)->count() > 0) {
+            // reg_no found
+            array_push($arr_error,"reg_no");
+        }
+
+        return $arr_error;
+    }
+
     public function addcompanypost(Request $request)
     {
 		$this->validate(request(), [
@@ -138,6 +157,10 @@ class MainController extends Controller
                  ['role_id' => '1', 'model_type' => 'App\Models\User', 'model_id' => $user->id]
              ]);
         }
+
+        DB::table('company_users')->insert([
+            ['user_id' => $user->id, 'company_id' => $company->id]
+        ]);
 
         return redirect()->route('user.company')->with(['message' => "You had registered your company profile.", "icon" => "success"]);
     }
