@@ -86,7 +86,7 @@
                                         <strong>{{ $product->category->parentCategory->name }}</strong> >
                                     @endif
                                     <strong>{{ $product->category->name }}</strong></p>
-                                <p>Company: <strong>{{ $product->company->name }}</strong></p>
+                                <p>Company: <a href="{{route('company_profile',$product->company->id)}}"><strong>{{ $product->company->name }}</strong></a></p>
                                 <p><strong>{{ $product->company->city }}, {{ $product->company->state->name }}</strong></p>
                             </div>
                             <div class="cart_extra">
