@@ -77,7 +77,7 @@ class ProductController extends Controller
                 ->orWhere('brands.name', 'like', '%'.$searchtxt.'%')
                 ->orWhere('companies.name', 'like', '%'.$searchtxt.'%')
                 ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
-                ->orderBy('products.created_at', 'desc')->paginate($pageqty);
+                ->inRandomOrder()->paginate($pageqty);
             $subcategory = ProductCategory::findorfail($categoryid);
         }else{
             $products = DB::table('products')
@@ -104,7 +104,7 @@ class ProductController extends Controller
                 ->orWhere('brands.name', 'like', '%'.$searchtxt.'%')
                 ->orWhere('companies.name', 'like', '%'.$searchtxt.'%')
                 ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
-                ->orderBy('products.created_at', 'desc')->paginate($pageqty);
+                ->inRandomOrder()->paginate($pageqty);
             $subcategory = [];
 
         }
