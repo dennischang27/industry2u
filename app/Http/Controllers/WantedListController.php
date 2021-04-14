@@ -210,8 +210,10 @@ class WantedListController extends Controller
         $wanted_list = WantedLists::where('product_id', '=', $request->product_id)
                         ->where('supplier_company_id', '=', $request->company_id)
                         ->where('user_id', '=', $user->id)
-                        ->where('status', '=', '')
-                        ->orWhereNull('status')
+                        ->where(function ($query) {
+                            $query->where('status', '=', '')
+                                ->orWhereNull('status');
+                        })
                         ->first();
 
         if(intval($qty) <= 0){
@@ -262,7 +264,7 @@ class WantedListController extends Controller
 
         $response->message ='Added product '.$product->name.' to cart successfully!';
         $response->total_wanted_list = $total_wanted_list;
-        return response()->json($response); 
+        return response()->json($response);
     }
 
     public function ajaxcart()
