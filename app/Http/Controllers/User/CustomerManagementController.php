@@ -13,6 +13,8 @@ use App\Models\QuotationRequests;
 use App\Models\CompanyCustomers;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductDiscount;
+use App\Models\DiscountSettings;
 use DataTables;
 use DB;
 
@@ -150,15 +152,13 @@ class CustomerManagementController extends Controller
 
     public function mycustomerDetails ($customer){
 
-        $customerDetails = DB::table('company_customers')
-        ->select('companies.id','companies.name AS company_name', 'users.mobile AS contact_no', 'companies.created_at', 'companies.postal_code', 'companies.street', 
-            'country_states.name AS state', 'companies.city', 'company_customers.purchaser_company_id AS customer_id', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at',
-            'industries.name AS company_industry_name', 'industries.name AS customer_industry_name')
-        ->leftJoin('companies', 'companies.id', '=', 'company_customers.company_id')
+
+        $customerDetails = DB::table('company_users')
+        ->select( 'users.id AS id', 'companies.name AS company_name', 'companies.phone AS contact_no', 'companies.created_at AS customer_created_at', 'companies.postal_code', 'companies.street', 'country_states.name AS state', 'companies.city')
+        ->leftJoin('companies', 'companies.id', '=', 'company_users.company_id')
+        ->leftJoin('users', 'users.id', '=', 'company_users.user_id')
         ->leftJoin('country_states', 'country_states.id', '=', 'companies.state_id')
-        ->leftJoin('users', 'users.id', '=', 'company_customers.purchaser_company_id')
-        ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
-        ->where('company_customers.purchaser_company_id', '=', $customer)
+        ->where('users.id', '=', $customer)
         ->first();
 
         return view('user.sales.customers.customerdetails', compact('customer', 'customerDetails'));
@@ -232,7 +232,15 @@ class CustomerManagementController extends Controller
                     ->where('id', $value)
                     ->update(['company_salesperson_id' => request('ex_id')]);
 
+                    $company_user = DB::table('company_customers')
+                    ->select('purchaser_company_id')
+                    ->where('id', $value)
+                    ->first();
 
+                    DB::table('quotation_requests')
+                    ->where('purchaser_company_id', '=', $company_user->purchaser_company_id)
+                    ->where('supplier_company_id', '=', $companyId)
+                    ->update(['supplier_user_id' => request('ex_id')]);
                 }
             }
         }
@@ -240,6 +248,4 @@ class CustomerManagementController extends Controller
         return redirect()->route('user.customermanagement.mycustomer.customerReassign')->with('success','Customers reassigned successfully');
 
     }
-
-
 }
