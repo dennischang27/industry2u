@@ -105,9 +105,9 @@
                                                 <a href="{{ 'productview/'.$product->id.'/'.str_slug($product->name)}}">
                                             @endif
                                                 <div class="product_img">
-                                                    @if($product->productImage->firstWhere('name', 'image_thumbnail'))
-                                                        @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
-                                                            <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                    @if($product->path)
+                                                        @if(file_exists(public_path('storage/'.$product->path)))
+                                                            <img src="{{ asset('storage/'.$product->path) }}" alt="{{ $product->name }}">
                                                         @else
                                                             <img src="{{ asset('images/noimage.jpg') }}">
                                                         @endif
@@ -127,12 +127,8 @@
                                                                 <strong>{{ str_limit($product->name, 33) }}</strong>
                                                            </a>
                                                     </span>
-                                                    <span style="font-size: .75rem;line-height: .875rem;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
+                                                    <span style="font-size: .75rem;line-height: .875rem;">{{ $product->city }}, {{ $product->state_name }}</span>
                                                 </div>
-                                                <div class="pr_desc">
-                                                    <p>{{ $product->description }}</p>
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
