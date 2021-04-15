@@ -15,18 +15,18 @@
         z-index: 9999;
         background: url({{ asset('images/Preloader_1.gif') }} ) center no-repeat #fff;
 
+    }
     .column {
         float: left;
         width: 50%;
         padding: 10px;
-        }
+    }
 
-        /* Clear floats after the columns */
-        .row:after {
+    /* Clear floats after the columns */
+    .row:after {
         content: "";
         display: table;
         clear: both;
-        }
     }
 </style>
 @endsection
@@ -59,75 +59,79 @@
 @section('content')
 <div class="section">
     <form id="searchCompanies" action="{{ URL::current() }}" method="GET">
-        <input type="hidden" value="{{ request()->input('q') }}" name="q"  >
                 <div class="container">
                     <div class="row align-items-center mb-4 pb-1">
                         <div class="col-12">
                             <div class="product_header">
                                 <div class="product_header_left">
                                     <div class="input-group">
-                                        <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Supplier..."  type="text">
-                                        <input class="form-control" name="categoryid" value="{{ request()->input('name') }}" type="hidden">
-                                            <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
+                                        <input class="form-control" name="sup" value="{{ request()->input('sup') }}" placeholder="Search Supplier..."  type="text">
+                                        <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
                                     </div>
                                 </div>
                                     <div class="product_header_right">
                                         <div class="custom_select">
                                             <select class="form-control form-control-sm submit-form-on-change" name="num">
                                                 <option value="">{{ __('Showing') }}</option>
-                                                <option value="16" @if (request()->input('num') == 16) selected @endif>16</option>
-                                                <option value="20" @if (request()->input('num') == 20) selected @endif>20</option>
-                                                <option value="24" @if (request()->input('num') == 24) selected @endif>24</option>
+                                                <option value="15" @if (request()->input('num') == 15) selected @endif>15</option>
+                                                <option value="25" @if (request()->input('num') == 25) selected @endif>25</option>
+                                                <option value="40" @if (request()->input('num') == 40) selected @endif>40</option>
                                             </select>
                                         </div>
-                                            </div>
                                     </div>
                                     </div>
-                            </div>    
-                                    
+                                </div>
+                            </div>
                         @if ($companies->count() > 0)
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5" style="margin-bottom: 20px">
                                 @foreach($companies as $company)
                                     <div class="col" style="margin-bottom: 20px">
-                                        <div class="card shadow-sm">
+                                        <div class="card shadow-sm h-100">
+                                         <a href="{{route('company_profile',$company->id)}}">
                                             @if(isset($company->logo))
-                                                <img src="{{ asset('storage/'.$company->logo) }}"  width="254" height="180">
+                                                <img src="{{ asset('storage/'.$company->logo) }}" class="category-grid-media-image" width="195" height="180">
                                             @else
                                                 <img src=" {{ asset('images/noimage.jpg') }}"  width="200" height="180">
-                                            @endif    
-                                                <div class="card-body">
-                                                    <p class="card-text"><strong>{{ $company->name}} </strong></p>
-                                                        <div class="btn-group">
-                                                            <a href="{{route('company_profile',$company->id)}}" class="btn btn-sm btn-outline-primary pull-right">View</a>
-                                                        </div>
+                                            @endif
+                                            <div class="product_info">
+                                                <div class="company_name_wrap" style="text-align:center;">
+                                                    <span class='company_name' >
+                                                        @if($company)
+                                                            <a href="{{route('company_profile',$company->id)}}">
+                                                        @else
+                                                            <a href="{{route('company_profile',$company->id)}}">
+                                                        @endif
+                                                            <strong> {{ str_limit($company->name, 33) }}</strong>
+                                                           </a>
+                                                    </span>
                                                 </div>
+                                                <div class="pr_desc">
+                                                    <p>{{ $company->address }}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    
                                 @endforeach
                             </div>
+                             <div class="col-12">
+                            <div class="justify-content-center ">
+                                {!! $companies->appends(request()->query())->links() !!}
+                            </div>
+                        </div>
                         @else
                             <br>
-                            <div class="col text-center">{{ __('No Companies!') }}</div>        
+                            <div class="col text-center">{{ __('No Companies!') }}</div>
                         @endif
                     </div>
                 </div>
     </form>
-</div>   
+</div>
 @endsection
-
 @section('script')
     <div class="se-pre-con"></div>
     <script>
         $(window).on('load', function(){
             $(".se-pre-con").fadeOut("slow");
-        });
-        $(document).ready(function() {
-            var searchForm2Div = document.getElementById("serch_form2");
-            searchForm2Div.style.display = "none";
-
-            var searchFormDiv = document.getElementById("serch_form");
-            searchFormDiv.style.display = "none";
         });
         $('#searchCompanies').submit(function() {
             var pass = true;
@@ -140,7 +144,5 @@
 
             return true;
         });
-        
-
     </script>
 @endsection

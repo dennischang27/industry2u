@@ -16,6 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('privacy', 'HomeController@privacy')->name('privacy');
 Route::get('terms', 'HomeController@terms')->name('terms');
+Route::get('aboutus', 'HomeController@about_us')->name('about_us');
 Route::get('company_profile/{id}', 'HomeController@companyprofile')->name('company_profile');
 Route::get('product_show/{id}', 'HomeController@productshow')->name('product_show');
 Route::get('contact_us', 'HomeController@contactus')->name('contact_us');
@@ -24,7 +25,7 @@ Route::get('terms_for_buyers_sellers', 'HomeController@termsbuysell')->name('ter
 Route::get('privacy/bm', 'HomeController@privacybm')->name('privacybm');
 Route::get('products', 'ProductController@index')->name('public.products');
 Route::get('supplier_list', 'HomeController@supplierlist')->name('supplier_list');
-Route::get('FAQ', 'HomeController@faq')->name('faq');
+Route::get('faq', 'HomeController@faq')->name('faq');
 Route::get('productview/{product}/{slug}', 'ProductController@product_detail')->name('public.products.show');
 Route::get('product/{category}/{categoryid}', 'ProductCategoryController@category')->name('public.productscategory');
 Route::get('product/{category}/{subcategory}/{subcategoryid}', 'ProductCategoryController@subcategory')->name('public.productscategory.subcategory');
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth']], function() {
             // Management Center
             Route::get('company', 'UserController@company')->name('.company');
             Route::get('company/edit', 'UserController@companyedit')->name('.company.edit');
+            Route::post('become/purchaser', 'UserController@becomepurchaser')->name('.become.purchaser');
             Route::post('company/{company}/update', 'UserController@companyupdate')->name('.company.update');
 
             Route::get('bankinfo', 'UserController@bankinfo')->name('.bankinfo');
@@ -144,6 +146,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
         Route::post('addcompany/purchaser/proccess', 'MainController@purchaseraddcompanypost')->name('purchaseraddcompanypost');
 		Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
+        Route::get('check/initial', 'MainController@validatecompanypost')->name('validatecompanypost');
 		Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
 		Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');
 		Route::get('upgrade-to-seller', 'MainController@upgradetoseller')->name('upgrade.seller.company');

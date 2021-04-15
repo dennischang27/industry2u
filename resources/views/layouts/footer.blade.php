@@ -12,16 +12,15 @@
                     <div class="widget">
                         <h6 class="widget_title">Our info</h6>
                         <ul class="contact_info contact_info_light">
-                            <!--li>
-                                <a class="footer-link" href="">Feedback</a>
-                            </li-->
+                            <li>
+                                <a class="footer-link" href="{{ route("about_us") }}">About industry2U.asia</a>
+                            </li>
                             <li>
                                 <a class="footer-link" href="{{ route("privacy") }}">Privacy Policy</a>
                             </li>
                             <li>
                                 <a class="footer-link" href="{{ route("terms") }}">Term Of Use</a>
                             </li>
-
                             <li>
                                 <a class="footer-link" href="{{ route("termsbuysell") }}">Term For Buyers &amp; Sellers</a>
                             </li>
@@ -33,18 +32,15 @@
                         <h6 class="widget_title">Customer Service</h6>
                         <ul class="contact_info contact_info_light">
                             <li>
-                                <!-- <i class="ti-email"></i> -->
                                 <a class="footer-link" href="{{ route("contact_us") }}">Contact Us</a>
                             </li>
                             <li>
-                                <!-- <i class="ti-email"></i> -->
                                 <a class="footer-link" href="{{ route("supplier_list") }}">Supplier List</a>
                             </li>
-                            <li>
-                                <!-- <i class="ti-email"></i> -->
+                            <!--li>
                                 <a class="footer-link" href="{{ route("faq") }}">Frequently Asked Questions(FAQ)</a>
-                            </li>
-                           
+                            </li-->
+
                         </ul>
                     </div>
                 </div>
@@ -71,7 +67,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

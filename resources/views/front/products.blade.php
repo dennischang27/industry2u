@@ -99,11 +99,15 @@
                                     <div class="col col-6 col-md-3">
 
                                         <div class="product">
-                                            <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">
+                                            @if($product->slug)
+                                                <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">
+                                            @else
+                                                <a href="{{ 'productview/'.$product->id.'/'.str_slug($product->name)}}">
+                                            @endif
                                                 <div class="product_img">
-                                                    @if($product->productImage->firstWhere('name', 'image_thumbnail'))
-                                                        @if(file_exists(public_path('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path)))
-                                                            <img src="{{ asset('storage/'.$product->productImage->firstWhere('name', 'image_thumbnail')->path) }}" alt="{{ $product->name }}">
+                                                    @if($product->path)
+                                                        @if(file_exists(public_path('storage/'.$product->path)))
+                                                            <img src="{{ asset('storage/'.$product->path) }}" alt="{{ $product->name }}">
                                                         @else
                                                             <img src="{{ asset('images/noimage.jpg') }}">
                                                         @endif
@@ -115,14 +119,16 @@
                                             <div class="product_info">
                                                 <div class="product_name_wrap">
                                                     <span class='product_name' style="">
-                                                        <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}"><strong>{{ str_limit($product->name, 33) }}</strong></a>
+                                                        @if($product->slug)
+                                                            <a href="{{ 'productview/'.$product->id.'/'.$product->slug }}">
+                                                        @else
+                                                            <a href="{{ 'productview/'.$product->id.'/'.str_slug($product->name)}}">
+                                                        @endif
+                                                                <strong>{{ str_limit($product->name, 33) }}</strong>
+                                                           </a>
                                                     </span>
-                                                    <span style="font-size: .75rem;line-height: .875rem;">{{ $product->company->city }}, {{ $product->company->state->name }}</span>
+                                                    <span style="font-size: .75rem;line-height: .875rem;">{{ $product->city }}, {{ $product->state_name }}</span>
                                                 </div>
-                                                <div class="pr_desc">
-                                                    <p>{{ $product->description }}</p>
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +223,7 @@
             var url = new URL( window.location.href);
 
             var query_string = url.search;
-            var search_params = new URLSearchParams(query_string);
+            var search_params = new URLSearchParams();
 
             search_params.set('categoryid', catid);
             url.search = search_params.toString();

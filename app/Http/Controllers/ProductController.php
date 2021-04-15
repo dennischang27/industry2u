@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 use phpDocumentor\Reflection\Types\Self_;
 
 class ProductController extends Controller
@@ -25,7 +26,8 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $query = $request->get('q');
+
+        $searchtxt = (string)$request->get('q');
         $num = $request->get('num');
         $categoryid = $request->get('categoryid');
 
@@ -45,13 +47,117 @@ class ProductController extends Controller
             $pageqty =16;
         }
         $categories = ProductCategory::with([ 'subProducts'])->where('parent_id', null)->get();
-        $attributes = Attribute::with(['attributemeasurement'])->where('is_filterable', 1)->orderBy('name')->get(['id', 'name', 'is_range']);
+
+
+        $explode_searchtxts = explode(" ", $searchtxt);
+
+        DB::enableQueryLog();
 
         if ($categoryid){
-            $products = Product::where('name', 'like', '%'.$query.'%')->where('category_id', $categoryid)->orderBy('created_at', 'desc')->paginate($pageqty);
+            if($searchtxt){
+            $products = DB::table('products')
+                ->join('product_categories', function($builder) {
+                    $builder->on('product_categories.id', '=', 'products.category_id');
+                })
+                ->join('brands', function($builder) {
+                    $builder->on('brands.id', '=', 'products.brand_id');
+                })
+                ->join('companies', function($builder) {
+                    $builder->on('companies.id', '=', 'products.company_id');
+                })
+                ->join('country_states', function($builder) {
+                    $builder->on('companies.state_id', '=', 'country_states.id');
+                })
+                ->join('product_images', function($builder) {
+                    $builder->on('product_images.product_id', '=', 'products.id');
+                    $builder->where('product_images.name', '=', 'image_thumbnail');
+                })
+                ->where('category_id', $categoryid)
+                ->whereNull('products.deleted_at')
+                ->orWhere('products.name', 'like', '%'.$searchtxt.'%')
+                ->orWhere('brands.name', 'like', '%'.$searchtxt.'%')
+                ->orWhere('companies.name', 'like', '%'.$searchtxt.'%')
+                ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
+                ->inRandomOrder()->paginate($pageqty);
+            }
+            else{
+                $products = DB::table('products')
+                    ->join('product_categories', function($builder) {
+                        $builder->on('product_categories.id', '=', 'products.category_id');
+                    })
+                    ->join('brands', function($builder) {
+                        $builder->on('brands.id', '=', 'products.brand_id');
+                    })
+                    ->join('companies', function($builder) {
+                        $builder->on('companies.id', '=', 'products.company_id');
+                    })
+                    ->join('country_states', function($builder) {
+                        $builder->on('companies.state_id', '=', 'country_states.id');
+                    })
+                    ->join('product_images', function($builder) {
+                        $builder->on('product_images.product_id', '=', 'products.id');
+                        $builder->where('product_images.name', '=', 'image_thumbnail');
+                    })
+                    ->where('category_id', $categoryid)
+                    ->whereNull('products.deleted_at')
+                    ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
+                    ->inRandomOrder()->paginate($pageqty);
+            }
             $subcategory = ProductCategory::findorfail($categoryid);
-        }else{
-            $products = Product::where('name', 'like', '%'.$query.'%')->orderBy('created_at', 'desc')->paginate($pageqty);
+        }else {
+            if ($searchtxt) {
+                $products = DB::table('products')
+                ->
+                join('product_categories', function ($builder) {
+                    $builder->on('product_categories.id', '=', 'products.category_id');
+                })
+                ->join('brands', function ($builder) {
+                    $builder->on('brands.id', '=', 'products.brand_id');
+                })
+                ->join('companies', function ($builder) {
+                    $builder->on('companies.id', '=', 'products.company_id');
+
+                })
+                ->join('country_states', function ($builder) {
+                    $builder->on('companies.state_id', '=', 'country_states.id');
+                })
+                ->join('product_images', function ($builder) {
+                    $builder->on('product_images.product_id', '=', 'products.id');
+                    $builder->where('product_images.name', '=', 'image_thumbnail');
+                })
+                ->whereNull('products.deleted_at')
+                ->where('products.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('products.description', 'like', '%'.$searchtxt.'%')
+                ->orWhere('product_categories.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('brands.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('companies.name', 'like', '%' . $searchtxt . '%')
+                ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
+                ->inRandomOrder()->paginate($pageqty);
+            }
+            else{
+                $products = DB::table('products')
+                    ->
+                    join('product_categories', function ($builder) {
+                        $builder->on('product_categories.id', '=', 'products.category_id');
+                    })
+                    ->join('brands', function ($builder) {
+                        $builder->on('brands.id', '=', 'products.brand_id');
+                    })
+                    ->join('companies', function ($builder) {
+                        $builder->on('companies.id', '=', 'products.company_id');
+
+                    })
+                    ->join('country_states', function ($builder) {
+                        $builder->on('companies.state_id', '=', 'country_states.id');
+                    })
+                    ->join('product_images', function ($builder) {
+                        $builder->on('product_images.product_id', '=', 'products.id');
+                        $builder->where('product_images.name', '=', 'image_thumbnail');
+                    })
+                    ->whereNull('products.deleted_at')
+                    ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
+                    ->inRandomOrder()->paginate($pageqty);
+            }
             $subcategory = [];
 
         }

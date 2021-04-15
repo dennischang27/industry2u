@@ -139,13 +139,13 @@ class HomeController extends Controller
     }
     public function supplierlist(Request $request)
     {
-        $query = $request->get('q');
+        $query = $request->get('sup');
         $num = $request->get('num');
 
         if($num){
             $pageqty =$num;
         }else{
-            $pageqty =16;
+            $pageqty =15;
         }
 
         $companies = Company::where('name','like','%'.$query.'%')
@@ -254,5 +254,11 @@ class HomeController extends Controller
         $query = $request->get('q');
 
         return view('front.faq');
+    }
+
+    public function about_us(Request $request)
+    {
+
+        return view('front.about_us');
     }
 }

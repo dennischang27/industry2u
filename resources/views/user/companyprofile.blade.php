@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <p>{{ $company->street }} <br>
-                                                {{ $company->postal_code }} {{ $company->postal_code }}<br>
+                                                {{ $company->postal_code }} {{ $company->city }}<br>
                                                 {{ $company->state->name }}
                                             </p>
                                         </div>
@@ -138,8 +138,16 @@
                                         @endforeach
                                     </div>
                                     <div class="form-group text-right">
+                                        <form action="{{ route('user.become.purchaser') }}" method="POST"  enctype="multipart/form-data">
+                                        @csrf
+                                        @if (!auth('web')->user()->is_buyer && auth('web')->user()->is_seller)
+                                            <input type="hidden" name="user_id" id="user_id" value="{{$company->user_id}}">
+                                            <a href="#" onclick="$(this).closest('form').submit();" class="btn btn-fill-out-yellow btn-sm" >
+                                                {{ __('Become Purchaser') }}</a>
+                                        @endif
                                         <a href="{{ route('user.company.edit') }}" class="btn btn-fill-out btn-sm" >
                                             {{ __('Edit') }}</a>
+                                        </form>
                                     </div>
                             </div>
                         </div>
