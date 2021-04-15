@@ -61,11 +61,19 @@ class QuotationController extends Controller
         $user = parent::getUser();
         $i = 0;
 
+        // Check Quotation Request Validity
+        $affected = DB::table('quotation_requests')
+              ->where('purchaser_company_id', $user->companyMember->company_id) 
+              ->where('status', 'Pending Confirmation')
+              ->where('quotation_valid_until', '<', DB::raw('curdate()'))
+              ->update(['status' => 'Quotation Expired']);
+
         $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
                                 ->where('status', 'Pending Confirmation')
                                 ->orWhere('status', 'Quotation Rejected')
                                 ->orWhere('status', 'Quotation Verified')
                                 ->orWhere('status', 'Confirmed')
+                                ->orWhere('status', 'Quotation Expired')
                                 ->get();
                                 
         return view('buyer.quoteissued',compact('quotation_requests','i'));
