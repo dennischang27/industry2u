@@ -248,4 +248,99 @@ class CustomerManagementController extends Controller
         return redirect()->route('user.customermanagement.mycustomer.customerReassign')->with('success','Customers reassigned successfully');
 
     }
+
+
+    // manage product by category
+    public function manageByCategory(){
+
+        $user = Auth::getUser();
+        $companyId = $user->company->id; 
+
+        $i = 0;
+
+        $masterDiscountTotal = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
+        $totalDiscount = floatval($masterDiscountTotal->total_discount);
+
+        $categories = DB::table('product_categories')
+        ->select('product_categories.parent_id', 'prod_cat.name', 'product_discounts.discount_tier1', 'product_discounts.discount_tier2', 'product_discounts.discount_tier3',  'product_discounts.total_discount', 'products.company_id AS company_id')
+        ->leftJoin('product_categories AS prod_cat', 'prod_cat.id', '=', 'product_categories.parent_id')
+        ->leftJoin('products', 'products.category_id', '=', 'product_categories.id')
+        ->leftJoin('product_discounts', 'product_discounts.category_id', 'product_categories.parent_id' )
+        ->where('products.company_id', '=', $companyId)
+        ->groupBy('product_categories.parent_id')
+        ->get();
+
+        return view('user.sales.customers.managebycategory', compact('categories', 'i', 'totalDiscount'));
+    }
+
+
+    public function manageByCategoryStore(Request $request){
+
+        $user = Auth::getUser();
+        $userId = $user->id;
+        $companyId = $user->company->id; 
+
+        $masterDiscount = DiscountSettings::where('company_id', $companyId)->where('user_id', $userId)->first();
+        $masterDiscountTotal = floatval($masterDiscount->total_discount);
+        $masterDiscountT1 = floatval($masterDiscount->discount_tier1);
+        $masterDiscountT2 = floatval($masterDiscount->discount_tier2);
+        $masterDiscountT3 = floatval($masterDiscount->discount_tier3);
+
+        $discountT1 = 1-(request('discount_tier1')/100);
+        $discountT2 = 1-(request('discount_tier2')/100);
+        $discountT3 = 1-(request('discount_tier3')/100);
+
+        $totalDiscount = 100 - (((100*$discountT1)*$discountT2)*$discountT3);
+
+        if($totalDiscount > $masterDiscountTotal){
+
+            return "total discount exceed limit";
+
+        } elseif ((request('discount_tier1') > floor($masterDiscountTotal)) && (request('discount_tier2') >= 0) && (request('discount_tier3') >= 0)) {
+
+            return $errorMsg = 'Modify Discount Tiers, total discount exceed limit';
+
+        } else {
+
+            $category_id = request('parent_id');
+            $subcategories = ProductCategory::orderBy('name')->where('parent_id', '=', $category_id)->get();
+
+            foreach ($subcategories as $subcategory){
+                $products = Product::where('category_id', '=', $subcategory->id)->get();
+                foreach ($products as $product){
+                    $productCount = ProductDiscount::where('product_id', '=', $product->id)
+                    ->where('user_id', '=', $userId)
+                    ->where('company_id', '=', $companyId)
+                    ->count();
+                    if($productCount == 0){
+                        $productDiscount = new ProductDiscount();
+                        $productDiscount->product_id = $product->id;
+                        $productDiscount->user_id = $userId;
+                        $productDiscount->discount_tier1 = request('discount_tier1');
+                        $productDiscount->discount_tier2 = request('discount_tier2');
+                        $productDiscount->discount_tier3 = request('discount_tier3');
+                        $productDiscount->total_discount = $totalDiscount;
+                        $productDiscount->category_id = request('parent_id');
+                        $productDiscount->subcategory_id = $subcategory->id;
+                        $productDiscount->company_id = $companyId;
+                        $productDiscount->save();
+                    }else{
+                        $selectedProduct = ProductDiscount::where('product_id', '=', $product->id)
+                        ->where('user_id', '=', $userId)
+                        ->where('company_id', '=', $companyId)
+                        ->first();
+                        $selectedProduct->discount_tier1 = request('discount_tier1');
+                        $selectedProduct->discount_tier2 = request('discount_tier2');
+                        $selectedProduct->discount_tier3 = request('discount_tier3');
+                        $selectedProduct->total_discount = $totalDiscount;
+                        $selectedProduct->save();
+                    }
+                }
+            }
+            
+            return "success";
+
+        }
+
+    } 
 }
