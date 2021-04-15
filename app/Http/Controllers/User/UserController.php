@@ -23,6 +23,7 @@ use App\Rules\MatchOldPassword;
 use Spatie\Permission\Models\Role;
 use Redirect;
 use App\Models\Designations;
+use App\Models\CompanyUser;
 use Session;
 use Mail;
 use DB;
@@ -83,7 +84,8 @@ class UserController extends Controller
     }
     public function company() {
         $user = parent::getUser();
-        $company = Company::where('user_id', $user->id)->first();
+        $company_user = CompanyUser::where('user_id', $user->id)->first();
+        $company = Company::where('id', $company_user->company_id)->first();
         $myDocuments = [];
         $document_list = DocType::where('type', 'SSM')->get();
         if($company) {
@@ -96,7 +98,8 @@ class UserController extends Controller
 
     public function companyedit() {
         $user = parent::getUser();
-        $company = Company::where('user_id', $user->id)->first();
+        $company_user = CompanyUser::where('user_id', $user->id)->first();
+        $company = Company::where('id', $company_user->company_id)->first();
         $state = CountryState::all();
         $industry = Industry::all();
         $companybudgetrange = CompanyBudgetRange::all();
@@ -550,5 +553,14 @@ class UserController extends Controller
         $bank=Bank::all();
         $doc_type_sst = DocType::where('type','SST')->get();
         return view('user.bankinfo_edit',compact('company','bank','doc_type_sst'));
+    }
+
+    public function becomepurchaser(Request $request) {
+        $user_id = $request->user_id;
+        $user = User::where('id', $user_id)->first();
+        $user->is_buyer = 1;
+        $user->save();
+
+        return redirect()->route('user.company')->with('success','Become Purchaser Successfully.');
     }
 }

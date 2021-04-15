@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function() {
             // Management Center
             Route::get('company', 'UserController@company')->name('.company');
             Route::get('company/edit', 'UserController@companyedit')->name('.company.edit');
+            Route::post('become/purchaser', 'UserController@becomepurchaser')->name('.become.purchaser');
             Route::post('company/{company}/update', 'UserController@companyupdate')->name('.company.update');
 
             Route::get('bankinfo', 'UserController@bankinfo')->name('.bankinfo');
@@ -123,6 +124,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('addcompany', 'MainController@addcompany')->name('addcompany');
         Route::post('addcompany/purchaser/proccess', 'MainController@purchaseraddcompanypost')->name('purchaseraddcompanypost');
 		Route::post('addcompany/proccess', 'MainController@addcompanypost')->name('addcompanypost');
+        Route::get('check/initial', 'MainController@validatecompanypost')->name('validatecompanypost');
 		Route::get('apply-to-seller', 'MainController@applyforseller')->name('apply.seller.company');
 		Route::post('apply-to-seller/proccess', 'MainController@applyforsellerpost')->name('apply.seller.company.post');
 		Route::get('upgrade-to-seller', 'MainController@upgradetoseller')->name('upgrade.seller.company');
