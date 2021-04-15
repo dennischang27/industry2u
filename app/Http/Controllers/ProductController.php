@@ -54,6 +54,7 @@ class ProductController extends Controller
         DB::enableQueryLog();
 
         if ($categoryid){
+            if($searchtxt){
             $products = DB::table('products')
                 ->join('product_categories', function($builder) {
                     $builder->on('product_categories.id', '=', 'products.category_id');
@@ -78,33 +79,85 @@ class ProductController extends Controller
                 ->orWhere('companies.name', 'like', '%'.$searchtxt.'%')
                 ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
                 ->inRandomOrder()->paginate($pageqty);
+            }
+            else{
+                $products = DB::table('products')
+                    ->join('product_categories', function($builder) {
+                        $builder->on('product_categories.id', '=', 'products.category_id');
+                    })
+                    ->join('brands', function($builder) {
+                        $builder->on('brands.id', '=', 'products.brand_id');
+                    })
+                    ->join('companies', function($builder) {
+                        $builder->on('companies.id', '=', 'products.company_id');
+                    })
+                    ->join('country_states', function($builder) {
+                        $builder->on('companies.state_id', '=', 'country_states.id');
+                    })
+                    ->join('product_images', function($builder) {
+                        $builder->on('product_images.product_id', '=', 'products.id');
+                        $builder->where('product_images.name', '=', 'image_thumbnail');
+                    })
+                    ->where('category_id', $categoryid)
+                    ->whereNull('products.deleted_at')
+                    ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
+                    ->inRandomOrder()->paginate($pageqty);
+            }
             $subcategory = ProductCategory::findorfail($categoryid);
-        }else{
-            $products = DB::table('products')
-                ->join('product_categories', function($builder) {
+        }else {
+            if ($searchtxt) {
+                $products = DB::table('products')
+                ->
+                join('product_categories', function ($builder) {
                     $builder->on('product_categories.id', '=', 'products.category_id');
                 })
-                ->join('brands', function($builder) {
+                ->join('brands', function ($builder) {
                     $builder->on('brands.id', '=', 'products.brand_id');
                 })
-                ->join('companies', function($builder) {
+                ->join('companies', function ($builder) {
                     $builder->on('companies.id', '=', 'products.company_id');
 
                 })
-                ->join('country_states', function($builder) {
+                ->join('country_states', function ($builder) {
                     $builder->on('companies.state_id', '=', 'country_states.id');
                 })
-                ->join('product_images', function($builder) {
+                ->join('product_images', function ($builder) {
                     $builder->on('product_images.product_id', '=', 'products.id');
                     $builder->where('product_images.name', '=', 'image_thumbnail');
                 })
-                ->where('products.name', 'like', '%'.$searchtxt.'%')
                 ->whereNull('products.deleted_at')
-                ->orWhere('product_categories.name', 'like', '%'.$searchtxt.'%')
-                ->orWhere('brands.name', 'like', '%'.$searchtxt.'%')
-                ->orWhere('companies.name', 'like', '%'.$searchtxt.'%')
-                ->select('products.id','products.name', 'products.slug','product_images.path', 'companies.city','country_states.name as state_name' )
+                ->where('products.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('products.description', 'like', '%'.$searchtxt.'%')
+                ->orWhere('product_categories.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('brands.name', 'like', '%' . $searchtxt . '%')
+                ->orWhere('companies.name', 'like', '%' . $searchtxt . '%')
+                ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
                 ->inRandomOrder()->paginate($pageqty);
+            }
+            else{
+                $products = DB::table('products')
+                    ->
+                    join('product_categories', function ($builder) {
+                        $builder->on('product_categories.id', '=', 'products.category_id');
+                    })
+                    ->join('brands', function ($builder) {
+                        $builder->on('brands.id', '=', 'products.brand_id');
+                    })
+                    ->join('companies', function ($builder) {
+                        $builder->on('companies.id', '=', 'products.company_id');
+
+                    })
+                    ->join('country_states', function ($builder) {
+                        $builder->on('companies.state_id', '=', 'country_states.id');
+                    })
+                    ->join('product_images', function ($builder) {
+                        $builder->on('product_images.product_id', '=', 'products.id');
+                        $builder->where('product_images.name', '=', 'image_thumbnail');
+                    })
+                    ->whereNull('products.deleted_at')
+                    ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
+                    ->inRandomOrder()->paginate($pageqty);
+            }
             $subcategory = [];
 
         }
