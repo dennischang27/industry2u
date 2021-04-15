@@ -91,18 +91,35 @@ Route::group(['middleware' => ['auth']], function() {
             // customer management
              
             //  invite customer
-             Route::get('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@inviteCustomerIndex')->name('.customermanagement.mycustomer.invite.index');
-             Route::post('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@sendInvitation')->name('.customermanagement.mycustomer.invite.sendinvitation');
+            Route::get('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@inviteCustomerIndex')->name('.customermanagement.mycustomer.invite.index');
+            Route::post('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@sendInvitation')->name('.customermanagement.mycustomer.invite.sendinvitation');
 
             //  customer invited
-             Route::get('sales/customermanagement/mycustomer/customerinvited', 'InviteCustomerController@customerInvitedIndex')->name('.customermanagement.mycustomer.customerinvited');
+            Route::get('sales/customermanagement/mycustomer/customerinvited', 'InviteCustomerController@customerInvitedIndex')->name('.customermanagement.mycustomer.customerinvited');
+
+            // new customer
+            Route::get('sales/customermanagement/newcustomer', 'CustomerManagementController@newcustomerindex')->name('.customermanagement.newcustomerindex');
+            Route::post('sales/customermanagement/newcustomerassign', 'CustomerManagementController@newcustomerassign')->name('.customermanagement.newcustomerassign');
+
+            // reassign customer 
+            Route::get('sales/customermanagement/customerReassign', 'CustomerManagementController@customerReassign')->name('.customermanagement.mycustomer.customerReassign');
+            Route::post('sales/customermanagement/customerReassign/reassign', 'CustomerManagementController@customerReassignStore')->name('.customermanagement.mycustomer.customerReassign.reassign');
+
+            // my customer
+            Route::get('sales/customermanagement/mycustomer', 'CustomerManagementController@mycustomerindex')->name('.customermanagement.mycustomer.index');
+            Route::get('sales/customermanagement/mycustomer/details/{customer}', 'CustomerManagementController@mycustomerDetails')->name('.customermanagement.mycustomer.detials');
+            Route::get('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManage')->name('.customermanagement.mycustomer.manage');
+            
+            Route::get('sales/products/getproducts','CustomerManagementController@getproducts')->name('.sales.products.getproducts');
+            Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
+
+            Route::post('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManageStore')->name('.customermanagement.mycustomer.manageStore');
+
 
 
             // Purchasing Center
             Route::get('purchasing/suppliermanagement/supplierinvitation', 'SupplierManagementController@supplierInvitation')->name('.suppliermanagement.supplierinvitation');
             Route::get('sales/suppliermanagement/mysupplier', 'SupplierManagementController@mySupplier')->name('.suppliermanagement.mysupplier');
-
-
         //});
     });
 
