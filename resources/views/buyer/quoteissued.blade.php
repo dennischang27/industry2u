@@ -104,13 +104,13 @@
                                                     <tr>
                                                         <td>
                                                             @hasanyrole('Engineer|Clerical Staff')
-                                                                @if($quotation_request->status == "Quotation Rejected" || $quotation_request->status == "Quotation Verified")
+                                                                @if($quotation_request->status == "Quotation Rejected" || $quotation_request->status == "Quotation Verified" || $quotation_request->status == "Quotation Expired")
                                                                     <input disabled id='quotation_request_id[]' name='quotation_request_id[]' type="checkbox" class="checkbox" value="{{$quotation_request->id}}">
                                                                 @else
                                                                     <input id='quotation_request_id[]' name='quotation_request_id[]' type="checkbox" class="checkbox" value="{{$quotation_request->id}}">
                                                                 @endif
                                                             @else
-                                                                @if($quotation_request->status == "Quotation Rejected")
+                                                                @if($quotation_request->status == "Quotation Rejected" || $quotation_request->status == "Quotation Expired")
                                                                     <input disabled id='quotation_request_id[]' name='quotation_request_id[]' type="checkbox" class="checkbox" value="{{$quotation_request->id}}">
                                                                 @else
                                                                     <input id='quotation_request_id[]' name='quotation_request_id[]' type="checkbox" class="checkbox" value="{{$quotation_request->id}}">
@@ -199,7 +199,7 @@
                                                                             <p>Email: <span id="qr_purchaser_email"></span></p>
                                                                         </div>
                                                                         <div class="col-sm-6 text-right">
-                                                                            <p>Valid Until: <span id="qr_quotation_valid_until"></span></p>
+                                                                            <!--<p>Valid Until: <span id="qr_quotation_valid_until"></span></p>-->
                                                                             <!--<p>Delivery: </p>-->
                                                                             <p>Term: COD</p>
                                                                         </div>

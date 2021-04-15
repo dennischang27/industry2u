@@ -190,7 +190,7 @@
                                                                             <p>Email: <span id="purchaser_email"></span></p>
                                                                         </div>
                                                                         <div class="col-sm-6 text-right">
-                                                                            <p>Valid Until: <span id="quotation_valid_until"></span></p>
+                                                                            <!--<p>Valid Until: <span id="quotation_valid_until"></span></p>-->
                                                                             <!--<p>Delivery: </p>-->
                                                                             <p>Term: COD</p>
                                                                         </div>
