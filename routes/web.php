@@ -88,8 +88,19 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/pricingmanagement', 'DiscountSettingsController@index')->name('.pricemanagement.index');
             Route::post('sales/pricingmanagement', 'DiscountSettingsController@store')->name('.pricemanagement.store');
 
+            // Credit term Management
+            Route::get('sales/term', 'TermController@index')->name('.term.index');
+
+            Route::get('sales/term/create', 'TermController@create')->name('.term.create');
+            Route::post('sales/term/store', 'TermController@store')->name('.term.store');
+            Route::get('sales/getterms', 'TermController@getterms')->name('.term.getTerms');
+
+            Route::get('sales/term/{term}/edit', 'TermController@edit')->name('.term.edit');
+            Route::post('sales/term/{term}/update', 'TermController@update')->name('.term.update');
+            Route::post('sales/term/{term}/delete', 'TermController@destroy')->name('.term.destroy');
+
             // customer management
-             
+
             //  invite customer
             Route::get('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@inviteCustomerIndex')->name('.customermanagement.mycustomer.invite.index');
             Route::post('sales/customermanagement/mycustomer/invitecustomer', 'InviteCustomerController@sendInvitation')->name('.customermanagement.mycustomer.invite.sendinvitation');
@@ -101,7 +112,7 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/customermanagement/newcustomer', 'CustomerManagementController@newcustomerindex')->name('.customermanagement.newcustomerindex');
             Route::post('sales/customermanagement/newcustomerassign', 'CustomerManagementController@newcustomerassign')->name('.customermanagement.newcustomerassign');
 
-            // reassign customer 
+            // reassign customer
             Route::get('sales/customermanagement/customerReassign', 'CustomerManagementController@customerReassign')->name('.customermanagement.mycustomer.customerReassign');
             Route::post('sales/customermanagement/customerReassign/reassign', 'CustomerManagementController@customerReassignStore')->name('.customermanagement.mycustomer.customerReassign.reassign');
 
@@ -109,7 +120,7 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/customermanagement/mycustomer', 'CustomerManagementController@mycustomerindex')->name('.customermanagement.mycustomer.index');
             Route::get('sales/customermanagement/mycustomer/details/{customer}', 'CustomerManagementController@mycustomerDetails')->name('.customermanagement.mycustomer.detials');
             Route::get('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManage')->name('.customermanagement.mycustomer.manage');
-            
+
             Route::get('sales/products/getproducts','CustomerManagementController@getproducts')->name('.sales.products.getproducts');
             Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
 
