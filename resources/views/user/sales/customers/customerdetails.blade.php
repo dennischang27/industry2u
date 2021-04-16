@@ -116,11 +116,19 @@
                                     <h5 class="fs-title">SSM Documents</h5>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <label>SSM Form:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            {{-- <p>{{ $company->phone }}</p> --}}
+                                        @foreach($document_list as $document)
+                                            @if($document->name == 'SSM Form 9')
+                                            <div class="col-md-4">
+                                                <label style="font-weight: 700">{{ __($document->name) }} : </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                @if(isset($myDocuments[$document->id]))
+                                                    <a href="{{ asset('storage/'.$myDocuments[$document->id]->file_path) }}" 
+                                                        target="_blank">My {{ $myDocuments[$document->id]->doc_type->name }}</a>
+                                                @endif
+                                            </div>
+                                            @endif
+                                        @endforeach
                                         </div>
                                     </div>
                                     <hr>
@@ -132,13 +140,13 @@
                     
 
                                             <a 
-                                            href="{{ route('user.customermanagement.mycustomer.manage', $customerDetails->id) }}" 
+                                            href="{{ route('user.customermanagement.mycustomer.manage', $customerDetails->purchaser_company_id) }}" 
                                             class="btn btn-outline-primary btn-sm" style="float: right" >
                                                 Manage By Products
                                             </a>
 
                                             <a 
-                                            href="{{ route('user.customermanagement.mycustomer.managebycategory') }}" 
+                                            href="{{ route('user.customermanagement.mycustomer.managebycategory', $customerDetails->purchaser_company_id) }}" 
                                             class="btn btn-outline-primary btn-sm" style="float: right" >
                                                 Manage By Category
                                             </a>
