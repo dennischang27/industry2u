@@ -359,6 +359,7 @@ class CustomerManagementController extends Controller
                     $productCount = ProductDiscount::where('product_id', '=', $product->id)
                     ->where('user_id', '=', $userId)
                     ->where('company_id', '=', $companyId)
+                    ->where('customer_company_id', '=', request('customer_company_id'))
                     ->count();
                     if($productCount == 0){
                         $productDiscount = new ProductDiscount();
