@@ -114,6 +114,8 @@
                                                                     <h6>Requested Date: {{ date('d-m-Y', strtotime($customer->created_at)) }}</h6>
                                                                     <br />
 
+                                                                    
+                                                                    <input type="hidden" name="purchaser_company_id" value="{{$customer->purchaser_company_id}}"/>
                                                                     <input type="hidden" name="purchaser_id" value="{{$customer->purchaser_id}}"/>
                                                                     <input type="hidden" name="id" value="{{$customer->id}}"/>
 
