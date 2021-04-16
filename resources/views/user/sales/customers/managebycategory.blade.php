@@ -96,7 +96,7 @@
                                                     <td>{{ $category->discount_tier3 }}</td>
                                                     <td>
                                                         <a class="btn btn-xs btn-primary btn-lg" 
-                                                         onclick="categoryDiscountModal('{{ ucwords($category->name) }}',  @if($category->discount_tier1) {{$category->discount_tier1}} @else 0 @endif, @if($category->discount_tier2) {{$category->discount_tier2}} @else 0 @endif, @if($category->discount_tier3) {{$category->discount_tier3}} @else 0 @endif, {{ $category->parent_id }},  {{ $totalDiscount }}, {{ $category->total_discount }} )" 
+                                                         onclick="categoryDiscountModal('{{ ucwords($category->name) }}',  @if($category->discount_tier1) {{$category->discount_tier1}} @else 0 @endif, @if($category->discount_tier2) {{$category->discount_tier2}} @else 0 @endif, @if($category->discount_tier3) {{$category->discount_tier3}} @else 0 @endif, {{ $category->parent_id }},  {{$customer}}, {{ $totalDiscount }}, {{ $category->total_discount }} )" 
                                                          style="color:white;">
                                                             <i class="ti-pencil"></i>
                                                         </a>
@@ -123,7 +123,7 @@
                                                         <h6>Category Name: <span id="name"></span></h6>
                                                         <br />
                                             
-                                                        <form method="POST" name="DiscountForm" action="{{route('user.customermanagement.mycustomer.managebycategory')}}">
+                                                        <form method="POST" name="DiscountForm" action="{{route('user.customermanagement.mycustomer.managebycategory', $customer)}}">
                                                             @csrf
                                                             <div class="row">
                                                 
@@ -171,6 +171,8 @@
                                                                         <input class="form-control" type="hidden" id="totalDiscountMaster" name="totalDiscount" value="" >
                                                                         {{-- <p>existing discount</p> --}}
                                                                         <input class="form-control" type="hidden" id="totalDiscountExisting" name="total_discount" value="{{ $category->total_discount }}">
+                                                                        <input class="form-control" type="hidden" id="customer_company_id" name="customer_company_id" value="{{ $customer }}">
+
                                                                        
                                                                 </div>
                                                 
@@ -238,10 +240,11 @@
         }
 
 
-    function categoryDiscountModal(name, discount_tier1, discount_tier2, discount_tier3, parent_id, totalDiscountMaster, totalDiscountExisting ){
+    function categoryDiscountModal(name, discount_tier1, discount_tier2, discount_tier3, parent_id, customer_company_id, totalDiscountMaster, totalDiscountExisting,  ){
       
         $("#name").text(name);
         $("#parent_id").val(parent_id);
+        $('#customer_company_id').val(customer_company_id);
 
         $('#discount_tier1').val(discount_tier1);
         $('#discount_tier2').val(discount_tier2);
@@ -249,7 +252,6 @@
 
         $('#totalDiscountMaster').val(totalDiscountMaster);
         $('#totalDiscountExisting').val(totalDiscountExisting);
-
         $("#categoryDiscount").modal('show');
 
     }
@@ -266,6 +268,8 @@
 
         var parent_id = $('#parent_id').val();
 
+        var customer_company_id = $('#customer_company_id').val();
+
         var totalDiscount = 100 - (((100*discountT1)*discountT2)*discountT3);
 
         $.ajax({
@@ -273,7 +277,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type : 'POST',
-            data : {discount_tier1: discount_tier1, discount_tier2:discount_tier2, discount_tier3: discount_tier3, parent_id:parent_id},
+            data : {discount_tier1: discount_tier1, discount_tier2:discount_tier2, discount_tier3: discount_tier3, parent_id:parent_id, customer_company_id:customer_company_id},
             url  : '{{route("user.customermanagement.mycustomer.managebycategorystore")}}',
             success : function(data){
                 console.log(data);

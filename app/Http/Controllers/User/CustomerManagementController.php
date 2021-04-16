@@ -297,7 +297,7 @@ class CustomerManagementController extends Controller
 
 
     // manage product by category
-    public function manageByCategory(){
+    public function manageByCategory($customer){
 
         $user = Auth::getUser();
         // $companyId = $user->company->id; 
@@ -318,7 +318,7 @@ class CustomerManagementController extends Controller
         ->groupBy('product_categories.parent_id')
         ->get();
 
-        return view('user.sales.customers.managebycategory', compact('categories', 'i', 'totalDiscount'));
+        return view('user.sales.customers.managebycategory', compact('categories', 'i', 'totalDiscount', 'customer'));
     }
 
 
@@ -371,6 +371,7 @@ class CustomerManagementController extends Controller
                         $productDiscount->category_id = request('parent_id');
                         $productDiscount->subcategory_id = $subcategory->id;
                         $productDiscount->company_id = $companyId;
+                        $productDiscount->customer_company_id = request('customer_company_id');
                         $productDiscount->save();
                     }else{
                         $selectedProduct = ProductDiscount::where('product_id', '=', $product->id)
