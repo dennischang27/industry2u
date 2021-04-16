@@ -122,7 +122,7 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManage')->name('.customermanagement.mycustomer.manage');
             
             // my customer - manage by category
-            Route::get('sales/customermanagement/mycustomer/manageCategory', 'CustomerManagementController@manageByCategory')->name('.customermanagement.mycustomer.managebycategory');
+            Route::get('sales/customermanagement/mycustomer/manageCategory/{customer}', 'CustomerManagementController@manageByCategory')->name('.customermanagement.mycustomer.managebycategory');
             Route::post('sales/customermanagement/mycustomer/manageCategory', 'CustomerManagementController@manageByCategoryStore')->name('.customermanagement.mycustomer.managebycategorystore');
 
 
