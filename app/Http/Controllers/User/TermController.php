@@ -14,7 +14,7 @@ class TermController extends Controller{
     public function index(){
 
         $user = Auth::getUser();
-        $companyId = $user->company->id;
+        $companyId = $user->companyMember->company_id;
         $terms = Term::where('company_id', $companyId)->first();
         return view('user.term.index', compact('terms'));
     }
