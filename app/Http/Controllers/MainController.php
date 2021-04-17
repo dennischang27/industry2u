@@ -176,6 +176,8 @@ class MainController extends Controller
 		$input = $request->except(['bank_id','bank_account','sst_no']);
         $input["user_id"] = $user->id;
 		$input["initial"] = strtoupper(request('initial'));
+        $input["is_seller"] = 0;
+        $input["is_buyer"] = 1;
 		
         $company = Company::create($input);
         if ($request->file('logo')||$request->file('file')){
@@ -410,6 +412,8 @@ class MainController extends Controller
 
         $user = Auth::user();
         $input = $request->all();
+        $input["is_seller"] = 1;
+        $input["is_buyer"] = 1;
 
         if ($request->file('logo')||$request->file('sst_file')){
             $optimizePath = storage_path("app/public/companies/".$company->id."/");
