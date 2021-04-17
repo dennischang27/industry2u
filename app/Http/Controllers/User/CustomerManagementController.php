@@ -132,7 +132,7 @@ class CustomerManagementController extends Controller
     public function mycustomerindex(){
 
         $user = Auth::getUser();
-        $companyId = $user->company->id; 
+        $companyId = $user->companyMember->company_id; 
 
         $i = 0;
         
