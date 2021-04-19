@@ -397,8 +397,7 @@ class CustomerManagementController extends Controller
     public function mycustomerManage(Request $request){
 
         $user = Auth::getUser();
-        $companyId = $user->company->id; 
-
+        $companyId = $user->companyMember->company_id;
         $subcategories =  DB::table('product_categories')
         ->select('product_categories.id AS subcat_id', 'product_categories.name AS subcat_name')
         ->leftJoin('products', 'products.category_id', '=', 'product_categories.id')
@@ -415,7 +414,7 @@ class CustomerManagementController extends Controller
     public function getproducts(Request $request){
 
         $user = Auth::getUser();
-        $company = $user->company;
+        $companyId = $user->companyMember->company_id;
 
         if ($request->ajax()) {
             $data = DB::table('products')
