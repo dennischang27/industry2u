@@ -20,6 +20,7 @@ use App\Models\Company;
 
 use DataTables;
 use DB;
+use Log;
 
 class CustomerManagementController extends Controller
 {
@@ -392,4 +393,192 @@ class CustomerManagementController extends Controller
         }
 
     } 
+
+    public function mycustomerManage(Request $request){
+
+        $user = Auth::getUser();
+        $companyId = $user->company->id; 
+
+        $subcategories =  DB::table('product_categories')
+        ->select('product_categories.id AS subcat_id', 'product_categories.name AS subcat_name')
+        ->leftJoin('products', 'products.category_id', '=', 'product_categories.id')
+        ->where('products.company_id', '=', $companyId)
+        ->whereNull('products.deleted_at')
+        ->groupBy('product_categories.id')
+        ->get();
+
+        $i = 0;
+
+        return view('user.sales.customers.mycustomermanage', compact( 'i', 'subcategories'));
+    }
+
+    public function getproducts(Request $request){
+
+        $user = Auth::getUser();
+        $company = $user->company;
+
+        if ($request->ajax()) {
+            $data = DB::table('products')
+                ->select('product_categories.id AS subcat_id', 'products.id', 'products.name', 'product_categories.name as category_name','brands.name as brand_name', 'products.price as list_price', 'product_discounts.discount_tier1 as discount_tier1', 'product_discounts.discount_tier2 as discount_tier2', 'product_discounts.discount_tier3 as discount_tier3' )
+                ->join('product_categories','products.category_id','=','product_categories.id')
+                ->join('brands','products.brand_id','=','brands.id')
+                ->leftJoin('product_discounts', 'product_discounts.product_id', '=', 'products.id')
+                ->where('products.company_id',$company->id)
+                ->whereNull('products.deleted_at');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+
+                    // $actionBtn = '<button type="button" name="edit" id="'.$row->id.'" class="update btn btn-primary btn-xs"><i class="ti-pencil"></i></button>';
+                    // return $actionBtn;
+
+                    // $actionBtn = '<button type="button" class="btn btn-xs btn-primary" id="getEditProductData" data-id="'.$row->id.'"><i class="ti-pencil"></i></button>';
+                    // <a class="btn  btn-xs btn-info" href="'.route('seller.products.show',$row->id).'">Show</a>
+
+                    $actionBtn = '
+                                <a class="btn  btn-xs btn-primary" onclick="editProduct('.$row->id.')" href="#">Edit</a>';
+                    return $actionBtn;
+                })
+                ->filter(function ($instance) use ($request) {
+                    $instance->where('product_categories.id', $request->get('filter_category'));
+                    if (!empty($request->get('search'))) {
+                         $instance->where(function($w) use($request){
+                            $search = $request->get('search');
+                            $w->orWhere('brands.name', 'LIKE', "%$search%")->orWhere('products.name', 'LIKE', "%$search%");
+                        });
+                    }
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+
+    }
+
+
+    public function manageByProductEdit(Request $request, $product, $customerCompanyId){
+
+        $user = Auth::getUser();
+        $userId = $user->id;
+        $companyId = $user->companyMember->company_id;
+
+        $productDetails = DB::table('products')
+        ->select('product_categories.parent_id','product_categories.id AS subcat_id', 'products.id', 'products.name', 'product_categories.name as category_name','brands.name as brand_name', 'products.price as list_price', 'product_discounts.discount_tier1 as discount_tier1', 'product_discounts.discount_tier2 as discount_tier2', 'product_discounts.discount_tier3 as discount_tier3' )
+        ->join('product_categories','products.category_id','=','product_categories.id')
+        ->join('brands','products.brand_id','=','brands.id')
+        ->leftJoin('product_discounts', 'product_discounts.product_id', '=', 'products.id')
+        ->where('products.company_id',$companyId)
+        ->where('products.id', $product)
+        ->whereNull('products.deleted_at')->first();
+        
+
+        $masterDiscount = DiscountSettings::where('company_id', $companyId)->where('user_id', $userId)->first();
+        $masterDiscountTotal = floatval($masterDiscount->total_discount);
+
+
+        $productCount = ProductDiscount::where('product_id', '=', $product)
+            ->where('user_id', '=', $userId)
+            ->where('company_id', '=', $companyId)
+            ->where('customer_company_id', '=', $customerCompanyId)
+            ->count();
+
+
+        return view('user.sales.customers.managebyproduct', compact('product', 'productDetails', 'masterDiscountTotal', 'customerCompanyId', 'productCount'));
+
+    }
+
+
+
+    public function manageByProductStore(Request $request, $product){
+
+        $user = Auth::getUser();
+        $userId = $user->id;
+        $companyId = $user->companyMember->company_id;
+
+        $productDetails = DB::table('products')
+        ->select('product_categories.parent_id','product_categories.id AS subcat_id', 'products.id', 'products.name', 'product_categories.name as category_name','brands.name as brand_name', 'products.price as list_price', 'product_discounts.discount_tier1 as discount_tier1', 'product_discounts.discount_tier2 as discount_tier2', 'product_discounts.discount_tier3 as discount_tier3' )
+        ->join('product_categories','products.category_id','=','product_categories.id')
+        ->join('brands','products.brand_id','=','brands.id')
+        ->leftJoin('product_discounts', 'product_discounts.product_id', '=', 'products.id')
+        ->where('products.company_id',$companyId)
+        ->where('products.id', $product)
+        ->whereNull('products.deleted_at')->first();
+
+        $masterDiscount = DiscountSettings::where('company_id', $companyId)->where('user_id', $userId)->first();
+        $masterDiscountTotal = floatval($masterDiscount->total_discount);
+        $masterDiscountT1 = floatval($masterDiscount->discount_tier1);
+        $masterDiscountT2 = floatval($masterDiscount->discount_tier2);
+        $masterDiscountT3 = floatval($masterDiscount->discount_tier3);
+
+        $discountT1 = 1-(request('discount_tier1')/100);
+        $discountT2 = 1-(request('discount_tier2')/100);
+        $discountT3 = 1-(request('discount_tier3')/100);
+
+        $totalDiscount = 100 - (((100*$discountT1)*$discountT2)*$discountT3);
+
+
+        if($totalDiscount > $masterDiscountTotal){
+
+            return redirect()->back()->with('error','total discount exceed limit');
+
+
+        } elseif ((request('discount_tier1') > floor($masterDiscountTotal)) && (request('discount_tier2') >= 0) && (request('discount_tier3') >= 0)) {
+
+            return redirect()->back()->with('error', 'Modify Discount Tiers, total discount exceed limit');
+
+        } else {
+
+            $productCount = ProductDiscount::where('product_id', '=', request('product_id'))
+            ->where('user_id', '=', $userId)
+            ->where('company_id', '=', $companyId)
+            ->where('customer_company_id', '=', request('customer_company_id'))
+            ->count();
+
+            if($productCount == 0){
+                $productDiscount = new ProductDiscount();
+                $productDiscount->product_id = request('product_id');
+                $productDiscount->user_id = $userId;
+                $productDiscount->discount_tier1 = request('discount_tier1');
+                $productDiscount->discount_tier2 = request('discount_tier2');
+                $productDiscount->discount_tier3 = request('discount_tier3');
+                $productDiscount->total_discount = $totalDiscount;
+                $productDiscount->category_id = request('parent_id');
+                $productDiscount->subcategory_id = request('subcat_id');
+                $productDiscount->company_id = $companyId;
+                $productDiscount->customer_company_id = request('customer_company_id');
+                $productDiscount->save();
+            }else{
+                $selectedProduct = ProductDiscount::where('product_id', '=', request('product_id'))
+                ->where('user_id', '=', $userId)
+                ->where('company_id', '=', $companyId)
+                ->first();
+                $selectedProduct->discount_tier1 = request('discount_tier1');
+                $selectedProduct->discount_tier2 = request('discount_tier2');
+                $selectedProduct->discount_tier3 = request('discount_tier3');
+                $selectedProduct->total_discount = $totalDiscount;
+                $selectedProduct->save();
+            }
+            
+        
+            
+            $subcategories =  DB::table('product_categories')
+            ->select('product_categories.id AS subcat_id', 'product_categories.name AS subcat_name')
+            ->leftJoin('products', 'products.category_id', '=', 'product_categories.id')
+            ->where('products.company_id', '=', $companyId)
+            ->whereNull('products.deleted_at')
+            ->groupBy('product_categories.id')
+            ->get();
+
+            $i = 0;
+            
+            return view('user.sales.customers.mycustomermanage', compact('subcategories', 'i'));
+
+
+        }
+
+    }
+
+
+
+
 }
