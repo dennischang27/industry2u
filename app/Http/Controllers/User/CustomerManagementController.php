@@ -161,8 +161,7 @@ class CustomerManagementController extends Controller
     public function mycustomerindex(){
 
         $user = Auth::getUser();
-        // $companyId = $user->company->id; 
-        $companyId = $user->companyMember->company_id;
+        $companyId = $user->companyMember->company_id; 
 
         $i = 0;
         // ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at')
