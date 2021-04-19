@@ -71,15 +71,13 @@
                                 <div class="product_header">
                                     <div class="product_header_left">
                                         <div class="input-group">
-                                            <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..."  type="hidden">
                                             <input class="form-control" name="categoryid" value="{{ request()->input('categoryid') }}"  type="hidden">
-
                                         </div>
                                     </div>
                                     <div class="product_header_right">
                                         <div class="products_view">
                                             <a href="javascript:void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                                            <a href="javascript:void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                                            <!--a href="javascript:void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a-->
                                         </div>
                                         <div class="custom_select">
                                             <select class="form-control form-control-sm submit-form-on-change" name="num">
@@ -95,6 +93,96 @@
                         </div>
                         <div class="row shop_container grid">
                             @if ($products->count() > 0)
+                                @if  ($recent_products)
+                                    <div class="col col-12 col-md-12">
+                                        <h4>Most Recent</h4>
+                                    </div>
+                                    @foreach($recent_products as $recent_product)
+                                        <div class="col col-6 col-md-3">
+                                            <div class="product">
+                                                @if($recent_product->slug)
+                                                    <a href="{{ 'productview/'.$recent_product->id.'/'.$recent_product->slug }}">
+                                                @else
+                                                    <a href="{{ 'productview/'.$recent_product->id.'/'.str_slug($recent_product->name)}}">
+                                                @endif
+                                                        <div class="product_img">
+                                                            @if($recent_product->path)
+                                                                @if(file_exists(public_path('storage/'.$recent_product->path)))
+                                                                    <img src="{{ asset('storage/'.$recent_product->path) }}" alt="{{ $recent_product->name }}">
+                                                                @else
+                                                                    <img src="{{ asset('images/noimage.jpg') }}">
+                                                                @endif
+                                                            @else
+                                                                <img src="{{ asset('images/noimage.jpg') }}">
+                                                            @endif
+                                                        </div>
+                                                    </a>
+                                                    <div class="product_info">
+                                                        <div class="product_name_wrap">
+                                                            <span class='product_name' style="">
+                                                                @if($recent_product->slug)
+                                                                    <a href="{{ 'productview/'.$recent_product->id.'/'.$recent_product->slug }}">
+                                                                @else
+                                                                            <a href="{{ 'productview/'.$recent_product->id.'/'.str_slug($recent_product->name)}}">
+                                                                @endif
+                                                                        <strong>{{ str_limit($recent_product->name, 33) }}</strong>
+                                                                   </a>
+                                                            </span>
+                                                            <span style="font-size: .75rem;line-height: .875rem;">{{ $recent_product->city }}, {{ $recent_product->state_name }}</span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="col col-12 col-md-12">
+                                       <hr>
+                                    </div>
+                                @endif
+                                    @if  ($topview_products)
+                                        <div class="col col-12 col-md-12">
+                                            <h4>Top Views</h4>
+                                        </div>
+                                        @foreach($topview_products as $topview_product)
+                                            <div class="col col-6 col-md-3">
+                                                <div class="product">
+                                                    @if($topview_product->slug)
+                                                        <a href="{{ 'productview/'.$topview_product->id.'/'.$topview_product->slug }}">
+                                                            @else
+                                                                <a href="{{ 'productview/'.$topview_product->id.'/'.str_slug($topview_product->name)}}">
+                                                                    @endif
+                                                                    <div class="product_img">
+                                                                        @if($topview_product->path)
+                                                                            @if(file_exists(public_path('storage/'.$topview_product->path)))
+                                                                                <img src="{{ asset('storage/'.$topview_product->path) }}" alt="{{ $topview_product->name }}">
+                                                                            @else
+                                                                                <img src="{{ asset('images/noimage.jpg') }}">
+                                                                            @endif
+                                                                        @else
+                                                                            <img src="{{ asset('images/noimage.jpg') }}">
+                                                                        @endif
+                                                                    </div>
+                                                                </a>
+                                                                <div class="product_info">
+                                                                    <div class="product_name_wrap">
+                                                                        <span class='product_name' style="">
+                                                                            @if($topview_product->slug)
+                                                                                <a href="{{ 'productview/'.$topview_product->id.'/'.$topview_product->slug }}">
+                                                                            @else
+                                                                                        <a href="{{ 'productview/'.$topview_product->id.'/'.str_slug($topview_product->name)}}">
+                                                                            @endif
+                                                                                    <strong>{{ str_limit($topview_product->name, 33) }}</strong>
+                                                                               </a>
+                                                                        </span>
+                                                                        <span style="font-size: .75rem;line-height: .875rem;">{{ $topview_product->city }}, {{ $topview_product->state_name }}</span>
+                                                                    </div>
+                                                                </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <div class="col col-12 col-md-12">
+                                            <hr>
+                                        </div>
+                                    @endif
                                 @foreach($products as $product)
                                     <div class="col col-6 col-md-3">
 
