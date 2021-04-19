@@ -125,12 +125,17 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/customermanagement/mycustomer/manageCategory/{customer}', 'CustomerManagementController@manageByCategory')->name('.customermanagement.mycustomer.managebycategory');
             Route::post('sales/customermanagement/mycustomer/manageCategory', 'CustomerManagementController@manageByCategoryStore')->name('.customermanagement.mycustomer.managebycategorystore');
 
-
+            // get products datatable
             Route::get('sales/products/getproducts','CustomerManagementController@getproducts')->name('.sales.products.getproducts');
-            Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
+
+            // my customer - manage by products
+            Route::get('sales/customermanagement/mycustomer/manageProduct/{product}/{customerCompanyId}', 'CustomerManagementController@manageByProductEdit')->name('.customermanagement.mycustomer.manageByProduct.edit');
+            // Route::get('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManage')->name('.customermanagement.mycustomer.manage');
+            Route::post('sales/customermanagement/mycustomer/manageProduct/{product}', 'CustomerManagementController@manageByProductStore')->name('.customermanagement.mycustomer.managebyProduct.store');
+            // Route::get('sales/customermanagement/mycustomer/manage/{product}', 'CustomerManagementController@manageByProductEdit')->name('.customermanagement.mycustomer.manageByProductUpdate');
+
 
             Route::post('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManageStore')->name('.customermanagement.mycustomer.manageStore');
-
 
 
             // Purchasing Center

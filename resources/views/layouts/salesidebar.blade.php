@@ -59,7 +59,10 @@
                         @endhasanyrole
 
                         <li class="nav-item">
-                            <a class="nav-link  {{  request()->routeIs('user.customermanagement.mycustomer.index') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.manage') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.detials') ? 'active' : '' }}" href="{{ route('user.customermanagement.mycustomer.index')}}"  style="padding-left:33px;">My Customer</a>
+                            <a class="nav-link  {{  request()->routeIs('user.customermanagement.mycustomer.index') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.manage') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.detials') ? 'active' : '' }}
+                                {{  request()->routeIs('user.customermanagement.mycustomer.managebycategorystore') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.managebycategory') ? 'active' : '' }}  {{  request()->routeIs('user.customermanagement.mycustomer.manageByProduct.edit') ? 'active' : '' }} ""
+
+                                href="{{ route('user.customermanagement.mycustomer.index')}}"  style="padding-left:33px;">My Customer</a>
                         </li>
                     </ul>
                 </div>
