@@ -57,6 +57,14 @@
             margin-bottom: 0px;
             line-height: 20px;
         }
+        .btn-disable{
+            padding: 5px 10px;
+            font-size: 11px;
+        }
+        .btn-reject{
+            padding: 5px 10px;
+            font-size: 11px;
+        }
     </style>
 @endsection
 
@@ -96,6 +104,8 @@
                                                     <th scope="col">Customer Name</th>
                                                     <th scope="col">Quotation Request No</th>
                                                     <th scope="col">Quotation Status</th>
+                                                    <th scope="col">Remark</th>
+                                                    <th scope="col">Payment Term</th>
                                                     <th scope="col">Actions</th>
                                                 </tr>
                                             </thead>
@@ -106,11 +116,25 @@
                                                         <td>{{ ++$i }}</td>
                                                         <td>{{date('d/m/Y', strtotime($quotation_request->updated_at))}}</td>
                                                         <td>{{$quotation_request->customerCompany->name}}</td>
-                                                        <td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->qr_no}}</a></td>
                                                         <td>{{$quotation_request->status}}</td>
+                                                        <td>{{$quotation_request->remark}}</td>
+                                                        <td>{{$quotation_request->payment_term_code}}</td>
                                                         <td>
-                                                            <button type="button" onclick="view({{$quotation_request->id}})" class="btn-custom btn-fill-out-green" id="quote" name="quote">Quote</button>
-                                                            <button type="button" onclick="issue({{$quotation_request->id}})" class="btn-custom btn-fill-out" id="issue_quote" name="issue_quote">Submit</button>
+                                                        <button type="button" onclick="term({{$quotation_request->id}}, {{$quotation_request->payment_term_days}})" class="btn-custom btn-fill-out-green" id="term" name="term">Term</button>
+                                                            @if($quotation_request->status=="Pending Approval")
+                                                                @if($user_id==$quotation_request->approve_by)
+                                                                    <button type="button" onclick="issue({{$quotation_request->id}})" class="btn-custom btn-reject btn-fill-out-green" id="issue_quote" name="issue_quote">Approve</button>
+                                                                    <button type="button" onclick="rejectApproval({{$quotation_request->id}})" class="btn btn-reject btn-fill-out-red" id="reject" name="reject">Reject</button>
+                                                                @else 
+                                                                    <button type="button" class="btn btn-disable btn-secondary" disabled>Quote</button>
+                                                                    <button type="button" class="btn btn-disable btn-secondary" disabled>Submit</button>
+                                                                @endif
+                                                            @else
+                                                                <button type="button" onclick="view({{$quotation_request->id}})" class="btn-custom btn-fill-out-green" id="quote" name="quote">Quote</button>
+                                                                <button type="button" onclick="issue({{$quotation_request->id}})" class="btn-custom btn-fill-out" id="issue_quote" name="issue_quote">Submit</button>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     @endforeach 
@@ -201,7 +225,94 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
+                                <div class="modal fade" id="termModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <form id="term_form" method="POST" action="{{route('seller.quote.term')}}">
+                                                @csrf
+                                                <div class="modal-header" style="text-align: left">
+                                                    <h4 class="modal-title" id="myModalLabel">
+                                                        Payment Term
+                                                    </h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body" style="text-align: left">
+                                                    <div class="form-group row">
+                                                        <label for="payment_term" class="col-sm-12 col-form-label"><strong>Payment Term:</strong><small class="text-danger">*</small></label>
+                                                        <div class="col-sm-12">
+                                                        <select title="Please select reject reason" required name="payment_term"
+                                                                class="@error('payment_term') is-invalid @enderror form-control select2" id="payment_term">
+                                                            <option value="">Please select payment term</option>
+                                                            @foreach($terms as $term)
+                                                                <option value="{{$term->days}}"/> {{$term->code}} </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span id="payment_term_error" class="invalid-feedback text-danger" role="alert">
+                                                            <strong>Please select payment term</strong>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" id="term_qr_id" name="term_qr_id" value=''>
+                                                    <input type="hidden" id="term_code" name="term_code" value=''>
+                                                    <div class="col text-center">
+                                                        <button type="button" class="btn btn-fill-out" id="submit_term" name="submit_term">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </from>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="rejectQuotation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="text-align: left">
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    Reject Quotation
+                                                </h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body" style="text-align: left">
+                                                <form id="reject_quotation_form" method="POST" action="{{route('seller.quote.reject')}}">
+                                                @csrf
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                <div class="form-group row">
+                                                                    <label for="reject_reason" class="col-sm-12 col-form-label"><strong>Enter Reject Reason:</strong><small class="text-danger">*</small></label>
+                                                                    <div class="col-sm-12">
+                                                                    <select title="Please select reject reason" required name="reject_reason"
+                                                                            class="@error('reject_reason') is-invalid @enderror form-control select2" id="reject_reason">
+                                                                        <option value="">Please select reject reason</option>
+                                                                        <option value="Out of Stock">Out of Stock</option>
+                                                                        <option value="Discount Rate">Discount Rate</option>
+                                                                    </select>
+                                                                    <span id="reject_reason_error" class="invalid-feedback text-danger" role="alert">
+                                                                        <strong>Please select reject reason</strong>
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="other_reason" class="form-group row" style="display: none;">
+                                                                    <label for="discount_rate" class="col-sm-12 col-form-label"><strong>Enter Discount Rate:</strong><small class="text-danger">*</small></label>
+                                                                    <div class="col-sm-12">
+                                                                    <input class="form-control" id="discount_rate" name="discount_rate" placeholder="discount rate" type="text" style="height: 40px" value="" required>
+                                                                    <span id="discount_rate_error" class="invalid-feedback text-danger" role="alert">
+                                                                        <strong>Please enter discount rate</strong>
+                                                                    </span> 
+                                                                    </div>
+                                                                </div>
+                                                                <input type="hidden" id="qr_approve_id" name="qr_approve_id" value=''>
+                                                                <div class="col text-center">
+                                                                    <button type="button" class="btn btn-fill-out" id="submit_reject" name="submit_reject">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -227,6 +338,21 @@
             $( "#qr_id" ).val(qr_id);
             $( "#quote-issue-form" ).submit();
         }
+
+        function term(qr_id, payment_term_days){
+            $("#term_qr_id").val(qr_id);
+            $("#payment_term").val(payment_term_days);
+            $('#termModal').modal('show');
+        }
+
+        $( "#payment_term" ).change(function() {
+            var value = $(this).find("option:selected").text();
+            $("#term_code").val(value);
+        });
+
+        $( "#submit_term" ).on( "click", function() {
+            $( "#term_form" ).submit();
+        });
 
         function GetFormattedDate(datetime) {
             newdatetime = new Date(datetime);
@@ -302,6 +428,26 @@
             });
         }
 
+        function rejectApproval(qr_id){
+            $("#qr_approve_id").val(qr_id);
+            $('#rejectQuotation').modal('show');
+        }
+
+        $( "#submit_reject" ).on( "click", function() {
+            var reject_reason = $( "#reject_reason" ).val();
+            var discount_rate = $( "#discount_rate" ).val();
+
+            if(!reject_reason){
+                $('#reject_reason_error').show();
+            }else if(reject_reason == 'Discount Rate' && !discount_rate){
+                $('#discount_rate_error').show();
+            }else{
+                $('#reject_reason_error').hide();
+                $('#discount_rate_error').hide();
+                $( "#reject_quotation_form" ).submit();
+            }
+        });
+
         if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     responsive: true,
@@ -313,5 +459,14 @@
                     }
                 });
         }
+
+        $( "#reject_reason" ).change(function() {
+            var value = $(this).val();
+            if(value == 'Discount Rate'){
+                $('#other_reason').show();
+            }else{
+                $('#other_reason').hide();
+            }
+        });
     </script>
 @endsection

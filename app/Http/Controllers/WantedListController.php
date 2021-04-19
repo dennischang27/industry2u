@@ -96,7 +96,21 @@ class WantedListController extends Controller
                 }else{
                     $qr->status = 'Pending Quotation';
                 }
+
+                // Get default payment term
                 
+                $company_customer = CompanyCustomers::where('company_id', $record->supplier_company_id)
+                        ->where('purchaser_company_id', $record->purchaser_company_id)
+                        ->first();
+
+                if($company_customer->payment_term_code){
+                    $qr->payment_term_code = $company_customer->payment_term_code;
+                }
+                
+                if($company_customer->payment_term_days){
+                    $qr->payment_term_days = $company_customer->payment_term_days;
+                }
+
                 $qr->save();
 
                 $qr_id = $qr->id;
