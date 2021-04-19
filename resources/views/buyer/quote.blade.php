@@ -111,7 +111,8 @@
                                                             @endif
                                                         </td>
                                                         <td>{{date('d/m/Y', strtotime($quotation_request->updated_at))}}</td>
-                                                        <td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->qr_no}}</a></td>
                                                         <td>{{$quotation_request->supplier_company_name}}</td>
                                                         <td>{{$quotation_request->requestBy->first_name}}{{$quotation_request->requestBy->last_name}}</td>
                                                         <td>{{$quotation_request->status}}</td>

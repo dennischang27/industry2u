@@ -121,8 +121,10 @@
                                                         </td>
                                                         <td>{{date('d/m/Y', strtotime($quotation_request->updated_at))}}</td>
                                                         <td>{{$quotation_request->supplier_company_name}}</td>
-                                                        <td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>
-                                                        <td><a href="javascript:viewQuotation({{$quotation_request->id}})">{{$quotation_request->quotation_no }}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->qr_no}}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotation({{$quotation_request->id}})">{{$quotation_request->quotation_no }}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->quotation_no}}</a></td>
                                                         <td>{{$quotation_request->quotation_amount}}</td>
                                                         @if($quotation_request->status == 'Pending Confirmation')
                                                             <td>Pending Verification</td>

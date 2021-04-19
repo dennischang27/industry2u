@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('quote/request/file/products', 'QuotationController@quoterequestfileproducts')->name('.quote.request.file.products');
         Route::get('quote/file', 'QuotationController@quotefile')->name('.quote.file');
         Route::get('quote/file/products', 'QuotationController@quotefileproducts')->name('.quote.file.products');
+        //Route::get('quotationrequestview',array('as'=>'quotationrequestview','uses'=>'QuotationController@quotationrequestview'))->name('.quotationrequestview');
+        Route::get('quotationrequest/view', 'QuotationController@quotationrequestview')->name('.quotationrequestview');
+        Route::get('quotation/view', 'QuotationController@quotationview')->name('.quotationview');
     });
 
     Route::group(["prefix" => "user",'as' => 'user', 'namespace' => "User"], function() {
@@ -127,6 +130,7 @@ Route::group(['middleware' => ['auth']], function() {
 
             // get products datatable
             Route::get('sales/products/getproducts','CustomerManagementController@getproducts')->name('.sales.products.getproducts');
+            Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
 
             // my customer - manage by products
             Route::get('sales/customermanagement/mycustomer/manageProduct/{product}/{customerCompanyId}', 'CustomerManagementController@manageByProductEdit')->name('.customermanagement.mycustomer.manageByProduct.edit');

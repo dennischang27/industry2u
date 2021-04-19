@@ -98,6 +98,7 @@
                                                     <th scope="col">Quotation No</th>
                                                     <th scope="col">Quotation Amount</th>
                                                     <th scope="col">Quotation Status</th>
+                                                    <th scope="col">Remark</th>
                                                 </tr>
                                             </thead>
                                             <tbody style="font-size: 11px">
@@ -107,10 +108,13 @@
                                                         <td>{{ ++$i }}</td>
                                                         <td>{{date('d/m/Y', strtotime($quotation_request->updated_at))}}</td>
                                                         <td>{{$quotation_request->customerCompany->name}}</td>
-                                                        <td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>
-                                                        <td><a href="javascript:viewQuotation({{$quotation_request->id}})">{{$quotation_request->quotation_no }}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->qr_no}}</a></td>
+                                                        <!--<td><a href="javascript:viewQuotation({{$quotation_request->id}})">{{$quotation_request->quotation_no }}</a></td>-->
+                                                        <td><a href="{{ route('buyer.quotationview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->quotation_no}}</a></td>
                                                         <td>{{$quotation_request->quotation_amount}}</td>
                                                         <td>{{$quotation_request->status}}</td>
+                                                        <td>{{$quotation_request->remark}}</td>
                                                     </tr>
                                                     @endforeach 
                                                 @endif

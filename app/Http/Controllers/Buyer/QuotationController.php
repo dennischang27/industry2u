@@ -8,9 +8,11 @@ use App\Models\QuotationRequestDetails;
 use App\Models\CompanyUser;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\CompanyCustomers;
 use Response;
 use DB;
 use Mail;
+use PDF;
 
 class QuotationController extends Controller
 {
@@ -70,10 +72,13 @@ class QuotationController extends Controller
 
         $quotation_requests = QuotationRequests::where('purchaser_company_id', $user->companyMember->company_id)
                                 ->where('status', 'Pending Confirmation')
-                                ->orWhere('status', 'Quotation Rejected')
                                 ->orWhere('status', 'Quotation Verified')
                                 ->orWhere('status', 'Confirmed')
                                 ->orWhere('status', 'Quotation Expired')
+                                ->orWhere(function ($query) {
+                                    $query->orWhere('status', 'Quotation Rejected')
+                                          ->where('remark', '=', 'Out of Stock');
+                                })
                                 ->get();
                                 
         return view('buyer.quoteissued',compact('quotation_requests','i'));
@@ -98,6 +103,92 @@ class QuotationController extends Controller
                             ->first();
 
         return response()->json($data);
+    }
+
+    public function quotationview(Request $request){
+        $qr_id = $request->qr_id;
+        $i = 0;
+        $data = QuotationRequests::select('quotation_requests.*', 'sc.name AS supplier_company_name', 'scountry.name AS supplier_country', 
+                                'sc.reg_no AS supplier_reg_no', 'sc.street AS supplier_street', 'sc.postal_code AS supplier_postal_code', 
+                                'sc.city AS supplier_city', 'sc.phone AS supplier_phone',  'sc.state_id AS supplier_state_id',
+                                'pcountry.name AS purchaser_country',  'pc.state_id AS purchaser_state_id', 'pc.name AS purchaser_company_name',
+                                'pc.street AS purchaser_street', 'pc.postal_code AS purchaser_postal_code', 
+                                'pc.city AS purchaser_city', 'pc.phone AS purchaser_phone', 'users.first_name', 'users.last_name',
+                                'users.mobile AS user_phone', 'users.email AS user_email', 'sc.logo')
+                            ->where('quotation_requests.id', $qr_id)
+                            ->leftJoin('companies AS pc', 'pc.id', '=', 'quotation_requests.purchaser_company_id')
+                            ->leftJoin('countries AS pcountry', 'pcountry.id', '=', 'pc.country_id')
+                            ->leftJoin('companies AS sc', 'sc.id', '=', 'quotation_requests.supplier_company_id')
+                            ->leftJoin('countries AS scountry', 'scountry.id', '=', 'sc.country_id')
+                            ->leftJoin('users', 'users.id', '=', 'quotation_requests.purchaser_id')
+                            ->first();
+
+        $products = QuotationRequestDetails::select('quotation_request_details.*','p.series_no AS series_no','c.name AS category_name')
+                            ->where('qr_id', $qr_id)
+                            ->leftJoin('products AS p', 'p.id', '=', 'quotation_request_details.product_id')
+                            ->leftJoin('product_categories AS c', 'c.id', '=', 'p.category_id')
+                            ->get();
+
+        if($data->logo){
+            $img = 'storage/'.$data->logo;
+            if(file_exists($img)){
+                $isLogoExist = true;
+            }else{
+                $isLogoExist = false;
+            }
+        }else{
+            $isLogoExist = false;
+        }
+
+        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist]);
+        if($request->has('qr_id')){
+            $pdf = PDF::loadView('quotationview');
+            return $pdf->download('quotation.pdf');
+        }
+        return view('quotationview');
+    }
+
+    public function quotationrequestview(Request $request){
+        $qr_id = $request->qr_id;
+        $i = 0;
+        $data = QuotationRequests::select('quotation_requests.*', 'pc.name AS purchaser_company_name', 'scountry.name AS supplier_country', 
+                                'pc.reg_no AS purchaser_reg_no', 'sc.street AS supplier_street', 'sc.postal_code AS supplier_postal_code', 
+                                'sc.city AS supplier_city', 'sc.phone AS supplier_phone',  'sc.state_id AS supplier_state_id',
+                                'pcountry.name AS purchaser_country',  'pc.state_id AS purchaser_state_id', 'sc.name AS supplier_company_name',
+                                'pc.street AS purchaser_street', 'pc.postal_code AS purchaser_postal_code', 
+                                'pc.city AS purchaser_city', 'pc.phone AS purchaser_phone', 'users.first_name', 'users.last_name',
+                                'users.mobile AS user_phone', 'users.email AS user_email', 'pc.logo')
+                            ->where('quotation_requests.id', $qr_id)
+                            ->leftJoin('companies AS pc', 'pc.id', '=', 'quotation_requests.purchaser_company_id')
+                            ->leftJoin('countries AS pcountry', 'pcountry.id', '=', 'pc.country_id')
+                            ->leftJoin('companies AS sc', 'sc.id', '=', 'quotation_requests.supplier_company_id')
+                            ->leftJoin('countries AS scountry', 'scountry.id', '=', 'sc.country_id')
+                            ->leftJoin('users', 'users.id', '=', 'quotation_requests.requester_id')
+                            ->first();
+
+        $products = QuotationRequestDetails::select('quotation_request_details.*','p.series_no AS series_no','c.name AS category_name')
+                            ->where('qr_id', $qr_id)
+                            ->leftJoin('products AS p', 'p.id', '=', 'quotation_request_details.product_id')
+                            ->leftJoin('product_categories AS c', 'c.id', '=', 'p.category_id')
+                            ->get();
+
+        if($data->logo){
+            $img = 'storage/'.$data->logo;
+            if(file_exists($img)){
+                $isLogoExist = true;
+            }else{
+                $isLogoExist = false;
+            }
+        }else{
+            $isLogoExist = false;
+        }
+
+        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist]);
+        if($request->has('qr_id')){
+            $pdf = PDF::loadView('quotationrequestview');
+            return $pdf->download('quotation_request.pdf');
+        }
+        return view('quotationrequestview');
     }
 
     public function quoterequestfileproducts(Request $request){
@@ -307,8 +398,41 @@ class QuotationController extends Controller
                             $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
                         });
 
+                        // An email notification will be sent to Supplier - Admin
+                        $company = Company::select('users.email')
+                            ->where('companies.id', $data->supplier_company_id)
+                            ->leftJoin('users', 'users.id', '=', 'companies.user_id')
+                            ->first();
+
+                        $mail["email"] = $company->email;
+                        $mail["subject"] = "Quotation Request";
+                        $mail["purchaser"] = $data->name;
+
+                        Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                        });
+
+                        // An email notification will be sent to Supplier - Person In Charge
+                        $company_customer = CompanyCustomers::select('users.email')
+                            ->leftJoin('users', 'users.id', '=', 'company_customers.company_salesperson_id')
+                            ->where('company_customers.company_id', $data->supplier_company_id)
+                            ->first();
+
+                        $company_customer_count = count($company_customer);
+
+                        if($company_customer_count){
+                            $mail["email"] = $company_customer->email;
+                            $mail["subject"] = "Quotation Request";
+                            $mail["purchaser"] = $data->name;
+
+                            Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                                $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                            });
+                        }
+                        
+
                         // An email notification will be sent to Supplier - Sales Executive(7), Sales Manager(5), Sales Moderator(3)
-                        $arrsuppliers = [3,5,7];
+                        /*$arrsuppliers = [3,5,7];
                         $suppliers = CompanyUser::select('users.first_name as first_name','users.last_name as last_name','users.email as email')
                                     ->leftJoin('users', 'users.id', '=', 'company_users.user_id')
                                     ->where('company_users.company_id', $data->supplier_company_id)
@@ -326,18 +450,30 @@ class QuotationController extends Controller
                                     $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
                                 });
                             }
-                        }
+                        }*/
                     }
                 }
             }
         }
 
-        //return redirect()->route('buyer.quote')->with('success','Quotation submitted successfully');
+        return redirect()->route('buyer.quote')->with('success','Quotation submitted successfully');
     }
 
     public function rejectquotationrequest(Request $request)
     {
         $qr_ids = json_decode($request->input('qr_id'));
+        $selected_qrs = DB::table('quotation_requests')->whereIn('id', $qr_ids)->get();
+
+        foreach ($selected_qrs as $selected_qr) {
+            $requester_data = DB::table('users')->where('id', $selected_qr->requester_id)->first();
+            // Send email to requester
+            $mail["email"] = $requester_data->email;
+            $mail["subject"] = "Quotation Request Rejected";
+            Mail::send('buyer.quotationrejectedmail', $mail, function($message)use($mail) {
+                $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+            });
+        }
+
         $reason = $request->input('reject_reason');
         $other_reason = $request->input('reject_other_reason');
 
