@@ -54,5 +54,7 @@ Route::group(["prefix" => "seller", "as" => "seller.", "namespace" => "Seller"],
             Route::post('quote/discount/add', 'QuotationController@adddiscount')->name('adddiscount');
             Route::post('quote/issue', 'QuotationController@quotationissue')->name('quotationissue');
             Route::get('quote/issued', 'QuotationController@quoteissued')->name('quote.issued');
+            Route::post('quote/reject', 'QuotationController@quotereject')->name('quote.reject');
+            Route::post('quote/term', 'QuotationController@quoteterm')->name('quote.term');
         });
 });

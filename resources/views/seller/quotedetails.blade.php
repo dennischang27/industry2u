@@ -350,10 +350,17 @@
         });
 
         $( "#submit_add_discount" ).on( "click", function() {
-            var max_t1 = 50
-            var t1 = $( "#t1" ).val();
-            var t2 = $( "#t2" ).val();
-            var t3 = $( "#t3" ).val();
+            /*var t1 = $("#t1").val();
+            var t2 = $("#t2").val();
+            var t3 = $("#t3").val();
+
+            var discountT1 = 1-($("#t1").val()/100);
+            var discountT2 = 1-($("#t2").val()/100);
+            var discountT3 = 1-($("#t3").val()/100);
+            var totalDiscount = 100 - (((100*discountT1)*discountT2)*discountT3);
+            totalDiscount = totalDiscount.toFixed(2);
+
+            alert(totalDiscount);*/
 
             $( "#add_discount_form" ).submit();
 
