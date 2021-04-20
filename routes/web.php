@@ -123,14 +123,14 @@ Route::group(['middleware' => ['auth']], function() {
             Route::get('sales/customermanagement/mycustomer', 'CustomerManagementController@mycustomerindex')->name('.customermanagement.mycustomer.index');
             Route::get('sales/customermanagement/mycustomer/details/{customer}', 'CustomerManagementController@mycustomerDetails')->name('.customermanagement.mycustomer.detials');
             Route::get('sales/customermanagement/mycustomer/manage/{customer}', 'CustomerManagementController@mycustomerManage')->name('.customermanagement.mycustomer.manage');
-            
+            Route::post('sales/customermanagement/mycustomer/manage/updateTerm', 'CustomerManagementController@updateTerm')->name('.customermanagement.mycustomer.updateTerm');
             // my customer - manage by category
             Route::get('sales/customermanagement/mycustomer/manageCategory/{customer}', 'CustomerManagementController@manageByCategory')->name('.customermanagement.mycustomer.managebycategory');
             Route::post('sales/customermanagement/mycustomer/manageCategory', 'CustomerManagementController@manageByCategoryStore')->name('.customermanagement.mycustomer.managebycategorystore');
 
             // get products datatable
             Route::get('sales/products/getproducts','CustomerManagementController@getproducts')->name('.sales.products.getproducts');
-            Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
+            // Route::get('sales/products/getproducts/product','CustomerManagementController@show')->name('.sales.product.getproducts.show');
 
             // my customer - manage by products
             Route::get('sales/customermanagement/mycustomer/manageProduct/{product}/{customerCompanyId}', 'CustomerManagementController@manageByProductEdit')->name('.customermanagement.mycustomer.manageByProduct.edit');

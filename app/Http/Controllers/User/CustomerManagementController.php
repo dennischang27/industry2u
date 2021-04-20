@@ -17,6 +17,7 @@ use App\Models\ProductDiscount;
 use App\Models\DiscountSettings;
 use App\Models\DocType;
 use App\Models\Company;
+use App\Models\Term;
 
 use DataTables;
 use DB;
@@ -165,24 +166,41 @@ class CustomerManagementController extends Controller
         $companyId = $user->companyMember->company_id; 
 
         $i = 0;
-        // ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at')
-        // ->leftJoin('company_users', 'company_users.user_id', '=', 'company_customers.purchaser_id') 
-        // ->leftJoin('companies', 'companies.id', '=', 'company_users.purchaser_company_id')
-        // ->leftJoin('users', 'users.id', '=', 'company_customers.purchaser_id')
-        // ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
 
         $customerList = DB::table('company_customers')
-        ->select('company_customers.purchaser_id AS customer_id', 'companies.id AS company_id', 'industries.name AS customer_industry_name', 
-        'companies.name AS company_name', 'company_customers.created_at AS customer_created_at')
+        ->select('company_customers.id', 'company_customers.purchaser_id AS customer_id', 'companies.id AS company_id', 'industries.name AS customer_industry_name', 
+        'companies.name AS company_name', 'company_customers.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 
+        'company_customers.purchaser_company_id')
         ->leftJoin('companies', 'companies.id', '=', 'company_customers.purchaser_company_id')
         ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
         ->where('company_customers.company_salesperson_id', '=', $user->id)
         ->get();
 
+        $terms = Term::where('company_id', $companyId)->get();
 
-        // dd($customerList);
+        return view('user.sales.customers.mycustomer', compact('customerList', 'i', 'terms'));
+    }
 
-        return view('user.sales.customers.mycustomer', compact('customerList', 'i'));
+
+    public function updateTerm(Request $request){
+
+        $user = Auth::getUser();
+        $companyId = $user->companyMember->company_id; 
+
+        $payment_term = $request->payment_term;
+        $term_code = $request->term_code;
+        $purchaser_company_id = $request->purchaser_company_id;
+
+        DB::table('company_customers')
+        ->where('company_customers.purchaser_company_id', $purchaser_company_id)
+        ->update([
+            'payment_term_code' => $term_code,
+            'payment_term_days' => $payment_term,
+            'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+        return redirect()->route('user.customermanagement.mycustomer.index')->with('message','Payment Term updated successfully.');
+
     }
 
 
