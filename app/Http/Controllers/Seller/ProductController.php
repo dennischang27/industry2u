@@ -78,7 +78,7 @@ class ProductController extends Controller
 
         $user = Auth::user();
         $input = $request->all();
-        $input['company_id'] = $user->company->id;
+        $input['company_id'] = $user->companyMember->company_id;
         $input['user_id'] = $user->id;
 
         if($input['slug']==''){
@@ -777,7 +777,7 @@ class ProductController extends Controller
                 ->select('products.id','products.name','product_categories.name as category_name','brands.name as brand_name' )
                 ->join('product_categories','products.category_id','=','product_categories.id')
                 ->join('brands','products.brand_id','=','brands.id')
-                ->where('products.company_id',$company->id)
+                ->where('products.company_id',$user->companyMember->company_id)
                 ->whereNull('products.deleted_at');
             return Datatables::of($data)
                 ->addColumn('action', function($row){
