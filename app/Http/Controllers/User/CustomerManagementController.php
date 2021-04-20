@@ -440,7 +440,7 @@ class CustomerManagementController extends Controller
                 ->join('product_categories','products.category_id','=','product_categories.id')
                 ->join('brands','products.brand_id','=','brands.id')
                 ->leftJoin('product_discounts', 'product_discounts.product_id', '=', 'products.id')
-                ->where('products.company_id',$company->id)
+                ->where('products.company_id',$companyId)
                 ->whereNull('products.deleted_at');
             return Datatables::of($data)
                 ->addIndexColumn()
