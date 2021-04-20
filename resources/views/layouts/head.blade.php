@@ -145,20 +145,39 @@
 
                                     @hasrole('Admin|Moderator')
                                         <div class="text-center centre_web" style="padding: 10px 0;">
-                                            <a href="{{ route('user.company') }}" class="btn btn-success" style="padding: 10px 25px;" role="button">Management</a>
+                                            <a href="{{ route('user.company') }}" class="btn btn-outline-success 
+                                            {{  request()->routeIs('user.company') ? 'btn-success' : '' }}
+                                            {{  request()->routeIs('user.bankinfo') ? 'btn-success' : '' }}
+                                            {{  request()->routeIs('user.invite') ? 'btn-success' : '' }}
+                                            {{  request()->routeIs('user.manage') ? 'btn-success' : '' }}
+                                            {{  request()->routeIs('user.reporting') ? 'btn-success' : '' }} 
+                                            {{  request()->routeIs('user.discount.index') ? 'btn-success' : '' }} " 
+                                            style="padding: 10px 25px;" role="button">
+                                            Management</a>
                                         </div>
                                     @endhasrole
 									@if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('seller.products.index') }}" class="btn btn-primary" style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
+                                                <a href="{{ route('seller.products.index') }}" 
+                                                class="btn btn-outline-primary 
+                                                {{  request()->routeIs('seller.products.*') ? 'btn-primary' : '' }}  
+                                                {{  request()->routeIs('user.customermanagement.*') ? 'btn-primary' : '' }}  
+                                                {{  request()->routeIs('user.pricemanagement.index') ? 'btn-primary' : '' }}
+                                                {{  request()->routeIs('user.term.index') ? 'btn-primary' : '' }}
+                                                {{  request()->routeIs('seller.quote') ? 'btn-primary' : '' }} 
+                                                {{  request()->routeIs('seller.quote.issued') ? 'btn-primary' : '' }}"
+                                                style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>
                                             </div>
                                         @endhasrole
 									@endif
 									@if (auth('web')->user()->is_buyer)
                                         @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
                                             <div class="text-center centre_web" style="padding: 10px 0;">
-                                                <a href="{{ route('user.suppliermanagement.supplierinvitation') }}" class="btn btn-warning" style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
+                                                <a href="{{ route('user.suppliermanagement.supplierinvitation') }}" class="btn btn-outline-warning
+                                                    {{  request()->routeIs('buyer.*') ? 'btn-warning' : '' }}
+                                                    {{  request()->routeIs('user.suppliermanagement.*') ? 'btn-warning' : '' }}" 
+                                                style="padding: 10px 25px;margin-left:10px;" role="button">Purchasing</a>
                                             </div>
                                         @endhasrole
 									@endif
