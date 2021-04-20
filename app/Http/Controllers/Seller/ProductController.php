@@ -78,7 +78,7 @@ class ProductController extends Controller
 
         $user = Auth::user();
         $input = $request->all();
-        $input['company_id'] = $user->company->id;
+        $input['company_id'] = $user->companyMember->company_id;
         $input['user_id'] = $user->id;
 
         if($input['slug']==''){
