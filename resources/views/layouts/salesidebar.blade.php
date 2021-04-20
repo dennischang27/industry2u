@@ -87,7 +87,7 @@
             @if (auth('web')->user()->is_seller)
             <li class="nav-item">
                 <a class="nav-link collapsed text-truncate" href="#quotationmenu" data-toggle="collapse" data-target="#quotationmenu"> <i class="ti-layout-cta-right"></i><span class="d-none d-sm-inline">Quatation</span><i class="fa fa-table"></i></a>
-                <div class="collapse  {{  request()->routeIs('seller.quote.*') ? 'show' : '' }}" id="quotationmenu" aria-expanded="false">
+                <div class="collapse  {{  request()->routeIs('seller.quote.*') ? 'show' : '' }} {{  request()->routeIs('seller.quote') ? 'show' : '' }}" id="quotationmenu" aria-expanded="false">
                     <ul class="flex-column pl-2 nav">
                     <li class="nav-item">
                         <a class="nav-link  {{  request()->routeIs('seller.quote') ? 'active' : '' }}" href="{{ route("seller.quote") }}" style="padding-left:33px;">To Quote</a>
