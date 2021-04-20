@@ -80,6 +80,7 @@
                                                     <th scope="col">Date Joined</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Industry</th>
+                                                    <th scope="col">Payment Terms</th>
                                                     <th scope="col" data-orderable="false">Action</th>
                                                 </tr>
                                             </thead>
@@ -90,15 +91,56 @@
                                                         <td>{{ date('d-m-Y', strtotime($customer->customer_created_at)) }}</td>
                                                         <td>{{ ucwords($customer->company_name) }}</td>
                                                         <td>{{ $customer->customer_industry_name }}</td>
+                                                        <td>{{ $customer->payment_term_days }}</td>
                                                         <td>
                                                             <a class="btn btn-xs btn-primary" style="color: white" href="{{ route('user.customermanagement.mycustomer.detials', $customer->company_id) }}">
                                                             Details
                                                             </a>
+                                                            <br />
+                                                            <button type="button" onclick="term({{$customer->purchaser_company_id}}, {{$customer->payment_term_days}})" class="btn btn-xs btn-success" id="term" name="term">Term</button>
                                                         </td>
 
                                                     </tr>  
                                                 @endforeach
                                             </tbody>
+
+                                            <div class="modal fade" id="termModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form id="term_form" method="POST" action="{{route('user.customermanagement.mycustomer.updateTerm')}}">
+                                                            @csrf
+                                                            <div class="modal-header" style="text-align: left">
+                                                                <h4 class="modal-title" id="myModalLabel">
+                                                                    Payment Term
+                                                                </h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            </div>
+                                                            <div class="modal-body" style="text-align: left">
+                                                                <div class="form-group row">
+                                                                    <label for="payment_term" class="col-sm-12 col-form-label"><strong>Payment Term:</strong><small class="text-danger">*</small></label>
+                                                                    <div class="col-sm-12">
+                                                                    <select required name="payment_term"
+                                                                            class="@error('payment_term') is-invalid @enderror form-control select2" id="payment_term">
+                                                                        <option value="" selected disabled>Please select payment term</option>
+                                                                        @foreach($terms as $term)
+                                                                            <option value="{{$term->days}}"> {{$term->code}} </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <span id="payment_term_error" class="invalid-feedback text-danger" role="alert">
+                                                                        <strong>Please select payment term</strong>
+                                                                    </span>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="hidden" id="purchaser_company_id" name="purchaser_company_id" value=''>
+                                                                <input type="hidden" id="term_code" name="term_code" value=''>
+                                                                <div class="col text-center">
+                                                                    <button type="button" class="btn btn-fill-out" id="submit_term" name="submit_term">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </from>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </table>
                                     </div>
                                 </div>
@@ -122,6 +164,32 @@
     <script src="{{ asset('assets/datatables/js/responsive.bootstrap.min.js') }}"></script>
 
     <script>
+
+        function term(purchaser_company_id, payment_term_days){
+            $("#purchaser_company_id").val(purchaser_company_id);
+            $("#payment_term").val(payment_term_days);
+            $('#termModal').modal('show');
+        }
+
+        $( "#payment_term" ).change(function() {
+            var value = $(this).find("option:selected").text();
+            $("#term_code").val(value);
+        });
+
+        $( "#submit_term" ).on( "click", function() {
+   
+            var selectedValue = document.getElementById("payment_term").value;
+
+            if(selectedValue == ''){
+                $('#payment_term_error').show();
+                $('#termModal').modal('show');
+            } else {
+                $('#payment_term_error').show();
+                $( "#term_form" ).submit();
+            }
+        });
+
+
         if ($('#dataTable').length) {
                 $('#dataTable').DataTable({
                     responsive: false,
