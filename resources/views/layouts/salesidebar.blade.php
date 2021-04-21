@@ -28,7 +28,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link  {{  request()->routeIs('seller.products.uploadfile') ? 'active' : '' }}" href="{{ route('seller.products.uploadfile') }}" style="padding-left:33px;">Upload Products</a>
+                            <a class="nav-link  {{  request()->routeIs('seller.products.uploadfile') ? 'active' : '' }}" href="{{ route('seller.products.uploadfile') }}" style="padding-left:33px;">Upload Files</a>
                         </li>
                     </ul>
                 </div>

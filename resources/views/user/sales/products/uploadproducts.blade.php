@@ -91,7 +91,7 @@
                                                 <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>Attribute Name</th>
+                                                        <th>File Name</th>
                                                         <th width="280px">Action</th>
                                                     </tr>
                             
