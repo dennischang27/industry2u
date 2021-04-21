@@ -17,6 +17,7 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
+                        <li class="breadcrumb-item active">Price Management</li>
                         <li class="breadcrumb-item"><a href="{{ route('user.discount.index')}}">Discount Settings</a></li>
                         <li class="breadcrumb-item active">Master</li>
 

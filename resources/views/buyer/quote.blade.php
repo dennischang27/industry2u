@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
-					<b class="h5">Purchasing Center</b>
+					<b class="h5">Purchasing Centre</b>
                 </div>
                 <div class="col-md-6">
                     <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
