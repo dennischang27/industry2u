@@ -6,18 +6,19 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
-					<b class="h5">Purchasing Center</b>
+					<b class="h5">Purchasing Centre</b>
                 </div>
                 <div class="col-md-6">
                     <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
                         <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
                             <meta itemprop="position" content="1">
                             <a href="{{route("home")}}" itemprop="item" title="Home">
-                                Quotation
+                                Home
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">To Quote</li>
+                        <li class="breadcrumb-item active">Quotation</li>
+                        <li class="breadcrumb-item active">Quotation Issued</li>
                     </ol>
 
                 </div>

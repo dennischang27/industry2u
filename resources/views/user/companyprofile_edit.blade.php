@@ -53,6 +53,7 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
+                        <li class="breadcrumb-item active">Company Management</li>
                         <li class="breadcrumb-item active">
                             <a href="{{route("user.company")}}" itemprop="item" title="Home">
                                 Company Profile

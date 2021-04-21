@@ -77,7 +77,8 @@
                           <a class="nav-link  {{  request()->routeIs('user.pricemanagement.index') ? 'active' : '' }}" href="{{ route('user.pricemanagement.index') }}" style="padding-left:33px;">Discount Management</a>
                       </li>
                         <li class="nav-item">
-                            <a class="nav-link  {{  request()->routeIs('user.term.index') ? 'active' : '' }}" href="{{ route('user.term.index') }}" style="padding-left:33px;">Payment Terms</a>
+                            <a class="nav-link  {{  request()->routeIs('user.term.index') ? 'active' : '' }} {{  request()->routeIs('user.term.create') ? 'active' : '' }} {{  request()->routeIs('user.term.edit') ? 'active' : '' }} 
+                                " href="{{ route('user.term.index') }}" style="padding-left:33px;">Payment Terms</a>
                         </li>
                     </ul>
                 </div>

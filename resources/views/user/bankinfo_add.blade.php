@@ -49,7 +49,8 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Company Profile</li>
+                        <li class="breadcrumb-item active">Company Management</li>
+                        <li class="breadcrumb-item active">Bank & SST Info</li>
                     </ol>
 
                 </div>

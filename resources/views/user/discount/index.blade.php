@@ -18,6 +18,7 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
+                        <li class="breadcrumb-item active">Price Management</li>
                         <li class="breadcrumb-item active">Discount Settings</li>
                     </ol>
 

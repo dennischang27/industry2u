@@ -17,6 +17,7 @@
                             <meta itemprop="name" content="Home">
                         </a>
                     </li>
+                    <li class="breadcrumb-item active">User Management</li>
                     <li class="breadcrumb-item active">Invite User</li>
                 </ol>
 
