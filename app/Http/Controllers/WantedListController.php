@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\QuotationRequests;
 use App\Models\QuotationRequestDetails;
 use App\Models\CompanyUser;
+use App\Models\CompanyCustomers;
 use Response;
 use Illuminate\Http\Request;
 use Auth;
@@ -103,11 +104,8 @@ class WantedListController extends Controller
                         ->where('purchaser_company_id', $record->purchaser_company_id)
                         ->first();
 
-                if($company_customer->payment_term_code){
+                if($company_customer!=null){
                     $qr->payment_term_code = $company_customer->payment_term_code;
-                }
-                
-                if($company_customer->payment_term_days){
                     $qr->payment_term_days = $company_customer->payment_term_days;
                 }
 
