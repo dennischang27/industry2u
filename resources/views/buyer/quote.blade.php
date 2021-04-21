@@ -17,7 +17,7 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Quoatation</li>
+                        <li class="breadcrumb-item active">Quotation</li>
                         <li class="breadcrumb-item active">To Quote</li>
                     </ol>
 
