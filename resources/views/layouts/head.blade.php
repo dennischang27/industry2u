@@ -164,7 +164,7 @@
                                                 {{  request()->routeIs('seller.products.*') ? 'btn-primary' : '' }}  
                                                 {{  request()->routeIs('user.customermanagement.*') ? 'btn-primary' : '' }}  
                                                 {{  request()->routeIs('user.pricemanagement.index') ? 'btn-primary' : '' }}
-                                                {{  request()->routeIs('user.term.index') ? 'btn-primary' : '' }}
+                                                {{  request()->routeIs('user.term.*') ? 'btn-primary' : '' }}
                                                 {{  request()->routeIs('seller.quote') ? 'btn-primary' : '' }} 
                                                 {{  request()->routeIs('seller.quote.issued') ? 'btn-primary' : '' }}"
                                                 style="padding: 10px 25px;margin-left:10px;" role="button">Sales</a>

@@ -37,7 +37,8 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        <li class="breadcrumb-item active"Discount Management</li>
+                        <li class="breadcrumb-item active">Sales Management</li>
+                        <li class="breadcrumb-item active">Discount Management</li>
                     </ol>
 
                 </div>

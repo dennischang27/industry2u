@@ -13,10 +13,11 @@
                         <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
                             <meta itemprop="position" content="1">
                             <a href="{{route("home")}}" itemprop="item" title="Home">
-                                Quotation
+                                Home
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
+                        <li class="breadcrumb-item active">Quoatation</li>
                         <li class="breadcrumb-item active">To Quote</li>
                     </ol>
 

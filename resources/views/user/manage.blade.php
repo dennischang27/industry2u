@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
-					<b class="h5">Sales Center</b>
+					<b class="h5">Management Center</b>
                 </div>
                 <div class="col-md-6">
                     <ol class="breadcrumb justify-content-md-end" itemscope="" itemtype="http://schema.org/BreadcrumbList">
@@ -17,7 +17,7 @@
                                 <meta itemprop="name" content="Home">
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">My Customer</li>
+                        <li class="breadcrumb-item active">Manage Users</li>
                     </ol>
 
                 </div>
