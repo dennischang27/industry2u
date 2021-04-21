@@ -345,6 +345,11 @@ class UserController extends Controller
     }
 
 	public function sendinvitation(User $user, Request $request) {
+	    $login_user = parent::getUser();
+	    $login_user->companyMember->company_id;
+	    
+	    $login_company = Company::where('id', $login_user->companyMember->company_id)->first();
+
         $this->validate(request(), [
                 'firstname' => 'required',
                 'lastname' => 'required',
@@ -401,13 +406,13 @@ class UserController extends Controller
 
             // add company users
             DB::table('company_users')->insert([
-                ['user_id' => $new_user->id, 'company_id' => $user->company->id]
+                ['user_id' => $new_user->id, 'company_id' => $login_user->companyMember->company_id]
             ]);
 
             // Send invitation emails
             $mail["email"] = $request->email;
             $mail["subject"] = "Industry2u Registration Invitation";
-            $mail["company"] = $user->company->name;
+            $mail["company"] = $login_company->name;
             $mail["invitation_code"] = $invitation_code;
 
             Mail::send('user.newusermail', $mail, function($message)use($mail) {
@@ -448,13 +453,13 @@ class UserController extends Controller
 
                 // add company users
                 DB::table('company_users')->insert([
-                    ['user_id' => $userdata->id, 'company_id' => $user->company->id]
+                    ['user_id' => $userdata->id, 'company_id' => $login_user->companyMember->company_id]
                 ]);
 
                 // Send Invite User
                 $mail["email"] = $request->email;
                 $mail["subject"] = "Industry2u Registration Invitation";
-                $mail["company"] = $user->company->name;
+                $mail["company"] = $login_company->name;
                 $mail["invitation_code"] = $invitation_code;
 
                 Mail::send('user.generalusermail', $mail, function($message)use($mail) {
