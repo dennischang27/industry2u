@@ -59,6 +59,11 @@
 @section('content')
     <div class="section">
         <div class="container">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
             <div class="row">
                 <div class="col-lg-3 col-md-4">
                     @include('layouts.purchasingsidebar')
@@ -83,20 +88,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody style="font-size: 11px">
-                                                {{-- @foreach ($customerList as $customer)
+                                                @foreach ($supplierList as $supplier)
                                                     <tr>
                                                         <td>{{ ++$i }}</td>
-                                                        <td>{{ date('d-m-Y', strtotime($customer->customer_created_at)) }}</td>
-                                                        <td>{{ $customer->customer_company }}</td>
-                                                        <td>{{ $customer->customer_industry_name }}</td>
+                                                        <td>{{ date('d-m-Y', strtotime($supplier->created_at)) }}</td>
+                                                        <td>{{ $supplier->supplier_company_name }}</td>
                                                         <td>
-                                                            <a class="btn btn-xs btn-primary" style="color: white" href="{{ route('user.customermanagement.mycustomer.detials', $customer->customer_id) }}">
+                                                            <a class="btn btn-xs btn-primary" style="color: white" href="{{ route('user.suppliermanagement.mysupplier.details', $supplier->company_id) }}">
                                                             Details
                                                             </a>
                                                         </td>
 
                                                     </tr>  
-                                                @endforeach --}}
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

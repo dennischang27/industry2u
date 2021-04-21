@@ -144,7 +144,11 @@ Route::group(['middleware' => ['auth']], function() {
 
             // Purchasing Center
             Route::get('purchasing/suppliermanagement/supplierinvitation', 'SupplierManagementController@supplierInvitation')->name('.suppliermanagement.supplierinvitation');
-            Route::get('sales/suppliermanagement/mysupplier', 'SupplierManagementController@mySupplier')->name('.suppliermanagement.mysupplier');
+            Route::post('purchasing/suppliermanagement/supplierinvitation', 'SupplierManagementController@supplierJoinInvitation')->name('.suppliermanagement.supplierjoininvitation');
+            Route::get('purchasing/suppliermanagement/mysupplier', 'SupplierManagementController@mySupplier')->name('.suppliermanagement.mysupplier');
+            Route::get('purchasing/suppliermanagement/mysupplier/details/{supplier}', 'SupplierManagementController@mySupplierDetails')->name('.suppliermanagement.mysupplier.details');
+
+
         //});
     });
 

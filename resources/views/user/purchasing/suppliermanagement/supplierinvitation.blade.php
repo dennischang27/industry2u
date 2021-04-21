@@ -90,23 +90,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody style="font-size: 11px">
-                                                {{-- @foreach ($customerList as $customer)
+                                                @foreach ($supplierList as $supplier)
                                                     <tr>
                                                         <td>{{ ++$i }}</td>
-                                                        <td>{{ date('d-m-Y', strtotime($customer->customer_created_at)) }}</td>
-                                                        <td>{{ $customer->customer_company }}</td>
-                                                        <td>{{ $customer->customer_industry_name }}</td>
+                                                        <td>{{ date('d-m-Y', strtotime($supplier->created_at)) }}</td>
+                                                        <td>{{ $supplier->supplier_company_name }}</td>
                                                         <td>
-                                                            <a class="btn btn-xs btn-success" style="color: white" href="{{ route('user.customermanagement.mycustomer.detials', $customer->customer_id) }}">
-                                                            Join
-                                                            </a>
-                                                            <a class="btn btn-xs btn-info" style="color: white" href="{{ route('user.customermanagement.mycustomer.detials', $customer->customer_id) }}">
-                                                            Details
-                                                            </a>
+                                                            <form action="{{ route('user.suppliermanagement.supplierjoininvitation') }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="supplier_id" value="{{ $supplier->supplier_id }}">
+                                                                <button type="submit" class="btn btn-primary btn-xs">Join</button>
+                                                                <a class="btn btn-xs btn-info" style="color: white" href="{{ route('user.suppliermanagement.mysupplier.details', $supplier->company_id) }}">
+                                                                    Details
+                                                                </a>
+                                                            </form>
+                                                            
                                                         </td>
-
                                                     </tr>  
-                                                @endforeach --}}
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
