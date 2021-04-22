@@ -86,23 +86,25 @@ class InviteCustomerController extends Controller
             $new_user->invite_source = 'customer';
             $new_user->status = 'pending register';
             $new_user->save();
-
+            
             $supplierInvitation = new SupplierInvitation;
             $supplierInvitation->supplier_id =  $user->id;
             $supplierInvitation->is_joined =  '0';
             $supplierInvitation->company_id = $companyId;
-            $supplierInvitation->save();  
+            $supplierInvitation->purchaser_id =  $new_user->id;
+            $supplierInvitation->save(); 
         } else {
             $isUserExist->invitation_code = $invitation_code;
             $isUserExist->status = 'pending join';
             $isUserExist->is_buyer = 1;
             $isUserExist->is_seller = 0;
             $isUserExist->save();
-
+            
+            $supplierInvitation = new SupplierInvitation;
             $supplierInvitation->supplier_id =  $user->id;
             $supplierInvitation->is_joined =  '0';
             $supplierInvitation->company_id = $companyId;
-            $supplierInvitation->purchaser_id = $isUserExist->id;
+            $supplierInvitation->purchaser_id =  $isUserExist->id;
             $supplierInvitation->save(); 
         }
        
