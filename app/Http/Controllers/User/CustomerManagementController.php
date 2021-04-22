@@ -141,7 +141,8 @@ class CustomerManagementController extends Controller
         ]);
 
         $customerList = DB::table('company_customers')
-        ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at')
+        ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'companies.id AS company_id',
+        'users.company_name AS customer_company', 'users.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 'company_customers.purchaser_company_id' )
         ->leftJoin('company_users', 'company_users.user_id', '=', 'company_customers.purchaser_id') 
         ->leftJoin('companies', 'companies.id', '=', 'company_users.company_id')
         ->leftJoin('users', 'users.id', '=', 'company_customers.purchaser_id')
@@ -149,13 +150,15 @@ class CustomerManagementController extends Controller
         ->where('company_customers.company_id', '=', $companyId)
         ->get();
 
+        $terms = Term::where('company_id', $companyId)->get();
+
         // update QR table 
         $QR = QuotationRequests::where('id', request('id'))->first();
         $QR->supplier_user_id = request('sales_ex_id');
         $QR->save();
 
 
-        return view('user.sales.customers.mycustomer', compact('customerList', 'i'));
+        return view('user.sales.customers.mycustomer', compact('customerList', 'i', 'terms'));
     }
 
 
@@ -175,7 +178,7 @@ class CustomerManagementController extends Controller
         ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
         ->where('company_customers.company_salesperson_id', '=', $user->id)
         ->get();
-
+        
         $terms = Term::where('company_id', $companyId)->get();
 
         return view('user.sales.customers.mycustomer', compact('customerList', 'i', 'terms'));
@@ -226,6 +229,8 @@ class CustomerManagementController extends Controller
         ->leftJoin('country_states', 'country_states.id', '=', 'companies.state_id')
         ->where('companies.id', '=', $customer)
         ->first();
+
+        // dd($customer, $customerDetails);
 
         return view('user.sales.customers.customerdetails', compact('customer', 'customerDetails', 'myDocuments', 'document_list'));
     }

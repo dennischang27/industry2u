@@ -91,7 +91,8 @@
                                                     <td>{{ ++$i}}</td>
                                                     <td>{{ date('d-m-Y', strtotime($customer->created_at)) }} </td>
                                                     <td>{{ ucwords($customer->company_name) }}</td>
-                                                    <td>{{ $customer->qr_no }} </td>
+                                                    <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$customer->id]) }}">{{ $customer->qr_no }} </a></td>
+
                                                     <td></td>
                                                     <td>
                                                         <a class="btn  btn-xs btn-primary btn-lg" data-toggle="modal" data-target="#yourModal{{$customer->id}}" style="color: white">
