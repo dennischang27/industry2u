@@ -91,7 +91,12 @@
                                                         <td>{{ date('d-m-Y', strtotime($customer->customer_created_at)) }}</td>
                                                         <td>{{ ucwords($customer->company_name) }}</td>
                                                         <td>{{ $customer->customer_industry_name }}</td>
-                                                        <td>{{ $customer->payment_term_days }}</td>
+                                                        @if($customer->payment_term_days == null)
+                                                            <td></td>
+                                                        @else
+                                                            <td>{{ $customer->payment_term_days }}</td>
+                                                        @endif
+                                                        
                                                         <td>
                                                             <a class="btn btn-xs btn-primary" style="color: white" href="{{ route('user.customermanagement.mycustomer.detials', $customer->company_id) }}">
                                                             Details
