@@ -129,6 +129,11 @@ class QuotationController extends Controller
                             ->leftJoin('product_categories AS c', 'c.id', '=', 'p.category_id')
                             ->get();
 
+        $final_amount = 0;
+        foreach ($products as $product){
+            $final_amount += $product->total_amount;
+        }
+
         if($data->logo){
             $img = 'storage/'.$data->logo;
             if(file_exists($img)){
@@ -140,7 +145,7 @@ class QuotationController extends Controller
             $isLogoExist = false;
         }
 
-        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist]);
+        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist, 'final_amount' => $final_amount]);
         if($request->has('qr_id')){
             $pdf = PDF::loadView('quotationview');
             return $pdf->download('quotation.pdf');
@@ -294,11 +299,11 @@ class QuotationController extends Controller
     {
         $user = parent::getUser();
 
-        /* Update status to Request Quotation*/
+        // Update status to Request Quotation
         if(!null == $request->input('quotation_request_id')){
             if(!empty($request->input('quotation_request_id'))) {
                 foreach($request->input('quotation_request_id') as $value){
-                    /* Auto Quotation */
+                    // Auto Quotation
                     // Check Is Supplier and Customer Match
                     $status = "";
                     $qr = QuotationRequests::select('supplier_company_id', 'purchaser_company_id')
@@ -384,54 +389,6 @@ class QuotationController extends Controller
                     }else{
                         QuotationRequests::where('id',$value)->update(['status'=>'Pending Quotation','purchaser_id' => $user->id]);
 
-                        // An email notification will be sent to Requester
-                        $data = QuotationRequests::where('quotation_requests.id', $value)
-                                ->leftJoin('companies', 'companies.id', '=', 'quotation_requests.purchaser_company_id')
-                                ->first();
-
-                        $mail["email"] = $data->requestBy->email;
-                        $mail["subject"] = "Quotation Submitted";
-                        $mail["firstname"] = $user->first_name;
-                        $mail["lastname"] = $user->last_name;
-                        $mail["supplier_company_name"] = $data->supplier_company_name;
-
-                        Mail::send('buyer.torequestermail', $mail, function($message)use($mail) {
-                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                        });
-
-                        // An email notification will be sent to Supplier - Admin
-                        $company = Company::select('users.email')
-                            ->where('companies.id', $data->supplier_company_id)
-                            ->leftJoin('users', 'users.id', '=', 'companies.user_id')
-                            ->first();
-
-                        $mail["email"] = $company->email;
-                        $mail["subject"] = "Quotation Request";
-                        $mail["purchaser"] = $data->name;
-
-                        Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
-                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                        });
-
-                        // An email notification will be sent to Supplier - Person In Charge
-                        $company_customer = CompanyCustomers::select('users.email')
-                            ->leftJoin('users', 'users.id', '=', 'company_customers.company_salesperson_id')
-                            ->where('company_customers.company_id', $data->supplier_company_id)
-                            ->first();
-
-                        $company_customer_count = count($company_customer);
-
-                        if($company_customer_count){
-                            $mail["email"] = $company_customer->email;
-                            $mail["subject"] = "Quotation Request";
-                            $mail["purchaser"] = $data->name;
-
-                            Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
-                                $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                            });
-                        }
-                        
-
                         // An email notification will be sent to Supplier - Sales Executive(7), Sales Manager(5), Sales Moderator(3)
                         /*$arrsuppliers = [3,5,7];
                         $suppliers = CompanyUser::select('users.first_name as first_name','users.last_name as last_name','users.email as email')
@@ -452,6 +409,62 @@ class QuotationController extends Controller
                                 });
                             }
                         }*/
+                    }
+                    // An email notification will be sent to Requester
+                    $data = QuotationRequests::where('quotation_requests.id', $value)
+                    ->leftJoin('companies', 'companies.id', '=', 'quotation_requests.purchaser_company_id')
+                    ->first();
+
+                    $mail["email"] = $data->requestBy->email;
+                    $mail["subject"] = "Quotation Submitted";
+                    $mail["firstname"] = $user->first_name;
+                    $mail["lastname"] = $user->last_name;
+                    $mail["supplier_company_name"] = $data->supplier_company_name;
+
+                    Mail::send('buyer.torequestermail', $mail, function($message)use($mail) {
+                        $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                    });
+
+                    // An email notification will be sent to Supplier - Admin
+                    $company = Company::select('users.email')
+                    ->where('companies.id', $data->supplier_company_id)
+                    ->leftJoin('users', 'users.id', '=', 'companies.user_id')
+                    ->first();
+
+                    $mail["email"] = $company->email;
+                    $mail["subject"] = "Quotation Request";
+                    $mail["purchaser"] = $data->name;
+
+                    Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                        $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                    });
+                    
+                    $company_customer = CompanyCustomers::select('users.user_reporting_id','users.email')
+                    ->leftJoin('users', 'users.id', '=', 'company_customers.company_salesperson_id')
+                    ->where('company_customers.company_id', $data->supplier_company_id)
+                    ->first();
+
+                    if($company_customer){
+                        // An email notification will be sent to Supplier - Person In Charge
+                        $mail["email"] = $company_customer->email;
+                        $mail["subject"] = "Quotation Request";
+                        $mail["purchaser"] = $data->name;
+
+                        Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                        });
+
+                        // An email notification will be sent to Supplier - Reporting Manager
+                        $reporting_user = User::where('id', $company_customer->user_reporting_id)
+                                ->first();
+
+                        $mail["email"] = $reporting_user->email;
+                        $mail["subject"] = "Quotation Request";
+                        $mail["purchaser"] = $data->name;
+
+                        Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
+                            $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
+                        });
                     }
                 }
             }

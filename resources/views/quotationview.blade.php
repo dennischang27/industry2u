@@ -82,7 +82,7 @@
     </tr>
     <tr>
         <td style="width:60%;text-align: left;">
-            Email: {{$data->purchaser_email}} 
+            Email: {{$data->user_email}} 
         </td>
         <td style="text-align: right;vertical-align:top;">
             &nbsp;
@@ -136,4 +136,27 @@
             </td>
         </tr>
     @endforeach
+</table>
+<hr>
+<table style="width:100%;">
+    <tr>
+        <td style="width:60%;text-align: left;padding-bottom:10px;"></td>
+        <td style="width:10%;vertical-align:top;padding-bottom:10px;"></td>
+        <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:25px;">Total</td>
+        <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:30px;">{{$final_amount}}</td>
+    </tr>
+</table>
+<table style="width:100%;margin-top:50px;">
+    <tr>
+        <td style="width:30%;text-align: left;">{{ $data->supplier_company_name }}</td>
+        <td style="width:70%;text-align: left;"></td>
+    </tr>
+    <tr>
+        <td style="width:30%;text-align: left;"><hr></td>
+        <td style="width:70%;text-align: left;"></td>
+    </tr>
+    <tr>
+        <td style="width:30%;text-align: left;">Computer generated document, no signature is required</td>
+        <td style="width:70%;text-align: left;"></td>
+    </tr>
 </table>
