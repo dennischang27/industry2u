@@ -48,6 +48,7 @@ class QuotationController extends Controller
                                 ->where('supplier_user_id', $user->id)
                                 ->where('status', 'Pending Quotation')
                                 ->orWhere('status', 'Pending Approval')
+                                ->orWhere('status', 'Quotation Generated')
                                 ->orWhere(function ($query) {
                                     $query->orWhere('status', 'Quotation Rejected')
                                           ->where('remark', '=', 'Discount Rate - 30%');
@@ -120,7 +121,7 @@ class QuotationController extends Controller
 
         $total_price = $request->price * $request->quantity;
         $total_discount_amount = $total_price * ($totalDiscount/100);
-        $totalAmount = $total_price - $total_discount_amount;
+        $totalAmount = round($total_price - $total_discount_amount,2);
 
         $qr_detail = QuotationRequestDetails::where('id', '=', $qr_detail_id)->first();
         $qr_detail->discount_tier1 = $request->t1;

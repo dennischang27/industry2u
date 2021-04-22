@@ -82,7 +82,7 @@
     </tr>
     <tr>
         <td style="width:60%;text-align: left;">
-            Email: {{$data->purchaser_email}}
+            Email: {{$data->purchaser_email}} 
         </td>
         <td style="text-align: right;vertical-align:top;">
             &nbsp;
@@ -92,7 +92,7 @@
 <hr>
 <table style="width:100%;">
     <tr>
-        <td style="width:80%;text-align: left;">
+        <td style="width:60%;text-align: left;">
             <b>DESCRIPTION</b>
         </td>
         <td style="width:10%;">
@@ -101,13 +101,19 @@
         <td style="width:10%;">
             <b>UOM</b>
         </td>
+        <td style="width:10%;">
+            <b>Price</b>
+        </td>
+        <td style="width:10%;">
+            <b>Total</b>
+        </td>
     </tr>
 </table>
 <hr>
 <table style="width:100%;">
     @foreach ($products as $product)    
         <tr>
-            <td style="width:80%;text-align: left;padding-bottom:10px;">
+            <td style="width:60%;text-align: left;padding-bottom:10px;">
                 <div>{{ ++$i }}. {{$product->product_name}}</div>
                 <div><span style="padding-left:16px;">series no: {{$product->series_no}}</span></div>
                 <div><span style="padding-left:16px;">category : {{$product->category_name}}</span></div>
@@ -117,6 +123,16 @@
             </td>
             <td style="width:10%;vertical-align:top;padding-bottom:10px;">
                 PCS
+            </td>
+            <td style="width:10%;vertical-align:top;padding-bottom:10px;">
+                @php
+                    $total_discount_amount = $product->price * ($product->total_discount/100);
+                    $product_price_after_discount = round($product->price - $total_discount_amount,2);
+                @endphp
+                {{$product_price_after_discount}}
+            </td>
+            <td style="width:10%;vertical-align:top;padding-bottom:10px;">
+                {{$product->total_amount}}
             </td>
         </tr>
     @endforeach

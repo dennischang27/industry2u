@@ -346,8 +346,8 @@ class QuotationController extends Controller
                     }
 
                     if($status == "match"){
-                        QuotationRequests::where('id',$value)->update(['status'=>'Pending Confirmation','purchaser_id' => $user->id]);
-
+                        //QuotationRequests::where('id',$value)->update(['status'=>'Pending Confirmation','purchaser_id' => $user->id]);
+      
                         $company_user = CompanyUser::where('user_id', $user->id)->first();
                         $month = date('m');
                         $year = date('y');
@@ -367,11 +367,12 @@ class QuotationController extends Controller
                         $qr->quotation_no = "SQ".$company_user->company->initial."-".$month.$year."-".$number;
                         $qr->quotation_amount = $quotation_amount;
                         $qr->quotation_valid_until = $quotation_valid_until;
-                        $qr->status = 'Pending Confirmation';
+                        $qr->status = 'Quotation Generated';
+                        $qr->purchaser_id = $user->id;
                         $qr->save();
 
                         //Send email notification to requester
-                        $user = User::where('id', '=', $qr->requester_id)->first();
+                        /*$user = User::where('id', '=', $qr->requester_id)->first();
                         
                         $mail["email"] = $user->email;
                         $mail["subject"] = "Quotation";
@@ -379,7 +380,7 @@ class QuotationController extends Controller
 
                         Mail::send('seller.quotationmail', $mail, function($message)use($mail) {
                             $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
-                        });
+                        });*/
                     }else{
                         QuotationRequests::where('id',$value)->update(['status'=>'Pending Quotation','purchaser_id' => $user->id]);
 

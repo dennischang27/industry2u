@@ -104,6 +104,7 @@
                                                     <th scope="col">Date</th>
                                                     <th scope="col">Customer Name</th>
                                                     <th scope="col">Quotation Request No</th>
+                                                    <th scope="col">Quotation No</th>
                                                     <th scope="col">Quotation Status</th>
                                                     <th scope="col">Remark</th>
                                                     <th scope="col">Payment Term</th>
@@ -119,6 +120,11 @@
                                                         <td>{{$quotation_request->customerCompany->name}}</td>
                                                         <!--<td><a href="javascript:viewQuotationRequest({{$quotation_request->id}})">{{$quotation_request->qr_no}}</a></td>-->
                                                         <td><a href="{{ route('buyer.quotationrequestview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->qr_no}}</a></td>
+                                                        @if($quotation_request->status == 'Quotation Generated')
+                                                            <td><a href="{{ route('buyer.quotationview',['qr_id'=>$quotation_request->id]) }}">{{$quotation_request->quotation_no}}</a></td>
+                                                        @else
+                                                            <td></td>
+                                                        @endif
                                                         <td>{{$quotation_request->status}}</td>
                                                         <td>{{$quotation_request->remark}}</td>
                                                         <td>{{$quotation_request->payment_term_code}}</td>
