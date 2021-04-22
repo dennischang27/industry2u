@@ -36,7 +36,8 @@ class SupplierManagementController extends Controller
         $user = Auth::getUser();
         $i = 0;
 
-        $supplier = SupplierInvitation::where('supplier_id', request('supplier_id'))->where('purchaser_id', $user->id)->update(['is_joined' => 1]);
+        $supplier = SupplierInvitation::where('supplier_id', request('supplier_id'))->where('purchaser_id', $user->id)
+        ->update(['is_joined' => 1, 'purchaser_id' => $user->id]);
 
         $supplierList = DB::table('supplier_invitations')
         ->select('companies.id AS company_id', 'companies.name AS supplier_company_name', 'companies.created_at', 'purchaser.id AS purchaser_id', 'supplier.id AS supplier_id')

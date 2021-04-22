@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\CompanyCustomers;
 use App\Models\InvitedCustomer;
-
+use App\Models\SupplierInvitation;
 use DB;
 use Mail;
 
@@ -40,7 +40,7 @@ class InviteCustomerController extends Controller
     public function sendInvitation(Request $request){
 
         $user = Auth::getUser();
-        $companyId = $user->company->id; 
+        $companyId = $user->companyMember->company_id; 
 
         $this->validate(request(), [
             'customer_company_name' => 'required',
@@ -57,7 +57,6 @@ class InviteCustomerController extends Controller
         $isUserExist = User::where('email', '=', $request->customer_email)->first();
         
         $new_customer = new InvitedCustomer;
-        
         $new_customer->company_id = $request->company_id;
         $new_customer->customer_company_name = $request->customer_company_name;
         $new_customer->customer_first_name = $request->customer_first_name;
@@ -87,12 +86,24 @@ class InviteCustomerController extends Controller
             $new_user->invite_source = 'customer';
             $new_user->status = 'pending register';
             $new_user->save();
+
+            $supplierInvitation = new SupplierInvitation;
+            $supplierInvitation->supplier_id =  $user->id;
+            $supplierInvitation->is_joined =  '0';
+            $supplierInvitation->company_id = $companyId;
+            $supplierInvitation->save();  
         } else {
             $isUserExist->invitation_code = $invitation_code;
             $isUserExist->status = 'pending join';
             $isUserExist->is_buyer = 1;
             $isUserExist->is_seller = 0;
             $isUserExist->save();
+
+            $supplierInvitation->supplier_id =  $user->id;
+            $supplierInvitation->is_joined =  '0';
+            $supplierInvitation->company_id = $companyId;
+            $supplierInvitation->purchaser_id = $isUserExist->id;
+            $supplierInvitation->save(); 
         }
        
         // send email
