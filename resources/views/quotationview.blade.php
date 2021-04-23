@@ -129,10 +129,10 @@
                     $total_discount_amount = $product->price * ($product->total_discount/100);
                     $product_price_after_discount = round($product->price - $total_discount_amount,2);
                 @endphp
-                {{$product_price_after_discount}}
+                {{number_format($product_price_after_discount, 2, '.', ',')}}
             </td>
             <td style="width:10%;vertical-align:top;padding-bottom:10px;">
-                {{$product->total_amount}}
+                {{number_format($product->total_amount, 2, '.', ',')}}
             </td>
         </tr>
     @endforeach
@@ -143,7 +143,7 @@
         <td style="width:60%;text-align: left;padding-bottom:10px;"></td>
         <td style="width:10%;vertical-align:top;padding-bottom:10px;"></td>
         <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:25px;">Total</td>
-        <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:30px;">{{$final_amount}}</td>
+        <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:30px;">{{number_format($final_amount, 2, '.', ',')}}</td>
     </tr>
 </table>
 <table style="width:100%;margin-top:50px;">
