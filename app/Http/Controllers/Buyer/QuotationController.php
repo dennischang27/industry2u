@@ -298,6 +298,7 @@ class QuotationController extends Controller
     public function quotationrequest(Request $request, Response $response)
     {
         $user = parent::getUser();
+        $previous_supplier_id = 0;
 
         // Update status to Request Quotation
         if(!null == $request->input('quotation_request_id')){
@@ -329,24 +330,26 @@ class QuotationController extends Controller
                         foreach($previous_qr_details as $previous_qr_detail){
                             array_push($arr_previous_qr_details, $previous_qr_detail->product_id);
                         }
-
-                        $result = array_diff($arr_qr_details, $arr_previous_qr_details);
-
-                        if(empty($result)) {
-                            // Quotation Match!
-                            // Get previous discount and add to current quotation details
-                            foreach($previous_qr_details as $previous_qr_detail){
-                                $selected_qr_details = QuotationRequestDetails::where('qr_id', $value)
-                                    ->where('product_id', '=', $previous_qr_detail->product_id)->first();
-                                $selected_qr_details->discount_tier1 = $previous_qr_detail->discount_tier1;
-                                $selected_qr_details->discount_tier2 = $previous_qr_detail->discount_tier2;
-                                $selected_qr_details->discount_tier3 = $previous_qr_detail->discount_tier3;
-                                $selected_qr_details->total_discount = $previous_qr_detail->total_discount;
-                                $selected_qr_details->save();
+                        
+                        if(count($arr_qr_details)==count($arr_previous_qr_details)){
+                            $result = array_diff($arr_qr_details, $arr_previous_qr_details);
+                            
+                            if(empty($result)) {
+                                // Quotation Match!
+                                // Get previous discount and add to current quotation details
+                                foreach($previous_qr_details as $previous_qr_detail){
+                                    $selected_qr_details = QuotationRequestDetails::where('qr_id', $value)
+                                        ->where('product_id', '=', $previous_qr_detail->product_id)->first();
+                                    $selected_qr_details->discount_tier1 = $previous_qr_detail->discount_tier1;
+                                    $selected_qr_details->discount_tier2 = $previous_qr_detail->discount_tier2;
+                                    $selected_qr_details->discount_tier3 = $previous_qr_detail->discount_tier3;
+                                    $selected_qr_details->total_discount = $previous_qr_detail->total_discount;
+                                    $selected_qr_details->save();
+                                }
+                                $previous_supplier_id = $match_qr->supplier_user_id;
+                                $status = "match";
+                                break;
                             }
-
-                            $status = "match";
-                            break;
                         }
                     }
 
@@ -368,7 +371,7 @@ class QuotationController extends Controller
                         $quotation_valid_until = Date('y-m-d', strtotime('+7 days'));
 
                         $qr = QuotationRequests::where('id', '=', $value)->first();
-                        $qr->supplier_user_id = $user->id;
+                        $qr->supplier_user_id = $previous_supplier_id;
                         $qr->quotation_no = "SQ".$company_user->company->initial."-".$month.$year."-".$number;
                         $qr->quotation_amount = $quotation_amount;
                         $qr->quotation_valid_until = $quotation_valid_until;
