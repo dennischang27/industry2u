@@ -73,7 +73,7 @@ class DiscountSettingsController extends Controller
         // get lists of sales moderator, manager and executive that belongto the company
         $user = Auth::getUser();
         $designation = Auth::getUser()->designation_id;
-        $companyId = $user->companyMember>id; 
+        $companyId = $user->companyMember->id; 
 
         $masterDiscountTotal = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
         $totalDiscount = floatval($masterDiscountTotal->total_discount);
