@@ -329,7 +329,12 @@ class CustomerManagementController extends Controller
         $i = 0;
 
         $masterDiscountTotal = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
-        $totalDiscount = floatval($masterDiscountTotal->total_discount);
+
+        if($masterDiscountTotal){
+            $totalDiscount = floatval($masterDiscountTotal->total_discount);
+        }else{
+            $totalDiscount = 0;
+        }
 
         $categories = DB::table('product_categories')
         ->select('product_categories.parent_id', 'prod_cat.name', 'product_discounts.discount_tier1', 'product_discounts.discount_tier2', 'product_discounts.discount_tier3',  'product_discounts.total_discount', 'products.company_id AS company_id')
@@ -495,8 +500,12 @@ class CustomerManagementController extends Controller
         
 
         $masterDiscount = DiscountSettings::where('company_id', $companyId)->where('user_id', $userId)->first();
-        $masterDiscountTotal = floatval($masterDiscount->total_discount);
-
+        
+        if($masterDiscount){
+            $masterDiscountTotal = floatval($masterDiscount->total_discount);
+        }else{
+            $masterDiscountTotal = 0;
+        }
 
         $productCount = ProductDiscount::where('product_id', '=', $product)
             ->where('user_id', '=', $userId)
