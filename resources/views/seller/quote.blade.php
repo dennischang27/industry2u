@@ -96,6 +96,7 @@
                                     <form id="quote-issue-form" class="form--shopping-cart" method="post" action="{{ route("seller.quotationissue") }}">
                                     @csrf
                                         <input type="hidden" id="qr_id" name="qr_id" value="">
+                                        <input type="hidden" id="approval" name="approval" value="">
                                     </form>
                                         <table id="dataTable" class="text-center">
                                             <thead class="bg-light text-capitalize">
@@ -129,16 +130,16 @@
                                                         <td>{{$quotation_request->remark}}</td>
                                                         <td>{{$quotation_request->payment_term_code}}</td>
                                                         <td>
-                                                        <button type="button" onclick="term({{$quotation_request->id}}, {{$quotation_request->payment_term_days}})" class="btn-custom btn-fill-out-green" id="term" name="term">Term</button>
                                                             @if($quotation_request->status=="Pending Approval")
                                                                 @if($user_id==$quotation_request->approve_by)
-                                                                    <button type="button" onclick="issue({{$quotation_request->id}})" class="btn-custom btn-reject btn-fill-out-green" id="issue_quote" name="issue_quote">Approve</button>
+                                                                    <button type="button" onclick="approve({{$quotation_request->id}})" class="btn-custom btn-reject btn-fill-out-green" id="issue_quote" name="issue_quote">Approve</button>
                                                                     <button type="button" onclick="rejectApproval({{$quotation_request->id}})" class="btn btn-reject btn-fill-out-red" id="reject" name="reject">Reject</button>
                                                                 @else 
                                                                     <button type="button" class="btn btn-disable btn-secondary" disabled>Quote</button>
                                                                     <button type="button" class="btn btn-disable btn-secondary" disabled>Submit</button>
                                                                 @endif
                                                             @else
+                                                                <button type="button" onclick="term({{$quotation_request->id}}, {{$quotation_request->payment_term_days}})" class="btn-custom btn-fill-out-green" id="term" name="term">Term</button>
                                                                 <button type="button" onclick="view({{$quotation_request->id}})" class="btn-custom btn-fill-out-green" id="quote" name="quote">Quote</button>
                                                                 <button type="button" onclick="issue({{$quotation_request->id}})" class="btn-custom btn-fill-out" id="issue_quote" name="issue_quote">Submit</button>
                                                             @endif
@@ -343,6 +344,12 @@
 
         function issue(qr_id){
             $( "#qr_id" ).val(qr_id);
+            $( "#quote-issue-form" ).submit();
+        }
+
+        function approve(qr_id){
+            $( "#qr_id" ).val(qr_id);
+            $( "#approval" ).val(1);
             $( "#quote-issue-form" ).submit();
         }
 

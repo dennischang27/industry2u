@@ -162,6 +162,10 @@ class QuotationController extends Controller
             }
         }
 
+        if($request->approval){
+            $is_discount_exceeded = false;
+        }
+
         if($is_discount_exceeded){
             // Exceed discount limit
             $reporting_user = User::select('users.first_name', 'users.last_name', 'reporting_user.email', 'reporting_user.id')
