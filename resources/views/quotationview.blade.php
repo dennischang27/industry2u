@@ -60,8 +60,8 @@
         <td style="width:60%;text-align: left;">
             &nbsp;
         </td>
-        <td style="text-align: right;vertical-align:top;">
-            &nbsp;
+        <td style="text-align: right;vertical-align:top;"> 
+            Ref No: {{$data->qr_no}}
         </td>
     </tr>
     <tr>
@@ -85,7 +85,7 @@
             Email: {{$data->user_email}} 
         </td>
         <td style="text-align: right;vertical-align:top;">
-            &nbsp;
+            Prepared By: {{$supplier_user_name}}
         </td>
     </tr>
 </table>

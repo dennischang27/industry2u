@@ -108,6 +108,7 @@ class QuotationController extends Controller
     public function quotationview(Request $request){
         $qr_id = $request->qr_id;
         $i = 0;
+        $supplier_user_name = "";
         $data = QuotationRequests::select('quotation_requests.*', 'sc.name AS supplier_company_name', 'scountry.name AS supplier_country', 
                                 'sc.reg_no AS supplier_reg_no', 'sc.street AS supplier_street', 'sc.postal_code AS supplier_postal_code', 
                                 'sc.city AS supplier_city', 'sc.phone AS supplier_phone',  'sc.state_id AS supplier_state_id',
@@ -122,6 +123,11 @@ class QuotationController extends Controller
                             ->leftJoin('countries AS scountry', 'scountry.id', '=', 'sc.country_id')
                             ->leftJoin('users', 'users.id', '=', 'quotation_requests.purchaser_id')
                             ->first();
+
+        if($data->supplier_user_id){
+            $supplier_user = User::where('id', $data->supplier_user_id)->first();
+            $supplier_user_name = $supplier_user->first_name." ".$supplier_user->last_name;
+        }
 
         $products = QuotationRequestDetails::select('quotation_request_details.*','p.series_no AS series_no','c.name AS category_name')
                             ->where('qr_id', $qr_id)
@@ -145,7 +151,7 @@ class QuotationController extends Controller
             $isLogoExist = false;
         }
 
-        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist, 'final_amount' => $final_amount]);
+        view()->share(['data' => $data, 'products' => $products, 'i' => $i, 'isLogoExist' => $isLogoExist, 'final_amount' => $final_amount, 'supplier_user_name' => $supplier_user_name]);
         if($request->has('qr_id')){
             $pdf = PDF::loadView('quotationview');
             return $pdf->download('quotation.pdf');
