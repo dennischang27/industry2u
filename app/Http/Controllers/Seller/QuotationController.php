@@ -151,7 +151,12 @@ class QuotationController extends Controller
                                     ->first();
 
             if($qr_detail->total_discount){
-                if($qr_detail->total_discount > $product_discount->total_discount){
+                if($product_discount){
+                    if($qr_detail->total_discount > $product_discount->total_discount){
+                        $is_discount_exceeded = true;
+                    }
+                } else {
+                    // Discount no set
                     $is_discount_exceeded = true;
                 }
             }
