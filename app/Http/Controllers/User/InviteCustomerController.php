@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\CompanyCustomers;
 use App\Models\InvitedCustomer;
 use App\Models\SupplierInvitation;
+
 use DB;
 use Mail;
 
@@ -85,6 +86,7 @@ class InviteCustomerController extends Controller
             $new_user->invitation_code = $invitation_code;
             $new_user->invite_source = 'customer';
             $new_user->status = 'pending register';
+            $new_user->customer_invited_by = $user->id;
             $new_user->save();
             
             $supplierInvitation = new SupplierInvitation;
@@ -92,12 +94,13 @@ class InviteCustomerController extends Controller
             $supplierInvitation->is_joined =  '0';
             $supplierInvitation->company_id = $companyId;
             $supplierInvitation->purchaser_id =  $new_user->id;
-            $supplierInvitation->save(); 
+            $supplierInvitation->save();
         } else {
             $isUserExist->invitation_code = $invitation_code;
             $isUserExist->status = 'pending join';
             $isUserExist->is_buyer = 1;
             $isUserExist->is_seller = 0;
+            $isUserExist->customer_invited_by = $user->id;
             $isUserExist->save();
             
             $supplierInvitation = new SupplierInvitation;
@@ -105,7 +108,7 @@ class InviteCustomerController extends Controller
             $supplierInvitation->is_joined =  '0';
             $supplierInvitation->company_id = $companyId;
             $supplierInvitation->purchaser_id =  $isUserExist->id;
-            $supplierInvitation->save(); 
+            $supplierInvitation->save();
         }
        
         // send email

@@ -95,7 +95,21 @@ class RegisterController extends Controller
                 $customer->status = 'active';
                 $customer->password = Hash::make($data['password']);
                 $customer->save();
+
+                $purchaser_company = Company::where('user_id', '=', $customer->id)->first();
+                $supplier_company = Company::where('user_id', '=', $customer->customer_invited_by)->first();
+
+                DB::table('company_customers')->insert([
+                    'company_id' => $supplier_company->id,
+                    'company_salesperson_id' => $customer->customer_invited_by,
+                    'purchaser_id' => $customer->id,
+                    'purchaser_company_id' => $purchaser_company->id,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+
                 return $customer;
+
             } else {
                 $user = User::where('invitation_code', '=', $data['code'])->first();
                 $user->title = $data['title'];
