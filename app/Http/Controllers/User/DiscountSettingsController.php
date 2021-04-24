@@ -81,6 +81,8 @@ class DiscountSettingsController extends Controller
 
         $i = 0;
 
+        if(!$designation){$designation=1;}
+
         // if role == admin/moderator
         if ($designation == 1 || $designation == 2) {    
 
