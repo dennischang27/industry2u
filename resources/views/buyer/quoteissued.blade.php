@@ -141,12 +141,14 @@
                                             </tbody>
                                         </table>
                                         <input type="hidden" id="action" name="action" value="">
+                                        @hasanyrole('Engineer|Clerical Staff')
                                         <div class="row">
                                             <div class="col-12 text-center">
                                                 <button type="button" class="btn btn-fill-out" id="submit_quote" name="submit_quote">Confirm</button>
                                                 <button type="button" class="btn btn-fill-out-red" id="reject" name="reject">Reject</button>
                                             </div>
                                         </div>
+                                        @endhasanyrole
                                     </form>
                                     <div class="modal fade" id="viewQuotationRequest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                             <div class="modal-dialog modal-lg" role="document">
