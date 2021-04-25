@@ -99,7 +99,6 @@ class CustomerManagementController extends Controller
         ->where('company_users.company_id', '=', $companyId)
         ->get();
 
-
         $count = count($salesExs);
 
         if ($count == 0){
@@ -127,7 +126,7 @@ class CustomerManagementController extends Controller
         $i = 0;
 
         $user = Auth::getUser();
-        $companyId = $user->company->id; 
+        $companyId = $user->company->id;
 
         // update company customer table
 
@@ -141,7 +140,7 @@ class CustomerManagementController extends Controller
         ]);
 
         $customerList = DB::table('company_customers')
-        ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'companies.id AS company_id',
+        ->select('company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'company_customers.purchaser_company_id AS company_id',
         'users.company_name AS customer_company', 'users.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 'company_customers.purchaser_company_id' )
         ->leftJoin('company_users', 'company_users.user_id', '=', 'company_customers.purchaser_id') 
         ->leftJoin('companies', 'companies.id', '=', 'company_users.company_id')
@@ -166,18 +165,30 @@ class CustomerManagementController extends Controller
     public function mycustomerindex(){
 
         $user = Auth::getUser();
-        $companyId = $user->companyMember->company_id; 
+        $companyId = $user->companyMember->company_id;
+        $customer_company_id = request('purchaser_company_id'); 
 
         $i = 0;
 
-        $customerList = DB::table('company_customers')
-        ->select('company_customers.id', 'company_customers.purchaser_id AS customer_id', 'companies.id AS company_id', 'industries.name AS customer_industry_name', 
-        'companies.name AS company_name', 'company_customers.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 
-        'company_customers.purchaser_company_id')
-        ->leftJoin('companies', 'companies.id', '=', 'company_customers.purchaser_company_id')
-        ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
-        ->where('company_customers.company_salesperson_id', '=', $user->id)
-        ->get();
+        if($user->designation_id){
+            $customerList = DB::table('company_customers')
+            ->select('company_customers.id', 'company_customers.purchaser_id AS customer_id', 'company_customers.purchaser_company_id AS company_id', 'industries.name AS customer_industry_name', 
+            'companies.name AS company_name', 'company_customers.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 
+            'company_customers.purchaser_company_id')
+            ->leftJoin('companies', 'companies.id', '=', 'company_customers.purchaser_company_id')
+            ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
+            ->where('company_customers.company_salesperson_id', '=', $user->id)
+            ->get();
+        }else{
+            $customerList = DB::table('company_customers')
+            ->select('company_customers.id', 'company_customers.purchaser_id AS customer_id', 'company_customers.purchaser_company_id AS company_id', 'industries.name AS customer_industry_name', 
+            'companies.name AS company_name', 'company_customers.created_at AS customer_created_at', 'company_customers.payment_term_code', 'company_customers.payment_term_days', 
+            'company_customers.purchaser_company_id')
+            ->leftJoin('companies', 'companies.id', '=', 'company_customers.purchaser_company_id')
+            ->leftJoin('industries', 'industries.id', '=', 'companies.industry_id')
+            ->where('company_customers.company_id', '=', $companyId)
+            ->get();
+        }
         
         $terms = Term::where('company_id', $companyId)->get();
 
@@ -250,7 +261,6 @@ class CustomerManagementController extends Controller
         ->where('users.designation_id', '=', 7)
         ->where('company_users.company_id', '=', $companyId)
         ->get();
-
         
         $customerList = DB::table('company_customers')
         ->select('company_customers.id AS id', 'company_customers.purchaser_id AS customer_id', 'industries.name AS customer_industry_name', 'companies.name AS company_name', 'users.company_name AS customer_company', 'users.created_at AS customer_created_at', 'salesEx.first_name AS salesEx_first_name', 'salesEx.last_name AS salesEx_last_name')
@@ -329,7 +339,7 @@ class CustomerManagementController extends Controller
         $i = 0;
 
         $masterDiscountTotal = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
-
+        
         if($masterDiscountTotal){
             $totalDiscount = floatval($masterDiscountTotal->total_discount);
         }else{
