@@ -31,7 +31,7 @@ class DiscountSettingsController extends Controller
 
         $isUserExist = DiscountSettings::where('user_id', '=', Auth::user()->id)->count();
         $user = Auth::getUser()->id;
-        $companyId = Auth::user()->company->id;
+        $companyId = Auth::getUser()->companyMember->company_id; 
         $discount = DiscountSettings::where('user_id', $user)->first();
 
         $discountT1 = 1-(request('discount_tier1')/100);
@@ -73,14 +73,20 @@ class DiscountSettingsController extends Controller
         // get lists of sales moderator, manager and executive that belongto the company
         $user = Auth::getUser();
         $designation = Auth::getUser()->designation_id;
-        $companyId = $user->companyMember->id; 
+        $companyId = $user->companyMember->company_id;
 
         $masterDiscountTotal = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
-        $totalDiscount = floatval($masterDiscountTotal->total_discount);
+        
+        if($masterDiscountTotal){
+            $totalDiscount = floatval($masterDiscountTotal->total_discount);
+        }else{
+            $totalDiscount = 0;
+        }
+        
             //  1 - admin //  2 - Moderator //  3 - Sales Moderator //  5 - Sales Manager //  7 - Sales Exec
 
         $i = 0;
-
+        
         if(!$designation){$designation=1;}
 
         // if role == admin/moderator
@@ -93,8 +99,11 @@ class DiscountSettingsController extends Controller
             ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
             ->leftJoin('users AS a', 'users.user_reporting_id', '=', 'a.id' )
             ->leftJoin('discount_settings', 'users.id', '=', 'discount_settings.user_id')
-            ->where('users.designation_id', '=', '3')->orWhere('users.designation_id', '=', 5)->orWhere('users.designation_id', '=', 7)
             ->where('company_users.company_id', '=', $companyId)
+            ->where(function($query)
+                {
+                $query->where('users.designation_id', '=', '3')->orWhere('users.designation_id', '=', 5)->orWhere('users.designation_id', '=', 7);
+                })
             ->get();
         }
         // if role == sales moderator
@@ -107,8 +116,11 @@ class DiscountSettingsController extends Controller
             ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
             ->leftJoin('users AS a', 'users.user_reporting_id', '=', 'a.id' )
             ->leftJoin('discount_settings', 'users.id', '=', 'discount_settings.user_id')
-            ->where('users.designation_id', '=', 5)->orWhere('users.designation_id', '=', 7)
             ->where('company_users.company_id', '=', $companyId)
+            ->where(function($query)
+                {
+                $query->where('users.designation_id', '=', 5)->orWhere('users.designation_id', '=', 7);
+                })
             ->get();
         } 
         // if role == sales manager
@@ -134,13 +146,18 @@ class DiscountSettingsController extends Controller
 
         $user = Auth::getUser()->id;
         $reportingId = Auth::getUser()->user_reporting_id;
-        $companyId =  Auth::getUser()->company->id; 
+        $companyId =  Auth::getUser()->companyMember->company_id; 
 
         $masterDiscount = DiscountSettings::where('company_id', $companyId)->where('is_master', 1)->first();
-        $masterDiscountTotal = floatval($masterDiscount->total_discount);
-        $masterDiscountT1 = floatval($masterDiscount->discount_tier1);
-        $masterDiscountT2 = floatval($masterDiscount->discount_tier2);
-        $masterDiscountT3 = floatval($masterDiscount->discount_tier3);
+        
+        if($masterDiscount){
+            $masterDiscountTotal = floatval($masterDiscount->total_discount);
+            $masterDiscountT1 = floatval($masterDiscount->discount_tier1);
+            $masterDiscountT2 = floatval($masterDiscount->discount_tier2);
+            $masterDiscountT3 = floatval($masterDiscount->discount_tier3);
+        }else{
+            return 'total discount exceed limit';
+        }
 
         $user_id = request('user_id');
 
@@ -167,12 +184,23 @@ class DiscountSettingsController extends Controller
             if ($user_id !== null) {
 
                 $discount = DiscountSettings::where('user_id', $user_id)->first();
-
-                $discount->discount_tier1 = request('discount_tier1');
-                $discount->discount_tier2 = request('discount_tier2');
-                $discount->discount_tier3 = request('discount_tier3');
-                $discount->total_discount = floatval($totalDiscount);
-                $discount->save();
+                
+                if($discount){
+                    $discount->discount_tier1 = request('discount_tier1');
+                    $discount->discount_tier2 = request('discount_tier2');
+                    $discount->discount_tier3 = request('discount_tier3');
+                    $discount->total_discount = floatval($totalDiscount);
+                    $discount->save();
+                }else{
+                    $user_id = DiscountSettings::create([
+                        'discount_tier1' => request('discount_tier1'),
+                        'discount_tier2' => request('discount_tier2'),
+                        'discount_tier3' => request('discount_tier3'),
+                        'user_id' => request('user_id'),
+                        'company_id' => request('company_id'),
+                        'total_discount' => $totalDiscount
+                    ]);
+                }
 
             } else {
                $user_id = DiscountSettings::create([
