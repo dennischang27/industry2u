@@ -144,6 +144,12 @@
                                         @hasanyrole('Engineer|Clerical Staff')
                                         <div class="row">
                                             <div class="col-12 text-center">
+                                                <button type="button" class="btn btn-fill-out" id="submit_quote" name="submit_quote">Verify</button>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div class="row">
+                                            <div class="col-12 text-center">
                                                 <button type="button" class="btn btn-fill-out" id="submit_quote" name="submit_quote">Confirm</button>
                                                 <button type="button" class="btn btn-fill-out-red" id="reject" name="reject">Reject</button>
                                             </div>
