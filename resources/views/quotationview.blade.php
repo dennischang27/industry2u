@@ -101,12 +101,15 @@
         <td style="width:10%;">
             <b>UOM</b>
         </td>
+        @hasanyrole('Engineer|Clerical Staff')
+        @else
         <td style="width:10%;">
             <b>Price</b>
         </td>
         <td style="width:10%;">
             <b>Total</b>
         </td>
+        @endhasanyrole
     </tr>
 </table>
 <hr>
@@ -124,6 +127,8 @@
             <td style="width:10%;vertical-align:top;padding-bottom:10px;">
                 PCS
             </td>
+            @hasanyrole('Engineer|Clerical Staff')
+            @else
             <td style="width:10%;vertical-align:top;padding-bottom:10px;">
                 @php
                     $total_discount_amount = $product->price * ($product->total_discount/100);
@@ -134,10 +139,13 @@
             <td style="width:10%;vertical-align:top;padding-bottom:10px;">
                 {{number_format($product->total_amount, 2, '.', ',')}}
             </td>
+            @endhasanyrole
         </tr>
     @endforeach
 </table>
 <hr>
+@hasanyrole('Engineer|Clerical Staff')
+@else
 <table style="width:100%;">
     <tr>
         <td style="width:60%;text-align: left;padding-bottom:10px;"></td>
@@ -146,6 +154,7 @@
         <td style="width:10%;vertical-align:top;padding-bottom:10px;text-align: right;padding-right:30px;">{{number_format($final_amount, 2, '.', ',')}}</td>
     </tr>
 </table>
+@endhasanyrole
 <table style="width:100%;margin-top:50px;">
     <tr>
         <td style="width:30%;text-align: left;">{{ $data->supplier_company_name }}</td>
