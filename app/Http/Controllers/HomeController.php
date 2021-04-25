@@ -59,7 +59,12 @@ class HomeController extends Controller
 
         if($user != null){
 
-            $result = WantedLists::where('user_id', '=', $user->id)->where('status', '=', '')->orWhereNull('status')->get();
+            $result = WantedLists::where('user_id', '=', $user->id)
+            ->where(function($query)
+                    {
+                    $query->where('status', '=', '')->orWhereNull('status');
+                    })
+            ->get();
             $total_wanted_list = $result->count();
 
             session()->put('total_wanted_list', $total_wanted_list);

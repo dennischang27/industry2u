@@ -33,7 +33,12 @@ class WantedListController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $wanted_lists = WantedLists::where('user_id', '=', $user->id)->where('status', '=', '')->orWhereNull('status')->get();
+        $wanted_lists = WantedLists::where('user_id', '=', $user->id)
+        ->where(function($query)
+                {
+                $query->where('status', '=', '')->orWhereNull('status');
+                })
+        ->get();
         return view('front.wanted_list', compact('wanted_lists', 'user'));
     }
 
@@ -90,6 +95,7 @@ class WantedListController extends Controller
                 $qr->requester_id = $record->user_id;
                 $qr->qr_no = $qr_no;
                 $qr->qr_valid_until = $qr_valid_until;
+                $qr->purchaser_id = $user->id;
                 $qr->purchaser_company_id = $record->purchaser_company_id;
 
                 if($user->designation_id == 9 || $user->designation_id == 10){
