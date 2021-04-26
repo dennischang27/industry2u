@@ -44,16 +44,32 @@ class QuotationController extends Controller
             $companyId = $company->id;
         }
 
-        $quotation_requests = QuotationRequests::where('supplier_company_id', $companyId)
-                                ->where('supplier_user_id', $user->id)
-                                ->where('status', 'Pending Quotation')
-                                ->orWhere('status', 'Pending Approval')
-                                ->orWhere('status', 'Quotation Generated')
+        if($user->hasAnyRole(['Admin'])){
+            $quotation_requests = QuotationRequests::where('supplier_company_id', $companyId)
+                                ->where(function ($query) {
+                                    $query->where('status', 'Pending Quotation')
+                                    ->orWhere('status', 'Pending Approval')
+                                    ->orWhere('status', 'Quotation Generated');
+                                })
                                 ->orWhere(function ($query) {
                                     $query->orWhere('status', 'Quotation Rejected')
                                           ->where('remark', '=', 'Discount Rate - 30%');
                                 })
                                 ->get();
+        } else {
+            $quotation_requests = QuotationRequests::where('supplier_company_id', $companyId)
+                                ->where('supplier_user_id', $user->id)
+                                ->where(function ($query) {
+                                    $query->where('status', 'Pending Quotation')
+                                    ->orWhere('status', 'Pending Approval')
+                                    ->orWhere('status', 'Quotation Generated');
+                                })
+                                ->orWhere(function ($query) {
+                                    $query->orWhere('status', 'Quotation Rejected')
+                                          ->where('remark', '=', 'Discount Rate - 30%');
+                                })
+                                ->get();
+        }
 
         $terms = Term::where('company_id', $companyId)->get();
 
