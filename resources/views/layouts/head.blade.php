@@ -52,10 +52,10 @@
                                              aria-labelledby="userDropdown">
                                             @if (auth('web')->user()->is_buyer || auth('web')->user()->is_seller)
                                                 <a class="dropdown-item"  href="{{ route('user.company') }}"><span>Company Profile</span></a>
+                                                <div class="dropdown-divider"></div>
                                             @else
-                                                <a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>
+                                                <!--<a class="dropdown-item"  href="{{ route('addcompany') }}"><span>Register Company</span></a>-->
                                             @endif
-                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="{{ route("user.account") }}"><span>Account</span></a>
                                             <a class="dropdown-item" href="{{ route("user.profile") }}"><span>Edit Profile</span></a>
                                         </div>
@@ -104,7 +104,7 @@
         <div class="container">
             <div class="row">
 				<div class="col-lg-2 col-md-4 col-sm-6 col-4">
-					<a class="navbar-brand" href="{{ url('/') }}">
+					<a class="navbar-brand" href="{{ url('/') }}" style="margin-top: 10px;">
 						<img src="{{asset('images/industry2u_bw_150.png')}}" alt="INdustry2u - Industry Ecommerce System" />
 					</a>
 				</div>
@@ -117,6 +117,32 @@
                         <div class="collapse navbar-collapse mobile_side_menu" id="navbarSidetoggle">
                             <ul class="navbar-nav">
                                 @if (auth('web')->check())
+                                    @if (!auth('web')->user()->is_seller && !auth('web')->user()->is_buyer)
+                                        <div class="text-center centre_web" style="padding: 10px 0;">
+                                            <a href="{{ route('addcompany') }}" class="btn btn-outline-success btn-success" 
+                                            style="padding: 10px 25px;" role="button">
+                                            Become Supplier/Purchaser</a>
+                                        </div>
+                                    @endif
+                                    @if (auth('web')->user()->is_seller && !auth('web')->user()->is_buyer)
+                                        <form action="{{ route('user.become.purchaser') }}" method="POST"  enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
+                                            <input type="hidden" name="user_id" id="user_id" value="{{$company->user_id}}">
+                                            <a href="#" onclick="$(this).closest('form').submit();"
+                                                class="btn btn-outline-warning btn-warning" 
+                                                style="padding: 10px 25px;margin-left:10px;" role="button">Become Purchaser</a>
+                                        </div>
+                                        </form>
+                                    @endif
+                                    @if (!auth('web')->user()->is_seller && auth('web')->user()->is_buyer)
+                                        <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
+                                            <a href="{{ route('user.bankinfo') }}" 
+                                            class="btn btn-outline-primary btn-primary"
+                                            style="padding: 10px 25px;margin-left:10px;" role="button">Become Supplier</a>
+                                        </div>
+                                    @endif
+
                                     @hasrole('Admin|Moderator')
                                         <li class="active centre_mobile">
                                             <a class=" nav-link nav_item " href="{{route('user.company')}}">
@@ -144,7 +170,7 @@
                                     @endif
 
                                     @hasrole('Admin|Moderator')
-                                        <div class="text-center centre_web" style="padding: 10px 0;">
+                                        <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
                                             <a href="{{ route('user.company') }}" class="btn btn-outline-success 
                                             {{  request()->routeIs('user.company') ? 'btn-success' : '' }}
                                             {{  request()->routeIs('user.bankinfo') ? 'btn-success' : '' }}
@@ -158,7 +184,7 @@
                                     @endhasrole
 									@if (auth('web')->user()->is_seller)
                                         @hasrole('Admin|Moderator|Sales Moderator|Sales Manager|Sales Executive')
-                                            <div class="text-center centre_web" style="padding: 10px 0;">
+                                            <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
                                                 <a href="{{ route('seller.products.index') }}" 
                                                 class="btn btn-outline-primary 
                                                 {{  request()->routeIs('seller.products.*') ? 'btn-primary' : '' }}  
@@ -173,7 +199,7 @@
 									@endif
 									@if (auth('web')->user()->is_buyer)
                                         @hasrole('Admin|Moderator|Purchasing Moderator|Purchasing Manager|Purchasing Executive|Engineer|Clerical Staff')
-                                            <div class="text-center centre_web" style="padding: 10px 0;">
+                                            <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
                                                 <a href="{{ route('user.suppliermanagement.supplierinvitation') }}" class="btn btn-outline-warning
                                                     {{  request()->routeIs('buyer.*') ? 'btn-warning' : '' }}
                                                     {{  request()->routeIs('user.suppliermanagement.*') ? 'btn-warning' : '' }}" 
@@ -185,7 +211,7 @@
                             </ul>
                         </div>
                         <div id="serch_form2" class="product_search_form_nav float-left float-sm-right" >
-                            <form action="{{ route('public.products') }}" method="GET"  >
+                            <form action="{{ route('public.products') }}" method="GET" style="margin-top: 10px;" >
                                 <div class="input-group">
                                     <input class="form-control" name="q" value="{{ request()->input('q') }}" placeholder="Search Product..." required="" type="text">
                                     <button type="submit" class="search_btn"><i class="linearicons-magnifier"></i></button>
