@@ -17,27 +17,6 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="form-group">
-                                <input class="form-control" name="company_name" id="txt-company-name" type="text" value="{{ old('company_name') }}" placeholder="{{ __('Your Company Name') }}">
-                                @if ($errors->has('company_name'))
-                                    <span class="text-danger">{{ $errors->first('company_name') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" name="designation" id="txt-designation" type="text" value="{{ old('designation') }}" placeholder="{{ __('Your Designation') }}">
-                                @if ($errors->has('designation'))
-                                    <span class="text-danger">{{ $errors->first('designation') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" id="title" name="title">
-                                    <option value="Mr.">Mr.</option>
-                                    <option value="Mrs.">Mrs.</option>
-                                    <option value="Ms.">Ms.</option>
-                                    <option value="Dr.">Dr.</option>
-                                    <option value="Prof.">Prof.</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <input class="form-control" name="first_name" id="txt-first-name" type="text" value="{{ old('first_name') }}" placeholder="{{ __('Your first Name') }}">
                                 @if ($errors->has('first_name'))
                                     <span class="text-danger">{{ $errors->first('first_name') }}</span>

@@ -50,8 +50,6 @@ class RegisterController extends Controller
     {
         if(isset($data['code'])){
             return Validator::make($data, [
-                'company_name' => ['required', 'string', 'max:255'],
-                'designation' => ['required', 'string', 'max:255'],
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255'],
@@ -60,8 +58,6 @@ class RegisterController extends Controller
             ]);
         }else{
             return Validator::make($data, [
-                'company_name' => ['required', 'string', 'max:255'],
-                'designation' => ['required', 'string', 'max:255'],
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -84,11 +80,8 @@ class RegisterController extends Controller
             if(isset($data['type'])){
                 $isPurchaser = true;
                 $customer = User::where('invitation_code', '=', $data['code'])->first();
-                $customer->title = $data['title'];
                 $customer->first_name = $data['first_name'];
                 $customer->last_name = $data['last_name'];
-                $customer->company_name = $data['company_name'];
-                $customer->designation = $data['designation'];
                 $customer->username = $data['email'];
                 $customer->email = $data['email'];
                 $customer->is_active = 1;
@@ -112,11 +105,8 @@ class RegisterController extends Controller
 
             } else {
                 $user = User::where('invitation_code', '=', $data['code'])->first();
-                $user->title = $data['title'];
                 $user->first_name = $data['first_name'];
                 $user->last_name = $data['last_name'];
-                $user->company_name = $data['company_name'];
-                $user->designation = $data['designation'];
                 $user->username = $data['email'];
                 $user->email = $data['email'];
                 $user->is_active = 1;
@@ -127,11 +117,8 @@ class RegisterController extends Controller
             } 
         } else {
             return User::create([
-                'title' => $data['title'],
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
-                'company_name' => $data['company_name'],
-                'designation' => $data['designation'],
                 'username' => $data['email'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
