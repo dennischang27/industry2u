@@ -59,13 +59,13 @@ class SupplierManagementController extends Controller
 
         $supplierList = DB::table('supplier_invitations')
         ->select('companies.id AS company_id', 'companies.name AS supplier_company_name', 'companies.created_at', 'purchaser.id AS purchaser_id', 'supplier.id AS supplier_id')
+        ->leftJoin('company_customers', 'company_customers.company_salesperson_id', '=', 'supplier_invitations.purchaser_id')
         ->leftJoin('companies', 'companies.id', '=', 'supplier_invitations.company_id')
         ->leftJoin('users AS supplier', 'supplier.id', '=', 'supplier_invitations.supplier_id')
         ->leftJoin('users AS purchaser', 'purchaser.id', '=', 'supplier_invitations.purchaser_id')
         ->where('supplier_invitations.purchaser_id', '=', $user->id)
-        ->where('supplier_invitations.is_joined', '=', 1)
+        ->orWhere('supplier_invitations.is_joined', '=', 1)
         ->get();
-
 
         return view('user.purchasing.suppliermanagement.mysupplier', compact('supplierList', 'i'));
     }
