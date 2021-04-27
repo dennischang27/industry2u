@@ -365,7 +365,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 							'category_id' => $category->id,
                             'price' => (float)$row['Price'],
 							'slug' => preg_replace('/\s+/', '_', $itemName),
-                            'company_id'=> $this->user->company->id,
+                            'company_id'=> $this->user->companyMember->company_id,
                             'user_id' => $this->user->id,
 						]);
 
