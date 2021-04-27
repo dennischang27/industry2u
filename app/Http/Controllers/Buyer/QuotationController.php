@@ -474,6 +474,14 @@ class QuotationController extends Controller
                         Mail::send('buyer.tosuppliermail', $mail, function($message)use($mail) {
                             $message->to($mail["email"], $mail['email'])->subject($mail['subject']);
                         });
+                    }else{
+                        DB::table('company_customers')->insert([
+                            'company_id' => $data->supplier_company_id,
+                            'purchaser_id' => $user->id,
+                            'purchaser_company_id' => $user->companyMember->company_id,
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
+                        ]);
                     }
                 }
             }
