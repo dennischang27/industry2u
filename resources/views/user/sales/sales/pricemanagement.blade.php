@@ -199,7 +199,7 @@
                                                                         {{-- <input class="form-control name="totalDiscountMaster" type="number" id="totalDiscountMaster" value="{{ $masterDiscountTotal->total_discount }}"> --}}
                                                                         <br>
                                                                         {{-- <p>Current Discount</p> --}}
-                                                                        <input  class="form-control name="total_discount" type="hidden" id="totalDiscountExisting" value="{{ $user->total_discount }}">
+                                                                        {{-- <input  class="form-control name="total_discount" type="hidden" id="totalDiscountExisting" value="{{ $user->total_discount }}">--}}
                                                                 </div>
                                             
                                                             </div>
@@ -269,7 +269,7 @@ $( document ).ready(function() {
 
     }
 
-    function userDetailsModal(department, created_at, designation, email, name, reporting_mgr_name, discount_tier1, discount_tier2, discount_tier3, user_id, company_id, totalDiscountMaster, totalDiscountExisting ){
+    function userDetailsModal(department, created_at, designation, email, name, reporting_mgr_name, discount_tier1, discount_tier2, discount_tier3, user_id, company_id, totalDiscountMaster ){
         console.log("show model");
         $("#department").text(department);
         $("#created_at").text(created_at);
@@ -286,7 +286,7 @@ $( document ).ready(function() {
         $('#company_id').val(company_id);
 
         $('#totalDiscountMaster').val(totalDiscountMaster);
-        $('#totalDiscountExisting').val(totalDiscountExisting);
+        //$('#totalDiscountExisting').val(totalDiscountExisting);
 
         $("#userDetails").modal('show');
 
