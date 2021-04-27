@@ -74,7 +74,7 @@
                                         <h3>Customer: {{$cust_company}}</h3>
                                     </div>
                                     <div class="col-md-2 text-right">
-                                        <button type="button" onclick="view()" class="btn-custom btn-fill-out-green mt-1" id="quote" name="quote">Quote</button>
+                                        <!--<button type="button" onclick="view()" class="btn-custom btn-fill-out-green mt-1" id="quote" name="quote">Quote</button>-->
                                     </div>
                                 </div>
                             </div>
