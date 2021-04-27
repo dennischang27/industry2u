@@ -10,7 +10,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="page-title">
-                        <h3>{{$product->name}}</h3>
+                        <!--<h3>{{$product->name}}</h3>-->
                     </div>
                 </div>
                 <div class="col-md-6">

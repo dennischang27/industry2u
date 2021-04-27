@@ -125,7 +125,7 @@
                                                                 @else
                                                                             <a href="{{ 'productview/'.$recent_product->id.'/'.str_slug($recent_product->name)}}">
                                                                 @endif
-                                                                        <strong>{{ str_limit($recent_product->name, 33) }}</strong>
+                                                                        <strong>{{ str_limit($recent_product->name, 60) }}</strong>
                                                                    </a>
                                                             </span>
                                                             <span style="font-size: .75rem;line-height: .875rem;">{{ $recent_product->city }}, {{ $recent_product->state_name }}</span>
@@ -170,7 +170,7 @@
                                                                             @else
                                                                                         <a href="{{ 'productview/'.$topview_product->id.'/'.str_slug($topview_product->name)}}">
                                                                             @endif
-                                                                                    <strong>{{ str_limit($topview_product->name, 33) }}</strong>
+                                                                                    <strong>{{ str_limit($topview_product->name, 60) }}</strong>
                                                                                </a>
                                                                         </span>
                                                                         <span style="font-size: .75rem;line-height: .875rem;">{{ $topview_product->city }}, {{ $topview_product->state_name }}</span>
@@ -212,7 +212,7 @@
                                                         @else
                                                             <a href="{{ 'productview/'.$product->id.'/'.str_slug($product->name)}}">
                                                         @endif
-                                                                <strong>{{ str_limit($product->name, 33) }}</strong>
+                                                                <strong>{{ str_limit($product->name, 60) }}</strong>
                                                            </a>
                                                     </span>
                                                     <span style="font-size: .75rem;line-height: .875rem;">{{ $product->city }}, {{ $product->state_name }}</span>
