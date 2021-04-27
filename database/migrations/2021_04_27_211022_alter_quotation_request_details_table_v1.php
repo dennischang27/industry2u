@@ -14,7 +14,7 @@ class AlterQuotationRequestDetailsTableV1 extends Migration
     public function up()
     {
         Schema::table('quotation_request_details', function (Blueprint $table) {
-            $table->double('price', 15, 2)->change();
+            $table->decimal('price', 15, 2)->change();
         });
     }
 

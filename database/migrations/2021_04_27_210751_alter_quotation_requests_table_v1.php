@@ -14,7 +14,7 @@ class AlterQuotationRequestsTableV1 extends Migration
     public function up()
     {
         Schema::table('quotation_requests', function (Blueprint $table) {
-            $table->double('quotation_amount', 15, 2)->nullable()->change();
+            $table->decimal('quotation_amount', 15, 2)->nullable()->change();
         });
     }
 
