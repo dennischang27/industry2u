@@ -213,31 +213,25 @@ class ProductController extends Controller
         }else {
             if ($searchtxt) {
                 $products = DB::table('products')
-                ->
-                join('product_categories', function ($builder) {
-                    $builder->on('product_categories.id', '=', 'products.category_id');
-                })
-                ->join('brands', function ($builder) {
-                    $builder->on('brands.id', '=', 'products.brand_id');
-                })
-                ->join('companies', function ($builder) {
-                    $builder->on('companies.id', '=', 'products.company_id');
-
-                })
-                ->join('country_states', function ($builder) {
-                    $builder->on('companies.state_id', '=', 'country_states.id');
-                })
-                ->join('product_images', function ($builder) {
-                    $builder->on('product_images.product_id', '=', 'products.id');
-                    $builder->where('product_images.name', '=', 'image_thumbnail');
-                })
-                ->whereNull('products.deleted_at')
-                ->where('products.name', 'like', '%' . $searchtxt . '%')
-                ->orWhere('product_categories.name', 'like', '%' . $searchtxt . '%')
-                ->orWhere('brands.name', 'like', '%' . $searchtxt . '%')
-                ->orWhere('companies.name', 'like', '%' . $searchtxt . '%')
-                ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
-                ->inRandomOrder()->paginate($pageqty);
+                            ->join('product_categories', 'product_categories.id', '=', 'products.category_id')
+                            ->join('brands', 'brands.id', '=', 'products.brand_id')
+                            ->join('companies', 'companies.id', '=', 'products.company_id')
+                            ->join('country_states', 'companies.state_id', '=', 'country_states.id')
+                            ->join('product_images', function($builder) {
+                                $builder->on('product_images.product_id', '=', 'products.id');
+                                $builder->where('product_images.name', '=', 'image_thumbnail');
+                            })
+                            ->whereNull('products.deleted_at')
+                            ->where(function ($builder) use ($explode_searchtxts) {
+                                foreach ($explode_searchtxts as $value) {
+                                  $builder->where('products.name', 'like', '%' . $value . '%');
+                                  $builder->orWhere('product_categories.name', 'like', '%' . $value . '%');
+                                  $builder->orWhere('brands.name', 'like', '%' . $value . '%');
+                                  $builder->orWhere('companies.name', 'like', '%' . $value . '%');
+                                }
+                              })
+                            ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
+                            ->inRandomOrder()->paginate($pageqty);
 
                 if (count($products)==16){
                     $recent_products =DB::table('products')
@@ -260,10 +254,14 @@ class ProductController extends Controller
                             $builder->where('product_images.name', '=', 'image_thumbnail');
                         })
                         ->whereNull('products.deleted_at')
-                        ->where('products.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('product_categories.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('brands.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('companies.name', 'like', '%' . $searchtxt . '%')
+                        ->where(function ($builder) use ($explode_searchtxts) {
+                            foreach ($explode_searchtxts as $value) {
+                              $builder->where('products.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('product_categories.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('brands.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('companies.name', 'like', '%' . $value . '%');
+                            }
+                          })
                         ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
                         ->orderBy('products.created_at', 'desc')->paginate(4);
                     $topview_products =DB::table('products')
@@ -286,10 +284,14 @@ class ProductController extends Controller
                             $builder->where('product_images.name', '=', 'image_thumbnail');
                         })
                         ->whereNull('products.deleted_at')
-                        ->where('products.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('product_categories.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('brands.name', 'like', '%' . $searchtxt . '%')
-                        ->orWhere('companies.name', 'like', '%' . $searchtxt . '%')
+                        ->where(function ($builder) use ($explode_searchtxts) {
+                            foreach ($explode_searchtxts as $value) {
+                              $builder->where('products.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('product_categories.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('brands.name', 'like', '%' . $value . '%');
+                              $builder->orWhere('companies.name', 'like', '%' . $value . '%');
+                            }
+                          })
                         ->select('products.id', 'products.name', 'products.slug', 'product_images.path', 'companies.city', 'country_states.name as state_name')
                         ->orderBy('products.views', 'desc')->paginate(4);
                 }
