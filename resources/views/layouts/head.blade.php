@@ -128,7 +128,6 @@
                                         <form action="{{ route('user.become.purchaser') }}" method="POST"  enctype="multipart/form-data">
                                         @csrf
                                         <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
-                                            <input type="hidden" name="user_id" id="user_id" value="{{$company->user_id}}">
                                             <a href="#" onclick="$(this).closest('form').submit();"
                                                 class="btn btn-outline-warning btn-warning" 
                                                 style="padding: 10px 25px;margin-left:10px;" role="button">Become Purchaser</a>
@@ -137,7 +136,7 @@
                                     @endif
                                     @if (!auth('web')->user()->is_seller && auth('web')->user()->is_buyer)
                                         <div class="text-center centre_web" style="padding: 10px 0;margin-right: 10px;">
-                                            <a href="{{ route('user.bankinfo') }}" 
+                                            <a href="{{ route('user.bankinfo.add') }}" 
                                             class="btn btn-outline-primary btn-primary"
                                             style="padding: 10px 25px;margin-left:10px;" role="button">Become Supplier</a>
                                         </div>

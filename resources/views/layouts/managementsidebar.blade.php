@@ -16,13 +16,17 @@
                       <a class="nav-link  {{  request()->routeIs('user.company') ? 'active' : '' }} {{  request()->routeIs('user.company.edit') ? 'active' : '' }}" href="{{ route("user.company") }}" style="padding-left:33px;">Company Profile</a>
                   </li>
 				  <li class="nav-item">
-                        <a class="nav-link {{  request()->routeIs('user.bankinfo') ? 'active' : '' }} {{  request()->routeIs('user.bankinfo.*') ? 'active' : '' }}" href="{{ route("user.bankinfo") }}" style="padding-left:33px;">
+                        
                             @if (!auth('web')->user()->is_seller && auth('web')->user()->is_buyer)
-                                Become Supplier
+                                <a class="nav-link {{  request()->routeIs('user.bankinfo.add') ? 'active' : '' }} {{  request()->routeIs('user.bankinfo.*') ? 'active' : '' }}" href="{{ route("user.bankinfo") }}" style="padding-left:33px;">
+                                    Become Supplier
+                                </a>
                             @else
-                                Bank & SST Info
+                                <a class="nav-link {{  request()->routeIs('user.bankinfo') ? 'active' : '' }} {{  request()->routeIs('user.bankinfo.*') ? 'active' : '' }}" href="{{ route("user.bankinfo") }}" style="padding-left:33px;">
+                                    Bank & SST Info
+                                </a>
                             @endif
-                        </a>
+                        
                   </li>
                 </ul>
             </div>
