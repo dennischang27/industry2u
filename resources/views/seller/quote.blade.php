@@ -88,6 +88,19 @@
                                         <p>{{ $message }}</p>
                                     </div>
                                 @endif
+                                @if ($message = Session::get('message'))
+                                    <div class="alert alert-warning">
+                                        <p>
+                                            {{ $message }}
+                                            <form id="master-approve-form" class="form--shopping-cart" method="post" action="{{ route("seller.quotationissue") }}">
+                                            @csrf
+                                                <input type="hidden" id="qr_id" name="qr_id" value="{{ Session::get('qr_id') }}">
+                                                <input type="hidden" id="approval" name="approval" value="1">
+                                                <button type="submit" class="btn btn-outline-primary btn-xs" id="btn_proceed" name="btn_proceed">Proceed</button>
+                                            </form>
+                                        </p>
+                                    </div>
+                                @endif
                                 <div id="quotation_request_error" class="invalid-feedback text-danger" role="alert">
                                     <strong>Please select quotation request.</strong>
                                 </div><br/>

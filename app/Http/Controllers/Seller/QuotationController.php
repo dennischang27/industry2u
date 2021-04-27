@@ -12,6 +12,7 @@ use App\Models\ProductCategory;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Term;
+use App\Models\DiscountSettings;
 use Response;
 use DB;
 use Mail;
@@ -167,13 +168,45 @@ class QuotationController extends Controller
                                     ->first();
 
             if($qr_detail->total_discount){
+                
                 if($product_discount){
                     if($qr_detail->total_discount > $product_discount->total_discount){
-                        $is_discount_exceeded = true;
+                        if($user->hasAnyRole(['Admin'])){
+                            // Exceed product discount
+                            if(!$request->approval){
+                            return redirect()->route('seller.quote')
+                                ->with('message','Discount is exceeded the Product Discount. Please revise the Product Discount Setting')
+                                ->with('qr_id', $request->qr_id);
+                            }
+                        }else{
+                            $is_discount_exceeded = true;
+                        }
                     }
                 } else {
-                    // Discount no set
-                    $is_discount_exceeded = true;
+                    // Product discount no set
+                    
+                    if($user->hasAnyRole(['Admin'])){
+                        // Get Master Discount
+                        $masterDiscount = DiscountSettings::where('company_id', '=', $user->companyMember->company_id)
+                                ->where('is_master', '=', 1)
+                                ->first(); 
+
+                        if($masterDiscount){
+                            if($qr_detail->total_discount > floatval($masterDiscount->total_discount)){
+                                // Exceed master discount
+                                if(!$request->approval){
+                                return redirect()->route('seller.quote')
+                                    ->with('message','Discount is exceeded the Master Discount. Please revise the Master Discount Setting')
+                                    ->with('qr_id', $request->qr_id);
+                                }
+                            }
+                        }else{
+                            // No master Discount, proceed the quotation
+                        }
+                        
+                    }else{
+                        $is_discount_exceeded = true;
+                    }
                 }
             }
         }
@@ -185,9 +218,9 @@ class QuotationController extends Controller
         if($is_discount_exceeded){
             // Exceed discount limit
             $reporting_user = User::select('users.first_name', 'users.last_name', 'reporting_user.email', 'reporting_user.id')
-                            ->leftJoin('users as reporting_user', 'reporting_user.id', '=', 'users.user_reporting_id')
-                            ->where('users.id', '=', $user->id)
-                            ->first();
+                        ->leftJoin('users as reporting_user', 'reporting_user.id', '=', 'users.user_reporting_id')
+                        ->where('users.id', '=', $user->id)
+                        ->first();
 
             // Update Quotation Status
             $qr = QuotationRequests::where('id', '=', $request->qr_id)->first();
