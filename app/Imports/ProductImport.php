@@ -193,13 +193,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 				array_push($headedRows, $headedRow);
 			}
 
-			$company = $this->user->company;
 
-			if($company) {
-				$target = $company;
-			} else {
-				$target = $this->user;
-			}
 
 			$rowIndex = $this->successCount + $this->skipCount;
 
@@ -250,8 +244,9 @@ class ProductImport implements ToCollection, WithBatchInserts, WithChunkReading
 					$itemCode = $itemCodeString;
 				}
 
-				$product = Product::withTrashed()->where('series_no', $itemCode)->where('company_id', $this->user->company->id)
-                    ->where('user_id', $this->user->id)->first();
+				$product = Product::withTrashed()->where('series_no', $itemCode)
+                    ->where('company_id', $this->user->companyMember->company_id)
+                    ->first();
 
 				if(!$product || $this->overwrite) {
 					// if(!isset($row['PRODUCT_ATTRIBUTE']) || count($row['PRODUCT_ATTRIBUTE']) == 0) {

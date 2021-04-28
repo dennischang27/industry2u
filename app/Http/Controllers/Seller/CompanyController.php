@@ -36,7 +36,8 @@ class CompanyController extends Controller
     {
 
         $user = Auth::getUser();
-        $company = Company::where('user_id', $user->id)->first();
+        $companyId = $user->companyMember->company_id;
+        $company = Company::find($companyId);
         $myDocuments = [];
         $document_list = DocType::where('type', 'SSM')->get();
 
@@ -65,7 +66,8 @@ class CompanyController extends Controller
     public function edit()
     {
         $user = Auth::getUser();
-        $company = Company::where('user_id', $user->id)->first();
+        $companyId = $user->companyMember->company_id;
+        $company = Company::find($companyId);
         $myDocuments = [];
         $document_list = DocType::where('type', 'SSM')->get();
         if($company) {
