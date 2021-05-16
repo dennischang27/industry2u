@@ -99,6 +99,14 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label class="float-left">{{ __('Date Joined') }}: </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="float-left">{{date('d/m/Y', strtotime($user->updated_at))}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <label for="department">{{ __('Department') }}:<small class="text-danger">*</small></label>
                                             </div>
                                             <div class="col-md-8">

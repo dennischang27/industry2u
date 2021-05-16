@@ -74,9 +74,7 @@
                                             <thead class="bg-light text-capitalize">
                                                 <tr style="font-size: 11px">
                                                     <th scope="col">No</th>
-                                                    <th scope="col">Date Joined</th>
-                                                    <th scope="col">First Name</th>
-                                                    <th scope="col">Last Name</th>
+                                                    <th scope="col">Name</th>
                                                     <th scope="col">User Designation</th>
                                                     <th scope="col">Department</th>
                                                     <th scope="col">Email</th>
@@ -88,9 +86,7 @@
                                                 @foreach ($users as $user)
                                                 <tr>
                                                     <td>{{ ++$i }}</td>
-                                                    <td>{{date('d/m/Y', strtotime($user->updated_at))}}</td>
-                                                    <td>{{$user->first_name}}</td>
-                                                    <td>{{$user->last_name}}</td>
+                                                    <td>{{$user->first_name}} {{$user->last_name}}</td>
                                                     <td>{{$user->designationName->name}}</td>
                                                     <td>{{$user->departmentName->name}}</td>
                                                     <td>{{$user->email}}</td>
@@ -167,7 +163,8 @@
     <script>
     if ($('#dataTable').length) {
             $('#dataTable').DataTable({
-                responsive: true,
+                responsive: false,
+                "scrollX": true,
                 language: {
                     paginate: {
                         previous: '<i class="ti-angle-left"></i>',
